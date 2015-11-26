@@ -1,7 +1,7 @@
 QT += core
 QT -= gui
 
-TARGET = Testing
+TARGET = ComputerScientistsW3
 CONFIG += console
 CONFIG -= app_bundle
 
