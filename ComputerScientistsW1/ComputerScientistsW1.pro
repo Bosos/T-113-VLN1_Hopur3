@@ -9,9 +9,11 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     datamanager.cpp \
-    scientist.cpp
+    scientist.cpp \
+    console.cpp
 
 HEADERS += \
     datamanager.h \
-    scientist.h
+    scientist.h \
+    console.h
 
