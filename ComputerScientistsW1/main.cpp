@@ -1,9 +1,11 @@
-#include <QCoreApplication>
+#include <iostream>
 
-int main(int argc, char *argv[])
+using namespace std;
+
+int main()
 {
-    QCoreApplication a(argc, argv);
+    cout << "Hello world";
 
-    return a.exec();
+    return 0;
 }
 
