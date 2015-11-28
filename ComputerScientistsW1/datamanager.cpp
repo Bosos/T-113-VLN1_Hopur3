@@ -36,9 +36,10 @@ vector<Scientist> DataManager::getAllScientists(SortBy sort, Direction direction
             {
                 sName += addedPartofName + " ";
             }
-        int age, birthYear, deathYear;
-        ss >> age >> birthYear >> deathYear;
-        Scientist newScientist(sName.c_str(), age, birthYear, deathYear);
+        char sex;
+        int birthYear, deathYear;
+        ss >> sex >> birthYear >> deathYear;
+        Scientist newScientist(sName.c_str(), sex, birthYear, deathYear);
         allScientists.push_back(newScientist);
     }
 

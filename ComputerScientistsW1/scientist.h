@@ -9,11 +9,11 @@ using namespace std;
 class Scientist
 {
 public:
-    Scientist(string newName, int newAge, int newBirthYear, int newDeathYear);
+    Scientist(string newName, char newSex, int newBirthYear, int newDeathYear);
     Scientist();
     ~Scientist();
-    int getAge();
-    void setAge(int age);
+    int getSex();
+    void setSex(char sex);
     string getName();
     void setName(string name);
     int getBirthYear();
@@ -21,7 +21,7 @@ public:
     int getDeathYear();
     void setDeathYear(int deathYear);
 private:
-    int age;
+    char sex;
     string name;
     int birthYear;
     int deathYear;

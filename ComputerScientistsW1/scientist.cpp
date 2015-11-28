@@ -1,24 +1,24 @@
 #include "Scientist.h"
 
 
-Scientist::Scientist(string newName, int newAge, int newBirthYear, int newDeathYear)
+Scientist::Scientist(string newName, char newSex, int newBirthYear, int newDeathYear)
 {
     name = newName;
-    age = newAge;
+    sex = newSex;
     birthYear = newBirthYear;
     deathYear = newDeathYear;
 }
 Scientist::Scientist(){}
 Scientist::~Scientist(){}
 
-int Scientist::getAge()
+int Scientist::getSex()
 {
-    return age;
+    return sex;
 }
 
-void Scientist::setAge(int newAge)
+void Scientist::setSex(char newSex)
 {
-    age = newAge;
+    sex = newSex;
 }
 
 string Scientist::getName()

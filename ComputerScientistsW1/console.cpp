@@ -77,26 +77,26 @@ void Console::insertScientist()
             "\nPlease fill inn all the information about the scientist"
             "\nFull name:";
 
-    string name, sex, birthYear, deathYear;
+    string name, sex;
+    int birthYear, deathYear;
 
     cin.ignore(); // make sure there is nothing in the buffer
     getline(cin, name);
     cout << "Sex (M/F):";
     getline(cin, sex);
     cout << "Year of birth:";
-     getline(cin, birthY);
+    cin >> birthYear;
     cout << "Year of death(0 if still alive):";
     cin >> deathYear;
 
-    cout << "Is this correct?:" << endl
+    cout << "\n-----------------------------------" << endl
+         << "Is this correct?:" << endl
          << name << endl
          << sex << endl
          << birthYear << endl
          << deathYear;
 
-
-
-
+    //dataMan->addScientist(Scientist(name, sex[0], birthYear, deathYear));
 }
 
 
