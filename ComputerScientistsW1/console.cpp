@@ -1,6 +1,7 @@
 #include "Console.h"
 #include <iostream>
 #include <SortBy.h>
+#include <string>
 
 using namespace std;
 
@@ -18,7 +19,7 @@ void Console::run()
 {
     cout << "\n-----------------------------------"
             "\nWelcome to the Computer Scientists database. Enter a number"
-            "\n1: Add a scientist to the database"
+            "\n1: Edit database"
             "\n2: See database"
             "\nAnything else will quit the program\n:";
 
@@ -29,6 +30,7 @@ void Console::run()
 
     case 1:
         //TODO
+        editDatabase();
         return;
 
     case 2:
@@ -40,6 +42,63 @@ void Console::run()
         return;
     }
 }
+void Console::editDatabase()
+{
+    cout << "\n-----------------------------------"
+            "\n1: Add to the database"
+            "\n2: Edit an entry in the database"
+            "\n3: Delete an entry in the database\n:";
+
+    int select = 0;
+    cin >> select;
+
+    switch (select) {
+    case 1:
+        //TODO
+        insertScientist();
+        return;
+
+    case 2:
+        //TODO EDIT
+        return;
+
+    case 3:
+        //TODO DELETE
+        return;
+    default:
+        cout << "Error, bad input, quitting\n";
+        return;
+    }
+}
+
+void Console::insertScientist()
+{
+    cout << "\n-----------------------------------"
+            "\nPlease fill inn all the information about the scientist"
+            "\nFull name:";
+
+    string name, sex, birthYear, deathYear;
+
+    cin.ignore(); // make sure there is nothing in the buffer
+    getline(cin, name);
+    cout << "Sex (M/F):";
+    getline(cin, sex);
+    cout << "Year of birth:";
+     getline(cin, birthY);
+    cout << "Year of death(0 if still alive):";
+    cin >> deathYear;
+
+    cout << "Is this correct?:" << endl
+         << name << endl
+         << sex << endl
+         << birthYear << endl
+         << deathYear;
+
+
+
+
+}
+
 
 void Console::showScientists()
 {
@@ -83,10 +142,10 @@ vector<Scientist> Console::getScientist()
         return dataMan->getAllScientists (sortBy, direction);
 
     case 2:
-        return dataMan->findByName (sortBy, direction);
+        return dataMan->findByName ("string", sortBy, direction);
 
     case 3:
-        return dataMan->findByBirthYear(sortBy, direction);
+        return dataMan->findByBirthYear("String", sortBy, direction);
 
     case 4:
         return vector<Scientist>();

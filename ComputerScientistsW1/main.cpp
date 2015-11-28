@@ -7,8 +7,8 @@ using  namespace std;
 
 int main()
 {
-
-    DataManager* dataMan = new DataManager("file location");
+    string fileLocation = "/";
+    DataManager* dataMan = new DataManager(fileLocation);
     Console console(dataMan);
 
     console.run();

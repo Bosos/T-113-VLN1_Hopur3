@@ -9,7 +9,7 @@ using namespace std;
 class Scientist
 {
 public:
-    Scientist(string name, int age, int birthYear, int deathYear);
+    Scientist(string newName, int newAge, int newBirthYear, int newDeathYear);
     Scientist();
     ~Scientist();
     int getAge();
