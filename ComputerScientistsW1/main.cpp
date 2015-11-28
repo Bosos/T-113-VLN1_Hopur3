@@ -1,9 +1,18 @@
 #include <iostream>
+#include <Console.h>
+#include <DataManager.h>
 
 using  namespace std;
 
-int main(int argc, char *argv[])
+int main()
 {
+    string fileLocation = "/";
+    DataManager* dataMan = new DataManager(fileLocation);
+    Console console(dataMan);
+
+    console.run();
+
+    delete dataMan;
 
     return 0;
 }
