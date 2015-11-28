@@ -8,12 +8,13 @@ CONFIG -= app_bundle
 TEMPLATE = app
 
 SOURCES += main.cpp \
-    datamanager.cpp \
-    scientist.cpp \
-    console.cpp
+    Console.cpp \
+    DataManager.cpp \
+    Scientist.cpp
 
 HEADERS += \
-    datamanager.h \
-    scientist.h \
-    console.h
+    Console.h \
+    DataManager.h \
+    Scientist.h \
+    SortBy.h
 

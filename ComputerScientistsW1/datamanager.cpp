@@ -1,11 +1,21 @@
-#include "datamanager.h"
+#include "DataManager.h"
 #include <iostream>
 #include <string>
 #include <sstream>
 #include <fstream>
 #include <vector>
 
-vector<Scientist> DataManager::getScientists(string fileName)
+DataManager::DataManager(string fileName)
+{
+    this->fileName = fileName;
+}
+
+DataManager::~DataManager()
+{
+
+}
+
+vector<Scientist> DataManager::getAllScientists(SortBy sort, Direction direction)
 {
     vector<Scientist> allScientists;
     ifstream newInput;
@@ -26,6 +36,22 @@ vector<Scientist> DataManager::getScientists(string fileName)
         Scientist newScientist(sName.c_str(), age, birthYear, deathYear);
         allScientists.push_back(newScientist);
     }
+
     return allScientists;
 }
 
+vector<Scientist> DataManager::findByName(string name, SortBy sort, Direction direction)
+{
+    // TODO
+
+    vector<Scientist> allScientists = getAllScientists(NONE, ASCENDING);
+    return allScientists;
+}
+
+vector<Scientist> DataManager::findByBirthYear(string year,SortBy sort, Direction direction)
+{
+    // TODO
+
+    vector<Scientist> allScientists = getAllScientists(NONE, ASCENDING);
+    return allScientists;
+}

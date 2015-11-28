@@ -3,16 +3,24 @@
 
 #include "stdlib.h"
 #include <vector>
-#include "scientist.h"
+#include "Scientist.h"
+#include <SortBy.h>
+
 
 using namespace std;
 
 class DataManager
 {
 public:
-    DataManager();
+    DataManager(string fileName);
     ~DataManager();
-    vector<Scientist> getScientists(string fileName);
+    vector<Scientist> getAllScientists(SortBy sort, Direction direction);
+    vector<Scientist> findByName(string name, SortBy sort, Direction direction);
+    vector<Scientist> findByBirthYear(string year,SortBy sort, Direction direction);
+
+private:
+    string fileName;
+
 };
 
 #endif // dataManager
