@@ -16,6 +16,7 @@ public:
     ~DataManager();
     //TODO
     //ADD / SAVE scientist
+    void addScientist(Scientist scientist);
     //LOAD file
     //EDIT scientist
     //DELETE scientist
