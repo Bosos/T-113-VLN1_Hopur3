@@ -96,7 +96,7 @@ void Console::insertScientist()
          << birthYear << endl
          << deathYear;
 
-    //dataMan->addScientist(Scientist(name, sex[0], birthYear, deathYear));
+    dataMan->addScientist(Scientist(name, sex[0], birthYear, deathYear));
 }
 
 

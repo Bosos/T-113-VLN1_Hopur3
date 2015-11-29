@@ -12,7 +12,7 @@ public:
     Scientist(string newName, char newSex, int newBirthYear, int newDeathYear);
     Scientist();
     ~Scientist();
-    int getSex();
+    char getSex();
     void setSex(char sex);
     string getName();
     void setName(string name);

@@ -1,5 +1,5 @@
 #include "Scientist.h"
-
+#include <stdexcept>
 
 Scientist::Scientist(string newName, char newSex, int newBirthYear, int newDeathYear)
 {
@@ -7,11 +7,16 @@ Scientist::Scientist(string newName, char newSex, int newBirthYear, int newDeath
     sex = newSex;
     birthYear = newBirthYear;
     deathYear = newDeathYear;
+
+    if(name.length() < 1 || (sex != 'M' && sex != 'F') || birthYear < 1600)
+    {
+        throw invalid_argument("Some entry into Scientist was wrong");
+    }
 }
 Scientist::Scientist(){}
 Scientist::~Scientist(){}
 
-int Scientist::getSex()
+char Scientist::getSex()
 {
     return sex;
 }
