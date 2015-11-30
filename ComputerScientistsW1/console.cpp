@@ -123,7 +123,7 @@ void Console::insertScientist()
                     }
                     else
                     {
-                        cout >> "Please enter a valid name.\n";
+                        cout << "Please enter a valid name.\n";
                         break;
                     }
                 }
@@ -137,7 +137,7 @@ void Console::insertScientist()
         char temp = toupper(name[0]);
         name[0] = temp;
 
-        for(int i = 1; i < name.length(); i++)  //Sets first letter in every name to upper-case and all other letters to lower-case
+        for(unsigned int i = 1; i < name.length(); i++)  //Sets first letter in every name to upper-case and all other letters to lower-case
         {
             if(name[i-1] == ' ')
             {
