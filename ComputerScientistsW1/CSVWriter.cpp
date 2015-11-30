@@ -1,8 +1,8 @@
 #include "CSVWriter.h"
 
-CSVWriter::CSVWriter(string fileName)
+CSVWriter::CSVWriter(string newfileName)
 {
-    //TODO Open the file
+    fileName = newfileName;
 }
 
 CSVWriter::~CSVWriter()
@@ -17,6 +17,16 @@ void CSVWriter::clear()
 
 void CSVWriter::add(vector<string> scientist)
 {
+    std::ofstream newEntry(fileName, std::ios_base::app);
+    for(unsigned i = 0; i < scientist.size(); i++)
+    {
+        newEntry << scientist[i];
+        if(i < scientist.size()-1)
+        {
+            newEntry << ",";
+        }
+    }
+    newEntry << endl;
     //TODO add a new line to the end of the doc
 }
 

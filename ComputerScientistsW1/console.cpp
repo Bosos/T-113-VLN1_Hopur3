@@ -2,6 +2,7 @@
 #include <iostream>
 #include <SortBy.h>
 #include <string>
+#include "DataManager.h"
 
 using namespace std;
 
@@ -94,11 +95,11 @@ void Console::insertScientist()
          << name << endl
          << sex << endl
          << birthYear << endl
-         << deathYear;
+         << deathYear << endl;
 
-    dataMan->addScientist(Scientist(name, sex[0], birthYear, deathYear));
+    DataManager dataMon("data.txt");
+    dataMon.addScientist(Scientist(name, sex[0], birthYear, deathYear));
 }
-
 
 void Console::showScientists()
 {
