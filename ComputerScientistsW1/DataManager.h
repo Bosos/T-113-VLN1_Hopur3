@@ -17,6 +17,7 @@ public:
     //TODO
     //ADD / SAVE scientist
     void addScientist(Scientist scientist);
+
     //LOAD file
     //EDIT scientist
     //DELETE scientist
@@ -27,7 +28,7 @@ public:
     vector<Scientist> findByDeathYear (string year,SortBy sort, Direction direction);
 
     //void sort (vector<Scientist>& scientists, SortBy sort, Direction direction);
-
+    vector<string> scientistToVector(Scientist scientis);
 
 private:
     string fileName;

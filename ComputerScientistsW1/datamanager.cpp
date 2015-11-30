@@ -4,6 +4,7 @@
 #include <sstream>
 #include <fstream>
 #include <vector>
+#include <CSVWriter.h>
 
 DataManager::DataManager(string fileLocation)
 {
@@ -19,6 +20,20 @@ Scientist DataManager::parseInput(vector<string> csvLine)
 {//     Scientist(string name, int age, int birthYear, int deathYear);
     return Scientist(csvLine[0], stoi(csvLine[1]), stoi(csvLine[2]), stoi(csvLine[3]));
 }
+
+void DataManager::addScientist(Scientist scientis){
+    CSVWriter csvw (fileName);
+    csvw.add(scientistToVector(scientis));
+}
+
+vector<string> DataManager::scientistToVector(Scientist scientis)
+{
+    return vector<string> { scientis.getName(),
+                 to_string( scientis.getSex()),
+                 to_string( scientis.getBirthYear()),
+                 to_string( scientis.getDeathYear()) };
+}
+
 
 vector<Scientist> DataManager::getAllScientists(SortBy sort, Direction direction)
 {
