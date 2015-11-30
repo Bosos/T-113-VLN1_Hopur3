@@ -6,6 +6,7 @@
 #include <vector>
 #include <CSVWriter.h>
 #include <CSVReader.h>
+#include <algorithm>
 
 DataManager::DataManager(string fileLocation)
 {
@@ -79,3 +80,81 @@ vector<Scientist> DataManager::findByDeathYear(string year,SortBy sort, Directio
 
     return vector<Scientist>();
 }
+
+int DataManager::getage(Scientist oneScientist){
+
+    if(oneScientist.getDeathYear() == 0){
+        return 2015 - oneScientist.getBirthYear();
+    }
+
+   return oneScientist.getDeathYear() - oneScientist.getBirthYear();
+}
+
+//skilar vector af Scientist, tekur inn vector af Scientist
+
+struct sortByName
+{
+    inline bool operator() (Scientist& name1, Scientist& name2)
+    {
+        return (name1.getName() < name2.getName());
+    }
+};
+
+struct sortByBirth
+{
+    inline bool operator() (Scientist& birth1, Scientist& birth2)
+    {
+        return (birth1.getBirthYear() < birth2.getBirthYear());
+    }
+};
+
+struct sortByDeath
+{
+    inline bool operator() (Scientist& death1, Scientist& death2)
+    {
+        return (death1.getDeathYear() < death2.getDeathYear());
+    }
+};
+
+struct sortBySex
+{
+    inline bool operator() (Scientist& sex1, Scientist& sex2)
+    {
+        return (sex1.getSex() < sex2.getSex());
+    }
+};
+
+vector<Scientist> DataManager::sortBy(vector<Scientist> scientists, SortBy sortBy, Direction direction )
+{
+    switch(sortBy)
+    {
+        case NONE:
+            return scientists;
+
+        case NAME:
+            sort(scientists.begin(), scientists.end(), sortByName());
+            break;
+
+        case BIRTH:
+            sort(scientists.begin(), scientists.end(), sortByBirth());
+            break;
+
+        case DEATH:
+            sort(scientists.begin(), scientists.end(), sortByDeath());
+            break;
+
+        case SEX:
+            sort(scientists.begin(), scientists.end(), sortBySex());
+            break;
+
+        default:
+            return scientists;
+
+    }
+
+    if(direction == DESCENDING){
+        reverse (scientists.begin(), scientists.end());
+    }
+    return scientists;
+}
+
