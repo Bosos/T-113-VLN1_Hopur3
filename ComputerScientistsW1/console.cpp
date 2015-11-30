@@ -6,11 +6,12 @@
 
 using namespace std;
 
+//constructor
 Console::Console(DataManager* dataManage)
 {
     this->dataMan = dataManage;
 }
-
+//constructor
 Console::~Console()
 {
 
@@ -75,27 +76,152 @@ void Console::editDatabase()
 void Console::insertScientist()
 {
     cout << "\n-----------------------------------"
-            "\nPlease fill inn all the information about the scientist"
-            "\nFull name:";
+            "\nPlease fill inn all the information about the scientist";
 
     string name, sex;
     int birthYear, deathYear;
 
     cin.ignore(); // make sure there is nothing in the buffer
-    getline(cin, name);
-    cout << "Sex (M/F):";
-    getline(cin, sex);
-    cout << "Year of birth:";
-    cin >> birthYear;
-    cout << "Year of death(0 if still alive):";
-    cin >> deathYear;
+    bool valid = false;
+    char correct = 'N';
 
-    cout << "\n-----------------------------------" << endl
-         << "Is this correct?:" << endl
-         << name << endl
-         << sex << endl
-         << birthYear << endl
-         << deathYear << endl;
+    do   //So the user can modify before he finishes
+    {
+        while (!valid)
+        {
+            cout << "\nFull name: ";
+            getline(cin, name);
+
+            //Allows strings consisting of letter but allows spaces if they are preceded by letters or . and followed by a letter
+            //Allows . if it is preceded by a letter and followed by space
+            for(unsigned int i = 0; i < name.length(); i++)
+            {
+                if(!isalpha(name[i]))
+                {
+                    if(name[i] == ' ')
+                    {
+                        if((name[i-1] == '.' || isalpha(name[i-1])) && isalpha(name[i+1]))
+                        {
+                            valid = true;
+                        }
+                        else
+                        {
+                            cout << "Please enter a valid name.\n";
+                            valid = false;
+                        }
+                    }
+                    else if(name[i] == '.')
+                    {
+                        if(isalpha(name[i-1]) && name[i+1] == ' ')
+                        {
+                            valid = true;
+                        }
+                        else
+                        {
+                            cout << "Please enter a valid name.\n";
+                            valid = false;
+                        }
+                    }
+                    else
+                    {
+                        cout << "Please enter a valid name.\n";
+                        break;
+                    }
+                }
+                else
+                {
+                    valid = true;
+                }
+            }
+        }
+
+        char temp = toupper(name[0]);
+        name[0] = temp;
+
+        //Sets first letter in every name to upper-case and all other letters to lower-case
+        for(unsigned int i = 1; i < name.length(); i++)
+        {
+            if(name[i-1] == ' ')
+            {
+                temp = toupper(name[i]);
+                name[i] = temp;
+            }
+            else
+            {
+                temp = tolower(name[i]);
+                name[i] = temp;
+            }
+        }
+
+        valid = false;
+
+        while(!valid)
+        {
+            cout << "Sex (M/F): ";
+            cin >> sex;
+
+            temp = toupper(sex[0]); //Makes sure that sex is upper-case
+            sex[0] = temp;
+
+            if(sex.length() != 1)   //Makes sure that sex is only 1 character long and either M or F
+            {
+                cout << "Sex can only be one character.\n";
+            }
+            else if(sex == "M" || sex == "F")    //Only allows M and F
+            {
+                valid = true;
+            }
+            else
+            {
+                cout << "Please enter a valid sex.\n";
+            }
+
+        }
+
+        valid = false;
+
+        while(!valid)
+        {
+            cout << "Year of birth: ";
+            cin >> birthYear;
+
+            if(birthYear < 0 || birthYear > 2015)   //Only allows birthyear to be greater than 0 and less than 2016
+            {
+                cout << "Please enter a valid birth year.\n";
+            }
+            else
+            {
+                valid = true;
+            }
+        }
+
+        valid = false;
+
+        while(!valid)
+        {
+            cout << "Year of death (0 if still alive):";
+            cin >> deathYear;
+
+            if(deathYear < 0 || deathYear > 2015)   //Only allows deathyear to be greater than 0 and less than 2016
+            {
+                cout << "Please enter a valid birth year.\n";
+            }
+            else
+            {
+                valid = true;
+            }
+        }
+
+        cout << "\n-----------------------------------" << endl
+             << "Scientist information:\n" << endl
+             << "Name: " << name << endl
+             << "Sex: " << sex << endl
+             << "Year of birth: " << birthYear << endl
+             << "Year of death: " << deathYear << endl
+             << "Is this correct? (Y/ANY KEY): ";
+        cin >> correct;
+    }while(correct != 'Y');
+
 
     this->dataMan->addScientist(Scientist(name, sex[0], birthYear, deathYear));
 }
