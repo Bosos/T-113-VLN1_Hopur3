@@ -1,0 +1,4 @@
+Charles Babbage,M,1791,1871.
+Augusta Ada King,F,1815,1852.
+Alan Turing,M,1912,1954.
+Grace Murray Hopper,F,1906,1992.
