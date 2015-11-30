@@ -85,7 +85,7 @@ void Console::insertScientist()
     bool valid = false;
     char correct = 'N';
 
-    while(correct != 'Y')   //So the user can modify before he finishes
+    do   //So the user can modify before he finishes
     {
         while (!valid)
         {
@@ -138,7 +138,8 @@ void Console::insertScientist()
         char temp = toupper(name[0]);
         name[0] = temp;
 
-        for(unsigned int i = 1; i < name.length(); i++)  //Sets first letter in every name to upper-case and all other letters to lower-case
+        //Sets first letter in every name to upper-case and all other letters to lower-case
+        for(unsigned int i = 1; i < name.length(); i++)
         {
             if(name[i-1] == ' ')
             {
@@ -198,7 +199,7 @@ void Console::insertScientist()
 
         while(!valid)
         {
-            cout << "Year of death(0 if still alive):";
+            cout << "Year of death (0 if still alive):";
             cin >> deathYear;
 
             if(deathYear < 0 || deathYear > 2015)   //Only allows deathyear to be greater than 0 and less than 2016
@@ -219,7 +220,8 @@ void Console::insertScientist()
              << "Year of death: " << deathYear << endl
              << "Is this correct? (Y/ANY KEY): ";
         cin >> correct;
-    }
+    }while(correct != 'Y');
+
 
     this->dataMan->addScientist(Scientist(name, sex[0], birthYear, deathYear));
     //DataManager dataMon("data.txt");
