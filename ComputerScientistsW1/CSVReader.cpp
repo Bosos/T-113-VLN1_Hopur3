@@ -1,21 +1,33 @@
 #include "CSVReader.h"
 #include <string>
 
-CSVReader::CSVReader(string fileName)
+CSVReader::CSVReader(string newfileName)
 {
-
+    fileName = newfileName;
 }
-
 CSVReader::~CSVReader()
 {
-    //TODO
-    //close file stream if we need to
+
 }
 
-vector<string> CSVReader::next()
+vector<string> CSVReader::next(int scientistNr)
 {
-    //TODO
-    return vector<string>();
+    ifstream newInput;
+    vector<string> selectedScientist;
+    string newLine;
+    newInput.open(fileName.c_str());
+    for(int i = 0; i < scientistNr; i++)
+    {
+        getline(newInput, newLine);
+        if(i == scientistNr-1)
+        {
+            while(getline(newInput, newLine, ','))
+            {
+                selectedScientist.push_back(newLine);
+            }
+        }
+    }
+    return selectedScientist;
 }
 
 bool CSVReader::hasNext()

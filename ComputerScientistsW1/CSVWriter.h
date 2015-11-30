@@ -12,7 +12,7 @@ class CSVWriter
 private:
     string fileName;
 public:
-    CSVWriter(string fileName);
+    CSVWriter(string newfileName);
     ~CSVWriter();
     void clear();
     void add(vector<string> scientist);

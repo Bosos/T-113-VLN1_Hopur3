@@ -5,6 +5,7 @@
 #include <fstream>
 #include <vector>
 #include <CSVWriter.h>
+#include <CSVReader.h>
 
 DataManager::DataManager(string fileLocation)
 {
@@ -39,24 +40,23 @@ vector<string> DataManager::scientistToVector(Scientist scientis)
 vector<Scientist> DataManager::getAllScientists(SortBy sort, Direction direction)
 {
     vector<Scientist> allScientists;
+    CSVReader docReader(fileName);
     ifstream newInput;
+    int counter = 0;
+    vector<string> newScientist;
 
-    newInput.open(fileName.c_str());
-
-    for (string newLine; getline(newInput, newLine);)
+    while(true)
     {
-        stringstream ss(newLine);
-        string sName;
-        string addedPartofName;
-            while (ss >> addedPartofName)
-            {
-                sName += addedPartofName + " ";
-            }
-        char sex;
-        int birthYear, deathYear;
-        ss >> sex >> birthYear >> deathYear;
-        Scientist newScientist(sName.c_str(), sex, birthYear, deathYear);
-        allScientists.push_back(newScientist);
+        newScientist = docReader.next(counter);
+        if(newScientist.size() == 0)
+        {
+            break;
+        }
+        else
+        {
+            counter++;
+            allScientists.push_back(parseInput(newScientist));
+        }
     }
 
     return allScientists;

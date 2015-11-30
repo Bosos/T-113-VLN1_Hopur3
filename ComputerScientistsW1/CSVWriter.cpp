@@ -14,7 +14,7 @@ void CSVWriter::clear()
 {
     std::ofstream clearing;
     clearing.open(fileName, std::ofstream::out | std::ofstream::trunc);
-    // TODO clears the file, good for edits
+    //clears the file, good for edits
 }
 
 void CSVWriter::add(vector<string> scientist)

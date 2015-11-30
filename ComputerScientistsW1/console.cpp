@@ -98,8 +98,6 @@ void Console::insertScientist()
          << deathYear << endl;
 
     this->dataMan->addScientist(Scientist(name, sex[0], birthYear, deathYear));
-    //DataManager dataMon("data.txt");
-    //dataMon.addScientist(Scientist(name, sex[0], birthYear, deathYear));//Adds a new scientist to the document
 }
 
 void Console::showScientists()
