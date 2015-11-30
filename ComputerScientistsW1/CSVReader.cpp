@@ -27,6 +27,7 @@ vector<string> CSVReader::next(int scientistNr)
             }
         }
     }
+    //cout
     return selectedScientist;
 }
 

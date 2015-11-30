@@ -11,7 +11,6 @@ DataManager::DataManager(string fileLocation)
 {
     this->fileName = fileLocation;
 }
-
 DataManager::~DataManager()
 {
 
@@ -40,10 +39,9 @@ vector<string> DataManager::scientistToVector(Scientist scientis)
 vector<Scientist> DataManager::getAllScientists(SortBy sort, Direction direction)
 {
     vector<Scientist> allScientists;
-    CSVReader docReader(fileName);
-    ifstream newInput;
-    int counter = 0;
     vector<string> newScientist;
+    CSVReader docReader(fileName);
+    int counter = 0;
 
     while(true)
     {
@@ -58,7 +56,6 @@ vector<Scientist> DataManager::getAllScientists(SortBy sort, Direction direction
             allScientists.push_back(parseInput(newScientist));
         }
     }
-
     return allScientists;
 }
 
