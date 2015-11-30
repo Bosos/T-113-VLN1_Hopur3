@@ -1,5 +1,6 @@
 #include "CSVReader.h"
 #include <string>
+#include <iostream>
 
 CSVReader::CSVReader(string newfileName)
 {
@@ -27,7 +28,7 @@ vector<string> CSVReader::next(int scientistNr)
             }
         }
     }
-    //cout
+    cout << endl << "bla " << selectedScientist.size() << " bla" << endl;
     return selectedScientist;
 }
 
