@@ -81,6 +81,7 @@ vector<Scientist> DataManager::findByDeathYear(string year,SortBy sort, Directio
     return vector<Scientist>();
 }
 
+// Calculates age of scientist.
 int DataManager::getage(Scientist oneScientist){
 
     if(oneScientist.getDeathYear() == 0){
@@ -90,7 +91,7 @@ int DataManager::getage(Scientist oneScientist){
    return oneScientist.getDeathYear() - oneScientist.getBirthYear();
 }
 
-//skilar vector af Scientist, tekur inn vector af Scientist
+
 
 struct sortByName
 {
@@ -100,6 +101,7 @@ struct sortByName
     }
 };
 
+
 struct sortByBirth
 {
     inline bool operator() (Scientist& birth1, Scientist& birth2)
@@ -107,6 +109,7 @@ struct sortByBirth
         return (birth1.getBirthYear() < birth2.getBirthYear());
     }
 };
+
 
 struct sortByDeath
 {
@@ -116,6 +119,7 @@ struct sortByDeath
     }
 };
 
+
 struct sortBySex
 {
     inline bool operator() (Scientist& sex1, Scientist& sex2)
@@ -124,6 +128,8 @@ struct sortBySex
     }
 };
 
+
+// This function gets an input from the user and sorts it.
 vector<Scientist> DataManager::sortBy(vector<Scientist> scientists, SortBy sortBy, Direction direction )
 {
     switch(sortBy)
@@ -131,18 +137,22 @@ vector<Scientist> DataManager::sortBy(vector<Scientist> scientists, SortBy sortB
         case NONE:
             return scientists;
 
+        // Sorts names in alphabetical order.
         case NAME:
             sort(scientists.begin(), scientists.end(), sortByName());
             break;
 
+        // Sorts birthyear "lowest to highest".
         case BIRTH:
             sort(scientists.begin(), scientists.end(), sortByBirth());
             break;
 
+        // Sorts deathyear "lowest to highest".
         case DEATH:
             sort(scientists.begin(), scientists.end(), sortByDeath());
             break;
 
+        // Sorts gender.
         case SEX:
             sort(scientists.begin(), scientists.end(), sortBySex());
             break;
@@ -151,7 +161,7 @@ vector<Scientist> DataManager::sortBy(vector<Scientist> scientists, SortBy sortB
             return scientists;
 
     }
-
+// Reverses the elements in the Scientists vector.
     if(direction == DESCENDING){
         reverse (scientists.begin(), scientists.end());
     }
