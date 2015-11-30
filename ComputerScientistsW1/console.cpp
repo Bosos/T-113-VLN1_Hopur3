@@ -6,11 +6,12 @@
 
 using namespace std;
 
+//constructor
 Console::Console(DataManager* dataManage)
 {
     this->dataMan = dataManage;
 }
-
+//constructor
 Console::~Console()
 {
 
@@ -156,23 +157,24 @@ void Console::insertScientist()
         while(!valid)
         {
             cout << "Sex (M/F): ";
-            getline(cin, sex);
+            cin >> sex;
+
+            temp = toupper(sex[0]); //Makes sure that sex is upper-case
+            sex[0] = temp;
 
             if(sex.length() != 1)   //Makes sure that sex is only 1 character long and either M or F
             {
                 cout << "Sex can only be one character.\n";
             }
-            else if(sex != "M" || sex != "F")    //Only allows M and F
-            {
-                cout << "Please enter a valid sex.\n";
-            }
-            else
+            else if(sex == "M" || sex == "F")    //Only allows M and F
             {
                 valid = true;
             }
+            else
+            {
+                cout << "Please enter a valid sex.\n";
+            }
 
-            temp = toupper(sex[0]); //Makes sure that sex is upper-case
-            sex[0] = temp;
         }
 
         valid = false;
