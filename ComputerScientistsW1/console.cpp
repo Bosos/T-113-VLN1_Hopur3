@@ -2,6 +2,7 @@
 #include <iostream>
 #include <SortBy.h>
 #include <string>
+#include "DataManager.h"
 
 using namespace std;
 
@@ -80,7 +81,6 @@ void Console::insertScientist()
     int birthYear, deathYear;
 
     cin.ignore(); // make sure there is nothing in the buffer
-
     bool valid = false;
     char correct = 'N';
 
@@ -219,9 +219,10 @@ void Console::insertScientist()
         cin >> correct;
     }
 
-    dataMan->addScientist(Scientist(name, sex[0], birthYear, deathYear));
+    this->dataMan->addScientist(Scientist(name, sex[0], birthYear, deathYear));
+    //DataManager dataMon("data.txt");
+    //dataMon.addScientist(Scientist(name, sex[0], birthYear, deathYear));//Adds a new scientist to the document
 }
-
 
 void Console::showScientists()
 {
