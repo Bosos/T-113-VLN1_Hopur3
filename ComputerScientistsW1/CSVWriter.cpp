@@ -12,12 +12,14 @@ CSVWriter::~CSVWriter()
 
 void CSVWriter::clear()
 {
-    // TODO clears the file, good for edits,
+    std::ofstream clearing;
+    clearing.open(fileName, std::ofstream::out | std::ofstream::trunc);
+    // TODO clears the file, good for edits
 }
 
 void CSVWriter::add(vector<string> scientist)
 {
-    std::ofstream newEntry(fileName, std::ios_base::app);
+    std::ofstream newEntry(fileName, std::ios_base::app);//appending a new entry to the document
     for(unsigned i = 0; i < scientist.size(); i++)
     {
         newEntry << scientist[i];
@@ -27,7 +29,7 @@ void CSVWriter::add(vector<string> scientist)
         }
     }
     newEntry << endl;
-    //TODO add a new line to the end of the doc
+    //add a new line to the end of the doc
 }
 
 void CSVWriter::close()

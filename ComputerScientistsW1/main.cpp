@@ -6,7 +6,7 @@ using  namespace std;
 
 int main()
 {
-    string fileLocation = "/";
+    string fileLocation = "data.txt";
     DataManager* dataMan = new DataManager(fileLocation);
     Console console(dataMan);
 
