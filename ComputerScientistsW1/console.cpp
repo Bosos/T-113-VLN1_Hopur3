@@ -245,7 +245,7 @@ vector<Scientist> Console::getScientist()
     int select = 0;
 
     cout << endl
-         << "-------------------------------------------------------------" << endl << endl
+         << "-------------------------------------------------------------" << endl
          << "1: Show a list of them all" << endl
          << "2: Search by a string or substring" << endl
          << "3: Search by birth year" << endl
