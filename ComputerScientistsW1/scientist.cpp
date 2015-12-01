@@ -8,7 +8,7 @@ Scientist::Scientist(string newName, char newSex, int newBirthYear, int newDeath
     birthYear = newBirthYear;
     deathYear = newDeathYear;
 
-    if(name.length() < 1 || (sex != 'M' && sex != 'F') || birthYear < 1600)
+    if(name.length() < 1 || (sex != 'M' && sex != 'F') || birthYear <= 1200)
     {
         throw invalid_argument("Some entry into Scientist was wrong");
     }

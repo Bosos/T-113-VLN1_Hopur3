@@ -16,6 +16,14 @@ private:
     void showScientists();
     void insertScientist();
     vector<Scientist> getScientist();
+    string promptName();
+    char promptSex();
+    int promptBirthYear();
+    int promptDeathYear(int birthYear);
+    bool isNameValid(string name);
+    bool promptAgain(string prompt);
+    int getInt(string prompt);
+
 };
 
 #endif // CONSOLE_H

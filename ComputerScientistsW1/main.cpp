@@ -6,7 +6,7 @@ using  namespace std;
 
 int main()
 {
-    string fileLocation = "data.txt";
+    string fileLocation = "data.csv";
     DataManager* dataMan = new DataManager(fileLocation);
     Console console(dataMan);
 

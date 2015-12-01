@@ -17,7 +17,7 @@ DataManager::~DataManager()
 
 }
 Scientist DataManager::parseInput(vector<string> csvLine)
-{//     Scientist(string name, int age, int birthYear, int deathYear);
+{      // Scientist(string name, int age         , int birthYear   , int deathYear); Constructor
     return Scientist(csvLine[0], stoi(csvLine[1]), stoi(csvLine[2]), stoi(csvLine[3]));
 }
 
@@ -31,9 +31,9 @@ vector<string> DataManager::scientistToVector(Scientist scientis)
 {
     //Changes the scientist class to a vector
     return vector<string> { scientis.getName(),
-                 to_string( scientis.getSex()),
-                 to_string( scientis.getBirthYear()),
-                 to_string( scientis.getDeathYear()) };
+                  to_string(scientis.getSex()),
+                  to_string(scientis.getBirthYear()),
+                  to_string(scientis.getDeathYear()) };
 }
 
 

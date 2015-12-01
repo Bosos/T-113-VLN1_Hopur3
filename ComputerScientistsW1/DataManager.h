@@ -24,8 +24,8 @@ public:
     Scientist parseInput(vector<string> csvLine);
     vector<Scientist> getAllScientists (SortBy sort, Direction direction);
     vector<Scientist> findByName (string name, SortBy sort, Direction direction);
-    vector<Scientist> findByBirthYear (string year,SortBy sort, Direction direction);
-    vector<Scientist> findByDeathYear (string year,SortBy sort, Direction direction);
+    vector<Scientist> findByBirthYear (string year, SortBy sort, Direction direction);
+    vector<Scientist> findByDeathYear (string year, SortBy sort, Direction direction);
     int getage(Scientist oneScientist);
     vector<Scientist> sortBy(vector<Scientist> scientists, SortBy sort, Direction direction );
 

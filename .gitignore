@@ -33,3 +33,4 @@ Makefile*
 #QtCtreator Qml
 *.qmlproject.user
 *.qmlproject.user.*
+ComputerScientistsW1/CSVReader.cpp
