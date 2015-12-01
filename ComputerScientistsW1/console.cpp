@@ -109,6 +109,7 @@ void Console::insertScientist()
     char sex = ' ';
     int birthYear = 0;
     int deathYear = 0;
+    string about = "";
 
     do   //So the user can modify before he finishes
     {
@@ -116,6 +117,7 @@ void Console::insertScientist()
         sex = promptSex();
         birthYear = promptBirthYear();
         deathYear = promptDeathYear(birthYear);
+        //about = promptAbout(); TODO-----
 
         clearScreen();
         info = "-------------------------------------------------------------"
@@ -124,12 +126,13 @@ void Console::insertScientist()
                "\nSex: " + sex +
                "\nYear of birth: " + to_string(birthYear) +
                "\nYear of death: " + to_string(deathYear) +
+               "\nAbout: " + about +
                "\nIs this correct? Y/N";
 
     }while(!promptAgain(info));
 
 
-    this->dataMan->addScientist(Scientist(name, sex, birthYear, deathYear));
+    this->dataMan->addScientist(Scientist(name, sex, birthYear, deathYear, about));
 }
 
 /*!
@@ -229,7 +232,7 @@ void Console::showScientists()
         // print each Scientist
         // TODO
         Scientist currentScientist = scientists[i];
-        cout << currentScientist.getName() << " " << currentScientist.GetAge() << " " << currentScientist.getSex() << endl;
+        cout << currentScientist.getName() << " " << currentScientist.GetAge() << " " << currentScientist.getSex() << " " << currentScientist.getAbout() << endl;
     }
 }
 

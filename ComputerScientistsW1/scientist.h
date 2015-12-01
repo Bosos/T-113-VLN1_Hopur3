@@ -9,23 +9,26 @@ using namespace std;
 class Scientist
 {
 public:
-    Scientist(string newName, char newSex, int newBirthYear, int newDeathYear);
+    Scientist(string newName, char newSex, int newBirthYear, int newDeathYear, string newAbout);
     Scientist();
     ~Scientist();
     char getSex();
-    void setSex(char sex);
+    void setSex(char newSex);
     string getName();
-    void setName(string name);
+    void setName(string newName);
     int getBirthYear();
-    void setBirthYear(int birthYear);
+    void setBirthYear(int newBirthYear);
     int getDeathYear();
-    void setDeathYear(int deathYear);
+    void setDeathYear(int newDeathYear);
+    string getAbout();
+    void setAbout(string newAbout);
     int GetAge();
 private:
     char sex;
     string name;
     int birthYear;
     int deathYear;
+    string about;
 };
 
 #endif // scientist
