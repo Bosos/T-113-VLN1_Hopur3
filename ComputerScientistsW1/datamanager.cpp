@@ -7,6 +7,7 @@
 #include <CSVWriter.h>
 #include <CSVReader.h>
 #include <algorithm>
+#include <cstring>
 
 DataManager::DataManager(string fileLocation)
 {
@@ -55,13 +56,13 @@ vector<Scientist> DataManager::getAllScientists(SortOrder sort)
 {
     vector<Scientist> allScientists;
     vector<vector<string>> newScientists;
-    CSVReader docReader(fileName);
-    newScientists = docReader.readAll();
-    for(unsigned i = 0; i < newScientists.size(); i++)
+    CSVReader docReader(fileName);//initialize the CSVReader class
+    newScientists = docReader.readAll();//gets vectors of vectors of strings which are essentially vectors of scientist in strings
+    for(unsigned i = 0; i < newScientists.size(); i++)//goes through all of the scientists
     {
-        allScientists.push_back(parseInput(newScientists[i], i));
+        allScientists.push_back(parseInput(newScientists[i], i));//changes vectors of strings into scientist classes
     }
-    return sortBy(allScientists, sort);
+    return sortBy(allScientists, sort);//return the scientist in the sort chosen
 }
 
 vector<Scientist> DataManager::findByName(string subString, SortOrder sort)
