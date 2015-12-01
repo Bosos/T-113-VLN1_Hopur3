@@ -27,7 +27,9 @@ private:
     int getInt(string prompt);
     void clearScreen();
     void editScientist();
-    void changeScientist(Scientist& scientis);
+    void changeScientist(vector<Scientist> scientis, int id);
+    void displayScientists(vector<Scientist> scientis);
+
 };
 
 #endif // CONSOLE_H

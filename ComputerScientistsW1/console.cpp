@@ -24,22 +24,21 @@ Console::~Console(){}
  */
 void Console::run()
 {
-    string menu = "-------------------------------------------------------------"
-                  "\nWelcome to the Computer Scientists database. Enter a number\n"
-                  "-------------------------------------------------------------"
-
-                  "\n1: Edit database"
-                  "\n2: See database"
-                  "\n3: Quit";
     while(true)
     {
         clearScreen();
-        int select = getInt(menu);
+        cout << "-------------------------------------------------------------"
+                "\nWelcome to the Computer Scientists database. Enter a number\n"
+                "-------------------------------------------------------------"
+                "\n1: Edit database"
+                "\n2: See database"
+                "\n3: Quit";
+
+        int select = getInt("");
 
         switch (select) {
 
         case 1:
-            //TODO
             editDatabase();
             break;
 
@@ -48,9 +47,12 @@ void Console::run()
             break;
 
         case 3:
-            return; // quit
+            // quit
+            return;
 
         default:
+            // Repeat while loop
+            cout << "The number should be between 1 and 3";
             break;
         }
     }
@@ -70,7 +72,7 @@ void Console::editDatabase()
             "\n1: Add to the database"
             "\n2: Edit an entry in the database"
             "\n3: Delete an entry in the database"
-            "\n other numbers: Go back to the start";
+            "\nOther numbers: Go back to the start";
 
     int select = getInt("");
 
@@ -151,37 +153,22 @@ void Console::editScientist()
     sort.direction = ASCENDING;
 
     cout << "-------------------------------------------------------------"
-            "\nPlease enter the full name of the scientist you want to edit";
+            "\nPlease enter the name of the scientist you want to edit\n"
+            "-------------------------------------------------------------";
     string name = promptName();
     vector<Scientist> allScientists = dataMan->findByName(name, sort);
 
     if(allScientists.size() > 1)
     {
-        cout << "-------------------------------------------------------------"
-                "\nMatching scientists:\n";
+        clearScreen();
+        cout << "\nMatching scientists:\n";
 
-        cout << setw(5) << left << "ID"
-             << setw(5) << left << "Age"
-             << setw(5) << left << "Sex"
-             << setw(20) << left << "Name"
-             << setw(50) << left << "About"<< endl;
-        for(size_t i = 0; i < allScientists.size(); i++)
-        {
-            // print each Scientistn
+        displayScientists(allScientists);
 
-            cout << setw(5) << left << allScientists[i].getID()
-                 << setw(5) << left << allScientists[i].getAge()
-                 << setw(5) << left << allScientists[i].getSex()
-                 << setw(20) << left << allScientists[i].getName()
-                 << setw(50) << left << allScientists[i].getAbout()
-                 << endl;
-        }
-
-        cout << "-------------------------------------------------------------"
-                "\nInsert the ID of the scientist you want to edit: ";
+        cout <<"Insert the ID of the scientist you want to edit: ";
         int id = getInt("");
 
-        changeScientist(dataMan->getAllScientists(sort)[id]);
+        changeScientist(dataMan->getAllScientists(sort), id);
     }
     else if(allScientists.size() == 0)
     {
@@ -189,11 +176,11 @@ void Console::editScientist()
     }
     else
     {
-        changeScientist(allScientists[0]);
+        //changeScientist(allScientists[0], 0); // what is this?
     }
 }
 
-void Console::changeScientist(Scientist& scientis)
+void Console::changeScientist(vector<Scientist> scientis, int id)
 {
     clearScreen();
 
@@ -201,7 +188,7 @@ void Console::changeScientist(Scientist& scientis)
 
     do{
         cout << "-------------------------------------------------------------"
-                "\nWhat would you like to change about " + scientis.getName() + "?"
+                "\nWhat would you like to change about " + scientis[id].getName() + "?"
                 "\n1: Name"
                 "\n2: Sex"
                 "\n3: Year of birth"
@@ -212,46 +199,44 @@ void Console::changeScientist(Scientist& scientis)
 
         switch(select){ //User chooses which attribute to edit
         case 1:
-        {
-            scientis.setName(promptName());
-            return;
-        }
+            scientis[id].setName(promptName());
+            break;
+
         case 2:
-        {
-            scientis.setSex(promptSex());
-            return;
-        }
+            scientis[id].setSex(promptSex());
+            break;
+
         case 3:
-        {
-            scientis.setBirthYear(promptBirthYear());
-            return;
-        }
+            scientis[id].setBirthYear(promptBirthYear());
+            break;
+
         case 4:
-        {
-            scientis.setDeathYear(promptDeathYear(scientis.getBirthYear()));
-            return;
-        }
+            scientis[id].setDeathYear(promptDeathYear(scientis[id].getBirthYear()));
+            break;
+
         case 5:
-        {
-            scientis.setAbout(promptAbout());
-            return;
-        }
+            scientis[id].setAbout(promptAbout());
+            break;
+
         default:
-        {
-            cout << "1-3 not selected, going back\n";
+            cout << "1-5 not selected, going back\n";
             return;
-        }
         }
 
         //Show the user the modified scientist
         clearScreen();
                 info = "-------------------------------------------------------------"
-                      "\n" + scientis.getName() + "'s information is now: "
-                      "\nName: " + scientis.getName() +
-                      "\nSex: " + scientis.getSex() +
-                      "\nYear of birth: " + to_string(scientis.getBirthYear()) +
-                      "\nYear of death: " + to_string(scientis.getDeathYear()) +
-                      "\nAbout: " + scientis.getAbout();
+                      "\n" + scientis[id].getName() + "'s information is now: \n"
+                      "-------------------------------------------------------------"
+                      "\nName: " + scientis[id].getName() +
+                      "\nSex: " + scientis[id].getSex() +
+                      "\nYear of birth: " + to_string(scientis[id].getBirthYear()) +
+                      "\nYear of death: " + to_string(scientis[id].getDeathYear()) +
+                      "\nAbout: " + scientis[id].getAbout() +
+                      "\nDone editing? Y/N";
+
+        // if yes? maybe
+        dataMan->writeNewScientistVectorToFile(scientis);
     }while(!promptAgain(info));
 }
 
@@ -355,26 +340,11 @@ void Console::showScientists()
 {
 
     vector<Scientist> scientists = getScientist();
-    if (scientists.size() == 0) { cout << "No Scientist found" << flush; return; }
-
-    clearScreen();
-    cout << "-------------------------------------------------------------" << endl
-         << setw(5) << left << "ID"
-         << setw(5) << left << "Age"
-         << setw(5) << left << "Sex"
-         << setw(30) << left << "Name"
-         << setw(50) << left << "About"<< endl
-         << "-------------------------------------------------------------" << endl;
-    for(size_t i = 0; i < scientists.size(); i++)
+    if (scientists.size() == 0) { cout << "No Scientist found"; }
+    else
     {
-        // print each Scientistn
-
-        cout << setw(5) << left << scientists[i].getID()
-             << setw(5) << left << scientists[i].getAge()
-             << setw(5) << left << scientists[i].getSex()
-             << setw(30) << left << scientists[i].getName()
-             << setw(50) << left << scientists[i].getAbout()
-             << endl;
+        clearScreen();
+        displayScientists(scientists);
     }
     string continues;
     getline(cin,continues);
@@ -434,8 +404,7 @@ vector<Scientist> Console::getScientist()
         return dataMan->findBySex(sex, getSort());
 
     default:
-        cout << "Searching for no one" << endl;
-        return vector<Scientist>();
+        return dataMan->getAllScientists (getSort());
     }
 }
 
@@ -612,7 +581,7 @@ int Console::getInt(string prompt){
         // This code converts from string to number safely.
         stringstream myStream(input);
         if (myStream >> myNumber) { break; }
-        cout << "Invalid number, please try again" << endl;
+        cout << "Not a number, please try again";
     }
     return myNumber;
 }
@@ -624,4 +593,27 @@ int Console::getInt(string prompt){
 void Console::clearScreen(){
     system("CLS");
     system("clear");
+}
+
+void Console::displayScientists(vector<Scientist> scientists)
+{
+    cout << "\-------------------------------------------------------------" << endl
+         << setw(5) << left << "ID"
+         << setw(5) << left << "Age"
+         << setw(5) << left << "Sex"
+         << setw(20) << left << "Name"
+         << setw(50) << left << "About"<< endl
+         << "-------------------------------------------------------------" << endl;
+    for(size_t i = 0; i < scientists.size(); i++)
+    {
+        // print each Scientistn
+
+        cout << setw(5) << left << scientists[i].getID()
+             << setw(5) << left << scientists[i].getAge()
+             << setw(5) << left << scientists[i].getSex()
+             << setw(30) << left << scientists[i].getName()
+             << setw(50) << left << scientists[i].getAbout()
+             << endl;
+    }
+    cout << "-------------------------------------------------------------" << endl;
 }

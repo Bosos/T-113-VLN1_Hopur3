@@ -64,7 +64,7 @@ vector<Scientist> DataManager::getAllScientists(SortOrder sort)
     return sortBy(allScientists, sort);
 }
 
-vector<Scientist> DataManager::findByName(string name, SortOrder sort)
+vector<Scientist> DataManager::findByName(string subString, SortOrder sort)
 {
     vector<Scientist> allScientists = getAllScientists(sort);
     vector<Scientist> matchingScientists;
@@ -72,9 +72,9 @@ vector<Scientist> DataManager::findByName(string name, SortOrder sort)
     //Checks all scientists and inserts the ones who's name matches name parameter into the vector matchingScientists
     for(unsigned int i = 0; i < allScientists.size(); i++)
     {
-        if(allScientists[i].getName().substr(0, name.length()) == name)
+        if(strstr(allScientists[i].getName().c_str(),subString.c_str()))
         {
-            matchingScientists.push_back(allScientists[i]);
+             matchingScientists.push_back(allScientists[i]);
         }
     }
 
@@ -222,3 +222,12 @@ vector<Scientist> DataManager::sortBy(vector<Scientist> scientists, SortOrder so
     return scientists;
 }
 
+void DataManager::writeNewScientistVectorToFile(vector<Scientist> scientists)
+{
+    CSVWriter csvW(fileName);
+    csvW.clear();
+    for (size_t i = 0; i < scientists.size(); i++)
+    {
+        csvW.add(scientistToVector(scientists[i]));
+    }
+}

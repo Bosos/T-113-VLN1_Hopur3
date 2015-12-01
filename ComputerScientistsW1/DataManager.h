@@ -27,6 +27,7 @@ public:
     vector<Scientist> findBySex(string sex, SortOrder sort);
     vector<Scientist> sortBy(vector<Scientist> scientists, SortOrder sort );
     vector<string> scientistToVector(Scientist scientis);
+    void writeNewScientistVectorToFile(vector<Scientist> scientists);
     int getage(Scientist oneScientist);
 
     //EDIT scientist
