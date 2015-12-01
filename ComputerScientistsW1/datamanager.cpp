@@ -17,8 +17,8 @@ DataManager::~DataManager()
 
 }
 Scientist DataManager::parseInput(vector<string> csvLine)
-{      // Scientist(string name, int age         , int birthYear   , int deathYear); Constructor
-    return Scientist(csvLine[0], stoi(csvLine[1]), stoi(csvLine[2]), stoi(csvLine[3]));
+{      // Scientist(string name, char sex        , int birthYear   , int deathYear); Constructor
+    return Scientist(csvLine[0], csvLine[1].c_str()[0], stoi(csvLine[2]), stoi(csvLine[3]));
 }
 
 void DataManager::addScientist(Scientist scientis){
@@ -42,7 +42,7 @@ vector<Scientist> DataManager::getAllScientists(SortOrder sort)
     vector<Scientist> allScientists;
     vector<vector<string>> newScientists;
     CSVReader docReader(fileName);
-    newScientists = docReader.next();
+    newScientists = docReader.readAll();
     for(unsigned i = 0; i < newScientists.size(); i++)
     {
         allScientists.push_back(parseInput(newScientists[i]));

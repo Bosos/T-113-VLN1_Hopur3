@@ -229,7 +229,7 @@ void Console::showScientists()
         // print each Scientist
         // TODO
         Scientist currentScientist = scientists[i];
-        cout << currentScientist.getName();
+        cout << currentScientist.getName() << " " << currentScientist.GetAge() << " " << currentScientist.getSex() << endl;
     }
 }
 
