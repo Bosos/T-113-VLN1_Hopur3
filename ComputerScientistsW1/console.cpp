@@ -85,7 +85,11 @@ void Console::editDatabase()
         return;
 
     case 2:
-        //TODO EDIT
+        do
+        {
+            clearScreen();
+            editScientist();
+        }while(promptAgain("Do you want to edit another computer scientist? Y/N"));
         return;
 
     case 3:
@@ -137,6 +141,118 @@ void Console::insertScientist()
 
 
     this->dataMan->addScientist(Scientist(name, sex, birthYear, deathYear, about, 0));
+}
+
+void Console::editScientist()
+{
+    string info = "";
+    SortOrder sort;
+    sort.sortBy = NONE;
+    sort.direction = ASCENDING;
+
+    cout << "-------------------------------------------------------------"
+            "\nPlease enter the full name of the scientist you want to edit";
+    string name = promptName();
+    vector<Scientist> allScientists = dataMan->findByName(name, sort);
+
+    if(allScientists.size() > 1)
+    {
+        cout << "-------------------------------------------------------------"
+                "\nMatching scientists:\n";
+
+        cout << setw(5) << left << "ID"
+             << setw(5) << left << "Age"
+             << setw(5) << left << "Sex"
+             << setw(20) << left << "Name"
+             << setw(50) << left << "About"<< endl;
+        for(size_t i = 0; i < allScientists.size(); i++)
+        {
+            // print each Scientistn
+
+            cout << setw(5) << left << allScientists[i].getID()
+                 << setw(5) << left << allScientists[i].getAge()
+                 << setw(5) << left << allScientists[i].getSex()
+                 << setw(20) << left << allScientists[i].getName()
+                 << setw(50) << left << allScientists[i].getAbout()
+                 << endl;
+        }
+
+        cout << "-------------------------------------------------------------"
+                "\nInsert the ID of the scientist you want to edit: ";
+        int id = getInt("");
+
+        changeScientist(dataMan->getAllScientists(sort)[id]);
+    }
+    else if(allScientists.size() == 0)
+    {
+        cout << "\nSorry, there is no matching scientist in datafile\n";
+    }
+    else
+    {
+        changeScientist(allScientists[0]);
+    }
+}
+
+void Console::changeScientist(Scientist& scientis)
+{
+    clearScreen();
+
+    string info;
+
+    do{
+        cout << "-------------------------------------------------------------"
+                "\nWhat would you like to change about " + scientis.getName() + "?"
+                "\n1: Name"
+                "\n2: Sex"
+                "\n3: Year of birth"
+                "\n4: Year of death"
+                "\n5: About";
+
+        int select = getInt("");
+
+        switch(select){ //User chooses which attribute to edit
+        case 1:
+        {
+            scientis.setName(promptName());
+            return;
+        }
+        case 2:
+        {
+            scientis.setSex(promptSex());
+            return;
+        }
+        case 3:
+        {
+            scientis.setBirthYear(promptBirthYear());
+            return;
+        }
+        case 4:
+        {
+            scientis.setDeathYear(promptDeathYear(scientis.getBirthYear()));
+            return;
+        }
+        case 5:
+        {
+            scientis.setAbout(promptAbout());
+            return;
+        }
+        default:
+        {
+            cout << "1-3 not selected, going back\n";
+            return;
+        }
+        }
+
+        //Show the user the modified scientist
+        clearScreen();
+                info = "-------------------------------------------------------------"
+                      "\n" + scientis.getName() + "'s information is now: "
+                      "\nName: " + scientis.getName() +
+                      "\nSex: " + scientis.getSex() +
+                      "\nYear of birth: " + to_string(scientis.getBirthYear()) +
+                      "\nYear of death: " + to_string(scientis.getDeathYear()) +
+                      "\nAbout: " + scientis.getAbout();
+    }while(!promptAgain(info));
 }
 
 /*!

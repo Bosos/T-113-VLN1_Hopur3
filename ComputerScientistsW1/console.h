@@ -26,6 +26,8 @@ private:
     bool promptAgain(string prompt);
     int getInt(string prompt);
     void clearScreen();
+    void editScientist();
+    void changeScientist(Scientist& scientis);
 };
 
 #endif // CONSOLE_H
