@@ -7,7 +7,6 @@
 #include <locale>
 #include <sstream>
 
-
 using namespace std;
 
 // constructor
@@ -26,11 +25,13 @@ Console::~Console(){}
 void Console::run()
 {
     string menu = "-------------------------------------------------------------"
-                  "\nWelcome to the Computer Scientists database. Enter a number"
+                  "\nWelcome to the Computer Scientists database. Enter a number\n"
+                  "-------------------------------------------------------------"
+
                   "\n1: Edit database"
                   "\n2: See database"
                   "\n3: Quit";
-    do
+    while(true)
     {
         clearScreen();
         int select = getInt(menu);
@@ -50,11 +51,9 @@ void Console::run()
             return; // quit
 
         default:
-            cout << " Error, bad input";
             break;
         }
-    }while(!promptAgain("\nAre you done? Do you want to quit? Y/N"));
-
+    }
 }
 
 /*!
@@ -66,6 +65,8 @@ void Console::editDatabase()
 {
     clearScreen();
     cout << "-------------------------------------------------------------"
+            "\nEdit the Database\n"
+            "-------------------------------------------------------------"
             "\n1: Add to the database"
             "\n2: Edit an entry in the database"
             "\n3: Delete an entry in the database"
@@ -103,7 +104,8 @@ void Console::editDatabase()
 void Console::insertScientist()
 {
     cout << "-------------------------------------------------------------"
-            "\nPlease fill inn all the information about the scientist";
+            "\nPlease fill inn all the information about the scientist\n"
+            "-------------------------------------------------------------";
 
     string info = "";
     string name = "";
@@ -123,6 +125,7 @@ void Console::insertScientist()
         clearScreen();
         info = "-------------------------------------------------------------"
                "\nScientist information:\n"
+               "-------------------------------------------------------------"
                "\nName: " + name +
                "\nSex: " + sex +
                "\nYear of birth: " + to_string(birthYear) +
@@ -145,7 +148,7 @@ string Console::promptName()
     string name = "";
     do
     {
-        cout << "\nFull name: ";
+        cout << "\nName: ";
         getline(cin, name);
     } while (!isNameValid(name));
     return name;
@@ -216,15 +219,15 @@ int Console::promptDeathYear(int birthYear)
 
         // Only allows deathyear to be 0 or greater than birthyear and less than 2016
         // the scientist can not be older than 110
-        if    (deathYear == 0
+        if    ((deathYear == 0 && 2015 - birthYear <= 110)
            || ((deathYear > birthYear && deathYear <= 2015)
-           &&  (deathYear - birthYear < 110)))
+           &&  (deathYear - birthYear <= 110)))
         {
             return deathYear;
         }
 
         // we dont get here if the year was valid
-        cout << "Please enter a valid birth year. (After birth year-2015)\n";
+        cout << "Please enter a valid birth year. The scientist can not be older than 110 years and can not have died before being born\n";
     }
 }
 
@@ -234,14 +237,18 @@ int Console::promptDeathYear(int birthYear)
  */
 void Console::showScientists()
 {
-    vector<Scientist> scientists = getScientist();
-    if (scientists.size() == 0) { cout << "No Scientist found"; }
 
-    cout << setw(5) << left << "ID"
+    vector<Scientist> scientists = getScientist();
+    if (scientists.size() == 0) { cout << "No Scientist found" << flush; return; }
+
+    clearScreen();
+    cout << "-------------------------------------------------------------" << endl
+         << setw(5) << left << "ID"
          << setw(5) << left << "Age"
          << setw(5) << left << "Sex"
-         << setw(20) << left << "Name"
-         << setw(50) << left << "About"<< endl;
+         << setw(30) << left << "Name"
+         << setw(50) << left << "About"<< endl
+         << "-------------------------------------------------------------" << endl;
     for(size_t i = 0; i < scientists.size(); i++)
     {
         // print each Scientistn
@@ -249,10 +256,12 @@ void Console::showScientists()
         cout << setw(5) << left << scientists[i].getID()
              << setw(5) << left << scientists[i].getAge()
              << setw(5) << left << scientists[i].getSex()
-             << setw(20) << left << scientists[i].getName()
+             << setw(30) << left << scientists[i].getName()
              << setw(50) << left << scientists[i].getAbout()
              << endl;
     }
+    string continues;
+    getline(cin,continues);
 }
 
 /*!
@@ -261,9 +270,11 @@ void Console::showScientists()
  */
 vector<Scientist> Console::getScientist()
 {
-    int select = 0;
+    clearScreen();
 
-    cout << endl
+    int select = 0;
+    cout << "-------------------------------------------------------------" << endl
+         << "Look inside the database" << endl
          << "-------------------------------------------------------------" << endl
          << "1: Show a list of them all" << endl
          << "2: Search by a string or substring" << endl
@@ -291,7 +302,7 @@ vector<Scientist> Console::getScientist()
         return dataMan->getAllScientists (getSort());
 
     case 2:
-        getline(cin,name);
+        name = promptName();
         return dataMan->findByName (name, getSort());
 
     case 3:
@@ -307,7 +318,7 @@ vector<Scientist> Console::getScientist()
         return dataMan->findBySex(sex, getSort());
 
     default:
-        cout << "Error, bad input, quitting" << endl;
+        cout << "Searching for no one" << endl;
         return vector<Scientist>();
     }
 }
@@ -321,9 +332,10 @@ SortOrder Console::getSort()
     int choice;
     SortOrder sort;
 
-    cout << endl
-         << "-----------------------------------" << endl
+    clearScreen();
+    cout << "-------------------------------------------------------------" << endl
          << "How do you want your list sorted?" << endl
+         << "-------------------------------------------------------------" << endl
          << "1: No sorting" << endl
          << "2: Sort by name" << endl
          << "3: Sort by year of birth" << endl
@@ -373,7 +385,7 @@ SortOrder Console::getSort()
 Direction Console::getDirection(){
     int choice;
 
-    cout << "\n-----------------------------------"
+    cout << "\n-------------------------------------------------------------"
             "\nAscending or descending?\n"
             "1: Ascending\n"
             "2: Descending?";
