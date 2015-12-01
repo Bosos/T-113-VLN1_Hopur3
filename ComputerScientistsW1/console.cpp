@@ -1,63 +1,85 @@
 #include "Console.h"
 #include <iostream>
 #include <SortBy.h>
-#include <string>
+#include <qstring.h>
 #include "DataManager.h"
+#include <locale>
+#include <sstream>
+
 
 using namespace std;
 
-//constructor
+// constructor
 Console::Console(DataManager* dataManage)
 {
     this->dataMan = dataManage;
 }
-//constructor
-Console::~Console()
-{
 
-}
+// de-constructor
+Console::~Console(){}
 
+/*!
+ * \brief Console::run
+ * Runs the console version of the app
+ */
 void Console::run()
 {
-    cout << "\n-----------------------------------"
-            "\nWelcome to the Computer Scientists database. Enter a number"
-            "\n1: Edit database"
-            "\n2: See database"
-            "\nAnything else will quit the program\n:";
+    string menu = "-------------------------------------------------------------"
+                  "\nWelcome to the Computer Scientists database. Enter a number"
+                  "\n1: Edit database"
+                  "\n2: See database"
+                  "\n3: Quit";
+    do
+    {
+        clearScreen();
+        int select = getInt(menu);
 
-    int select = 0;
-    cin >> select;
+        switch (select) {
 
-    switch (select) {
+        case 1:
+            //TODO
+            editDatabase();
+            break;
 
-    case 1:
-        //TODO
-        editDatabase();
-        return;
+        case 2:
+            showScientists();
+            break;
 
-    case 2:
-        showScientists();
-        return;
+        case 3:
+            return; // quit
 
-    default:
-        cout << "Error, bad input, quitting\n";
-        return;
-    }
+        default:
+            cout << " Error, bad input";
+            break;
+        }
+    }while(!promptAgain("\nAre you done? Do you want to quit? Y/N"));
+
 }
+
+/*!
+ * \brief Console::editDatabase
+ * for editing entries in datafile
+ *
+ */
 void Console::editDatabase()
 {
-    cout << "\n-----------------------------------"
+    clearScreen();
+    cout << "-------------------------------------------------------------"
             "\n1: Add to the database"
             "\n2: Edit an entry in the database"
-            "\n3: Delete an entry in the database\n:";
+            "\n3: Delete an entry in the database"
+            "\n other numbers: Go back to the start";
 
-    int select = 0;
-    cin >> select;
+    int select = getInt("");
 
     switch (select) {
     case 1:
-        //TODO
-        insertScientist();
+        do
+        {
+            clearScreen();
+            insertScientist();
+        }while(promptAgain("Do you want to add another computer scientist? Y/N"));
+
         return;
 
     case 2:
@@ -68,164 +90,135 @@ void Console::editDatabase()
         //TODO DELETE
         return;
     default:
-        cout << "Error, bad input, quitting\n";
+        cout << "1-3 not selected, going back\n";
         return;
     }
 }
 
+/*!
+ * \brief Console::insertScientist
+ * for inserting into the datafile
+ */
 void Console::insertScientist()
 {
-    cout << "\n-----------------------------------"
+    cout << "-------------------------------------------------------------"
             "\nPlease fill inn all the information about the scientist";
 
-    string name, sex;
-    int birthYear, deathYear;
-
-    cin.ignore(); // make sure there is nothing in the buffer
-    bool valid = false;
-    char correct = 'N';
+    string info = "";
+    string name = "";
+    char sex = ' ';
+    int birthYear = 0;
+    int deathYear = 0;
 
     do   //So the user can modify before he finishes
     {
-        while (!valid)
-        {
-            cout << "\nFull name: ";
-            getline(cin, name);
+        name = promptName();
+        sex = promptSex();
+        birthYear = promptBirthYear();
+        deathYear = promptDeathYear(birthYear);
 
-            //Allows strings consisting of letter but allows spaces if they are preceded by letters or . and followed by a letter
-            //Allows . if it is preceded by a letter and followed by space
-            for(unsigned int i = 0; i < name.length(); i++)
-            {
-                if(!isalpha(name[i]))
-                {
-                    if(name[i] == ' ')
-                    {
-                        if((name[i-1] == '.' || isalpha(name[i-1])) && isalpha(name[i+1]))
-                        {
-                            valid = true;
-                        }
-                        else
-                        {
-                            cout << "Please enter a valid name.\n";
-                            valid = false;
-                        }
-                    }
-                    else if(name[i] == '.')
-                    {
-                        if(isalpha(name[i-1]) && name[i+1] == ' ')
-                        {
-                            valid = true;
-                        }
-                        else
-                        {
-                            cout << "Please enter a valid name.\n";
-                            valid = false;
-                        }
-                    }
-                    else
-                    {
-                        cout << "Please enter a valid name.\n";
-                        break;
-                    }
-                }
-                else
-                {
-                    valid = true;
-                }
-            }
-        }
+        clearScreen();
+        info = "-------------------------------------------------------------"
+               "\nScientist information:\n"
+               "\nName: " + name +
+               "\nSex: " + sex +
+               "\nYear of birth: " + to_string(birthYear) +
+               "\nYear of death: " + to_string(deathYear) +
+               "\nIs this correct? Y/N";
 
-        char temp = toupper(name[0]);
-        name[0] = temp;
-
-        //Sets first letter in every name to upper-case and all other letters to lower-case
-        for(unsigned int i = 1; i < name.length(); i++)
-        {
-            if(name[i-1] == ' ')
-            {
-                temp = toupper(name[i]);
-                name[i] = temp;
-            }
-            else
-            {
-                temp = tolower(name[i]);
-                name[i] = temp;
-            }
-        }
-
-        valid = false;
-
-        while(!valid)
-        {
-            cout << "Sex (M/F): ";
-            cin >> sex;
-
-            temp = toupper(sex[0]); //Makes sure that sex is upper-case
-            sex[0] = temp;
-
-            if(sex.length() != 1)   //Makes sure that sex is only 1 character long and either M or F
-            {
-                cout << "Sex can only be one character.\n";
-            }
-            else if(sex == "M" || sex == "F")    //Only allows M and F
-            {
-                valid = true;
-            }
-            else
-            {
-                cout << "Please enter a valid sex.\n";
-            }
-
-        }
-
-        valid = false;
-
-        while(!valid)
-        {
-            cout << "Year of birth: ";
-            cin >> birthYear;
-
-            if(birthYear < 0 || birthYear > 2015)   //Only allows birthyear to be greater than 0 and less than 2016
-            {
-                cout << "Please enter a valid birth year.\n";
-            }
-            else
-            {
-                valid = true;
-            }
-        }
-
-        valid = false;
-
-        while(!valid)
-        {
-            cout << "Year of death (0 if still alive):";
-            cin >> deathYear;
-
-            if(deathYear < 0 || deathYear > 2015)   //Only allows deathyear to be greater than 0 and less than 2016
-            {
-                cout << "Please enter a valid birth year.\n";
-            }
-            else
-            {
-                valid = true;
-            }
-        }
-
-        cout << "\n-----------------------------------" << endl
-             << "Scientist information:\n" << endl
-             << "Name: " << name << endl
-             << "Sex: " << sex << endl
-             << "Year of birth: " << birthYear << endl
-             << "Year of death: " << deathYear << endl
-             << "Is this correct? (Y/ANY KEY): ";
-        cin >> correct;
-    }while(correct != 'Y');
+    }while(!promptAgain(info));
 
 
-    this->dataMan->addScientist(Scientist(name, sex[0], birthYear, deathYear));
+    this->dataMan->addScientist(Scientist(name, sex, birthYear, deathYear));
 }
 
+/*!
+ * \brief Console::promptName
+ * \return name
+ */
+string Console::promptName()
+{
+    string name = "";
+    do
+    {
+        cout << "\nFull name: ";
+        getline(cin, name);
+    } while (!isNameValid(name));
+    return name;
+}
+
+/*!
+ * \brief Console::promptSex
+ * \return sex
+ */
+char Console::promptSex()
+{
+    string sex = "";
+    while(true)
+    {
+        cout << "Sex (M/F): ";
+        getline(cin, sex);
+
+        //Makes sure that sex is upper-case
+        sex[0] = toupper(sex[0]);
+
+        //Only allows M and F
+        if(sex[0] == 'M' || sex[0] == 'F') { return sex[0]; }
+        else { cout << "Please enter a valid sex.\n"; }
+    }
+}
+
+/*!
+ * \brief Console::promptBirthYear
+ * \return birthYear
+ */
+int Console::promptBirthYear()
+{
+    int birthYear = 0;
+    while(true)
+    {
+        cout << "Year of birth: ";
+        birthYear = getInt("");
+
+        //Only allows birthyear to be greater than or equals to 1200 and less than 2016
+        if(birthYear >= 1200 && birthYear <= 2015) { return birthYear; }
+
+        // we dont get here if the year was valid
+        cout << "Please enter a valid birth year.(1200-2015)\n";
+    }
+}
+
+/*!
+ * \brief Console::promptDeathYear
+ * \param birthYear
+ * \return deathYear
+ */
+int Console::promptDeathYear(int birthYear)
+{
+    int deathYear = 0;
+    while(true)
+    {
+        cout << "Year of death (0 if still alive):";
+        deathYear = getInt("");
+
+        // Only allows deathyear to be 0 or greater than birthyear and less than 2016
+        // the scientist can not be older than 110
+        if    (deathYear == 0
+           || ((deathYear > birthYear && deathYear <= 2015)
+           &&  (deathYear - birthYear < 110)))
+        {
+            return deathYear;
+        }
+
+        // we dont get here if the year was valid
+        cout << "Please enter a valid birth year. (After birth year-2015)\n";
+    }
+}
+
+/*!
+ * \brief Console::showScientists
+ * prints out scientists in sorted order
+ */
 void Console::showScientists()
 {
     vector<Scientist> scientists = getScientist();
@@ -240,41 +233,56 @@ void Console::showScientists()
     }
 }
 
+/*!
+ * \brief Console::getScientist
+ * \return Scientist
+ */
 vector<Scientist> Console::getScientist()
 {
     int select = 0;
 
     cout << endl
-         << "-----------------------------------" << endl << endl
+         << "-------------------------------------------------------------" << endl << endl
          << "1: Show a list of them all" << endl
          << "2: Search by a string or substring" << endl
-         << "3: Search by year" << endl
-         << "4: Search by sex" << endl
-         << "Anything else will quit the program" << endl
-         << ":";
+         << "3: Search by birth year" << endl
+         << "4: Search by death year" << endl
+         << "5: Search by sex" << endl
+         << "Other numbers will go back";
 
-    cin >> select;
+    select = getInt("");
 
     if (select == 0) { return vector<Scientist>(); }
 
-    SortBy sortBy = getSort();
-    Direction direction = ASCENDING;
+//    SortOrder sort = getSort();
+//    Direction direction = ASCENDING;
+//    if (sort != NONE) { direction = getDirection(); }
 
-    if (sortBy != NONE) { direction = getDirection(); }
+    string name = "";
+    string sex = "";
+    int birthYear = 0;
+    int deathYear = 0;
 
     switch (select) {
 
     case 1:
-        return dataMan->getAllScientists (sortBy, direction);
+        return dataMan->getAllScientists (getSort());
 
     case 2:
-        return dataMan->findByName ("string", sortBy, direction);
+        getline(cin,name);
+        return dataMan->findByName (name, getSort());
 
     case 3:
-        return dataMan->findByBirthYear("String", sortBy, direction);
+        birthYear = getInt("Enter birth year");
+        return dataMan->findByBirthYear(birthYear, getSort());
 
     case 4:
-        return vector<Scientist>();
+        deathYear = getInt("Enter death year");
+        return dataMan->findByDeathYear(deathYear, getSort());
+
+    case 5:
+        sex = promptSex();
+        return dataMan->findBySex("String", getSort());
 
     default:
         cout << "Error, bad input, quitting" << endl;
@@ -282,9 +290,14 @@ vector<Scientist> Console::getScientist()
     }
 }
 
-SortBy Console::getSort()
+/*!
+ * \brief Console::getSort
+ * \return SortOrder
+ */
+SortOrder Console::getSort()
 {
     int choice;
+    SortOrder sort;
 
     cout << endl
          << "-----------------------------------" << endl
@@ -293,43 +306,57 @@ SortBy Console::getSort()
          << "2: Sort by name" << endl
          << "3: Sort by year of birth" << endl
          << "4: Sort by year of death" << endl
-         << "5: Sort by sex" << endl
-         << ":";
+         << "5: Sort by sex";
 
-    cin >> choice;
+    choice = getInt("");
 
     switch ( choice )
     {
     case 1:
-        return NONE;
+        sort.sortBy = NONE;
+        sort.direction = ASCENDING;
+        return sort;
 
     case 2:
-        return NAME;
+        sort.sortBy = NAME;
+        break;
 
     case 3:
-        return BIRTH;
+        sort.sortBy = BIRTH;
+        break;
 
     case 4:
-        return DEATH;
+        sort.sortBy = DEATH;
+        break;
 
     case 5:
-        return SEX;
+        sort.sortBy = SEX;
+        break;
 
     default:
         cout << endl << "Error, bad input, No sorting used\n\n";
-        return NONE;
+        sort.sortBy = NONE;
+        sort.direction = ASCENDING;
+        return sort;
     }
+
+    sort.direction = getDirection();
+    return sort;
 }
 
+/*!
+ * \brief Console::getDirection
+ * \return
+ */
 Direction Console::getDirection(){
     int choice;
 
     cout << "\n-----------------------------------"
             "\nAscending or descending?\n"
             "1: Ascending\n"
-            "2: Descending?\n:";
+            "2: Descending?";
 
-    cin >> choice;
+    choice = getInt("");
 
     switch ( choice )
     {
@@ -343,4 +370,90 @@ Direction Console::getDirection(){
         cout<<"\nError, bad input, ascending used\n\n";
         return ASCENDING;
     }
+}
+
+/*!
+ * \brief Console::isNameValid
+ * Checks for user intent, all names are allowed, but weird characters are checked
+ * and the user gets prompted on if the name should contain that character
+ * \param Takse in a name to check
+ * \return True if name is normal or if the user intends to use special characters
+ */
+bool Console::isNameValid(string name)
+{
+    // QStrings alow us to use UTF8 encoding and comparison
+    QString listOfBadCharacters = QString::fromUtf8(".,;:¡@¢‰^{[]}–<>!\"#$%&/()=?_*~");
+    QString unicodeName = QString::fromUtf8(name.c_str());
+    for(size_t i = 0; i < name.length(); i++)
+    {
+        if (isdigit(name[i]))
+        {
+            if(!promptAgain("Did you mean to leave a number in the name? Y/N")){ return false; }
+            else { break; }
+        }
+    }
+
+    for(int i = 0; i < listOfBadCharacters.length(); i++)
+    {
+        for(int j = 0; j < unicodeName.length(); j++)
+        {
+            if (unicodeName.contains( listOfBadCharacters.midRef(i, 1)))
+            {
+                cout << "Did you mean to leave a \'" << listOfBadCharacters.midRef(i, 1).toUtf8().constData() << "\' in the name? Y/N";
+                if(!promptAgain("")){ return false; }
+                else { i++; }
+            }
+        }
+
+    }
+    return true;
+}
+
+/*!
+ * \brief Console::prompt
+ * For use in Yes / No prompts
+ * \returns a true if user types y and false if user types in n,
+ * loops until it gets either.
+ */
+bool Console::promptAgain(string prompt){
+    while(true){
+        cout << prompt << endl << ":";
+        string answer = "";
+        cin.clear();
+        getline(cin, answer);
+        if (answer[0] == 'n' || answer[0] == 'N') { return false; }
+        else if (answer[0] == 'y' || answer[0] == 'Y') { return true; }
+        else { cout << "Invalid input, try again:"; }
+        cout << answer;
+    }
+}
+
+/*!
+ * \brief Console::getInt
+ * Some code taken from http://www.cplusplus.com/forum/articles/6046/
+ * \param prompt
+ * \return myNumber
+ */
+int Console::getInt(string prompt){
+    string input = "";
+    int myNumber = 0;
+    while (true) {
+        cout << prompt << endl << ":";
+        getline(cin, input);
+
+        // This code converts from string to number safely.
+        stringstream myStream(input);
+        if (myStream >> myNumber) { break; }
+        cout << "Invalid number, please try again" << endl;
+    }
+    return myNumber;
+}
+
+/*!
+ * \brief Console::clearScreen
+ * Dirty way of making the console look nicer when running
+ */
+void Console::clearScreen(){
+    system("CLS");
+    system("clear");
 }

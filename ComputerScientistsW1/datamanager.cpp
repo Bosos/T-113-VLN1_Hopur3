@@ -17,7 +17,7 @@ DataManager::~DataManager()
 
 }
 Scientist DataManager::parseInput(vector<string> csvLine)
-{//     Scientist(string name, int age, int birthYear, int deathYear);
+{      // Scientist(string name, int age         , int birthYear   , int deathYear); Constructor
     return Scientist(csvLine[0], stoi(csvLine[1]), stoi(csvLine[2]), stoi(csvLine[3]));
 }
 
@@ -31,13 +31,13 @@ vector<string> DataManager::scientistToVector(Scientist scientis)
 {
     //Changes the scientist class to a vector
     return vector<string> { scientis.getName(),
-                 to_string( scientis.getSex()),
-                 to_string( scientis.getBirthYear()),
-                 to_string( scientis.getDeathYear()) };
+                  to_string(scientis.getSex()),
+                  to_string(scientis.getBirthYear()),
+                  to_string(scientis.getDeathYear()) };
 }
 
 
-vector<Scientist> DataManager::getAllScientists(SortBy sort, Direction direction)
+vector<Scientist> DataManager::getAllScientists(SortOrder sort)
 {
     vector<Scientist> allScientists;
     vector<vector<string>> newScientists;
@@ -50,25 +50,71 @@ vector<Scientist> DataManager::getAllScientists(SortBy sort, Direction direction
     return allScientists;
 }
 
-vector<Scientist> DataManager::findByName(string name, SortBy sort, Direction direction)
+vector<Scientist> DataManager::findByName(string name, SortOrder sort)
 {
-    // TODO
+    vector<Scientist> allScientists = getAllScientists(sort);
+    vector<Scientist> matchingScientists;
 
-    return vector<Scientist>();
+    //Checks all scientists and inserts the ones who's name matches name parameter into the vector matchingScientists
+    for(unsigned int i = 0; i < allScientists.size(); i++)
+    {
+        if(allScientists[i].getName().substr(0, name.length()) == name)
+        {
+            matchingScientists.push_back(allScientists[i]);
+        }
+    }
+
+    return matchingScientists;
 }
 
-vector<Scientist> DataManager::findByBirthYear(string year,SortBy sort, Direction direction)
+vector<Scientist> DataManager::findByBirthYear(int year, SortOrder sort)
 {
-    // TODO
+    vector<Scientist> allScientists = getAllScientists(sort);
+    vector<Scientist> matchingScientists;
 
-    return vector<Scientist>();
+    //Checks all scientists and inserts the ones who's birth year matches year parameter into the vector matchingScientists
+    for(unsigned int i = 0; i < allScientists.size(); i++)
+    {
+        if(allScientists[i].getBirthYear() == year)
+        {
+            matchingScientists.push_back(allScientists[i]);
+        }
+    }
+
+    return matchingScientists;
 }
 
-vector<Scientist> DataManager::findByDeathYear(string year,SortBy sort, Direction direction)
+vector<Scientist> DataManager::findByDeathYear(int year, SortOrder sort)
 {
-    // TODO
+    vector<Scientist> allScientists = getAllScientists(sort);
+    vector<Scientist> matchingScientists;
 
-    return vector<Scientist>();
+    //Checks all scientists and inserts the ones who's death year matches year parameter into the vector matchingScientists
+    for(unsigned int i = 0; i < allScientists.size(); i++)
+    {
+        if(allScientists[i].getDeathYear() == year)
+        {
+            matchingScientists.push_back(allScientists[i]);
+        }
+    }
+
+    return matchingScientists;
+}
+
+vector<Scientist> DataManager::findBySex(string sex, SortOrder sort)
+{
+    vector<Scientist> allScientists = getAllScientists(sort);
+    vector<Scientist> matchingScientists;
+
+    //Checks all scientists and inserts the ones who's sex matches sex parameter into the vector matchingScientists
+    for(unsigned int i = 0; i < allScientists.size(); i++)
+    {
+        if(allScientists[i].getSex() == sex[0])
+        {
+            matchingScientists.push_back(allScientists[i]);
+        }
+    }
+    return matchingScientists;
 }
 
 // Calculates age of scientist.
@@ -120,9 +166,9 @@ struct sortBySex
 
 
 // This function gets an input from the user and sorts it.
-vector<Scientist> DataManager::sortBy(vector<Scientist> scientists, SortBy sortBy, Direction direction )
+vector<Scientist> DataManager::sortBy(vector<Scientist> scientists, SortOrder sortOrder )
 {
-    switch(sortBy)
+    switch(sortOrder.sortBy)
     {
         case NONE:
             return scientists;
@@ -152,7 +198,7 @@ vector<Scientist> DataManager::sortBy(vector<Scientist> scientists, SortBy sortB
 
     }
 // Reverses the elements in the Scientists vector.
-    if(direction == DESCENDING){
+    if(sortOrder.direction == DESCENDING){
         reverse (scientists.begin(), scientists.end());
     }
     return scientists;
