@@ -385,8 +385,20 @@ Direction Console::getDirection(){
 bool Console::isNameValid(string name)
 {
     // QStrings alow us to use UTF8 encoding and comparison
-    QString listOfBadCharacters = QString::fromUtf8(".,;:¡@¢‰^{[]}–<>!\"#$%&/()=?_*~");
+    QString listOfBadCharacters = QString::fromUtf8(".;:¡@¢‰^{[]}–<>!\"#$%&/()=?_*~");
     QString unicodeName = QString::fromUtf8(name.c_str());
+
+    // CSV uses commas to seperate values, we simply dont allow commas to follow that rule
+    for(size_t i = 0; i < name.length(); i++)
+    {
+        if (name[i] == ',')
+        {
+            cout << "\nCommas in names are not allowed";
+            return false;
+        }
+    }
+
+    // Numbers are allowed, but user is prompted
     for(size_t i = 0; i < name.length(); i++)
     {
         if (isdigit(name[i]))
@@ -394,8 +406,10 @@ bool Console::isNameValid(string name)
             if(!promptAgain("Did you mean to leave a number in the name? Y/N")){ return false; }
             else { break; }
         }
+
     }
 
+    // Special characters are allowed, but user is prompted
     for(int i = 0; i < listOfBadCharacters.length(); i++)
     {
         for(int j = 0; j < unicodeName.length(); j++)
