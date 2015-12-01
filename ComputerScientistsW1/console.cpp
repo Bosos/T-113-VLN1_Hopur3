@@ -1,5 +1,6 @@
 #include "Console.h"
 #include <iostream>
+#include <iomanip>
 #include <SortBy.h>
 #include <qstring.h>
 #include "DataManager.h"
@@ -227,12 +228,21 @@ void Console::showScientists()
     vector<Scientist> scientists = getScientist();
     if (scientists.size() == 0) { cout << "No Scientist found"; }
 
+    cout << setw(20) << left << "Name"
+         << setw(5) << left << "Age"
+         << setw(5) << left << "Sex"
+         << setw(50) << left << "About"<< endl;
     for(size_t i = 0; i < scientists.size(); i++)
     {
         // print each Scientist
         // TODO
         Scientist currentScientist = scientists[i];
-        cout << currentScientist.getName() << " " << currentScientist.GetAge() << " " << currentScientist.getSex() << " " << currentScientist.getAbout() << endl;
+
+        cout << setw(20) << left << currentScientist.getName()
+             << setw(5) << left << currentScientist.GetAge()
+             << setw(5) << left << currentScientist.getSex()
+             << setw(50) << left << currentScientist.getAbout()
+             << endl;
     }
 }
 

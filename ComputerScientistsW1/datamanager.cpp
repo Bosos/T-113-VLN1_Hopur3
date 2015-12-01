@@ -49,7 +49,7 @@ vector<Scientist> DataManager::getAllScientists(SortOrder sort)
     {
         allScientists.push_back(parseInput(newScientists[i]));
     }
-    return allScientists;
+    return sortBy(allScientists, sort);
 }
 
 vector<Scientist> DataManager::findByName(string name, SortOrder sort)
