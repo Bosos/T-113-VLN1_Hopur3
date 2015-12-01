@@ -55,3 +55,14 @@ void Scientist::setDeathYear(int newDeathYear)
 {
     deathYear = newDeathYear;
 }
+int Scientist::GetAge()//Calculates the age of the scientist
+{
+    if(deathYear != 0)
+    {
+        return deathYear - birthYear;
+    }
+    else
+    {
+        return 2015 - birthYear;
+    }
+}

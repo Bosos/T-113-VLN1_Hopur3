@@ -20,6 +20,7 @@ public:
     void setBirthYear(int birthYear);
     int getDeathYear();
     void setDeathYear(int deathYear);
+    int GetAge();
 private:
     char sex;
     string name;

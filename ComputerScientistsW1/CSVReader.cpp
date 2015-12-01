@@ -1,6 +1,7 @@
 #include "CSVReader.h"
 #include <string>
 #include <iostream>
+#include <sstream>
 
 CSVReader::CSVReader(string newfileName)
 {
@@ -11,25 +12,26 @@ CSVReader::~CSVReader()
 
 }
 
-vector<string> CSVReader::next(int scientistNr)
+vector<vector<string>> CSVReader::next()
 {
     ifstream newInput;
+    vector<vector<string>> allScientists;
     vector<string> selectedScientist;
     string newLine;
+    string newWord;
     newInput.open(fileName.c_str());
-    for(int i = 0; i < scientistNr; i++)
+    while(getline(newInput, newLine))
     {
-        getline(newInput, newLine);
-        if(i == scientistNr-1)
+        stringstream ss;
+        while(getline(ss, newWord, ','))
         {
-            while(getline(newInput, newLine, ','))
-            {
-                selectedScientist.push_back(newLine);
-            }
+            selectedScientist.push_back(newWord);
         }
+        allScientists.push_back(selectedScientist);
+        selectedScientist.clear();
     }
     cout << endl << "bla " << selectedScientist.size() << " bla" << endl;
-    return selectedScientist;
+    return allScientists;
 }
 
 bool CSVReader::hasNext()

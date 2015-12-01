@@ -14,7 +14,7 @@ private:
 public:
     CSVReader(string newfileName);
     ~CSVReader();
-    vector<string> next(int scientistNr);
+    vector<vector<string>> next();
     bool hasNext();
 };
 

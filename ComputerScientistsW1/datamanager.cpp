@@ -40,22 +40,12 @@ vector<string> DataManager::scientistToVector(Scientist scientis)
 vector<Scientist> DataManager::getAllScientists(SortBy sort, Direction direction)
 {
     vector<Scientist> allScientists;
-    vector<string> newScientist;
+    vector<vector<string>> newScientists;
     CSVReader docReader(fileName);
-    int counter = 0;
-
-    while(true)
+    newScientists = docReader.next();
+    for(unsigned i = 0; i < newScientists.size(); i++)
     {
-        newScientist = docReader.next(counter);
-        if(newScientist.size() == 0)
-        {
-            break;
-        }
-        else
-        {
-            counter++;
-            allScientists.push_back(parseInput(newScientist));
-        }
+        allScientists.push_back(parseInput(newScientists[i]));
     }
     return allScientists;
 }
