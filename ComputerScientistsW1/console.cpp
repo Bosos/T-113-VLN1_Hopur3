@@ -56,6 +56,8 @@ void Console::run()
 
 /*!
  * \brief Console::editDatabase
+ * for editing entries in datafile
+ *
  */
 void Console::editDatabase()
 {
@@ -90,6 +92,7 @@ void Console::editDatabase()
 
 /*!
  * \brief Console::insertScientist
+ * for inserting into the datafile
  */
 void Console::insertScientist()
 {
@@ -125,7 +128,7 @@ void Console::insertScientist()
 
 /*!
  * \brief Console::promptName
- * \return
+ * \return name
  */
 string Console::promptName()
 {
@@ -140,7 +143,7 @@ string Console::promptName()
 
 /*!
  * \brief Console::promptSex
- * \return
+ * \return sex
  */
 char Console::promptSex()
 {
@@ -161,7 +164,7 @@ char Console::promptSex()
 
 /*!
  * \brief Console::promptBirthYear
- * \return
+ * \return birthYear
  */
 int Console::promptBirthYear()
 {
@@ -182,7 +185,7 @@ int Console::promptBirthYear()
 /*!
  * \brief Console::promptDeathYear
  * \param birthYear
- * \return
+ * \return deathYear
  */
 int Console::promptDeathYear(int birthYear)
 {
@@ -208,6 +211,7 @@ int Console::promptDeathYear(int birthYear)
 
 /*!
  * \brief Console::showScientists
+ * prints out scientists in sorted order
  */
 void Console::showScientists()
 {
@@ -225,7 +229,7 @@ void Console::showScientists()
 
 /*!
  * \brief Console::getScientist
- * \return
+ * \return Scientist
  */
 vector<Scientist> Console::getScientist()
 {
@@ -271,7 +275,7 @@ vector<Scientist> Console::getScientist()
 
 /*!
  * \brief Console::getSort
- * \return
+ * \return sort
  */
 SortBy Console::getSort()
 {
@@ -354,7 +358,7 @@ bool Console::isNameValid(string name)
     QString unicodeName = QString::fromUtf8(name.c_str());
     for(size_t i = 0; i < name.length(); i++)
     {
-        if (isnumber(name[i]))
+        if (isdigit(name[i]))
         {
             if(!promptAgain("Did you mean to leave a number in the name? Y/N")){ return false; }
             else { break; }
@@ -400,7 +404,7 @@ bool Console::promptAgain(string prompt){
  * \brief Console::getInt
  * Some code taken from http://www.cplusplus.com/forum/articles/6046/
  * \param prompt
- * \return
+ * \return myNumber
  */
 int Console::getInt(string prompt){
     string input = "";
