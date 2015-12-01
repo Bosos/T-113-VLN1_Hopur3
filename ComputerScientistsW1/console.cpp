@@ -1,5 +1,6 @@
 #include "Console.h"
 #include <iostream>
+#include <iomanip>
 #include <SortBy.h>
 #include <qstring.h>
 #include "DataManager.h"
@@ -236,12 +237,21 @@ void Console::showScientists()
     vector<Scientist> scientists = getScientist();
     if (scientists.size() == 0) { cout << "No Scientist found"; }
 
+    cout << setw(20) << left << "Name"
+         << setw(5) << left << "Age"
+         << setw(5) << left << "Sex"
+         << setw(50) << left << "About"<< endl;
     for(size_t i = 0; i < scientists.size(); i++)
     {
         // print each Scientist
         // TODO
         Scientist currentScientist = scientists[i];
-        cout << currentScientist.getName() << " " << currentScientist.GetAge() << " " << currentScientist.getSex() << " " << currentScientist.getAbout() << endl;
+
+        cout << setw(20) << left << currentScientist.getName()
+             << setw(5) << left << currentScientist.GetAge()
+             << setw(5) << left << currentScientist.getSex()
+             << setw(50) << left << currentScientist.getAbout()
+             << endl;
     }
 }
 
@@ -254,7 +264,7 @@ vector<Scientist> Console::getScientist()
     int select = 0;
 
     cout << endl
-         << "-------------------------------------------------------------" << endl << endl
+         << "-------------------------------------------------------------" << endl
          << "1: Show a list of them all" << endl
          << "2: Search by a string or substring" << endl
          << "3: Search by birth year" << endl
@@ -394,8 +404,20 @@ Direction Console::getDirection(){
 bool Console::isNameValid(string name)
 {
     // QStrings alow us to use UTF8 encoding and comparison
-    QString listOfBadCharacters = QString::fromUtf8(".,;:¡@¢‰^{[]}–<>!\"#$%&/()=?_*~");
+    QString listOfBadCharacters = QString::fromUtf8(".;:¡@¢‰^{[]}–<>!\"#$%&/()=?_*~");
     QString unicodeName = QString::fromUtf8(name.c_str());
+
+    // CSV uses commas to seperate values, we simply dont allow commas to follow that rule
+    for(size_t i = 0; i < name.length(); i++)
+    {
+        if (name[i] == ',')
+        {
+            cout << "\nCommas in names are not allowed";
+            return false;
+        }
+    }
+
+    // Numbers are allowed, but user is prompted
     for(size_t i = 0; i < name.length(); i++)
     {
         if (isdigit(name[i]))
@@ -403,8 +425,10 @@ bool Console::isNameValid(string name)
             if(!promptAgain("Did you mean to leave a number in the name? Y/N")){ return false; }
             else { break; }
         }
+
     }
 
+    // Special characters are allowed, but user is prompted
     for(int i = 0; i < listOfBadCharacters.length(); i++)
     {
         for(int j = 0; j < unicodeName.length(); j++)
