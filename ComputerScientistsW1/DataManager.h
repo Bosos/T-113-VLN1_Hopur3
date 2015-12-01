@@ -22,15 +22,15 @@ public:
     //EDIT scientist
     //DELETE scientist
     Scientist parseInput(vector<string> csvLine);
-    vector<Scientist> getAllScientists (SortBy sort, Direction direction);
-    vector<Scientist> findByName (string name, SortBy sort, Direction direction);
-    vector<Scientist> findByBirthYear (string year, SortBy sort, Direction direction);
-    vector<Scientist> findByDeathYear (string year, SortBy sort, Direction direction);
-    vector<Scientist> findBySex(string sex, SortBy sort, Direction direction);
+    vector<Scientist> getAllScientists (SortOrder sort);
+    vector<Scientist> findByName (string name, SortOrder sort);
+    vector<Scientist> findByBirthYear (int year, SortOrder sort);
+    vector<Scientist> findByDeathYear (int year, SortOrder sort);
+    vector<Scientist> findBySex(string sex, SortOrder sort);
     int getage(Scientist oneScientist);
-    vector<Scientist> sortBy(vector<Scientist> scientists, SortBy sort, Direction direction );
+    vector<Scientist> sortBy(vector<Scientist> scientists, SortOrder sort );
 
-    //void sort (vector<Scientist>& scientists, SortBy sort, Direction direction);
+    //void sort (vector<Scientist>& scientists, SortOrder sort);
     vector<string> scientistToVector(Scientist scientis);
 
 private:

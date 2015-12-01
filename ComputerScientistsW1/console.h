@@ -10,7 +10,7 @@ public:
     void run();
 private:
     DataManager* dataMan;
-    SortBy getSort();
+    SortOrder getSort();
     Direction getDirection();
     void editDatabase();
     void showScientists();
@@ -23,7 +23,7 @@ private:
     bool isNameValid(string name);
     bool promptAgain(string prompt);
     int getInt(string prompt);
-
+    void clearScreen();
 };
 
 #endif // CONSOLE_H

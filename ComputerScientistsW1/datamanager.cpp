@@ -37,7 +37,7 @@ vector<string> DataManager::scientistToVector(Scientist scientis)
 }
 
 
-vector<Scientist> DataManager::getAllScientists(SortBy sort, Direction direction)
+vector<Scientist> DataManager::getAllScientists(SortOrder sort)
 {
     vector<Scientist> allScientists;
     vector<string> newScientist;
@@ -60,9 +60,9 @@ vector<Scientist> DataManager::getAllScientists(SortBy sort, Direction direction
     return allScientists;
 }
 
-vector<Scientist> DataManager::findByName(string name, SortBy sort, Direction direction)
+vector<Scientist> DataManager::findByName(string name, SortOrder sort)
 {
-    vector<Scientist> allScientists = getAllScientists(sort, direction);
+    vector<Scientist> allScientists = getAllScientists(sort);
     vector<Scientist> matchingScientists;
 
     //Checks all scientists and inserts the ones who's name matches name parameter into the vector matchingScientists
@@ -77,18 +77,15 @@ vector<Scientist> DataManager::findByName(string name, SortBy sort, Direction di
     return matchingScientists;
 }
 
-vector<Scientist> DataManager::findByBirthYear(string year,SortBy sort, Direction direction)
+vector<Scientist> DataManager::findByBirthYear(int year, SortOrder sort)
 {
-    vector<Scientist> allScientists = getAllScientists(sort, direction);
+    vector<Scientist> allScientists = getAllScientists(sort);
     vector<Scientist> matchingScientists;
-
-    int yearInt;
-    stringstream(year) >> yearInt;  //Converts string to int
 
     //Checks all scientists and inserts the ones who's birth year matches year parameter into the vector matchingScientists
     for(unsigned int i = 0; i < allScientists.size(); i++)
     {
-        if(allScientists[i].getBirthYear() == yearInt)
+        if(allScientists[i].getBirthYear() == year)
         {
             matchingScientists.push_back(allScientists[i]);
         }
@@ -97,18 +94,15 @@ vector<Scientist> DataManager::findByBirthYear(string year,SortBy sort, Directio
     return matchingScientists;
 }
 
-vector<Scientist> DataManager::findByDeathYear(string year,SortBy sort, Direction direction)
+vector<Scientist> DataManager::findByDeathYear(int year, SortOrder sort)
 {
-    vector<Scientist> allScientists = getAllScientists(sort, direction);
+    vector<Scientist> allScientists = getAllScientists(sort);
     vector<Scientist> matchingScientists;
-
-    int yearInt;
-    stringstream(year) >> yearInt;  //Converts string to int
 
     //Checks all scientists and inserts the ones who's death year matches year parameter into the vector matchingScientists
     for(unsigned int i = 0; i < allScientists.size(); i++)
     {
-        if(allScientists[i].getDeathYear() == yearInt)
+        if(allScientists[i].getDeathYear() == year)
         {
             matchingScientists.push_back(allScientists[i]);
         }
@@ -117,9 +111,9 @@ vector<Scientist> DataManager::findByDeathYear(string year,SortBy sort, Directio
     return matchingScientists;
 }
 
-vector<Scientist> DataManager::findBySex(string sex, SortBy sort, Direction direction)
+vector<Scientist> DataManager::findBySex(string sex, SortOrder sort)
 {
-    vector<Scientist> allScientists = getAllScientists(sort, direction);
+    vector<Scientist> allScientists = getAllScientists(sort);
     vector<Scientist> matchingScientists;
 
     //Checks all scientists and inserts the ones who's sex matches sex parameter into the vector matchingScientists
@@ -182,9 +176,9 @@ struct sortBySex
 
 
 // This function gets an input from the user and sorts it.
-vector<Scientist> DataManager::sortBy(vector<Scientist> scientists, SortBy sortBy, Direction direction )
+vector<Scientist> DataManager::sortBy(vector<Scientist> scientists, SortOrder sortOrder )
 {
-    switch(sortBy)
+    switch(sortOrder.sortBy)
     {
         case NONE:
             return scientists;
@@ -214,7 +208,7 @@ vector<Scientist> DataManager::sortBy(vector<Scientist> scientists, SortBy sortB
 
     }
 // Reverses the elements in the Scientists vector.
-    if(direction == DESCENDING){
+    if(sortOrder.direction == DESCENDING){
         reverse (scientists.begin(), scientists.end());
     }
     return scientists;
