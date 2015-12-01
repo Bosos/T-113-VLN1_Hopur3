@@ -62,23 +62,75 @@ vector<Scientist> DataManager::getAllScientists(SortBy sort, Direction direction
 
 vector<Scientist> DataManager::findByName(string name, SortBy sort, Direction direction)
 {
-    // TODO
+    vector<Scientist> allScientists = getAllScientists(sort, direction);
+    vector<Scientist> matchingScientists;
 
-    return vector<Scientist>();
+    //Checks all scientists and inserts the ones who's name matches name parameter into the vector matchingScientists
+    for(unsigned int i = 0; i < allScientists.size(); i++)
+    {
+        if(allScientists[i].getName().substr(0, name.length()) == name)
+        {
+            matchingScientists.push_back(allScientists[i]);
+        }
+    }
+
+    return matchingScientists;
 }
 
 vector<Scientist> DataManager::findByBirthYear(string year,SortBy sort, Direction direction)
 {
-    // TODO
+    vector<Scientist> allScientists = getAllScientists(sort, direction);
+    vector<Scientist> matchingScientists;
 
-    return vector<Scientist>();
+    int yearInt;
+    stringstream(year) >> yearInt;  //Converts string to int
+
+    //Checks all scientists and inserts the ones who's birth year matches year parameter into the vector matchingScientists
+    for(unsigned int i = 0; i < allScientists.size(); i++)
+    {
+        if(allScientists[i].getBirthYear() == yearInt)
+        {
+            matchingScientists.push_back(allScientists[i]);
+        }
+    }
+
+    return matchingScientists;
 }
 
 vector<Scientist> DataManager::findByDeathYear(string year,SortBy sort, Direction direction)
 {
-    // TODO
+    vector<Scientist> allScientists = getAllScientists(sort, direction);
+    vector<Scientist> matchingScientists;
 
-    return vector<Scientist>();
+    int yearInt;
+    stringstream(year) >> yearInt;  //Converts string to int
+
+    //Checks all scientists and inserts the ones who's death year matches year parameter into the vector matchingScientists
+    for(unsigned int i = 0; i < allScientists.size(); i++)
+    {
+        if(allScientists[i].getDeathYear() == yearInt)
+        {
+            matchingScientists.push_back(allScientists[i]);
+        }
+    }
+
+    return matchingScientists;
+}
+
+vector<Scientist> DataManager::findBySex(string sex, SortBy sort, Direction direction)
+{
+    vector<Scientist> allScientists = getAllScientists(sort, direction);
+    vector<Scientist> matchingScientists;
+
+    //Checks all scientists and inserts the ones who's sex matches sex parameter into the vector matchingScientists
+    for(unsigned int i = 0; i < allScientists.size(); i++)
+    {
+        if(allScientists[i].getSex() == sex[0])
+        {
+            matchingScientists.push_back(allScientists[i]);
+        }
+    }
+    return matchingScientists;
 }
 
 // Calculates age of scientist.

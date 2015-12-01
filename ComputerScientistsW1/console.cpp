@@ -266,7 +266,7 @@ vector<Scientist> Console::getScientist()
         return dataMan->findByBirthYear("String", sortBy, direction);
 
     case 4:
-        return vector<Scientist>();
+        return dataMan->findBySex("String", sortBy, direction);
 
     default:
         cout << "Error, bad input, quitting" << endl;
