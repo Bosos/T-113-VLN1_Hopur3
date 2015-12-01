@@ -117,7 +117,7 @@ void Console::insertScientist()
         sex = promptSex();
         birthYear = promptBirthYear();
         deathYear = promptDeathYear(birthYear);
-        //about = promptAbout(); TODO-----
+        about = promptAbout();
 
         clearScreen();
         info = "-------------------------------------------------------------"
@@ -149,7 +149,16 @@ string Console::promptName()
     } while (!isNameValid(name));
     return name;
 }
-
+string Console::promptAbout()
+{
+    string about = "";
+    do
+    {
+        cout << "\nAbout: ";
+        getline(cin, about);
+    } while (!isAboutValid(about));
+    return about;
+}
 /*!
  * \brief Console::promptSex
  * \return sex
@@ -411,7 +420,11 @@ bool Console::isNameValid(string name)
     }
     return true;
 }
-
+bool Console::isAboutValid(string about)
+{
+    //DOTO
+    return true;
+}
 /*!
  * \brief Console::prompt
  * For use in Yes / No prompts

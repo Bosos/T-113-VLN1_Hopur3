@@ -17,10 +17,12 @@ private:
     void insertScientist();
     vector<Scientist> getScientist();
     string promptName();
+    string promptAbout();
     char promptSex();
     int promptBirthYear();
     int promptDeathYear(int birthYear);
     bool isNameValid(string name);
+    bool isAboutValid(string about);
     bool promptAgain(string prompt);
     int getInt(string prompt);
     void clearScreen();

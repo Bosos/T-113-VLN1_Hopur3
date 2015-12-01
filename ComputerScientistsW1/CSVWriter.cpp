@@ -1,4 +1,5 @@
 #include "CSVWriter.h"
+#include <iostream>
 
 CSVWriter::CSVWriter(string newfileName)
 {
@@ -22,6 +23,7 @@ void CSVWriter::add(vector<string> scientist)
     std::ofstream newEntry(fileName, std::ios_base::app);//appending a new entry to the document
     for(unsigned i = 0; i < scientist.size(); i++)
     {
+        cout << scientist[i] << i << endl;
         newEntry << scientist[i];
         if(i < scientist.size()-1)
         {
