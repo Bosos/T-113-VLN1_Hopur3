@@ -12,21 +12,33 @@ DataManager::DataManager(string fileLocation)
 {
     this->fileName = fileLocation;
 }
-DataManager::~DataManager()
-{
+DataManager::~DataManager(){}
 
-}
+/*!
+ * \brief DataManager::parseInput takes a vector of strings from the input and parses it into the correct format
+ * \param csvLine
+ * \returns a Scientist
+ */
 Scientist DataManager::parseInput(vector<string> csvLine)
-{      // Scientist(string name, char sex        , int birthYear   , int deathYear); Constructor
+{
     return Scientist(csvLine[0], csvLine[1].c_str()[0], stoi(csvLine[2]), stoi(csvLine[3]), csvLine[4]);
 }
 
+/*!
+ * \brief DataManager::addScientist Adds a scientist to the cvs file
+ * \param Scientist
+ */
 void DataManager::addScientist(Scientist scientis){
     CSVWriter csvw (fileName);
     csvw.add(scientistToVector(scientis));
     //Changes the scientist class to a vector before adding it to the doc.
 }
 
+/*!
+ * \brief DataManager::scientistToVector
+ * \param Scientist
+ * \returns a vector of strings
+ */
 vector<string> DataManager::scientistToVector(Scientist scientis)
 {
     //Changes the scientist class to a vector
@@ -119,7 +131,11 @@ vector<Scientist> DataManager::findBySex(string sex, SortOrder sort)
     return matchingScientists;
 }
 
-// Calculates age of scientist.
+/*!
+ * \brief DataManager::getage Calculates age of scientist.
+ * \param oneScientist
+ * \returns the age of the given scientist
+ */
 int DataManager::getage(Scientist oneScientist){
 
     if(oneScientist.getDeathYear() == 0){

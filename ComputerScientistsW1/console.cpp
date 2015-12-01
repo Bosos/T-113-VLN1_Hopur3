@@ -243,14 +243,12 @@ void Console::showScientists()
          << setw(50) << left << "About"<< endl;
     for(size_t i = 0; i < scientists.size(); i++)
     {
-        // print each Scientist
-        // TODO
-        Scientist currentScientist = scientists[i];
+        // print each Scientistn
 
-        cout << setw(20) << left << currentScientist.getName()
-             << setw(5) << left << currentScientist.GetAge()
-             << setw(5) << left << currentScientist.getSex()
-             << setw(50) << left << currentScientist.getAbout()
+        cout << setw(20) << left << scientists[i].getName().c_str()
+             << setw(5) << left << scientists[i].GetAge()
+             << setw(5) << left << scientists[i].getSex()
+             << setw(50) << left << scientists[i].getAbout().c_str()
              << endl;
     }
 }
@@ -304,7 +302,7 @@ vector<Scientist> Console::getScientist()
 
     case 5:
         sex = promptSex();
-        return dataMan->findBySex("String", getSort());
+        return dataMan->findBySex(sex, getSort());
 
     default:
         cout << "Error, bad input, quitting" << endl;
