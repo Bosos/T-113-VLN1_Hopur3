@@ -26,10 +26,11 @@ private:
     bool promptAgain(string prompt);
     int getInt(string prompt);
     void clearScreen();
-    void editScientist();
+    void findScientistToEdit();
+    void findScientistToDelete();
     void changeScientist(vector<Scientist> scientis, int id);
+    void deleteScientist(vector<Scientist> scientis, int id);
     void displayScientists(vector<Scientist> scientis);
-
 };
 
 #endif // CONSOLE_H

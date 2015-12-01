@@ -90,12 +90,16 @@ void Console::editDatabase()
         do
         {
             clearScreen();
-            editScientist();
+            findScientistToEdit();
         }while(promptAgain("Do you want to edit another computer scientist? Y/N"));
         return;
 
     case 3:
-        //TODO DELETE
+        do
+        {
+            clearScreen();
+            findScientistToDelete();
+        }while(promptAgain("Do you want to delete another computer scientist? Y/N"));
         return;
     default:
         cout << "1-3 not selected, going back\n";
@@ -145,7 +149,7 @@ void Console::insertScientist()
     this->dataMan->addScientist(Scientist(name, sex, birthYear, deathYear, about, 0));
 }
 
-void Console::editScientist()
+void Console::findScientistToEdit()
 {
     string info = "";
     SortOrder sort;
@@ -176,7 +180,42 @@ void Console::editScientist()
     }
     else
     {
-        //changeScientist(allScientists[0], 0); // what is this?
+        changeScientist(dataMan->getAllScientists(sort), allScientists.at(0).getID());
+    }
+}
+
+void Console::findScientistToDelete()
+{
+    string info = "";
+    SortOrder sort;
+    sort.sortBy = NONE;
+    sort.direction = ASCENDING;
+
+    cout << "-------------------------------------------------------------"
+            "\nPlease enter the name of the scientist you want to delete\n"
+            "-------------------------------------------------------------";
+    string name = promptName();
+    vector<Scientist> allScientists = dataMan->findByName(name, sort);
+
+    if(allScientists.size() > 1)
+    {
+        clearScreen();
+        cout << "\nMatching scientists:\n";
+
+        displayScientists(allScientists);
+
+        cout <<"Insert the ID of the scientist you want to delete: ";
+        int id = getInt("");
+
+        deleteScientist(dataMan->getAllScientists(sort), id);
+    }
+    else if(allScientists.size() == 0)
+    {
+        cout << "\nSorry, there is no matching scientist in datafile\n";
+    }
+    else
+    {
+        deleteScientist(dataMan->getAllScientists(sort), allScientists.at(0).getID());
     }
 }
 
@@ -238,6 +277,17 @@ void Console::changeScientist(vector<Scientist> scientis, int id)
         // if yes? maybe
         dataMan->writeNewScientistVectorToFile(scientis);
     }while(!promptAgain(info));
+}
+
+void Console::deleteScientist(vector<Scientist> scientis, int id)
+{
+    displayScientists(vector<Scientist>(1,scientis[id]));
+
+    if(promptAgain("Sure you want to delete " + scientis[id].getName()))
+    {
+        scientis.erase(scientis.begin() + id);
+        dataMan->writeNewScientistVectorToFile(scientis);
+    }
 }
 
 /*!
