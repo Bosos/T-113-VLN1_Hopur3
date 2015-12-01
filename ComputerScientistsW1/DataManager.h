@@ -14,24 +14,24 @@ class DataManager
 public:
     DataManager(string fileName);
     ~DataManager();
-    //TODO
+
     //ADD / SAVE scientist
     void addScientist(Scientist scientist);
 
     //LOAD file
-    //EDIT scientist
-    //DELETE scientist
-    Scientist parseInput(vector<string> csvLine);
+    Scientist parseInput(vector<string> csvLine, int ID);
     vector<Scientist> getAllScientists (SortOrder sort);
     vector<Scientist> findByName (string name, SortOrder sort);
     vector<Scientist> findByBirthYear (int year, SortOrder sort);
     vector<Scientist> findByDeathYear (int year, SortOrder sort);
     vector<Scientist> findBySex(string sex, SortOrder sort);
-    int getage(Scientist oneScientist);
     vector<Scientist> sortBy(vector<Scientist> scientists, SortOrder sort );
-
-    //void sort (vector<Scientist>& scientists, SortOrder sort);
     vector<string> scientistToVector(Scientist scientis);
+    int getage(Scientist oneScientist);
+
+    //EDIT scientist
+    //DELETE scientist
+
 
 private:
     string fileName;

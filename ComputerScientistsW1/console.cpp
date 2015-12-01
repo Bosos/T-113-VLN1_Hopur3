@@ -133,7 +133,7 @@ void Console::insertScientist()
     }while(!promptAgain(info));
 
 
-    this->dataMan->addScientist(Scientist(name, sex, birthYear, deathYear, about));
+    this->dataMan->addScientist(Scientist(name, sex, birthYear, deathYear, about, 0));
 }
 
 /*!
@@ -237,18 +237,20 @@ void Console::showScientists()
     vector<Scientist> scientists = getScientist();
     if (scientists.size() == 0) { cout << "No Scientist found"; }
 
-    cout << setw(20) << left << "Name"
+    cout << setw(5) << left << "ID"
          << setw(5) << left << "Age"
          << setw(5) << left << "Sex"
+         << setw(20) << left << "Name"
          << setw(50) << left << "About"<< endl;
     for(size_t i = 0; i < scientists.size(); i++)
     {
         // print each Scientistn
 
-        cout << setw(20) << left << scientists[i].getName().c_str()
-             << setw(5) << left << scientists[i].GetAge()
+        cout << setw(5) << left << scientists[i].getID()
+             << setw(5) << left << scientists[i].getAge()
              << setw(5) << left << scientists[i].getSex()
-             << setw(50) << left << scientists[i].getAbout().c_str()
+             << setw(20) << left << scientists[i].getName()
+             << setw(50) << left << scientists[i].getAbout()
              << endl;
     }
 }

@@ -19,9 +19,9 @@ DataManager::~DataManager(){}
  * \param csvLine
  * \returns a Scientist
  */
-Scientist DataManager::parseInput(vector<string> csvLine)
+Scientist DataManager::parseInput(vector<string> csvLine, int ID)
 {
-    return Scientist(csvLine[0], csvLine[1].c_str()[0], stoi(csvLine[2]), stoi(csvLine[3]), csvLine[4]);
+    return Scientist(csvLine[0], csvLine[1].c_str()[0], stoi(csvLine[2]), stoi(csvLine[3]), csvLine[4], ID);
 }
 
 /*!
@@ -59,7 +59,7 @@ vector<Scientist> DataManager::getAllScientists(SortOrder sort)
     newScientists = docReader.readAll();
     for(unsigned i = 0; i < newScientists.size(); i++)
     {
-        allScientists.push_back(parseInput(newScientists[i]));
+        allScientists.push_back(parseInput(newScientists[i], i));
     }
     return sortBy(allScientists, sort);
 }
