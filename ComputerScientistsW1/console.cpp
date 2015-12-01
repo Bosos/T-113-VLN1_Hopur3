@@ -18,6 +18,15 @@ Console::Console(DataManager* dataManage)
 // de-constructor
 Console::~Console(){}
 
+void Console::welcome()
+{
+    cout << "__        __   _                         "
+           "\n\\ \\      / /__| | ___ ___  _ __ ___   ___ "
+           "\n \\ \\ /\\ / / _ \\ |/ __/ _ \\| '_ ` _ \\ / _ \\"
+           "\n  \\ V  V /  __/ | (_| (_) | | | | | |  __/"
+           "\n   \\_/\\_/ \\___|_|\\___\\___/|_| |_| |_|\\___|";
+}
+
 /*!
  * \brief Console::run
  * Runs the console version of the app
@@ -27,7 +36,8 @@ void Console::run()
     while(true)
     {
         clearScreen();
-        cout << "-------------------------------------------------------------"
+        welcome();
+        cout << "\n-------------------------------------------------------------"
                 "\nWelcome to the Computer Scientists database. Enter a number\n"
                 "-------------------------------------------------------------"
                 "\n1: Edit database"

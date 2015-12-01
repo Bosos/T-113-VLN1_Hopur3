@@ -31,6 +31,7 @@ private:
     void changeScientist(vector<Scientist> scientis, int id);
     void deleteScientist(vector<Scientist> scientis, int id);
     void displayScientists(vector<Scientist> scientis);
+    void welcome();
 };
 
 #endif // CONSOLE_H
