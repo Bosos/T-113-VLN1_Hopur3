@@ -18,23 +18,21 @@ vector<vector<string>> CSVReader::readAll()
     vector<vector<string>> allScientists;
     string newLine = "";
     string newWord = "";
-    newInput.open(fileName.c_str());
-    while(getline(newInput, newLine))
+    newInput.open(fileName.c_str());//opens up the file where we store info about the scientists
+    while(getline(newInput, newLine))//get each line by it self
     {
-        vector<string> selectedScientist;
+        vector<string> selectedScientist;//makes a vector of strings for each scientist
         stringstream ss;
         ss << newLine;
 
-        // cout << endl << "bla 1 " << selectedScientist.size() << " bla" << endl;
-        while(getline(ss, newWord, ','))
+        while(getline(ss, newWord, ','))//seperates the words in that line
         {
-            selectedScientist.push_back(newWord);
-           // cout << endl << "bla 2 " << selectedScientist.size() << " bla" << endl;
+            selectedScientist.push_back(newWord);//take each word in that line and put it in a vector
         }
-        allScientists.push_back(selectedScientist);
+        allScientists.push_back(selectedScientist);//take each vector of strings and put it in a vector
     }
 
-    return allScientists;
+    return allScientists;//return the vector of vectors of strings
 }
 
 bool CSVReader::hasNext()
