@@ -353,6 +353,7 @@ void Console::changeScientist(vector<Scientist> scientis, int id)
  */
 void Console::deleteScientist(vector<Scientist> scientis, int id)
 {
+    clearScreen();
     displayScientists(vector<Scientist>(1,scientis[id]));
 
 
@@ -381,11 +382,20 @@ string Console::promptName()
         //gets the user's input
         getline(cin, name);
     } while (!isNameValid(name));
+
+    //capitalize the name
+    name[0] = toupper(name[0]);
+    for(unsigned int i = 0; i < name.length(); i++)
+    {
+        if(i > 0 && name[i-1] == ' ')
+        name[i] = toupper(name[i]);
+    }
+
     return name;
 }
 
 /*!
- * \brief Console::promptName
+ * \brief Console::promptAbout
  * Asks the user for input
  * \returns an "about" string
  */
