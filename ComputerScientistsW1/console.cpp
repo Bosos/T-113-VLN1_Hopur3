@@ -70,8 +70,7 @@ void Console::run()
 
 /*!
  * \brief Console::editDatabase
- * for editing entries in datafile
- *
+ * runs the editing part of the program
  */
 void Console::editDatabase()
 {
@@ -115,6 +114,24 @@ void Console::editDatabase()
         cout << "1-3 not selected, going back\n";
         return;
     }
+}
+
+/*!
+ * \brief Console::showScientists
+ * prints out scientists in sorted order
+ */
+void Console::showScientists()
+{
+
+    vector<Scientist> scientists = getScientist();
+    if (scientists.size() == 0) { cout << "No Scientist found"; }
+    else
+    {
+        clearScreen();
+        displayScientists(scientists);
+    }
+    string continues;
+    getline(cin,continues);
 }
 
 /*!
@@ -302,7 +319,8 @@ void Console::deleteScientist(vector<Scientist> scientis, int id)
 
 /*!
  * \brief Console::promptName
- * \return name
+ * Asks the user for input
+ * \returns a name
  */
 string Console::promptName()
 {
@@ -314,6 +332,12 @@ string Console::promptName()
     } while (!isNameValid(name));
     return name;
 }
+
+/*!
+ * \brief Console::promptName
+ * Asks the user for input
+ * \returns an "about" string
+ */
 string Console::promptAbout()
 {
     string about = "";
@@ -326,7 +350,8 @@ string Console::promptAbout()
 }
 /*!
  * \brief Console::promptSex
- * \return sex
+ * Asks the user to define which sex
+ * \returns sex
  */
 char Console::promptSex()
 {
@@ -392,23 +417,7 @@ int Console::promptDeathYear(int birthYear)
     }
 }
 
-/*!
- * \brief Console::showScientists
- * prints out scientists in sorted order
- */
-void Console::showScientists()
-{
 
-    vector<Scientist> scientists = getScientist();
-    if (scientists.size() == 0) { cout << "No Scientist found"; }
-    else
-    {
-        clearScreen();
-        displayScientists(scientists);
-    }
-    string continues;
-    getline(cin,continues);
-}
 
 /*!
  * \brief Console::getScientist
@@ -430,17 +439,8 @@ vector<Scientist> Console::getScientist()
          << "Other numbers will go back";
 
     select = getInt("");
-
-    if (select == 0) { return vector<Scientist>(); }
-
-//    SortOrder sort = getSort();
-//    Direction direction = ASCENDING;
-//    if (sort != NONE) { direction = getDirection(); }
-
-    string name = "";
     string sex = "";
-    int birthYear = 0;
-    int deathYear = 0;
+    if (select == 0) { return vector<Scientist>(); }
 
     switch (select) {
 
@@ -448,16 +448,15 @@ vector<Scientist> Console::getScientist()
         return dataMan->getAllScientists (getSort());
 
     case 2:
-        name = promptName();
-        return dataMan->findByName (name, getSort());
+        return dataMan->findByName (promptName(), getSort());
 
     case 3:
-        birthYear = getInt("Enter birth year");
-        return dataMan->findByBirthYear(birthYear, getSort());
+        return dataMan->findByBirthYear(getInt("Enter the birth year you want to start looking from")
+                                       ,getInt("Enter the birth year you want to look until"), getSort());
 
     case 4:
-        deathYear = getInt("Enter death year");
-        return dataMan->findByDeathYear(deathYear, getSort());
+        return dataMan->findByDeathYear(getInt("Enter the death year you want to start looking from")
+                                       ,getInt("Enter the death year you want to look until"), getSort());
 
     case 5:
         sex = promptSex();
@@ -601,11 +600,21 @@ bool Console::isNameValid(string name)
     }
     return true;
 }
+
 bool Console::isAboutValid(string about)
 {
-    //DOTO
+    // CSV uses commas to seperate values, we simply dont allow commas to follow that rule
+    for(size_t i = 0; i < about.length(); i++)
+    {
+        if (about[i] == ',')
+        {
+            cout << "\nCommas in names are not allowed";
+            return false;
+        }
+    }
     return true;
 }
+
 /*!
  * \brief Console::prompt
  * For use in Yes / No prompts
@@ -650,28 +659,38 @@ int Console::getInt(string prompt){
  * \brief Console::clearScreen
  * Dirty way of making the console look nicer when running
  */
-void Console::clearScreen(){
-    system("CLS");
+void Console::clearScreen()
+{
     system("clear");
+    system("CLS");
 }
 
+/*!
+ * \brief Console::displayScientists
+ * A printer that displays all the relevant info about the scientists
+ * \param scientists
+ */
 void Console::displayScientists(vector<Scientist> scientists)
 {
-    cout << "\-------------------------------------------------------------" << endl
+    cout << "-------------------------------------------------------------" << endl
          << setw(5) << left << "ID"
          << setw(5) << left << "Age"
          << setw(5) << left << "Sex"
-         << setw(20) << left << "Name"
+         << setw(7) << left << "Birth"
+         << setw(8) << left << "Death"
+         << setw(30) << left << "Name"
          << setw(50) << left << "About"<< endl
          << "-------------------------------------------------------------" << endl;
     for(size_t i = 0; i < scientists.size(); i++)
     {
-        // print each Scientistn
-
         cout << setw(5) << left << scientists[i].getID()
              << setw(5) << left << scientists[i].getAge()
              << setw(5) << left << scientists[i].getSex()
-             << setw(30) << left << scientists[i].getName()
+             << setw(7) << left << scientists[i].getBirthYear()
+             << setw(8) << left;
+        if(scientists[i].getDeathYear() != 0){ cout << scientists[i].getDeathYear(); }
+        else{cout << "Alive";}
+        cout << setw(30) << left << scientists[i].getName()
              << setw(50) << left << scientists[i].getAbout()
              << endl;
     }

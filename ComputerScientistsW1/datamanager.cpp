@@ -82,7 +82,7 @@ vector<Scientist> DataManager::findByName(string subString, SortOrder sort)
     return matchingScientists;
 }
 
-vector<Scientist> DataManager::findByBirthYear(int year, SortOrder sort)
+vector<Scientist> DataManager::findByBirthYear(int yearFrom, int yearTo, SortOrder sort)
 {
     vector<Scientist> allScientists = getAllScientists(sort);
     vector<Scientist> matchingScientists;
@@ -90,7 +90,7 @@ vector<Scientist> DataManager::findByBirthYear(int year, SortOrder sort)
     //Checks all scientists and inserts the ones who's birth year matches year parameter into the vector matchingScientists
     for(unsigned int i = 0; i < allScientists.size(); i++)
     {
-        if(allScientists[i].getBirthYear() == year)
+        if(allScientists[i].getBirthYear() > yearFrom && allScientists[i].getBirthYear() < yearTo)
         {
             matchingScientists.push_back(allScientists[i]);
         }
@@ -99,7 +99,7 @@ vector<Scientist> DataManager::findByBirthYear(int year, SortOrder sort)
     return matchingScientists;
 }
 
-vector<Scientist> DataManager::findByDeathYear(int year, SortOrder sort)
+vector<Scientist> DataManager::findByDeathYear(int yearFrom, int yearTo, SortOrder sort)
 {
     vector<Scientist> allScientists = getAllScientists(sort);
     vector<Scientist> matchingScientists;
@@ -107,7 +107,7 @@ vector<Scientist> DataManager::findByDeathYear(int year, SortOrder sort)
     //Checks all scientists and inserts the ones who's death year matches year parameter into the vector matchingScientists
     for(unsigned int i = 0; i < allScientists.size(); i++)
     {
-        if(allScientists[i].getDeathYear() == year)
+        if(allScientists[i].getDeathYear() > yearFrom && allScientists[i].getDeathYear() < yearTo)
         {
             matchingScientists.push_back(allScientists[i]);
         }
