@@ -356,8 +356,10 @@ void Console::deleteScientist(vector<Scientist> scientis, int id)
     clearScreen();
     displayScientists(vector<Scientist>(1,scientis[id]));
 
+
     //User has to be sure if he want's to totally eliminate this scientist
-    if(promptAgain("Sure you want to delete " + scientis[id].getName()))
+    if(promptAgain("Sure you want to delete " + scientis[id].getName() + " Y/N"))
+
     {
         scientis.erase(scientis.begin() + id);
         dataMan->writeNewScientistVectorToFile(scientis);
@@ -527,7 +529,7 @@ vector<Scientist> Console::getScientist()
         return dataMan->findBySex(sex, getSort());
 
     default:
-        return dataMan->getAllScientists (getSort());
+        return getScientist();
     }
 }
 
