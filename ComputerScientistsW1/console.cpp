@@ -185,9 +185,12 @@ void Console::insertScientist()
     //adds the new scientist to the database
     this->dataMan->addScientist(Scientist(name, sex, birthYear, deathYear, about, 0));
 }
+
+
 /*!
- * \brief Console::findScientistToEdit()
- * The name of the function says it all, it finds the scientist that the user wants to edit
+ * \brief Console::findScientistToEdit
+ * Asks for user input in the search of a scientists with mathcing names
+ * will find substings but is case sensitive
  */
 void Console::findScientistToEdit()
 {
