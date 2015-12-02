@@ -9,28 +9,38 @@ public:
     ~Console();
     void run();
 private:
+    // Class variables
     DataManager* dataMan;
-    SortOrder getSort();
-    Direction getDirection();
+
+    // Menus
     void editDatabase();
     void showScientists();
     void insertScientist();
+    void findScientistToEdit();
+    void findScientistToDelete();
+    void changeScientist(vector<Scientist> scientis, int id);
+    void deleteScientist(vector<Scientist> scientis, int id);
+    bool promptAgain(string prompt);
+    SortOrder getSort();
+    Direction getDirection();
     vector<Scientist> getScientist();
+    void clearScreen();
+
+    // Promts
     string promptName();
     string promptAbout();
     char promptSex();
     int promptBirthYear();
     int promptDeathYear(int birthYear);
+    int getInt(string prompt);
+
+    // Checkers
     bool isNameValid(string name);
     bool isAboutValid(string about);
-    bool promptAgain(string prompt);
-    int getInt(string prompt);
-    void clearScreen();
-    void findScientistToEdit();
-    void findScientistToDelete();
-    void changeScientist(vector<Scientist> scientis, int id);
-    void deleteScientist(vector<Scientist> scientis, int id);
+
+    // Printers
     void displayScientists(vector<Scientist> scientis);
+    void welcome();
 };
 
 #endif // CONSOLE_H

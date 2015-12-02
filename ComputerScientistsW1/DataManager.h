@@ -22,8 +22,8 @@ public:
     Scientist parseInput(vector<string> csvLine, int ID);
     vector<Scientist> getAllScientists (SortOrder sort);
     vector<Scientist> findByName (string name, SortOrder sort);
-    vector<Scientist> findByBirthYear (int year, SortOrder sort);
-    vector<Scientist> findByDeathYear (int year, SortOrder sort);
+    vector<Scientist> findByBirthYear (int yearFrom, int yearTo, SortOrder sort);
+    vector<Scientist> findByDeathYear (int yearFrom, int yearTo, SortOrder sort);
     vector<Scientist> findBySex(string sex, SortOrder sort);
     vector<Scientist> sortBy(vector<Scientist> scientists, SortOrder sort );
     vector<string> scientistToVector(Scientist scientis);

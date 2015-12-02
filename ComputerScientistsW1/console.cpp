@@ -15,8 +15,21 @@ Console::Console(DataManager* dataManage)
     this->dataMan = dataManage;
 }
 
-// de-constructor
+// destructor
 Console::~Console(){}
+
+/*!
+ * \brief Console::welcome()
+ * Displays very cool WELCOME letters
+ */
+void Console::welcome()
+{
+    cout << "__        __   _                         "
+           "\n\\ \\      / /__| | ___ ___  _ __ ___   ___ "
+           "\n \\ \\ /\\ / / _ \\ |/ __/ _ \\| '_ ` _ \\ / _ \\"
+           "\n  \\ V  V /  __/ | (_| (_) | | | | | |  __/"
+           "\n   \\_/\\_/ \\___|_|\\___\\___/|_| |_| |_|\\___|";
+}
 
 /*!
  * \brief Console::run
@@ -24,19 +37,24 @@ Console::~Console(){}
  */
 void Console::run()
 {
+    int wel = 0;
     while(true)
     {
         clearScreen();
-        cout << "-------------------------------------------------------------"
+        if(wel == 0)    //Welcome will only show for the first time you enter the program
+            welcome();
+        wel = 1;
+
+        cout << "\n-------------------------------------------------------------"
                 "\nWelcome to the Computer Scientists database. Enter a number\n"
                 "-------------------------------------------------------------"
                 "\n1: Edit database"
                 "\n2: See database"
                 "\n3: Quit";
 
-        int select = getInt("");
+        int select = getInt("");    //stores the user's choice
 
-        switch (select) {
+        switch (select) {   //Calls appropriate function based on the user's choice
 
         case 1:
             editDatabase();
@@ -60,8 +78,7 @@ void Console::run()
 
 /*!
  * \brief Console::editDatabase
- * for editing entries in datafile
- *
+ * runs the editing part of the program
  */
 void Console::editDatabase()
 {
@@ -74,9 +91,9 @@ void Console::editDatabase()
             "\n3: Delete an entry in the database"
             "\nOther numbers: Go back to the start";
 
-    int select = getInt("");
+    int select = getInt("");    //Stores the user's choice
 
-    switch (select) {
+    switch (select) {   //Calls appropriate functions based on the user's choice
     case 1:
         do
         {
@@ -108,6 +125,24 @@ void Console::editDatabase()
 }
 
 /*!
+ * \brief Console::showScientists
+ * prints out scientists in sorted order
+ */
+void Console::showScientists()
+{
+
+    vector<Scientist> scientists = getScientist(); //Creates a vector containing all scientists in currently database
+    if (scientists.size() == 0) { cout << "No Scientist found"; }
+    else
+    {
+        clearScreen();
+        displayScientists(scientists);  //Prints out the scientists currently in database
+    }
+    string continues;   //Hvað er að gerast hér?
+    getline(cin,continues);
+}
+
+/*!
  * \brief Console::insertScientist
  * for inserting into the datafile
  */
@@ -117,6 +152,7 @@ void Console::insertScientist()
             "\nPlease fill inn all the information about the scientist\n"
             "-------------------------------------------------------------";
 
+    //creating variables
     string info = "";
     string name = "";
     char sex = ' ';
@@ -126,6 +162,7 @@ void Console::insertScientist()
 
     do   //So the user can modify before he finishes
     {
+        //inserting information about the new scientist into the parameters
         name = promptName();
         sex = promptSex();
         birthYear = promptBirthYear();
@@ -145,12 +182,16 @@ void Console::insertScientist()
 
     }while(!promptAgain(info));
 
-
+    //adds the new scientist to the database
     this->dataMan->addScientist(Scientist(name, sex, birthYear, deathYear, about, 0));
 }
-
+/*!
+ * \brief Console::findScientistToEdit()
+ * The name of the function says it all, it finds the scientist that the user wants to edit
+ */
 void Console::findScientistToEdit()
 {
+    //creating variables
     string info = "";
     SortOrder sort;
     sort.sortBy = NONE;
@@ -160,8 +201,9 @@ void Console::findScientistToEdit()
             "\nPlease enter the name of the scientist you want to edit\n"
             "-------------------------------------------------------------";
     string name = promptName();
-    vector<Scientist> allScientists = dataMan->findByName(name, sort);
+    vector<Scientist> allScientists = dataMan->findByName(name, sort);  //finds all the scientists whos names match the user input and inserts them to a vector of scientists
 
+    //If there are more than 1 scientists that match the user input, the program shows all of them to the user and then the user chooses the id of the scientist he want's to edit
     if(allScientists.size() > 1)
     {
         clearScreen();
@@ -170,22 +212,27 @@ void Console::findScientistToEdit()
         displayScientists(allScientists);
 
         cout <<"Insert the ID of the scientist you want to edit: ";
-        int id = getInt("");
+        int id = getInt("");    //Stores the ID of the chosen scientist
 
-        changeScientist(dataMan->getAllScientists(sort), id);
+        changeScientist(dataMan->getAllScientists(sort), id);   //edits the scientist who's ID matches id
     }
-    else if(allScientists.size() == 0)
+    else if(allScientists.size() == 0)  //if there are no matching scientists
     {
         cout << "\nSorry, there is no matching scientist in datafile\n";
     }
-    else
+    else    //if there is only one scientist who's name matches the input
     {
-        changeScientist(dataMan->getAllScientists(sort), allScientists.at(0).getID());
+        changeScientist(dataMan->getAllScientists(sort), allScientists.at(0).getID());  //edits the scientist
     }
 }
 
+/*!
+ * \brief Console::findScientistToDelete
+ * Finds the scientist the user wants to delete
+ */
 void Console::findScientistToDelete()
 {
+    //creating varibles
     string info = "";
     SortOrder sort;
     sort.sortBy = NONE;
@@ -194,31 +241,44 @@ void Console::findScientistToDelete()
     cout << "-------------------------------------------------------------"
             "\nPlease enter the name of the scientist you want to delete\n"
             "-------------------------------------------------------------";
+    //gets the name of the scientist the user want's to delete
     string name = promptName();
+    //creates a vector of scientists who's name match the user's input
     vector<Scientist> allScientists = dataMan->findByName(name, sort);
 
+    //if there are more than 1 matching scientists, the program prints all the matching scientists and the user chooses the scientist's ID
     if(allScientists.size() > 1)
     {
         clearScreen();
         cout << "\nMatching scientists:\n";
 
+        //displays all the matching scientists
         displayScientists(allScientists);
 
         cout <<"Insert the ID of the scientist you want to delete: ";
-        int id = getInt("");
+        int id = getInt("");    //gets the id
 
+        //deletes the scientist who's name and id match the user input
         deleteScientist(dataMan->getAllScientists(sort), id);
     }
+    //if there are no matching scientists
     else if(allScientists.size() == 0)
     {
         cout << "\nSorry, there is no matching scientist in datafile\n";
     }
+    //if there is one matching scientist, he is deleted
     else
     {
         deleteScientist(dataMan->getAllScientists(sort), allScientists.at(0).getID());
     }
 }
 
+/*!
+ * \brief Console::changeScientist
+ * \param scientis
+ * \param id
+ * Performs the edit on a scientist in parameter scientists that has an ID matching id
+ */
 void Console::changeScientist(vector<Scientist> scientis, int id)
 {
     clearScreen();
@@ -238,22 +298,27 @@ void Console::changeScientist(vector<Scientist> scientis, int id)
 
         switch(select){ //User chooses which attribute to edit
         case 1:
+            //sets the chosen scientists name to user's input
             scientis[id].setName(promptName());
             break;
 
         case 2:
+            //sets the chosen scientists sex to user's input
             scientis[id].setSex(promptSex());
             break;
 
         case 3:
+            //sets the chosen scientists birth year to user's input
             scientis[id].setBirthYear(promptBirthYear());
             break;
 
         case 4:
+            //sets the chosen scientists death year to user's input
             scientis[id].setDeathYear(promptDeathYear(scientis[id].getBirthYear()));
             break;
 
         case 5:
+            //sets the chosen scientist's about to user's input
             scientis[id].setAbout(promptAbout());
             break;
 
@@ -275,55 +340,80 @@ void Console::changeScientist(vector<Scientist> scientis, int id)
                       "\nDone editing? Y/N";
 
         // if yes? maybe
+        //saves the modifications to database
         dataMan->writeNewScientistVectorToFile(scientis);
     }while(!promptAgain(info));
 }
 
+/*!
+ * \brief Console::deleteScientist
+ * \param scientis
+ * \param id
+ * Deletes a scientist in scientis who's ID matches id and saves the changes
+ */
 void Console::deleteScientist(vector<Scientist> scientis, int id)
 {
     displayScientists(vector<Scientist>(1,scientis[id]));
 
+
+    //User has to be sure if he want's to totally eliminate this scientist
     if(promptAgain("Sure you want to delete " + scientis[id].getName() + " Y/N"))
+
     {
         scientis.erase(scientis.begin() + id);
         dataMan->writeNewScientistVectorToFile(scientis);
+        //scientist has been removed from database
     }
 }
 
 /*!
  * \brief Console::promptName
- * \return name
+ * Asks the user for input
+ * \returns a name
  */
 string Console::promptName()
 {
     string name = "";
+    //This loops while the name is not valid
     do
     {
         cout << "\nName: ";
+        //gets the user's input
         getline(cin, name);
     } while (!isNameValid(name));
     return name;
 }
+
+/*!
+ * \brief Console::promptName
+ * Asks the user for input
+ * \returns an "about" string
+ */
 string Console::promptAbout()
 {
     string about = "";
+    //This loops while the "about" field is not valid
     do
     {
         cout << "\nAbout: ";
+        //gets the user's input
         getline(cin, about);
     } while (!isAboutValid(about));
     return about;
 }
 /*!
  * \brief Console::promptSex
- * \return sex
+ * Asks the user to define which sex
+ * \returns sex
  */
 char Console::promptSex()
 {
     string sex = "";
+    //this loops if sex is not either m/M or f/F
     while(true)
     {
         cout << "Sex (M/F): ";
+        //gets the user's input
         getline(cin, sex);
 
         //Makes sure that sex is upper-case
@@ -382,23 +472,7 @@ int Console::promptDeathYear(int birthYear)
     }
 }
 
-/*!
- * \brief Console::showScientists
- * prints out scientists in sorted order
- */
-void Console::showScientists()
-{
 
-    vector<Scientist> scientists = getScientist();
-    if (scientists.size() == 0) { cout << "No Scientist found"; }
-    else
-    {
-        clearScreen();
-        displayScientists(scientists);
-    }
-    string continues;
-    getline(cin,continues);
-}
 
 /*!
  * \brief Console::getScientist
@@ -420,34 +494,25 @@ vector<Scientist> Console::getScientist()
          << "Other numbers will go back";
 
     select = getInt("");
-
+    string sex = "";
     if (select == 0) { return vector<Scientist>(); }
 
-//    SortOrder sort = getSort();
-//    Direction direction = ASCENDING;
-//    if (sort != NONE) { direction = getDirection(); }
-
-    string name = "";
-    string sex = "";
-    int birthYear = 0;
-    int deathYear = 0;
-
+    //Fetches a function according to the user's input
     switch (select) {
 
     case 1:
         return dataMan->getAllScientists (getSort());
 
     case 2:
-        name = promptName();
-        return dataMan->findByName (name, getSort());
+        return dataMan->findByName (promptName(), getSort());
 
     case 3:
-        birthYear = getInt("Enter birth year");
-        return dataMan->findByBirthYear(birthYear, getSort());
+        return dataMan->findByBirthYear(getInt("Enter the birth year you want to start looking from")
+                                       ,getInt("Enter the birth year you want to look until"), getSort());
 
     case 4:
-        deathYear = getInt("Enter death year");
-        return dataMan->findByDeathYear(deathYear, getSort());
+        return dataMan->findByDeathYear(getInt("Enter the death year you want to start looking from")
+                                       ,getInt("Enter the death year you want to look until"), getSort());
 
     case 5:
         sex = promptSex();
@@ -479,6 +544,7 @@ SortOrder Console::getSort()
 
     choice = getInt("");
 
+    //Fetches the desired sorting information
     switch ( choice )
     {
     case 1:
@@ -591,11 +657,21 @@ bool Console::isNameValid(string name)
     }
     return true;
 }
+
 bool Console::isAboutValid(string about)
 {
-    //DOTO
+    // CSV uses commas to seperate values, we simply dont allow commas to follow that rule
+    for(size_t i = 0; i < about.length(); i++)
+    {
+        if (about[i] == ',')
+        {
+            cout << "\nCommas in names are not allowed";
+            return false;
+        }
+    }
     return true;
 }
+
 /*!
  * \brief Console::prompt
  * For use in Yes / No prompts
@@ -640,28 +716,38 @@ int Console::getInt(string prompt){
  * \brief Console::clearScreen
  * Dirty way of making the console look nicer when running
  */
-void Console::clearScreen(){
-    system("CLS");
+void Console::clearScreen()
+{
     system("clear");
+    system("CLS");
 }
 
+/*!
+ * \brief Console::displayScientists
+ * A printer that displays all the relevant info about the scientists
+ * \param scientists
+ */
 void Console::displayScientists(vector<Scientist> scientists)
 {
-    cout << "\-------------------------------------------------------------" << endl
+    cout << "-------------------------------------------------------------" << endl
          << setw(5) << left << "ID"
          << setw(5) << left << "Age"
          << setw(5) << left << "Sex"
-         << setw(20) << left << "Name"
+         << setw(7) << left << "Birth"
+         << setw(8) << left << "Death"
+         << setw(30) << left << "Name"
          << setw(50) << left << "About"<< endl
          << "-------------------------------------------------------------" << endl;
     for(size_t i = 0; i < scientists.size(); i++)
     {
-        // print each Scientistn
-
         cout << setw(5) << left << scientists[i].getID()
              << setw(5) << left << scientists[i].getAge()
              << setw(5) << left << scientists[i].getSex()
-             << setw(30) << left << scientists[i].getName()
+             << setw(7) << left << scientists[i].getBirthYear()
+             << setw(8) << left;
+        if(scientists[i].getDeathYear() != 0){ cout << scientists[i].getDeathYear(); }
+        else{cout << "Alive";}
+        cout << setw(30) << left << scientists[i].getName()
              << setw(50) << left << scientists[i].getAbout()
              << endl;
     }
