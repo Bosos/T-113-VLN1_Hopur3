@@ -405,7 +405,7 @@ string Console::promptName()
         name[i] = toupper(name[i]);
     }
 
-    return name;11
+    return name;
 }
 
 /*!
