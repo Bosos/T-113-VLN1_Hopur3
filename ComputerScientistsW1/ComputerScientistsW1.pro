@@ -23,5 +23,6 @@ HEADERS += \
     SortBy.h \
     CSVReader.h \
     CSVWriter.h \
-    Computer.h
+    Computer.h \
+    ConnectedTo.h
 
