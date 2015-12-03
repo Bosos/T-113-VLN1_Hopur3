@@ -19,24 +19,14 @@ Scientist::Scientist(string newName, char newSex, int newBirthYear, int newDeath
 Scientist::Scientist(){}
 Scientist::~Scientist(){}
 
-char Scientist::getSex()
-{
-    return sex;
-}
-
-void Scientist::setSex(char newSex)
-{
-    sex = newSex;
-}
-
 string Scientist::getName()
 {
     return name;
 }
 
-void Scientist::setName(string newName)
+char Scientist::getSex()
 {
-    name = newName;
+    return sex;
 }
 
 int Scientist::getBirthYear()
@@ -44,19 +34,9 @@ int Scientist::getBirthYear()
     return birthYear;
 }
 
-void Scientist::setBirthYear(int newBirthYear)
-{
-    birthYear = newBirthYear;
-}
-
 int Scientist::getDeathYear()
 {
     return deathYear;
-}
-
-void Scientist::setDeathYear(int newDeathYear)
-{
-    deathYear = newDeathYear;
 }
 
 string Scientist::getAbout()
@@ -64,9 +44,9 @@ string Scientist::getAbout()
     return about;
 }
 
-void Scientist::setAbout(string newAbout)
+int Scientist::getID()
 {
-    about = newAbout;
+    return ID;
 }
 
 int Scientist::getAge()//Calculates the age of the scientist
@@ -81,7 +61,28 @@ int Scientist::getAge()//Calculates the age of the scientist
     }
 }
 
-int Scientist::getID()
+void Scientist::setName(string newName)
 {
-    return ID;
+    name = newName;
+}
+
+void Scientist::setSex(char newSex)
+{
+    sex = newSex;
+}
+
+void Scientist::setBirthYear(int newBirthYear)
+{
+    birthYear = newBirthYear;
+}
+
+
+void Scientist::setDeathYear(int newDeathYear)
+{
+    deathYear = newDeathYear;
+}
+
+void Scientist::setAbout(string newAbout)
+{
+    about = newAbout;
 }
