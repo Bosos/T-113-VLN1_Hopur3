@@ -30,10 +30,6 @@ public:
     void writeNewScientistVectorToFile(vector<Scientist> scientists);
     int getage(Scientist oneScientist);
 
-    //EDIT scientist
-    //DELETE scientist
-
-
 private:
     string fileName;
 

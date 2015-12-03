@@ -29,7 +29,8 @@ Scientist DataManager::parseInput(vector<string> csvLine, int ID)
  * \brief DataManager::addScientist Adds a scientist to the cvs file
  * \param Scientist
  */
-void DataManager::addScientist(Scientist scientis){
+void DataManager::addScientist(Scientist scientis)
+{
     CSVWriter csvw (fileName);
     csvw.add(scientistToVector(scientis));
     //Changes the scientist class to a vector before adding it to the doc.
@@ -216,7 +217,7 @@ vector<Scientist> DataManager::sortBy(vector<Scientist> scientists, SortOrder so
             return scientists;
 
     }
-// Reverses the elements in the Scientists vector.
+    // Reverses the elements in the Scientists vector.
     if(sortOrder.direction == DESCENDING){
         reverse (scientists.begin(), scientists.end());
     }
