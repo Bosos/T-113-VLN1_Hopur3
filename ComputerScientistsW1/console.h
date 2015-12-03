@@ -37,6 +37,7 @@ private:
     // Checkers
     bool isNameValid(string name);
     bool isAboutValid(string about);
+    bool welcomeShown;
 
     // Printers
     void displayScientists(vector<Scientist> scientis);

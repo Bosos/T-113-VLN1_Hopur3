@@ -13,6 +13,7 @@ using namespace std;
 Console::Console(DataManager* dataManage)
 {
     this->dataMan = dataManage;
+    welcomeShown = false;
 }
 
 // destructor
@@ -24,11 +25,13 @@ Console::~Console(){}
  */
 void Console::welcome()
 {
+    if (welcomeShown) { return; }
     cout << "__        __   _                         "
            "\n\\ \\      / /__| | ___ ___  _ __ ___   ___ "
            "\n \\ \\ /\\ / / _ \\ |/ __/ _ \\| '_ ` _ \\ / _ \\"
            "\n  \\ V  V /  __/ | (_| (_) | | | | | |  __/"
-           "\n   \\_/\\_/ \\___|_|\\___\\___/|_| |_| |_|\\___|";
+           "\n   \\_/\\_/ \\___|_|\\___\\___/|_| |_| |_|\\___|\n";
+    welcomeShown = true;
 }
 
 /*!
@@ -37,15 +40,13 @@ void Console::welcome()
  */
 void Console::run()
 {
-    int wel = 0;
     while(true)
     {
         clearScreen();
-        if(wel == 0)    //Welcome will only show for the first time you enter the program
-            welcome();
-        wel = 1;
 
-        cout << "\n-------------------------------------------------------------"
+        // welcome is only shown once
+        welcome();
+        cout << "-------------------------------------------------------------"
                 "\nWelcome to the Computer Scientists database. Enter a number\n"
                 "-------------------------------------------------------------"
                 "\n1: Edit database"
@@ -93,7 +94,9 @@ void Console::editDatabase()
 
     int select = getInt("");    //Stores the user's choice
 
-    switch (select) {   //Calls appropriate functions based on the user's choice
+    //Calls appropriate functions based on the user's choice
+    switch (select)
+    {
     case 1:
         do
         {
@@ -130,15 +133,20 @@ void Console::editDatabase()
  */
 void Console::showScientists()
 {
+    //Creates a vector containing all scientists in currently database
+    vector<Scientist> scientists = getScientist();
 
-    vector<Scientist> scientists = getScientist(); //Creates a vector containing all scientists in currently database
     if (scientists.size() == 0) { cout << "No Scientist found"; }
+
+    //Prints out the scientists currently in database
     else
     {
         clearScreen();
-        displayScientists(scientists);  //Prints out the scientists currently in database
+        displayScientists(scientists);
     }
-    string continues;   //Hvað er að gerast hér?
+
+    // Wait for user input so the results can stay on screen
+    string continues;
     getline(cin,continues);
 }
 
@@ -160,7 +168,8 @@ void Console::insertScientist()
     int deathYear = 0;
     string about = "";
 
-    do   //So the user can modify before he finishes
+    // The user can modify more than one field before he finishes
+    do
     {
         //inserting information about the new scientist into the parameters
         name = promptName();
@@ -204,7 +213,9 @@ void Console::findScientistToEdit()
             "\nPlease enter the name of the scientist you want to edit\n"
             "-------------------------------------------------------------";
     string name = promptName();
-    vector<Scientist> allScientists = dataMan->findByName(name, sort);  //finds all the scientists whos names match the user input and inserts them to a vector of scientists
+
+    //finds all the scientists whos names match the user input and inserts them to a vector of scientists
+    vector<Scientist> allScientists = dataMan->findByName(name, sort);
 
     //If there are more than 1 scientists that match the user input, the program shows all of them to the user and then the user chooses the id of the scientist he want's to edit
     if(allScientists.size() > 1)
@@ -223,7 +234,8 @@ void Console::findScientistToEdit()
     {
         cout << "\nSorry, there is no matching scientist in datafile\n";
     }
-    else    //if there is only one scientist who's name matches the input
+    //if there is only one scientist who's name matches the input
+    else
     {
         changeScientist(dataMan->getAllScientists(sort), allScientists.at(0).getID());  //edits the scientist
     }
@@ -362,7 +374,6 @@ void Console::deleteScientist(vector<Scientist> scientis, int id)
 
     //User has to be sure if he want's to totally eliminate this scientist
     if(promptAgain("Sure you want to delete " + scientis[id].getName() + " Y/N"))
-
     {
         scientis.erase(scientis.begin() + id);
         dataMan->writeNewScientistVectorToFile(scientis);
@@ -732,7 +743,7 @@ int Console::getInt(string prompt){
 void Console::clearScreen()
 {
     system("clear");
-    system("CLS");
+    //system("CLS");
 }
 
 /*!
