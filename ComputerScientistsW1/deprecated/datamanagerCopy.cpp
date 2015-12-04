@@ -9,50 +9,10 @@
 #include <algorithm>
 #include <cstring>
 
-
-void DataManager::initializeTables()
+DataManager::DataManager(string fileLocation)
 {
-    query.exec("create table IF NOT EXISTS scientists ("
-               "ID INTEGER primary key NOT NULL,"
-               "name varchar(100) NOT NULL,"
-               "sex char(1) NOT NULL,"
-               "birth INT NOT NULL,"
-               "death INT,"
-               "About text)"
-              );
-
-    query.exec("create table IF NOT EXISTS pctype ("
-               "ID INTEGER primary key NOT NULL,"
-               "type varchar(100) NOT NULL)"
-              );
-
-    query.exec("create table IF NOT EXISTS computers ("
-               "ID INTEGER primary key NOT NULL,"
-               "name varchar(255) NOT NULL,"
-               "buildyear INT,"
-               "type INT REFERENCES pctype(ID) NOT NULL,"
-               "wasbuilt INT,"
-               "About text)"
-              );
-
-    query.exec("create table users ("
-               "ID INTEGER primary key NOT NULL,"
-               "scientistID INT REFERENCES scientists(ID) NOT NULL,"
-               "computerID INT REFERENCES computers(ID) NOT NULL)"
-              );
+    this->fileName = fileLocation;
 }
-
-DataManager::DataManager(string dataBaseLocation)
-{
-    this->fileName = dataBaseLocation;
-    db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName(QString(fileName.c_str()));
-    bool ok = db.open();
-
-    query = QSqlQuery(db);
-    initializeTables();
-}
-
 DataManager::~DataManager(){}
 
 /*!
@@ -71,32 +31,9 @@ Scientist DataManager::parseInput(vector<string> csvLine, int ID)
  */
 void DataManager::addScientist(Scientist scientis)
 {
-    //CSVWriter csvw (fileName);
-    //csvw.add(scientistToVector(scientis));
+    CSVWriter csvw (fileName);
+    csvw.add(scientistToVector(scientis));
     //Changes the scientist class to a vector before adding it to the doc.
-    //string meme ="INSERT INTO scientists VALUES (, \'" + scientis.getName() +"\', \'" + scientis.getSex() + "\', 1984, ,\'yessir\')";
-    string currScientist = "";
-    if (scientis.getDeathYear() == 0)
-    {
-         currScientist = "INSERT INTO scientists(name,sex,birth,about)"
-              "VALUES('" + scientis.getName()
-                 + "','" + scientis.getSex()
-                 + "','" + to_string(scientis.getBirthYear())
-                 + "','" + scientis.getAbout() + "')";
-    }
-    else
-    {
-        currScientist = "INSERT INTO scientists(name,sex,birth,death,about)"
-             "VALUES('" + scientis.getName()
-                + "','" + scientis.getSex()
-                + "','" + to_string(scientis.getBirthYear())
-                + "','" + to_string(scientis.getDeathYear())
-                + "','" + scientis.getAbout() + "')";    }
-
-    bool soso = query.exec(currScientist.c_str());
-
-    if (soso){cout << "should be saved\n";}
-    else {cout << "somethings wrong\n";}
 }
 
 /*!
@@ -107,14 +44,12 @@ void DataManager::addScientist(Scientist scientis)
 vector<string> DataManager::scientistToVector(Scientist scientis)
 {
     //Changes the scientist class to a vector
-    return vector<string>
-    {
+    return vector<string> {
         scientis.getName(),
         to_string(scientis.getSex()),
         to_string(scientis.getBirthYear()),
         to_string(scientis.getDeathYear()),
-        scientis.getAbout()
-    };
+        scientis.getAbout()};
 }
 
 

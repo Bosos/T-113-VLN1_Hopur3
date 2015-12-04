@@ -7,7 +7,7 @@ using  namespace std;
 int main()
 {
 
-    string fileLocation = "data.csv";
+    string fileLocation = "database.sqlite";
     DataManager* dataMan = new DataManager(fileLocation);
     Console console(dataMan);
 

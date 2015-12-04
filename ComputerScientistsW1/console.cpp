@@ -743,7 +743,7 @@ int Console::getInt(string prompt){
 void Console::clearScreen()
 {
     system("clear");
-    //system("CLS");
+    system("CLS");
 }
 
 /*!

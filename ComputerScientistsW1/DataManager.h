@@ -5,7 +5,8 @@
 #include <vector>
 #include "Scientist.h"
 #include <SortBy.h>
-
+#include <QtSql>
+#include <QSqlDatabase>
 
 using namespace std;
 
@@ -30,9 +31,14 @@ public:
     void writeNewScientistVectorToFile(vector<Scientist> scientists);
     int getage(Scientist oneScientist);
 
+    //New stuff
+    void initializeTables();
+
+
 private:
     string fileName;
-
+    QSqlDatabase db;
+    QSqlQuery query;
 };
 
 #endif // dataManager
