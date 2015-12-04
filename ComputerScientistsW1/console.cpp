@@ -601,38 +601,46 @@ int Console::promptDeathYear(int birthYear)
 
 string Console::promptType()
 {
-    string type;
+    vector<TypeOfComputer> types = dataMan->getTypeOfComputers();
+    TypeOfComputer type;
     int select;
     cout << "-------------------------------------------------------------" << endl
          << "Computer type: " << endl
-         << "-------------------------------------------------------------" << endl
-         << "1: Electronic" << endl
-         << "2: Mecanic" << endl
-         << "3: Transistor Machine" << endl
-         << "4: Other";
+         << "-------------------------------------------------------------" << endl;
+    for (size_t i = 0; i < types.size(); i++)
+    {
+        cout << i + 1 << ": " << types.at(i).getType() << endl;
+    }
+    cout << types.size() + 1 << ": Add another type";
+
     select = getInt("");
 
-    switch(select)
+    if (select == types.size() + 1)
     {
-        case 1:
-            type = "Electronic";
-            return type;
-        case 2:
-            type = "Mecanic";
-            return type;
-        case 3:
-            type = "Transistor Machine";
-            return type;
-        case 4:
-            type = "Other";
-            return type;
-        default:
-            cout << "\nPlease select a number between 1 and 4\n";
-            type = promptType();
-            return type;
+        // add func to the type database
+    }
+    else if (select > 0 && select <= types.size())
+    {
+        return types.at(select - 1).getType();
+    }
+    else
+    {
+        cout << "\nPlease select a number between 1 and " << types.size() + 1 << endl;
+        type = promptNewType();
+        return type;
     }
 
     return type;
+}
+
+TypeOfComputer Console::promptNewType()
+{
+    cout << "Enter the type: " << endl;
+    string type = "";
+    getline(cin, type);
+
+    dataMan->addTypeOfComputer(TypeOfComputer);
+
 }
 
 bool Console::promptWasItBuilt()

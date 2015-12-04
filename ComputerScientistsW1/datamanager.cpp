@@ -8,7 +8,8 @@
 #include <CSVReader.h>
 #include <algorithm>
 #include <cstring>
-
+#include <QSqlQuery>
+#include <QSqlRecord>
 
 void DataManager::initializeTables()
 {
@@ -40,6 +41,10 @@ void DataManager::initializeTables()
                "scientistID INT REFERENCES scientists(ID) NOT NULL,"
                "computerID INT REFERENCES computers(ID) NOT NULL)"
               );
+
+    query.exec("INSERT OR REPLACE INTO pctype VALUES (1, 'Electronic')");
+    query.exec("INSERT OR REPLACE INTO pctype VALUES (2, 'Mecanic')");
+    query.exec("INSERT OR REPLACE INTO pctype VALUES (3, 'Transistor Machine')");
 }
 
 DataManager::DataManager(string dataBaseLocation)
@@ -47,11 +52,47 @@ DataManager::DataManager(string dataBaseLocation)
     this->fileName = dataBaseLocation;
     db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName(QString(fileName.c_str()));
-    bool ok = db.open();
+    db.open();
 
     query = QSqlQuery(db);
     initializeTables();
 }
+
+vector<Computer> DataManager::getComputers(Scientist scientis)
+{
+    // TODO
+    return vector<Computer>();
+}
+
+vector<Scientist> DataManager::getScientists(Computer scientis)
+{
+    // TODO
+    return vector<Scientist>();
+}
+
+vector<TypeOfComputer> DataManager::getTypeOfComputers()
+{
+    vector<TypeOfComputer> returnTypes;
+
+    QSqlQuery record("SELECT * FROM pctype");
+    while (record.next())
+    {
+        int id = record.value(0).toUInt();
+        string name = record.value(1).toString().toStdString();
+        TypeOfComputer newType(id,name);
+        returnTypes.push_back(newType);
+    }
+    return returnTypes;
+}
+
+void DataManager::addTypeOfComputer(TypeOfComputer type)
+{
+    // TODO
+}
+
+// edit type?
+
+
 
 DataManager::~DataManager(){}
 
@@ -71,10 +112,6 @@ Scientist DataManager::parseInput(vector<string> csvLine, int ID)
  */
 void DataManager::addScientist(Scientist scientis)
 {
-    //CSVWriter csvw (fileName);
-    //csvw.add(scientistToVector(scientis));
-    //Changes the scientist class to a vector before adding it to the doc.
-    //string meme ="INSERT INTO scientists VALUES (, \'" + scientis.getName() +"\', \'" + scientis.getSex() + "\', 1984, ,\'yessir\')";
     string currScientist = "";
     if (scientis.getDeathYear() == 0)
     {
@@ -91,12 +128,10 @@ void DataManager::addScientist(Scientist scientis)
                 + "','" + scientis.getSex()
                 + "','" + to_string(scientis.getBirthYear())
                 + "','" + to_string(scientis.getDeathYear())
-                + "','" + scientis.getAbout() + "')";    }
+                + "','" + scientis.getAbout() + "')";
+    }
 
-    bool soso = query.exec(currScientist.c_str());
-
-    if (soso){cout << "should be saved\n";}
-    else {cout << "somethings wrong\n";}
+    query.exec(currScientist.c_str());
 }
 
 void DataManager::addComputer(Computer comp)
@@ -110,10 +145,7 @@ void DataManager::addComputer(Computer comp)
                + "','" + to_string(comp.getWasItBuilt())
                + "','" + comp.getAbout() + "')";
 
-    bool soso = query.exec(currComp.c_str());
-
-    if (soso){cout << "should be saved\n";}
-    else {cout << "somethings wrong\n";}
+    query.exec(currComp.c_str());
 }
 
 /*!

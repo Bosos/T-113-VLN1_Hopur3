@@ -8,6 +8,8 @@
 #include <SortBy.h>
 #include <QtSql>
 #include <QSqlDatabase>
+#include <QSqlRecord>
+#include <TypeOfComputer.h>
 
 using namespace std;
 
@@ -18,7 +20,7 @@ public:
     ~DataManager();
 
     //ADD / SAVE scientist
-    void addScientist(Scientist scientist);
+    void addScientist(Scientist scientis);
 
     //LOAD file
     Scientist parseInput(vector<string> csvLine, int ID);
@@ -33,10 +35,13 @@ public:
     void writeNewScientistVectorToFile(vector<Scientist> scientists);
     int getage(Scientist oneScientist);
 
-    //New stuff
+    // New stuff
     void initializeTables();
     void addComputer(Computer comp);
-
+    vector<Computer> getComputers(Scientist scientis);
+    vector<Scientist> getScientists(Computer computer);
+    vector<TypeOfComputer> getTypeOfComputers();
+    void addTypeOfComputer(TypeOfComputer type);
 
 private:
     string fileName;
