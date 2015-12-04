@@ -120,7 +120,7 @@ vector<string> DataManager::scientistToVector(Scientist scientis)
 
 vector<Scientist> DataManager::getAllScientists(SortOrder sort)
 {
-    vector<Scientist> allScientists;
+    /*vector<Scientist> allScientists;
     vector<vector<string>> newScientists;
     CSVReader docReader(fileName);//initialize the CSVReader class
     newScientists = docReader.readAll();//gets vectors of vectors of strings which are essentially vectors of scientist in strings
@@ -128,7 +128,75 @@ vector<Scientist> DataManager::getAllScientists(SortOrder sort)
     {
         allScientists.push_back(parseInput(newScientists[i], i));//changes vectors of strings into scientist classes
     }
-    return sortBy(allScientists, sort);//return the scientist in the sort chosen
+    return sortBy(allScientists, sort);//return the scientist in the sort chosen*/
+    vector<Scientist> allScientists;
+
+    if(db.open())
+    {
+        int id;
+        string name;
+        string sex;
+        int birth;
+        int death;
+        string about;
+
+        QSqlQuery query(db);
+
+        // Otputs the list as the user wants it sorted
+        if(sort.sortBy == NAME)
+        {
+            if(sort.direction == DESCENDING)
+                query.exec("SELECT * FROM scientists ORDER BY name DESC");
+            else
+                query.exec("SELECT * FROM scientists ORDER BY name ASC");
+        }
+        else if(sort.sortBy == SEX)
+        {
+            if(sort.direction == DESCENDING)
+                query.exec("SELECT * FROM scientists ORDER BY sex DESC");
+            else
+                query.exec("SELECT * FROM scientists ORDER BY sex ASC");
+        }
+        else if(sort.sortBy == BIRTH)
+        {
+            if(sort.direction == DESCENDING)
+                query.exec("SELECT * FROM scientists ORDER BY birth DESC");
+            else
+                query.exec("SELECT * FROM scientists ORDER BY birth ASC");
+        }
+        else if(sort.sortBy == DEATH)
+        {
+            if(sort.direction == DESCENDING)
+                query.exec("SELECT * FROM scientists ORDER BY death DESC");
+            else
+                query.exec("SELECT * FROM scientists ORDER BY death ASC");
+        }
+        else
+        {
+            if(sort.direction == DESCENDING)
+                query.exec("SELECT * FROM scientists ORDER BY id DESC");
+            else
+                query.exec("SELECT * FROM scientists ORDER BY id ASC");
+        }
+
+        // Creates a scientist from the values and inserts the scientist to a vector
+        while(query.next())
+        {
+            cout << "*" << endl;
+            id = query.value("ID").toUInt();
+            name = query.value("name").toString().toStdString();
+            sex = query.value("sex").toString().toStdString();
+            birth = query.value("birth").toUInt();
+            death = query.value("death").toUInt();
+            about = query.value("About").toString().toStdString();
+
+            Scientist sci(name, sex[0], birth, death, about, id);
+            allScientists.push_back(sci);
+        }
+    }
+    cout << allScientists.size() << endl;
+
+    return allScientists;
 }
 
 vector<Scientist> DataManager::findByName(string subString, SortOrder sort)
