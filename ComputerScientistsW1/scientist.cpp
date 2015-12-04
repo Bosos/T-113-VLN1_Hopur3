@@ -19,22 +19,22 @@ Scientist::Scientist(string newName, char newSex, int newBirthYear, int newDeath
 Scientist::Scientist(){}
 Scientist::~Scientist(){}
 
-string Scientist::getName()
+string Scientist::getName() const
 {
     return name;
 }
 
-char Scientist::getSex()
+char Scientist::getSex() const
 {
     return sex;
 }
 
-int Scientist::getBirthYear()
+int Scientist::getBirthYear() const
 {
     return birthYear;
 }
 
-int Scientist::getDeathYear()
+int Scientist::getDeathYear() const
 {
     return deathYear;
 }

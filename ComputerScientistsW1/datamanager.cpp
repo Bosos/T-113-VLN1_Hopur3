@@ -402,25 +402,23 @@ int DataManager::getage(Scientist oneScientist){
 
 struct sortByName
 {
-    inline bool operator() (Scientist& name1, Scientist& name2)
+    /*inline*/ bool operator() (const Scientist& name1, const Scientist& name2)
     {
         return (name1.getName() < name2.getName());
     }
 };
 
-
 struct sortByBirth
 {
-    inline bool operator() (Scientist& birth1, Scientist& birth2)
+    /*inline*/ bool operator() (const Scientist& birth1, const Scientist& birth2)
     {
         return (birth1.getBirthYear() < birth2.getBirthYear());
     }
 };
 
-
 struct sortByDeath
 {
-    inline bool operator() (Scientist& death1, Scientist& death2)
+    /*inline*/ bool operator() (const Scientist& death1, const Scientist& death2)
     {
         return (death1.getDeathYear() < death2.getDeathYear());
     }
@@ -429,7 +427,7 @@ struct sortByDeath
 
 struct sortBySex
 {
-    inline bool operator() (Scientist& sex1, Scientist& sex2)
+    /*inline */ bool operator() (const Scientist& sex1, const Scientist& sex2)
     {
         return (sex1.getSex() < sex2.getSex());
     }

@@ -14,10 +14,10 @@ public:
     Scientist(string newName, char newSex, int newBirthYear, int newDeathYear, string newAbout, int ID);
     Scientist();
     ~Scientist();
-    string getName();
-    char getSex();
-    int getBirthYear();
-    int getDeathYear();
+    string getName() const;
+    char getSex() const;
+    int getBirthYear() const;
+    int getDeathYear() const;
     string getAbout();
     int getID();
     int getAge();
