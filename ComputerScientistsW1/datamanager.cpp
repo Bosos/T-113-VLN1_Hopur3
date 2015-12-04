@@ -317,21 +317,74 @@ vector<Computer> DataManager::getAllComputers(SortOrder sort)
     }
 }
 
-vector<Scientist> DataManager::findByName(string subString, SortOrder sort)
+vector<Scientist> DataManager::findScientistByName(string subString, SortOrder sort)
 {
     vector<Scientist> allScientists = getAllScientists(sort);
     vector<Scientist> matchingScientists;
+    string temp;
+    string name;
+
+    //sets substring to all lowercase
+    for(unsigned int i = 0; i < subString.length(); i++)
+    {
+        subString[i] = tolower(subString[i]);
+    }
 
     //Checks all scientists and inserts the ones who's name matches name parameter into the vector matchingScientists
     for(unsigned int i = 0; i < allScientists.size(); i++)
     {
-        if(strstr(allScientists[i].getName().c_str(),subString.c_str()))
+        name = allScientists[i].getName();
+
+        //sets the scientist name to all lowercase
+        for(unsigned int j = 0; j < name.length(); j++)
+        {
+            temp += tolower(name[j]);
+        }
+
+        //inserts the matching scientists to a vector
+        if(temp.find(subString) != std::string::npos)
         {
              matchingScientists.push_back(allScientists[i]);
         }
+        temp = "";
     }
 
     return matchingScientists;
+}
+
+vector<Computer> DataManager::findComputerByName(string subString, SortOrder sort)
+{
+    vector<Computer> allComputers = getAllComputers(sort);
+    vector<Computer> matchingComputers;
+    string temp;
+    string name;
+
+    //sets substring to all lowercase
+    for(unsigned int i = 0; i < subString.length(); i++)
+    {
+        subString[i] = tolower(subString[i]);
+    }
+
+    //Checks all scientists and inserts the ones who's name matches name parameter into the vector matchingScientists
+    for(unsigned int i = 0; i < allComputers.size(); i++)
+    {
+        name = allComputers[i].getName();
+
+        //sets the scientist name to all lowercase
+        for(unsigned int j = 0; j < name.length(); j++)
+        {
+            temp += tolower(name[j]);
+        }
+
+        //inserts the matching scientists to a vector
+        if(temp.find(subString) != std::string::npos)
+        {
+             matchingComputers.push_back(allComputers[i]);
+        }
+        temp = "";
+    }
+
+    return matchingComputers;
 }
 
 vector<Scientist> DataManager::findByBirthYear(int yearFrom, int yearTo, SortOrder sort)

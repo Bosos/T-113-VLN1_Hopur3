@@ -318,7 +318,7 @@ void Console::findScientistToEdit()
     string name = promptName();
 
     //finds all the scientists whos names match the user input and inserts them to a vector of scientists
-    vector<Scientist> allScientists = dataMan->findByName(name, sort);
+    vector<Scientist> allScientists = dataMan->findScientistByName(name, sort);
 
     //If there are more than 1 scientists that match the user input, the program shows all of them to the user and then the user chooses the id of the scientist he want's to edit
     if(allScientists.size() > 1)
@@ -362,7 +362,7 @@ void Console::findScientistToDelete()
     //gets the name of the scientist the user want's to delete
     string name = promptName();
     //creates a vector of scientists who's name match the user's input
-    vector<Scientist> allScientists = dataMan->findByName(name, sort);
+    vector<Scientist> allScientists = dataMan->findScientistByName(name, sort);
 
     //if there are more than 1 matching scientists, the program prints all the matching scientists and the user chooses the scientist's ID
     if(allScientists.size() > 1)
@@ -602,7 +602,7 @@ int Console::promptDeathYear(int birthYear)
 string Console::promptType()
 {
     vector<TypeOfComputer> types = dataMan->getTypeOfComputers();
-    int select;
+    unsigned int select;
     cout << "-------------------------------------------------------------" << endl
          << "Computer type: " << endl
          << "-------------------------------------------------------------" << endl;
@@ -627,6 +627,7 @@ string Console::promptType()
         cout << "\nPlease select a number between 1 and " << types.size() + 1 << endl;
         //return promptNewType().getType();
     }
+
 }
 
 //TypeOfComputer Console::promptNewType()
@@ -685,7 +686,7 @@ vector<Scientist> Console::getScientist()
         return dataMan->getAllScientists (getSort());
 
     case 2:
-        return dataMan->findByName (promptName(), getSort());
+        return dataMan->findScientistByName (promptName(), getSort());
 
     case 3:
         return dataMan->findByBirthYear(getInt("Enter the birth year you want to start looking from")
