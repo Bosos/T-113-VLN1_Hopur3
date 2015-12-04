@@ -87,9 +87,10 @@ void Console::editDatabase()
     cout << "-------------------------------------------------------------"
             "\nEdit the Database\n"
             "-------------------------------------------------------------"
-            "\n1: Add to the database"
-            "\n2: Edit an entry in the database"
-            "\n3: Delete an entry in the database"
+            "\n1: Add a scientist to the database"
+            "\n2: Add a computer to the database"
+            "\n3: Edit an entry in the database"
+            "\n4: Delete an entry in the database"
             "\nOther numbers: Go back to the start";
 
     int select = getInt("");    //Stores the user's choice
@@ -105,8 +106,14 @@ void Console::editDatabase()
         }while(promptAgain("Do you want to add another computer scientist? Y/N"));
 
         return;
-
     case 2:
+        do
+        {
+            clearScreen();
+            insertComputer();
+        }while(promptAgain("Do you want to add another computer? Y/N"));
+        return;
+    case 3:
         do
         {
             clearScreen();
@@ -114,7 +121,7 @@ void Console::editDatabase()
         }while(promptAgain("Do you want to edit another computer scientist? Y/N"));
         return;
 
-    case 3:
+    case 4:
         do
         {
             clearScreen();
@@ -125,6 +132,50 @@ void Console::editDatabase()
         cout << "1-3 not selected, going back\n";
         return;
     }
+}
+
+void Console::insertComputer()
+{
+    cout << "-------------------------------------------------------------"
+            "\nPlease fill inn all the information about the computer\n"
+            "-------------------------------------------------------------\n";
+
+    //creating variables
+    string info = "";
+    string name = "";
+    int buildYear = 0;
+    string type = "";
+    string about = "";
+    bool wasItBuilt = false;
+    string ans = "No";
+
+    // The user can modify more than one field before he finishes
+    do
+    {
+        //inserting information about the new scientist into the parameters
+        name = promptName();
+        int buildYear = promptBirthYear();
+        type = promptType();
+        about = promptAbout();
+        wasItBuilt = promptWasItBuilt();
+
+        if(wasItBuilt) {ans = "Yes";}
+
+        clearScreen();
+        info = "-------------------------------------------------------------"
+               "\nComputer information:\n"
+               "-------------------------------------------------------------"
+               "\nName: " + name +
+               "\ntype: " + type +
+               "\nYear built: " + to_string(buildYear) +
+               "\nWas it built? " + ans +
+               "\nAbout: " + about +
+               "\nIs this correct? Y/N";
+
+    }while(!promptAgain(info));
+
+    // adds the new computer to the database
+    this->dataMan->addComputer(Computer(name, buildYear, type, wasItBuilt, about, 0));
 }
 
 /*!
@@ -496,7 +547,57 @@ int Console::promptDeathYear(int birthYear)
     }
 }
 
+string Console::promptType()
+{
+    string type;
+    int select;
+    cout << "-------------------------------------------------------------" << endl
+         << "Computer type: " << endl
+         << "-------------------------------------------------------------" << endl
+         << "1: Electronic" << endl
+         << "2: Mecanic" << endl
+         << "3: Transistor Machine" << endl
+         << "4: Other";
+    select = getInt("");
 
+    switch(select)
+    {
+        case 1:
+            type = "Electronic";
+            return type;
+        case 2:
+            type = "Mecanic";
+            return type;
+        case 3:
+            type = "Transistor Machine";
+            return type;
+        case 4:
+            type = "Other";
+            return type;
+        default:
+            cout << "\nPlease select a number between 1 and 4\n";
+            type = promptType();
+            return type;
+    }
+
+    return type;
+}
+
+bool Console::promptWasItBuilt()
+{
+    string ans;
+    cout << "-------------------------------------------------------------" << endl
+         << "Was the computer built? (Y/N) " << endl
+         << "-------------------------------------------------------------\n" << endl;
+    getline(cin, ans);
+    if(ans[0] == 'Y' || ans[0] == 'y') {return true;}
+    else if(ans[0] == 'N' || ans[0] == 'n') {return false;}
+    else
+    {
+        cout << "\nPlease select either Y or N" << endl;
+        return promptWasItBuilt();
+    }
+}
 
 /*!
  * \brief Console::getScientist

@@ -4,6 +4,7 @@
 #include "stdlib.h"
 #include <vector>
 #include "Scientist.h"
+#include "Computer.h"
 #include <SortBy.h>
 #include <QtSql>
 #include <QSqlDatabase>
@@ -33,6 +34,7 @@ public:
 
     //New stuff
     void initializeTables();
+    void addComputer(Computer comp);
 
 
 private:

@@ -42,19 +42,6 @@ int Computer::getID()
     return ID;
 }
 
-vector<connectedTo> Computer::getScientists()
-{
-    return sciList;
-}
-
-void Computer::setScientist(string sciName, int sciBirthYear)
-{
-    connectedTo newScientist;
-    newScientist.name = sciName;
-    newScientist.bYear = sciBirthYear;
-    sciList.push_back(newScientist);
-}
-
 void Computer::setName(string newName)
 {
     name = newName;

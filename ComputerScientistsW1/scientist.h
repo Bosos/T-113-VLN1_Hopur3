@@ -21,8 +21,6 @@ public:
     string getAbout();
     int getID();
     int getAge();
-    vector<connectedTo> getComputers();
-    void setComputer(string compName, int compBuiltYear);
     void setName(string newName);
     void setSex(char newSex);
     void setBirthYear(int newBirthYear);
@@ -35,7 +33,6 @@ private:
     int deathYear;
     string about;
     int ID;
-    vector<connectedTo> compList;
 };
 
 #endif // scientist

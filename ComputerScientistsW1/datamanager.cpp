@@ -99,6 +99,23 @@ void DataManager::addScientist(Scientist scientis)
     else {cout << "somethings wrong\n";}
 }
 
+void DataManager::addComputer(Computer comp)
+{
+    string currComp = "";
+
+    currComp = "INSERT INTO computers(name, buildyear, type, wasbuilt, about)"
+               "VALUES('" + comp.getName()
+               + "','" + to_string(comp.getBuildYear())
+               + "','" + comp.getType()
+               + "','" + to_string(comp.getWasItBuilt())
+               + "','" + comp.getAbout() + "')";
+
+    bool soso = query.exec(currComp.c_str());
+
+    if (soso){cout << "should be saved\n";}
+    else {cout << "somethings wrong\n";}
+}
+
 /*!
  * \brief DataManager::scientistToVector
  * \param Scientist

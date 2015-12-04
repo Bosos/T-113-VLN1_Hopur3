@@ -19,8 +19,6 @@ public:
     bool getWasItBuilt();
     string getAbout();
     int getID();
-    vector<connectedTo> getScientists();
-    void setScientist(string sciName, int sciBirthYear);
     void setName(string newName);
     void setBuildYear(int newBuildYear);
     void setType(string newType);
@@ -33,7 +31,6 @@ private:
     bool wasItBuilt;
     string about;
     int ID;
-    vector<connectedTo> sciList;
 };
 
 #endif // COMPUTER

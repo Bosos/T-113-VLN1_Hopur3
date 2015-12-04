@@ -61,19 +61,6 @@ int Scientist::getAge()//Calculates the age of the scientist
     }
 }
 
-vector<connectedTo> Scientist::getComputers()
-{
-    return compList;
-}
-
-void Scientist::setComputer(string compName, int compBuiltYear)
-{
-    connectedTo newComputer;
-    newComputer.name = compName;
-    newComputer.bYear = compBuiltYear;
-    compList.push_back(newComputer);
-}
-
 void Scientist::setName(string newName)
 {
     name = newName;

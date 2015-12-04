@@ -25,6 +25,7 @@ private:
     Direction getDirection();
     vector<Scientist> getScientist();
     void clearScreen();
+    void insertComputer();
 
     // Promts
     string promptName();
@@ -33,6 +34,8 @@ private:
     int promptBirthYear();
     int promptDeathYear(int birthYear);
     int getInt(string prompt);
+    string promptType();
+    bool promptWasItBuilt();
 
     // Checkers
     bool isNameValid(string name);
