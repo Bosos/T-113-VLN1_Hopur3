@@ -39,6 +39,8 @@ private:
     int getInt(string prompt);
     string promptType();
     bool promptWasItBuilt();
+    //TypeOfComputer promptNewType();
+
 
     // Checkers
     bool isNameValid(string name);
