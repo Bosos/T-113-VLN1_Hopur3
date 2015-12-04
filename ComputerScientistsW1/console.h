@@ -26,6 +26,9 @@ private:
     vector<Scientist> getScientist();
     void clearScreen();
     void insertComputer();
+    void showComputers();
+    vector<Computer> getComputer();
+    void seeDatabase();
 
     // Promts
     string promptName();
@@ -44,6 +47,7 @@ private:
 
     // Printers
     void displayScientists(vector<Scientist> scientis);
+    void displayComputers(vector<Computer> computers);
     void welcome();
 };
 

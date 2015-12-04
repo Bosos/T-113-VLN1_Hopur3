@@ -211,9 +211,78 @@ vector<Scientist> DataManager::getAllScientists(SortOrder sort)
             allScientists.push_back(sci);
         }
     }
-    cout << allScientists.size() << endl;
 
     return allScientists;
+}
+
+vector<Computer> DataManager::getAllComputers(SortOrder sort)
+{
+   vector<Computer> allComputers;
+
+   if(db.open())
+    {
+        string name;
+        int buildYear;
+        string type;
+        bool wasItBuilt;
+        string about;
+        int id;
+
+        QSqlQuery query(db);
+
+        // Otputs the list as the user wants it sorted
+        if(sort.sortBy == NAME)
+        {
+            if(sort.direction == DESCENDING)
+                query.exec("SELECT * FROM computers ORDER BY name DESC");
+            else
+                query.exec("SELECT * FROM computers ORDER BY name ASC");
+        }
+        else if(sort.sortBy == SEX)
+        {
+            if(sort.direction == DESCENDING)
+                query.exec("SELECT * FROM computers ORDER BY sex DESC");
+            else
+                query.exec("SELECT * FROM computers ORDER BY sex ASC");
+        }
+        else if(sort.sortBy == BIRTH)
+        {
+            if(sort.direction == DESCENDING)
+                query.exec("SELECT * FROM computers ORDER BY birth DESC");
+            else
+                query.exec("SELECT * FROM computers ORDER BY birth ASC");
+        }
+        else if(sort.sortBy == DEATH)
+        {
+            if(sort.direction == DESCENDING)
+                query.exec("SELECT * FROM computers ORDER BY death DESC");
+            else
+                query.exec("SELECT * FROM computers ORDER BY death ASC");
+        }
+        else
+        {
+            if(sort.direction == DESCENDING)
+                query.exec("SELECT * FROM computers ORDER BY id DESC");
+            else
+                query.exec("SELECT * FROM computers ORDER BY id ASC");
+        }
+
+        // Creates a computer from the values and inserts the scientist to a vector
+        while(query.next())
+        {
+            id = query.value("ID").toUInt();
+            name = query.value("name").toString().toStdString();
+            buildYear = query.value("buildyear").toUInt();
+            type = query.value("type").toString().toStdString();
+            wasItBuilt = query.value("wasbuilt").toUInt();
+            about = query.value("about").toString().toStdString();
+
+            Computer comp(name, buildYear, type, wasItBuilt, about, id);
+            allComputers.push_back(comp);
+        }
+
+        return allComputers;
+    }
 }
 
 vector<Scientist> DataManager::findByName(string subString, SortOrder sort)

@@ -62,7 +62,7 @@ void Console::run()
             break;
 
         case 2:
-            showScientists();
+            seeDatabase();
             break;
 
         case 3:
@@ -75,6 +75,58 @@ void Console::run()
             break;
         }
     }
+}
+
+void Console::seeDatabase()
+{
+    while(true)
+    {
+        clearScreen();
+
+        cout << "-------------------------------------------------------------"
+                "\nWhat do you want to see?\n"
+                "-------------------------------------------------------------"
+                "\n1: Scientists"
+                "\n2: Computers";
+                //TODO more to see
+
+        int select = getInt("");    //stores the user's choice
+
+        switch (select) {   //Calls appropriate function based on the user's choice
+
+        case 1:
+            showScientists();
+            break;
+
+        case 2:
+            showComputers();
+            break;
+
+        default:
+            // Repeat while loop
+            cout << "The number should be between 1 and 2";
+            break;
+        }
+    }
+}
+
+void Console::showComputers()
+{
+    //Creates a vector containing all scientists in currently database
+        vector<Computer> computers = getComputer();
+
+        if (computers.size() == 0) { cout << "No No computer found"; }
+
+        //Prints out the scientists currently in database
+        else
+        {
+            clearScreen();
+            displayComputers(computers);
+        }
+
+        // Wait for user input so the results can stay on screen
+        string continues;
+        getline(cin,continues);
 }
 
 /*!
@@ -648,6 +700,37 @@ vector<Scientist> Console::getScientist()
     }
 }
 
+vector<Computer> Console::getComputer()
+{
+    clearScreen();
+
+    int select = 0;
+    cout << "-------------------------------------------------------------" << endl
+         << "Look inside the database" << endl
+         << "-------------------------------------------------------------" << endl
+         << "1: Show a list of them all" << endl
+         << "2: Search by a string or substring" << endl
+         << "3: Search by build year" << endl
+         << "4: Search by type" << endl
+         << "5: Search by was built" << endl
+         << "Other numbers will go back";
+
+    select = getInt("");
+    string sex = "";
+    if (select == 0) { return vector<Computer>(); }
+
+    //Fetches a function according to the user's input
+    switch (select) {
+
+    case 1:
+        return dataMan->getAllComputers (getSort());
+        //TODO add more cases
+
+    default:
+        return getComputer();
+    }
+}
+
 /*!
  * \brief Console::getSort
  * \return SortOrder
@@ -874,6 +957,31 @@ void Console::displayScientists(vector<Scientist> scientists)
         else{cout << "Alive";}
         cout << setw(30) << left << scientists[i].getName()
              << setw(50) << left << scientists[i].getAbout()
+             << endl;
+    }
+    cout << "-------------------------------------------------------------" << endl;
+}
+
+void Console::displayComputers(vector<Computer> computers)
+{
+    cout << "-------------------------------------------------------------" << endl
+         << setw(5) << left << "ID"
+         << setw(5) << left << "Built"
+         << setw(5) << left << "Type"
+         << setw(7) << left << "Build Year"
+         << setw(30) << left << "Name"
+         << setw(50) << left << "About"<< endl
+         << "-------------------------------------------------------------" << endl;
+    for(size_t i = 0; i < computers.size(); i++)
+    {
+        cout << setw(5) << left << computers[i].getID();
+        if(computers[i].getWasItBuilt() == 0){cout << "No"; }
+        else {cout << "Yes"; }
+        cout << setw(5) << left << computers[i].getWasItBuilt()
+             << setw(5) << left << computers[i].getType()
+             << setw(7) << left << computers[i].getBuildYear();
+        cout << setw(30) << left << computers[i].getName()
+             << setw(50) << left << computers[i].getAbout()
              << endl;
     }
     cout << "-------------------------------------------------------------" << endl;
