@@ -6,7 +6,7 @@ using  namespace std;
 
 int main()
 {
-
+    cout << "hello world";
     string fileLocation = "database.sqlite";
     DataManager* dataMan = new DataManager(fileLocation);
     Console console(dataMan);
@@ -14,6 +14,7 @@ int main()
     console.run();
 
     delete dataMan;
+
 
     return 0;
 }
