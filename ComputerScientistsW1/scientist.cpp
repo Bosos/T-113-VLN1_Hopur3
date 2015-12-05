@@ -1,5 +1,6 @@
 #include "Scientist.h"
 #include <stdexcept>
+#include <iostream>
 
 Scientist::Scientist(string newName, char newSex, int newBirthYear, int newDeathYear, string newAbout, int newID)
 {
@@ -15,9 +16,6 @@ Scientist::Scientist(string newName, char newSex, int newBirthYear, int newDeath
         throw invalid_argument("Some entry into Scientist was wrong");
     }
 }
-
-Scientist::Scientist(){}
-Scientist::~Scientist(){}
 
 string Scientist::getName() const
 {

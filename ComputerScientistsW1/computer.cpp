@@ -1,6 +1,6 @@
 #include "computer.h"
 
-Computer::Computer(string newName, int newBuildYear, string newType, bool NewWasItBuilt, string newAbout, int newID)
+Computer::Computer(string newName, int newBuildYear, int newType, bool NewWasItBuilt, string newAbout, int newID)
 {
     name = newName;
     buildYear = newBuildYear;
@@ -22,7 +22,7 @@ int Computer::getBuildYear()
     return buildYear;
 }
 
-string Computer::getType()
+int Computer::getType()
 {
     return type;
 }
@@ -52,7 +52,7 @@ void Computer::setBuildYear(int newBuildYear)
     buildYear = newBuildYear;
 }
 
-void Computer::setType(string newType)
+void Computer::setType(int newType)
 {
     type = newType;
 }

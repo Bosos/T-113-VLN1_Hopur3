@@ -8,7 +8,6 @@ class TypeOfComputer
 {
 public:
     TypeOfComputer(int id, string type);
-    TypeOfComputer(string type);
     int getId();
     string getType();
 private:

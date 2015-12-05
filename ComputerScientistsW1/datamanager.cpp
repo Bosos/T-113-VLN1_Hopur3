@@ -4,8 +4,6 @@
 #include <sstream>
 #include <fstream>
 #include <vector>
-#include <CSVWriter.h>
-#include <CSVReader.h>
 #include <algorithm>
 #include <cstring>
 #include <QSqlQuery>
@@ -85,26 +83,60 @@ vector<TypeOfComputer> DataManager::getTypeOfComputers()
     return returnTypes;
 }
 
-void DataManager::addTypeOfComputer(TypeOfComputer type)
+string DataManager::getTypeOfComputerFromId(int id)
 {
-    // TODO
+    string toQstring = "SELECT type FROM pctype WHERE id == " + to_string(id);
+    QSqlQuery record(toQstring.c_str());
+    record.next();
+    return record.value(0).toString().toStdString();
+}
+
+Scientist DataManager::getScientistFromId(int id)
+{
+    string toQstring = "SELECT id, name, sex, birth, death, about "
+                       "FROM scientists WHERE id == " + to_string(id);
+    QSqlQuery record(toQstring.c_str());
+    record.next();
+
+    int newId = record.value(0).toInt();
+    string name = record.value(1).toString().toStdString();
+    string sex = record.value(2).toString().toStdString();
+    int birth = record.value(3).toInt();
+    int death = record.value(4).toInt();
+    string about = record.value(5).toString().toStdString();
+
+    return Scientist(name, sex[0], birth, death, about, newId);
+}
+
+void DataManager::addTypeOfComputer(string type)
+{
+    string newType = "INSERT OR REPLACE INTO pctype (type) VALUES ('" + type + "')";
+    query.exec(newType.c_str());
+    db.commit();
+}
+
+void DataManager::addUser(int userId, int computerId)
+{
+    string newType = "INSERT OR REPLACE INTO users (scientistID,computerID) VALUES ('"
+            + to_string(userId) + "','"
+            + to_string(computerId) + "' )";
+
+    query.exec(newType.c_str());
+    db.commit();
 }
 
 // edit type?
+//void DataManager::editTypeOfComputer(TypeOfComputer type)
+//{
+//    query.exec("");
+//}
 
+void DataManager::removeFromScientist(int id)
+{
 
+}
 
 DataManager::~DataManager(){}
-
-/*!
- * \brief DataManager::parseInput takes a vector of strings from the input and parses it into the correct format
- * \param csvLine
- * \returns a Scientist
- */
-Scientist DataManager::parseInput(vector<string> csvLine, int ID)
-{
-    return Scientist(csvLine[0], csvLine[1].c_str()[0], stoi(csvLine[2]), stoi(csvLine[3]), csvLine[4], ID);
-}
 
 /*!
  * \brief DataManager::addScientist Adds a scientist to the cvs file
@@ -136,112 +168,96 @@ void DataManager::addScientist(Scientist scientis)
 
 void DataManager::addComputer(Computer comp)
 {
-    string currComp = "";
-
-    currComp = "INSERT INTO computers(name, buildyear, type, wasbuilt, about)"
-               "VALUES('" + comp.getName()
-               + "','" + to_string(comp.getBuildYear())
-               + "','" + comp.getType()
-               + "','" + to_string(comp.getWasItBuilt())
-               + "','" + comp.getAbout() + "')";
-
-    query.exec(currComp.c_str());
+    query.prepare("INSERT INTO computers(name, buildyear, type, wasbuilt, about)"
+                  "VALUES(:name, :buildyear, :type, :wasbuilt, :about)");
+    query.bindValue(":name", comp.getName().c_str());
+    query.bindValue(":buildyear", comp.getBuildYear());
+    query.bindValue(":type", comp.getType());
+    query.bindValue(":wasbuilt", comp.getWasItBuilt());
+    query.bindValue(":about", comp.getAbout().c_str());
+    query.exec();
 }
-
-/*!
- * \brief DataManager::scientistToVector
- * \param Scientist
- * \returns a vector of strings
- */
-vector<string> DataManager::scientistToVector(Scientist scientis)
-{
-    //Changes the scientist class to a vector
-    return vector<string>
-    {
-        scientis.getName(),
-        to_string(scientis.getSex()),
-        to_string(scientis.getBirthYear()),
-        to_string(scientis.getDeathYear()),
-        scientis.getAbout()
-    };
-}
-
 
 vector<Scientist> DataManager::getAllScientists(SortOrder sort)
 {
-    /*vector<Scientist> allScientists;
-    vector<vector<string>> newScientists;
-    CSVReader docReader(fileName);//initialize the CSVReader class
-    newScientists = docReader.readAll();//gets vectors of vectors of strings which are essentially vectors of scientist in strings
-    for(unsigned i = 0; i < newScientists.size(); i++)//goes through all of the scientists
-    {
-        allScientists.push_back(parseInput(newScientists[i], i));//changes vectors of strings into scientist classes
-    }
-    return sortBy(allScientists, sort);//return the scientist in the sort chosen*/
     vector<Scientist> allScientists;
 
-    if(db.open())
+    int id;
+    string name;
+    string sex;
+    int birth;
+    int death;
+    string about;
+
+    // Otputs the list as the user wants it sorted
+    if(sort.sortBy == NAME)
     {
-        int id;
-        string name;
-        string sex;
-        int birth;
-        int death;
-        string about;
-
-        QSqlQuery query(db);
-
-        // Otputs the list as the user wants it sorted
-        if(sort.sortBy == NAME)
+        if(sort.direction == DESCENDING)
         {
-            if(sort.direction == DESCENDING)
-                query.exec("SELECT * FROM scientists ORDER BY name DESC");
-            else
-                query.exec("SELECT * FROM scientists ORDER BY name ASC");
-        }
-        else if(sort.sortBy == SEX)
-        {
-            if(sort.direction == DESCENDING)
-                query.exec("SELECT * FROM scientists ORDER BY sex DESC");
-            else
-                query.exec("SELECT * FROM scientists ORDER BY sex ASC");
-        }
-        else if(sort.sortBy == BIRTH)
-        {
-            if(sort.direction == DESCENDING)
-                query.exec("SELECT * FROM scientists ORDER BY birth DESC");
-            else
-                query.exec("SELECT * FROM scientists ORDER BY birth ASC");
-        }
-        else if(sort.sortBy == DEATH)
-        {
-            if(sort.direction == DESCENDING)
-                query.exec("SELECT * FROM scientists ORDER BY death DESC");
-            else
-                query.exec("SELECT * FROM scientists ORDER BY death ASC");
+            query.exec("SELECT * FROM scientists ORDER BY name DESC");
         }
         else
         {
-            if(sort.direction == DESCENDING)
-                query.exec("SELECT * FROM scientists ORDER BY id DESC");
-            else
-                query.exec("SELECT * FROM scientists ORDER BY id ASC");
+            query.exec("SELECT * FROM scientists ORDER BY name ASC");
         }
-
-        // Creates a scientist from the values and inserts the scientist to a vector
-        while(query.next())
+    }
+    else if(sort.sortBy == SEX)
+    {
+        if(sort.direction == DESCENDING)
         {
-            cout << "*" << endl;
-            id = query.value("ID").toUInt();
-            name = query.value("name").toString().toStdString();
-            sex = query.value("sex").toString().toStdString();
-            birth = query.value("birth").toUInt();
-            death = query.value("death").toUInt();
-            about = query.value("About").toString().toStdString();
-
-            Scientist sci(name, sex[0], birth, death, about, id);
-            allScientists.push_back(sci);
+            query.exec("SELECT * FROM scientists ORDER BY sex DESC");
         }
+        else
+        {
+            query.exec("SELECT * FROM scientists ORDER BY sex ASC");
+        }
+    }
+    else if(sort.sortBy == BIRTH)
+    {
+        if(sort.direction == DESCENDING)
+        {
+            query.exec("SELECT * FROM scientists ORDER BY birth DESC");
+        }
+        else
+        {
+            query.exec("SELECT * FROM scientists ORDER BY birth ASC");
+        }
+    }
+    else if(sort.sortBy == DEATH)
+    {
+        if(sort.direction == DESCENDING)
+        {
+            query.exec("SELECT * FROM scientists ORDER BY death DESC");
+        }
+        else
+        {
+            query.exec("SELECT * FROM scientists ORDER BY death ASC");
+        }
+    }
+    else
+    {
+        if(sort.direction == DESCENDING)
+        {
+            query.exec("SELECT * FROM scientists ORDER BY id DESC");
+        }
+        else
+        {
+            query.exec("SELECT * FROM scientists ORDER BY id ASC");
+        }
+    }
+
+    // Creates a scientist from the values and inserts the scientist to a vector
+    while(query.next())
+    {
+        id = query.value("ID").toUInt();
+        name = query.value("name").toString().toStdString();
+        sex = query.value("sex").toString().toStdString();
+        birth = query.value("birth").toUInt();
+        death = query.value("death").toUInt();
+        about = query.value("About").toString().toStdString();
+
+        Scientist sci(name, sex[0], birth, death, about, id);
+        allScientists.push_back(sci);
     }
 
     return allScientists;
@@ -255,7 +271,7 @@ vector<Computer> DataManager::getAllComputers(SortOrder sort)
     {
         string name;
         int buildYear;
-        string type;
+        int type;
         bool wasItBuilt;
         string about;
         int id;
@@ -305,16 +321,15 @@ vector<Computer> DataManager::getAllComputers(SortOrder sort)
             id = query.value("ID").toUInt();
             name = query.value("name").toString().toStdString();
             buildYear = query.value("buildyear").toUInt();
-            type = query.value("type").toString().toStdString();
+            type = query.value("type").toUInt();
             wasItBuilt = query.value("wasbuilt").toUInt();
             about = query.value("about").toString().toStdString();
 
             Computer comp(name, buildYear, type, wasItBuilt, about, id);
             allComputers.push_back(comp);
         }
-
-        return allComputers;
     }
+   return allComputers;
 }
 
 vector<Scientist> DataManager::findScientistByName(string subString, SortOrder sort)
@@ -348,7 +363,6 @@ vector<Scientist> DataManager::findScientistByName(string subString, SortOrder s
         }
         temp = "";
     }
-
     return matchingScientists;
 }
 
@@ -383,7 +397,6 @@ vector<Computer> DataManager::findComputerByName(string subString, SortOrder sor
         }
         temp = "";
     }
-
     return matchingComputers;
 }
 
@@ -400,7 +413,6 @@ vector<Scientist> DataManager::findByBirthYear(int yearFrom, int yearTo, SortOrd
             matchingScientists.push_back(allScientists[i]);
         }
     }
-
     return matchingScientists;
 }
 
@@ -417,7 +429,6 @@ vector<Scientist> DataManager::findByDeathYear(int yearFrom, int yearTo, SortOrd
             matchingScientists.push_back(allScientists[i]);
         }
     }
-
     return matchingScientists;
 }
 
@@ -442,96 +453,8 @@ vector<Scientist> DataManager::findBySex(string sex, SortOrder sort)
  * \param oneScientist
  * \returns the age of the given scientist
  */
-int DataManager::getage(Scientist oneScientist){
-
-    if(oneScientist.getDeathYear() == 0){
-        return 2015 - oneScientist.getBirthYear();
-    }
-
-   return oneScientist.getDeathYear() - oneScientist.getBirthYear();
-}
-
-
-
-struct sortByName
+int DataManager::getage(Scientist oneScientist)
 {
-    /*inline*/ bool operator() (const Scientist& name1, const Scientist& name2)
-    {
-        return (name1.getName() < name2.getName());
-    }
-};
-
-struct sortByBirth
-{
-    /*inline*/ bool operator() (const Scientist& birth1, const Scientist& birth2)
-    {
-        return (birth1.getBirthYear() < birth2.getBirthYear());
-    }
-};
-
-struct sortByDeath
-{
-    /*inline*/ bool operator() (const Scientist& death1, const Scientist& death2)
-    {
-        return (death1.getDeathYear() < death2.getDeathYear());
-    }
-};
-
-
-struct sortBySex
-{
-    /*inline */ bool operator() (const Scientist& sex1, const Scientist& sex2)
-    {
-        return (sex1.getSex() < sex2.getSex());
-    }
-};
-
-
-// This function gets an input from the user and sorts it.
-vector<Scientist> DataManager::sortBy(vector<Scientist> scientists, SortOrder sortOrder )
-{
-    switch(sortOrder.sortBy)
-    {
-        case NONE:
-            return scientists;
-
-        // Sorts names in alphabetical order.
-        case NAME:
-            sort(scientists.begin(), scientists.end(), sortByName());
-            break;
-
-        // Sorts birthyear "lowest to highest".
-        case BIRTH:
-            sort(scientists.begin(), scientists.end(), sortByBirth());
-            break;
-
-        // Sorts deathyear "lowest to highest".
-        case DEATH:
-            sort(scientists.begin(), scientists.end(), sortByDeath());
-            break;
-
-        // Sorts gender.
-        case SEX:
-            sort(scientists.begin(), scientists.end(), sortBySex());
-            break;
-
-        default:
-            return scientists;
-
-    }
-    // Reverses the elements in the Scientists vector.
-    if(sortOrder.direction == DESCENDING){
-        reverse (scientists.begin(), scientists.end());
-    }
-    return scientists;
-}
-
-void DataManager::writeNewScientistVectorToFile(vector<Scientist> scientists)
-{
-    CSVWriter csvW(fileName);
-    csvW.clear();
-    for (size_t i = 0; i < scientists.size(); i++)
-    {
-        csvW.add(scientistToVector(scientists[i]));
-    }
+    if(oneScientist.getDeathYear() == 0) { return 2015 - oneScientist.getBirthYear(); }
+    return oneScientist.getDeathYear() - oneScientist.getBirthYear();
 }

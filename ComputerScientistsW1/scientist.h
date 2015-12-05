@@ -12,8 +12,6 @@ class Scientist
 {
 public:
     Scientist(string newName, char newSex, int newBirthYear, int newDeathYear, string newAbout, int ID);
-    Scientist();
-    ~Scientist();
     string getName() const;
     char getSex() const;
     int getBirthYear() const;

@@ -13,8 +13,6 @@ SOURCES += main.cpp \
     Console.cpp \
     DataManager.cpp \
     Scientist.cpp \
-    CSVReader.cpp \
-    CSVWriter.cpp \
     Computer.cpp \
     TypeOfComputer.cpp
 
@@ -23,8 +21,5 @@ HEADERS += \
     DataManager.h \
     Scientist.h \
     SortBy.h \
-    CSVReader.h \
-    CSVWriter.h \
     Computer.h \
     TypeOfComputer.h
-

@@ -16,41 +16,46 @@ private:
     void editDatabase();
     void showScientists();
     void insertScientist();
+    int findScientist();
     void findScientistToEdit();
     void findScientistToDelete();
-    void changeScientist(vector<Scientist> scientis, int id);
-    void deleteScientist(vector<Scientist> scientis, int id);
-    bool promptAgain(string prompt);
+    void changeScientist(Scientist scientis);
+    void deleteScientist(Scientist scientis);
     SortOrder getSort();
     Direction getDirection();
     vector<Scientist> getScientist();
     void clearScreen();
     void insertComputer();
+    void insertUser();
     void showComputers();
     vector<Computer> getComputer();
     void seeDatabase();
 
     // Promts
+    bool promptYesNo(string prompt);
     string promptName();
     string promptAbout();
     char promptSex();
     int promptBirthYear();
+    int promptComputerMakeYear();
     int promptDeathYear(int birthYear);
     int getInt(string prompt);
-    string promptType();
+    int promptType();
     bool promptWasItBuilt();
-    //TypeOfComputer promptNewType();
+    void makeNewTypeOfComputer();
 
 
     // Checkers
     bool isNameValid(string name);
-    bool isAboutValid(string about);
+    //bool isAboutValid(string about);
     bool welcomeShown;
 
     // Printers
     void displayScientists(vector<Scientist> scientis);
     void displayComputers(vector<Computer> computers);
     void welcome();
+    string frameText(string emphasize);
+
 };
 
 #endif // CONSOLE_H
