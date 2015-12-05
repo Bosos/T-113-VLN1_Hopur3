@@ -17,10 +17,13 @@ private:
     void showScientists();
     void insertScientist();
     int findScientist();
+    int findComputer();
     void findScientistToEdit();
     void findScientistToDelete();
+    void findComputerToDelete();
     void changeScientist(Scientist scientis);
     void deleteScientist(Scientist scientis);
+    void deleteComputer(Computer comp);
     SortOrder getSort();
     Direction getDirection();
     vector<Scientist> getScientist();

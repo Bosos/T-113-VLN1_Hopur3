@@ -108,6 +108,23 @@ Scientist DataManager::getScientistFromId(int id)
     return Scientist(name, sex[0], birth, death, about, newId);
 }
 
+Computer DataManager::getComputerFromId(int id)
+{
+    string toQstring = "SELECT id, name, buildyear, type, wasbuilt, about "
+                       "FROM scientists WHERE id == " + to_string(id);
+    QSqlQuery record(toQstring.c_str());
+    record.next();
+
+    int newId = record.value(0).toInt();
+    string name = record.value(1).toString().toStdString();
+    int buildYear = record.value(2).toInt();
+    int type = record.value(3).toInt();
+    bool wasBuilt = record.value(4).toInt();
+    string about = record.value(5).toString().toStdString();
+
+    return Computer(name, buildYear, type, wasBuilt, about, newId);
+}
+
 void DataManager::addTypeOfComputer(string type)
 {
     string newType = "INSERT OR REPLACE INTO pctype (type) VALUES ('" + type + "')";
@@ -133,7 +150,18 @@ void DataManager::addUser(int userId, int computerId)
 
 void DataManager::removeFromScientist(int id)
 {
+    string deleteSci = "DELETE FROM scientists WHERE ID = " + to_string(id);
 
+    query.exec(deleteSci.c_str());
+    db.commit();
+}
+
+void DataManager::removeFromComputer(int id)
+{
+    string deleteComp = "DELETE FROM computer WHERE ID = " + to_string(id);
+
+    query.exec(deleteComp.c_str());
+    db.commit();
 }
 
 DataManager::~DataManager(){}

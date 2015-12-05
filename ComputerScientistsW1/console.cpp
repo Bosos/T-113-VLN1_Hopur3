@@ -138,7 +138,8 @@ void Console::editDatabase()
          << "2: Add a computer to the database" << endl
          << "3: Add a scientist - computer relation" << endl
          << "4: Edit an entry in the database" << endl
-         << "5: Delete an entry in the database" << endl
+         << "5: Delete a scientst from the database" << endl
+         << "6: Delete a computer from the database" << endl
          << "Other numbers: Go back to the start";
 
     int select = getInt("");    //Stores the user's choice
@@ -187,6 +188,13 @@ void Console::editDatabase()
             findScientistToDelete();
         }while(promptYesNo("Do you want to delete another computer scientist? Y/N"));
         return;
+    case 6:
+        do
+        {
+            clearScreen();
+            cout << frameText("Please enter the name of the computer you want to delete");
+            findComputerToDelete();
+        }while(promptYesNo("Do you want to delete another computer? Y/N"));
     default:
         cout << "1-3 not selected, going back\n";
         return;
@@ -340,6 +348,43 @@ int Console::findScientist()
     }
 }
 
+int Console::findComputer()
+{
+    string name = promptName();
+
+    //finds all the computers whos names match the user input and inserts them to a vector of computers
+    vector<Computer> allComputers = dataMan->findComputerByName(name, SortOrder());
+
+    //If there are more than 1 computer that match the user input,
+    //the program shows all of them to the user and then
+    //the user chooses the id of the scientist he want's to edit
+    if(allComputers.size() > 1)
+    {
+        clearScreen();
+        cout << "Matching computers:\n";
+
+        displayComputers(allComputers);
+
+        cout <<"Insert the ID of the computer you want to select: ";
+
+        // ask user to select and return the selected id
+        return getInt("");
+    }
+
+    //if there are no matching computers
+    else if(allComputers.size() == 0)
+    {
+        cout << "\nSorry, there is no matching computer in datafile\n";
+        return 0;
+    }
+
+    //return the only computer, if there is only one computer who's name matches the input
+    else
+    {
+        return allComputers.at(0).getID();
+    }
+}
+
 /*!
  * \brief Console::findScientistToEdit
  * Asks for user input in the search of a scientists with mathcing names
@@ -368,7 +413,19 @@ void Console::findScientistToDelete()
     if (!id) { return; }
 
     //deletes the scientist who's ID matches id
-    deleteScientist(dataMan->getScientistFromId(id));}
+    deleteScientist(dataMan->getScientistFromId(id));
+}
+
+void Console::findComputerToDelete()
+{
+    int id = findComputer();
+
+    // if no id was found
+    if (!id) { return; }
+
+    //deletes the scientist who's ID matches id
+    deleteComputer(dataMan->getComputerFromId(id));
+}
 
 /*!
  * \brief Console::changeScientist
@@ -461,6 +518,20 @@ void Console::deleteScientist(Scientist scientis)
     {
         //scientist has been removed from database
         dataMan->removeFromScientist(scientis.getID());
+    }
+}
+
+void Console::deleteComputer(Computer comp)
+{
+    clearScreen();
+    displayComputers(vector<Computer>(1,comp));
+
+
+    //User has to be sure if he want's to totally eliminate this computer
+    if(promptYesNo("Sure you want to delete " + comp.getName() + " Y/N"))
+    {
+        //computer has been removed from database
+        dataMan->removeFromComputer(comp.getID());
     }
 }
 
@@ -919,7 +990,6 @@ void Console::displayComputers(vector<Computer> computers)
     {
         string wasBuilt = "Yes";
         if (computers[i].getWasItBuilt()) {wasBuilt = "No"; }
-
         cout << setw(5) << left << computers[i].getID()
              << setw(8) << left << wasBuilt
              << setw(11) << left << dataMan->getTypeOfComputerFromId(computers[i].getType())

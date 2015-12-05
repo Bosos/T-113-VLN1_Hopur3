@@ -46,6 +46,8 @@ public:
     void addTypeOfComputer(string type);
     string getTypeOfComputerFromId(int id);
     Scientist getScientistFromId(int id);
+    void removeFromComputer(int id);
+    Computer getComputerFromId(int id);
 
     // OLD STUFF
     //void writeNewScientistVectorToFile(vector<Scientist> scientists);
