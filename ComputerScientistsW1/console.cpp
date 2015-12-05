@@ -337,7 +337,7 @@ int Console::findScientist()
     //if there are no matching scientists
     else if(allScientists.size() == 0)
     {
-        cout << "\nSorry, there is no matching scientist in datafile\n";
+        cout << "\nSorry, there is no matching scientist in database\n";
         return 0;
     }
 
@@ -367,14 +367,14 @@ int Console::findComputer()
 
         cout <<"Insert the ID of the coumputer you want to select: ";
 
-        // ask user to input id and return the selected id
+        // ask user for id and return the selected id
         return getInt("");
     }
 
     //if there are no matching computers
     else if(allComputers.size() == 0)
     {
-        cout << "\nSorry, there is no matching computers in the database\n";
+        cout << "\nSorry, there is no matching computer in database\n";
         return 0;
     }
 
@@ -384,7 +384,6 @@ int Console::findComputer()
         return allComputers.at(0).getID();
     }
 }
-
 
 /*!
  * \brief Console::findScientistToEdit
