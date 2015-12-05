@@ -108,12 +108,12 @@ void Console::seeDatabase()
 
 void Console::showComputers()
 {
-    //Creates a vector containing all scientists in currently database
+    //Creates a vector containing all computers in currently database
         vector<Computer> computers = getComputer();
 
         if (computers.size() == 0) { cout << "No No computer found"; }
 
-        //Prints out the scientists currently in database
+        //Prints out the computers currently in database
         else
         {
             clearScreen();
@@ -355,35 +355,36 @@ int Console::findComputer()
     //finds all the computers whos names match the user input and inserts them to a vector of computers
     vector<Computer> allComputers = dataMan->findComputerByName(name, SortOrder());
 
-    //If there are more than 1 computer that match the user input,
+    //If there are more than 1 computers that match the user input,
     //the program shows all of them to the user and then
-    //the user chooses the id of the scientist he want's to edit
+    //the user chooses the id of the computer he want's to edit
     if(allComputers.size() > 1)
     {
         clearScreen();
-        cout << "Matching computers:\n";
+        cout << "Matching coumputers:\n";
 
         displayComputers(allComputers);
 
-        cout <<"Insert the ID of the computer you want to select: ";
+        cout <<"Insert the ID of the coumputer you want to select: ";
 
-        // ask user to select and return the selected id
+        // ask user to input id and return the selected id
         return getInt("");
     }
 
     //if there are no matching computers
     else if(allComputers.size() == 0)
     {
-        cout << "\nSorry, there is no matching computer in datafile\n";
+        cout << "\nSorry, there is no matching computers in the database\n";
         return 0;
     }
 
-    //return the only computer, if there is only one computer who's name matches the input
+    //return the only computer, if there is only one computuer who's name matches the input
     else
     {
         return allComputers.at(0).getID();
     }
 }
+
 
 /*!
  * \brief Console::findScientistToEdit
