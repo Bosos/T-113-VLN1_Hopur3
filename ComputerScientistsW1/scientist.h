@@ -1,5 +1,5 @@
-#ifndef scientist
-#define scientist
+#ifndef scientistr
+#define scientistr
 
 #include "stdlib.h"
 #include <string>
@@ -33,5 +33,5 @@ private:
     int ID;
 };
 
-#endif // scientist
+#endif // scientistr
 

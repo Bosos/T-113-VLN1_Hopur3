@@ -24,13 +24,13 @@ public:
 
     //LOAD file
     //Scientist parseInput(vector<string> csvLine, int ID);
-    vector<Scientist> getAllScientists (SortOrder sort);
-    vector<Computer> getAllComputers (SortOrder sort);
-    vector<Scientist> findScientistByName (string name, SortOrder sort);
-    vector<Computer> findComputerByName(string subString, SortOrder sort);
-    vector<Scientist> findByBirthYear (int yearFrom, int yearTo, SortOrder sort);
-    vector<Scientist> findByDeathYear (int yearFrom, int yearTo, SortOrder sort);
-    vector<Scientist> findBySex(string sex, SortOrder sort);
+    vector<Scientist> getAllScientists (ScientistSortOrder sort);
+    vector<Computer> getAllComputers (ScientistSortOrder sort);
+    vector<Scientist> findScientistByName (string name, ScientistSortOrder sort);
+    vector<Computer> findComputerByName(string subString, ScientistSortOrder sort);
+    vector<Scientist> findByBirthYear (int yearFrom, int yearTo, ScientistSortOrder sort);
+    vector<Scientist> findByDeathYear (int yearFrom, int yearTo, ScientistSortOrder sort);
+    vector<Scientist> findBySex(string sex, ScientistSortOrder sort);
     //vector<Scientist> sortBy(vector<Scientist> scientists, SortOrder sort );
     int getage(Scientist oneScientist);
 
@@ -38,11 +38,10 @@ public:
     void initializeTables();
     void addComputer(Computer comp);
     void addUser(int userId, int computerId);
-    vector<Computer> getComputers(Scientist scientis);
-    vector<Scientist> getScientists(Computer computer);
+    vector<Computer> getComputersFromScientistId(int scientistId);
+    vector<Scientist> getScientistsFromComputerId(int computerId);
     vector<TypeOfComputer> getTypeOfComputers();
     void removeFromScientist(int id);
-
     void addTypeOfComputer(string type);
     string getTypeOfComputerFromId(int id);
     Scientist getScientistFromId(int id);
@@ -54,6 +53,9 @@ public:
     //vector<string> scientistToVector(Scientist scientis);
 
 private:
+    Scientist getNextScientistQuery(QSqlQuery query);
+    Computer getNextComputerQuery(QSqlQuery query);
+
     string fileName;
     QSqlDatabase db;
     QSqlQuery query;

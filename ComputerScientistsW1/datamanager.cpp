@@ -9,6 +9,13 @@
 #include <QSqlQuery>
 #include <QSqlRecord>
 
+// having problems with queries? try this
+//    auto error = query.lastError();
+//    if (error.isValid()) {
+//        cout << "ERROR: " << error.text().toStdString() << endl;
+//        cout << query.lastQuery().toStdString() << endl;
+//    }
+
 void DataManager::initializeTables()
 {
     query.exec("create table IF NOT EXISTS scientists ("
@@ -56,16 +63,39 @@ DataManager::DataManager(string dataBaseLocation)
     initializeTables();
 }
 
-vector<Computer> DataManager::getComputers(Scientist scientis)
+vector<Computer> DataManager::getComputersFromScientistId(int scientistId)
 {
-    // TODO
-    return vector<Computer>();
+    vector<Computer> allRelatedComputers;
+    QSqlQuery query(db);
+    query.prepare("SELECT computers.*"
+                  " FROM computers"
+                  " JOIN users on computers.ID = users.computerID"
+                  " WHERE users.scientistID = :sciID");
+    query.bindValue(":sciID", scientistId);
+    query.exec();
+
+    while(query.next())
+    {
+        allRelatedComputers.push_back(getNextComputerQuery(query));
+    }
+    return allRelatedComputers;
 }
 
-vector<Scientist> DataManager::getScientists(Computer scientis)
+vector<Scientist> DataManager::getScientistsFromComputerId(int computerId)
 {
-    // TODO
-    return vector<Scientist>();
+    vector<Scientist> allRelatedScientist;
+    QSqlQuery query(db);
+    query.prepare("SELECT scientists.*"
+                  " FROM scientists"
+                  " JOIN users on scientists.ID = users.scientistID"
+                  " WHERE users.computerID = :comID");
+    query.bindValue(":comID", computerId);
+    query.exec();
+    while(query.next())
+    {
+        allRelatedScientist.push_back(getNextScientistQuery(query));
+    }
+    return allRelatedScientist;
 }
 
 vector<TypeOfComputer> DataManager::getTypeOfComputers()
@@ -93,36 +123,22 @@ string DataManager::getTypeOfComputerFromId(int id)
 
 Scientist DataManager::getScientistFromId(int id)
 {
-    string toQstring = "SELECT id, name, sex, birth, death, about "
-                       "FROM scientists WHERE id == " + to_string(id);
-    QSqlQuery record(toQstring.c_str());
-    record.next();
-
-    int newId = record.value(0).toInt();
-    string name = record.value(1).toString().toStdString();
-    string sex = record.value(2).toString().toStdString();
-    int birth = record.value(3).toInt();
-    int death = record.value(4).toInt();
-    string about = record.value(5).toString().toStdString();
-
-    return Scientist(name, sex[0], birth, death, about, newId);
+    //QSqlQuery query(db); // may or maynot be needed uncomment if database seems flaky
+    query.prepare("SELECT * FROM scientists WHERE id == :id");
+    query.bindValue(":id", id);
+    query.exec();
+    query.next();
+    return getNextScientistQuery(query);
 }
 
 Computer DataManager::getComputerFromId(int id)
 {
-    string toQstring = "SELECT id, name, buildyear, type, wasbuilt, about "
-                       "FROM scientists WHERE id == " + to_string(id);
-    QSqlQuery record(toQstring.c_str());
-    record.next();
-
-    int newId = record.value(0).toInt();
-    string name = record.value(1).toString().toStdString();
-    int buildYear = record.value(2).toInt();
-    int type = record.value(3).toInt();
-    bool wasBuilt = record.value(4).toInt();
-    string about = record.value(5).toString().toStdString();
-
-    return Computer(name, buildYear, type, wasBuilt, about, newId);
+    //QSqlQuery query(db); // may or maynot be needed uncomment if database seems flaky
+    query.prepare("SELECT * FROM computers WHERE id == :id");
+    query.bindValue(":id", id);
+    query.exec();
+    query.next();
+    return getNextComputerQuery(query);
 }
 
 void DataManager::addTypeOfComputer(string type)
@@ -206,161 +222,68 @@ void DataManager::addComputer(Computer comp)
     query.exec();
 }
 
-vector<Scientist> DataManager::getAllScientists(SortOrder sort)
+vector<Scientist> DataManager::getAllScientists(ScientistSortOrder sort)
 {
     vector<Scientist> allScientists;
 
-    int id;
-    string name;
-    string sex;
-    int birth;
-    int death;
-    string about;
+    QSqlQuery query(db);
 
     // Otputs the list as the user wants it sorted
-    if(sort.sortBy == NAME)
-    {
-        if(sort.direction == DESCENDING)
-        {
-            query.exec("SELECT * FROM scientists ORDER BY name DESC");
-        }
-        else
-        {
-            query.exec("SELECT * FROM scientists ORDER BY name ASC");
-        }
-    }
-    else if(sort.sortBy == SEX)
-    {
-        if(sort.direction == DESCENDING)
-        {
-            query.exec("SELECT * FROM scientists ORDER BY sex DESC");
-        }
-        else
-        {
-            query.exec("SELECT * FROM scientists ORDER BY sex ASC");
-        }
-    }
-    else if(sort.sortBy == BIRTH)
-    {
-        if(sort.direction == DESCENDING)
-        {
-            query.exec("SELECT * FROM scientists ORDER BY birth DESC");
-        }
-        else
-        {
-            query.exec("SELECT * FROM scientists ORDER BY birth ASC");
-        }
-    }
-    else if(sort.sortBy == DEATH)
-    {
-        if(sort.direction == DESCENDING)
-        {
-            query.exec("SELECT * FROM scientists ORDER BY death DESC");
-        }
-        else
-        {
-            query.exec("SELECT * FROM scientists ORDER BY death ASC");
-        }
-    }
-    else
-    {
-        if(sort.direction == DESCENDING)
-        {
-            query.exec("SELECT * FROM scientists ORDER BY id DESC");
-        }
-        else
-        {
-            query.exec("SELECT * FROM scientists ORDER BY id ASC");
-        }
-    }
+    string command = "SELECT * FROM scientists ORDER BY " + sort.getSortByString() + " " + sort.getDirectionString();
+    query.exec(command.c_str());
 
     // Creates a scientist from the values and inserts the scientist to a vector
     while(query.next())
     {
-        id = query.value("ID").toUInt();
-        name = query.value("name").toString().toStdString();
-        sex = query.value("sex").toString().toStdString();
-        birth = query.value("birth").toUInt();
-        death = query.value("death").toUInt();
-        about = query.value("About").toString().toStdString();
-
-        Scientist sci(name, sex[0], birth, death, about, id);
-        allScientists.push_back(sci);
+        allScientists.push_back(getNextScientistQuery(query));
     }
 
     return allScientists;
 }
-
-vector<Computer> DataManager::getAllComputers(SortOrder sort)
+// query.next MUST be called before or it will fetch old/wrong data
+Scientist DataManager::getNextScientistQuery(QSqlQuery query)
 {
-   vector<Computer> allComputers;
+    int id = query.value("ID").toUInt();
+    string name = query.value("name").toString().toStdString();
+    string sex = query.value("sex").toString().toStdString();
+    int birth = query.value("birth").toUInt();
+    int death = query.value("death").toUInt();
+    string about = query.value("About").toString().toStdString();
 
-   if(db.open())
-    {
-        string name;
-        int buildYear;
-        int type;
-        bool wasItBuilt;
-        string about;
-        int id;
-
-        QSqlQuery query(db);
-
-        // Otputs the list as the user wants it sorted
-        if(sort.sortBy == NAME)
-        {
-            if(sort.direction == DESCENDING)
-                query.exec("SELECT * FROM computers ORDER BY name DESC");
-            else
-                query.exec("SELECT * FROM computers ORDER BY name ASC");
-        }
-        else if(sort.sortBy == SEX)
-        {
-            if(sort.direction == DESCENDING)
-                query.exec("SELECT * FROM computers ORDER BY sex DESC");
-            else
-                query.exec("SELECT * FROM computers ORDER BY sex ASC");
-        }
-        else if(sort.sortBy == BIRTH)
-        {
-            if(sort.direction == DESCENDING)
-                query.exec("SELECT * FROM computers ORDER BY birth DESC");
-            else
-                query.exec("SELECT * FROM computers ORDER BY birth ASC");
-        }
-        else if(sort.sortBy == DEATH)
-        {
-            if(sort.direction == DESCENDING)
-                query.exec("SELECT * FROM computers ORDER BY death DESC");
-            else
-                query.exec("SELECT * FROM computers ORDER BY death ASC");
-        }
-        else
-        {
-            if(sort.direction == DESCENDING)
-                query.exec("SELECT * FROM computers ORDER BY id DESC");
-            else
-                query.exec("SELECT * FROM computers ORDER BY id ASC");
-        }
-
-        // Creates a computer from the values and inserts the scientist to a vector
-        while(query.next())
-        {
-            id = query.value("ID").toUInt();
-            name = query.value("name").toString().toStdString();
-            buildYear = query.value("buildyear").toUInt();
-            type = query.value("type").toUInt();
-            wasItBuilt = query.value("wasbuilt").toUInt();
-            about = query.value("about").toString().toStdString();
-
-            Computer comp(name, buildYear, type, wasItBuilt, about, id);
-            allComputers.push_back(comp);
-        }
-    }
-   return allComputers;
+    return Scientist(name, sex[0], birth, death, about, id);
 }
 
-vector<Scientist> DataManager::findScientistByName(string subString, SortOrder sort)
+vector<Computer> DataManager::getAllComputers(ScientistSortOrder sort)
+{
+    vector<Computer> allComputers;
+    QSqlQuery query(db);
+
+    // Otputs the list as the user wants it sorted
+    string command = "SELECT * FROM computers ORDER BY " + sort.getSortByString() + " " + sort.getDirectionString();
+    query.exec(command.c_str());
+
+    // Creates a computer from the values and inserts the scientist to a vector
+    while(query.next())
+    {
+        allComputers.push_back(getNextComputerQuery(query));
+    }
+    return allComputers;
+}
+
+// query.next MUST be called before or it will fetch old/wrong data
+Computer DataManager::getNextComputerQuery(QSqlQuery query)
+{
+    int id = query.value("ID").toUInt();
+    string name = query.value("name").toString().toStdString();
+    int buildYear = query.value("buildyear").toUInt();
+    int type = query.value("type").toUInt();
+    bool wasItBuilt = query.value("wasbuilt").toUInt();
+    string about = query.value("about").toString().toStdString();
+
+    return Computer(name, buildYear, type, wasItBuilt, about, id);
+}
+
+vector<Scientist> DataManager::findScientistByName(string subString, ScientistSortOrder sort)
 {
     vector<Scientist> allScientists = getAllScientists(sort);
     vector<Scientist> matchingScientists;
@@ -394,7 +317,7 @@ vector<Scientist> DataManager::findScientistByName(string subString, SortOrder s
     return matchingScientists;
 }
 
-vector<Computer> DataManager::findComputerByName(string subString, SortOrder sort)
+vector<Computer> DataManager::findComputerByName(string subString, ScientistSortOrder sort)
 {
     vector<Computer> allComputers = getAllComputers(sort);
     vector<Computer> matchingComputers;
@@ -428,7 +351,7 @@ vector<Computer> DataManager::findComputerByName(string subString, SortOrder sor
     return matchingComputers;
 }
 
-vector<Scientist> DataManager::findByBirthYear(int yearFrom, int yearTo, SortOrder sort)
+vector<Scientist> DataManager::findByBirthYear(int yearFrom, int yearTo, ScientistSortOrder sort)
 {
     vector<Scientist> allScientists = getAllScientists(sort);
     vector<Scientist> matchingScientists;
@@ -444,7 +367,7 @@ vector<Scientist> DataManager::findByBirthYear(int yearFrom, int yearTo, SortOrd
     return matchingScientists;
 }
 
-vector<Scientist> DataManager::findByDeathYear(int yearFrom, int yearTo, SortOrder sort)
+vector<Scientist> DataManager::findByDeathYear(int yearFrom, int yearTo, ScientistSortOrder sort)
 {
     vector<Scientist> allScientists = getAllScientists(sort);
     vector<Scientist> matchingScientists;
@@ -460,7 +383,7 @@ vector<Scientist> DataManager::findByDeathYear(int yearFrom, int yearTo, SortOrd
     return matchingScientists;
 }
 
-vector<Scientist> DataManager::findBySex(string sex, SortOrder sort)
+vector<Scientist> DataManager::findBySex(string sex, ScientistSortOrder sort)
 {
     vector<Scientist> allScientists = getAllScientists(sort);
     vector<Scientist> matchingScientists;

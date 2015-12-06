@@ -14,7 +14,8 @@ SOURCES += main.cpp \
     DataManager.cpp \
     Scientist.cpp \
     Computer.cpp \
-    TypeOfComputer.cpp
+    TypeOfComputer.cpp \
+    SortBy.cpp
 
 HEADERS += \
     Console.h \

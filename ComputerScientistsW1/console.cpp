@@ -83,7 +83,9 @@ void Console::seeDatabase()
 
         cout << frameText("What do you want to see?")
              << "1: Scientists" << endl
-             << "2: Computers";
+             << "2: Computers" << endl
+             << "3: List of what computers a scientist used" << endl
+             << "4: list of scientist that used a computer";
                 //TODO more to see
 
         int select = getInt("");    //stores the user's choice
@@ -92,37 +94,86 @@ void Console::seeDatabase()
 
         case 1:
             showScientists();
-            break;
+            return;
 
         case 2:
             showComputers();
-            break;
+            return;
+
+        case 3:
+            showWhatComputersAScientistUsed();
+            return;
+
+        case 4:
+            showWhatScientistsUsedAComputer();
+            return;
 
         default:
-            // Repeat while loop
-            //cout << "The number should be between 1 and 2";
             return;
         }
     }
 }
 
+void Console::showWhatComputersAScientistUsed()
+{
+    int id = findScientist();
+    vector<Computer> scientistComputers = dataMan->getComputersFromScientistId(id);
+    Scientist curScientist = dataMan->getScientistFromId(id);
+
+    clearScreen();
+
+    displayScientists(vector<Scientist>{curScientist});
+    if (scientistComputers.size() == 0)
+    {
+        cout << endl
+             << "This scientist has either not used any of the computers in this database or the" << endl
+             << "relation has not yet been made. Select 1 at the main menu to edit the database";
+    }
+    else
+    {
+        cout << endl << "Used these computers" << endl;
+        displayComputers(scientistComputers);
+    }
+    promptEnterToContinue();
+}
+
+void Console::showWhatScientistsUsedAComputer()
+{
+    int id = findComputer();
+    vector<Scientist> usersOfComputer = dataMan->getScientistsFromComputerId(id);
+    Computer curComputer = dataMan->getComputerFromId(id);
+
+    clearScreen();
+
+    displayComputers(vector<Computer>{curComputer});
+    if (usersOfComputer.size() == 0)
+    {
+        cout << endl << "No record of Users of this computer in the database, add them with the edit functions";
+    }
+    else
+    {
+        cout << endl << "Was used by:" << endl;
+        displayScientists(usersOfComputer);
+    }
+    promptEnterToContinue();
+}
+
 void Console::showComputers()
 {
     //Creates a vector containing all computers in currently database
-        vector<Computer> computers = getComputer();
+    vector<Computer> computers = getComputer();
 
-        if (computers.size() == 0) { cout << "No No computer found"; }
+    if (computers.size() == 0) { cout << "No No computer found"; }
 
-        //Prints out the computers currently in database
-        else
-        {
-            clearScreen();
-            displayComputers(computers);
-        }
+    //Prints out the computers currently in database
+    else
+    {
+        clearScreen();
+        displayComputers(computers);
+    }
 
-        // Wait for user input so the results can stay on screen
-        string continues;
-        getline(cin,continues);
+    // Wait for user input so the results can stay on screen
+    promptEnterToContinue();
 }
 
 /*!
@@ -138,7 +189,7 @@ void Console::editDatabase()
          << "2: Add a computer to the database" << endl
          << "3: Add a scientist - computer relation" << endl
          << "4: Edit an entry in the database" << endl
-         << "5: Delete a scientst from the database" << endl
+         << "5: Delete a scientist from the database" << endl
          << "6: Delete a computer from the database" << endl
          << "Other numbers: Go back to the start";
 
@@ -243,7 +294,7 @@ void Console::insertComputer()
 
 void Console::insertUser()
 {
-    findScientistToEdit();
+    findSciAndComToMakeUser();
 }
 
 /*!
@@ -265,8 +316,7 @@ void Console::showScientists()
     }
 
     // Wait for user input so the results can stay on screen
-    string continues;
-    getline(cin,continues);
+    promptEnterToContinue();
 }
 
 /*!
@@ -316,7 +366,7 @@ int Console::findScientist()
     string name = promptName();
 
     //finds all the scientists whos names match the user input and inserts them to a vector of scientists
-    vector<Scientist> allScientists = dataMan->findScientistByName(name, SortOrder());
+    vector<Scientist> allScientists = dataMan->findScientistByName(name, ScientistSortOrder());
 
     //If there are more than 1 scientists that match the user input,
     //the program shows all of them to the user and then
@@ -352,22 +402,22 @@ int Console::findComputer()
 {
     string name = promptName();
 
-    //finds all the computers whos names match the user input and inserts them to a vector of computers
-    vector<Computer> allComputers = dataMan->findComputerByName(name, SortOrder());
+    //finds all the scientists whos names match the user input and inserts them to a vector of scientists
+    vector<Computer> allComputers = dataMan->findComputerByName(name, ScientistSortOrder());
 
-    //If there are more than 1 computers that match the user input,
+    //If there are more than 1 scientists that match the user input,
     //the program shows all of them to the user and then
-    //the user chooses the id of the computer he want's to edit
+    //the user chooses the id of the scientist he want's to edit
     if(allComputers.size() > 1)
     {
         clearScreen();
-        cout << "Matching coumputers:\n";
+        cout << "Matching computers:\n";
 
         displayComputers(allComputers);
 
-        cout <<"Insert the ID of the coumputer you want to select: ";
+        cout <<"Insert the ID of the computer you want to select: ";
 
-        // ask user for id and return the selected id
+        // ask user to select and return the selected id
         return getInt("");
     }
 
@@ -378,7 +428,7 @@ int Console::findComputer()
         return 0;
     }
 
-    //return the only computer, if there is only one computuer who's name matches the input
+    //return the only computer, if there is only one computer who's name matches the input
     else
     {
         return allComputers.at(0).getID();
@@ -425,6 +475,28 @@ void Console::findComputerToDelete()
 
     //deletes the scientist who's ID matches id
     deleteComputer(dataMan->getComputerFromId(id));
+}
+
+/*!
+ * \brief Console::findScientistToEdit
+ * Asks for user input in the search of a scientists and computers with mathcing names
+ * will find substings but is case sensitive
+ */
+void Console::findSciAndComToMakeUser()
+{
+    int sciId = findScientist();
+    int comId = findComputer();
+
+    // if no id was found on either
+    if (!sciId || !comId) { return; }
+
+    //edits the scientist who's ID matches id
+    dataMan->addUser(sciId, comId);
+}
+
+void Console::displayRelation(Scientist scientist)
+{
+    vector<Computer> computers;
 }
 
 /*!
@@ -483,10 +555,8 @@ void Console::changeScientist(Scientist scientis)
 
         //Show the user the modified scientist
         clearScreen();
-                info = "-------------------------------------------------------------"
-                      "\n" + scientis.getName() + "'s information is now: \n"
-                      "-------------------------------------------------------------"
-                      "\nName: " + scientis.getName() +
+                info = frameText(scientis.getName() + "'s information is now:") +
+                      "Name: " + scientis.getName() +
                       "\nSex: " + scientis.getSex() +
                       "\nYear of birth: " + to_string(scientis.getBirthYear()) +
                       "\nYear of death: " + to_string(scientis.getDeathYear()) +
@@ -774,10 +844,10 @@ vector<Computer> Console::getComputer()
  * \brief Console::getSort
  * \return SortOrder
  */
-SortOrder Console::getSort()
+ScientistSortOrder Console::getSort()
 {
     int choice;
-    SortOrder sort;
+    ScientistSortOrder sort;
 
     clearScreen();
 
@@ -794,12 +864,12 @@ SortOrder Console::getSort()
     switch ( choice )
     {
     case 1:
-        sort.sortBy = NONE;
+        sort.sortBy = SID;
         sort.direction = ASCENDING;
         return sort;
 
     case 2:
-        sort.sortBy = NAME;
+        sort.sortBy = SNAME;
         break;
 
     case 3:
@@ -816,7 +886,7 @@ SortOrder Console::getSort()
 
     default:
         cout << endl << "Error, bad input, No sorting used\n\n";
-        sort.sortBy = NONE;
+        sort.sortBy = SID;
         sort.direction = ASCENDING;
         return sort;
     }
@@ -951,7 +1021,7 @@ void Console::clearScreen()
  */
 void Console::displayScientists(vector<Scientist> scientists)
 {
-    cout << "-------------------------------------------------------------" << endl
+    cout << "---------------------------------------------------------------------" << endl
          << setw(5) << left << "ID"
          << setw(5) << left << "Age"
          << setw(5) << left << "Sex"
@@ -959,7 +1029,7 @@ void Console::displayScientists(vector<Scientist> scientists)
          << setw(8) << left << "Death"
          << setw(30) << left << "Name"
          << setw(50) << left << "About"<< endl
-         << "-------------------------------------------------------------" << endl;
+         << "---------------------------------------------------------------------" << endl;
     for(size_t i = 0; i < scientists.size(); i++)
     {
         cout << setw(5) << left << scientists[i].getID()
@@ -973,19 +1043,19 @@ void Console::displayScientists(vector<Scientist> scientists)
              << setw(50) << left << scientists[i].getAbout()
              << endl;
     }
-    cout << "-------------------------------------------------------------" << endl;
+    cout << "---------------------------------------------------------------------" << endl;
 }
 
 void Console::displayComputers(vector<Computer> computers)
 {
-    cout << "-------------------------------------------------------------" << endl
+    cout << "---------------------------------------------------------------------" << endl
          << setw(5) << left << "ID"
          << setw(8) << left << "Built"
          << setw(11) << left << "Type"
          << setw(6) << left << "Year"
          << setw(30) << left << "Name"
          << setw(50) << left << "About"<< endl
-         << "-------------------------------------------------------------" << endl;
+         << "---------------------------------------------------------------------" << endl;
     for(size_t i = 0; i < computers.size(); i++)
     {
         string wasBuilt = "Yes";
@@ -998,13 +1068,20 @@ void Console::displayComputers(vector<Computer> computers)
              << setw(50) << left << computers[i].getAbout()
              << endl;
     }
-    cout << "-------------------------------------------------------------" << endl;
+    cout << "---------------------------------------------------------------------" << endl;
 }
 
 string Console::frameText(string emphasize)
 {
-    return "#--------------------------------------------------------------#\n"
+    return "#----------------------------------------------------------------------#\n  "
          + emphasize
-         + "\n#--------------------------------------------------------------#\n";
+         + "\n#----------------------------------------------------------------------#\n";
+}
+
+void Console::promptEnterToContinue()
+{
+    cout << "Press enter to continue ";
+    string stopHere;
+    getline(cin,stopHere);
 }
 
