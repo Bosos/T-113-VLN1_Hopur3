@@ -163,7 +163,10 @@ void Console::showComputers()
     //Creates a vector containing all computers in currently database
     vector<Computer> computers = getComputer();
 
-    if (computers.size() == 0) { cout << "No No computer found"; }
+    if (computers.size() == 0)
+    {
+        cout << "No No computer found";
+    }
 
     //Prints out the computers currently in database
     else
@@ -306,7 +309,10 @@ void Console::showScientists()
     //Creates a vector containing all scientists in currently database
     vector<Scientist> scientists = getScientist();
 
-    if (scientists.size() == 0) { cout << "No Scientist found"; }
+    if (scientists.size() == 0)
+    {
+        cout << "No Scientist found";
+    }
 
     //Prints out the scientists currently in database
     else
@@ -471,7 +477,10 @@ void Console::findComputerToDelete()
     int id = findComputer();
 
     // if no id was found
-    if (!id) { return; }
+    if (!id)
+    {
+        return;
+    }
 
     //deletes the scientist who's ID matches id
     deleteComputer(dataMan->getComputerFromId(id));
@@ -488,7 +497,10 @@ void Console::findSciAndComToMakeUser()
     int comId = findComputer();
 
     // if no id was found on either
-    if (!sciId || !comId) { return; }
+    if (!sciId || !comId)
+    {
+        return;
+    }
 
     //edits the scientist who's ID matches id
     dataMan->addUser(sciId, comId);
@@ -674,7 +686,10 @@ int Console::promptBirthYear()
         birthYear = getInt("");
 
         //Only allows birthyear to be greater than or equals to 1200 and less than 2016
-        if(birthYear >= 1200 && birthYear <= 2015) { return birthYear; }
+        if(birthYear >= 1200 && birthYear <= 2015)
+        {
+            return birthYear;
+        }
 
         // we dont get here if the year was valid
         cout << "Please enter a valid birth year.(1200-2015)\n";
@@ -694,7 +709,10 @@ int Console::promptComputerMakeYear()
         makeYear = getInt("");
 
         //Only allows birthyear to be greater than or equals to 1200 and less than 2016
-        if(makeYear >= 1800 && makeYear <= 2015) { return makeYear; }
+        if(makeYear >= 1800 && makeYear <= 2015)
+        {
+            return makeYear;
+        }
 
         // we dont get here if the year was valid
         cout << "Please enter a valid year.(1800-2015)\n";
@@ -826,11 +844,14 @@ vector<Computer> Console::getComputer()
 
     select = getInt("");
     string sex = "";
-    if (select == 0) { return vector<Computer>(); }
+    if (select == 0)
+    {
+        return vector<Computer>();
+    }
 
     //Fetches a function according to the user's input
-    switch (select) {
-
+    switch (select)
+    {
     case 1:
         return dataMan->getAllComputers (getSort());
         //TODO add more cases
@@ -927,7 +948,7 @@ Direction Console::getDirection(){
  * \brief Console::isNameValid
  * Checks for user intent, all names are allowed, but weird characters are checked
  * and the user gets prompted on if the name should contain that character
- * \param Takse in a name to check
+ * \param Takes in a name to check
  * \return True if name is normal or if the user intends to use special characters
  */
 bool Console::isNameValid(string name)
@@ -941,8 +962,14 @@ bool Console::isNameValid(string name)
     {
         if (isdigit(name[i]))
         {
-            if(!promptYesNo("Did you mean to leave a number in the name? Y/N")){ return false; }
-            else { break; }
+            if(!promptYesNo("Did you mean to leave a number in the name? Y/N"))
+            {
+                return false;
+            }
+            else
+            {
+                break;
+            }
         }
 
     }
@@ -955,8 +982,14 @@ bool Console::isNameValid(string name)
             if (unicodeName.contains( listOfBadCharacters.midRef(i, 1)))
             {
                 cout << "Did you mean to leave a \'" << listOfBadCharacters.midRef(i, 1).toUtf8().constData() << "\' in the name? Y/N";
-                if(!promptYesNo("")){ return false; }
-                else { i++; }
+                if(!promptYesNo(""))
+                {
+                    return false;
+                }
+                else
+                {
+                    i++;
+                }
             }
         }
 
@@ -976,9 +1009,18 @@ bool Console::promptYesNo(string prompt){
         string answer = "";
         cin.clear();
         getline(cin, answer);
-        if (answer[0] == 'n' || answer[0] == 'N') { return false; }
-        else if (answer[0] == 'y' || answer[0] == 'Y') { return true; }
-        else { cout << "Invalid input, try again"<< endl << ":"; }
+        if (answer[0] == 'n' || answer[0] == 'N')
+        {
+            return false;
+        }
+        else if (answer[0] == 'y' || answer[0] == 'Y')
+        {
+            return true;
+        }
+        else
+        {
+            cout << "Invalid input, try again"<< endl << ":";
+        }
         cout << answer;
     }
 }
@@ -989,7 +1031,8 @@ bool Console::promptYesNo(string prompt){
  * \param prompt
  * \return myNumber
  */
-int Console::getInt(string prompt){
+int Console::getInt(string prompt)
+{
     string input = "";
     int myNumber = 0;
     while (true) {
@@ -998,7 +1041,10 @@ int Console::getInt(string prompt){
 
         // This code converts from string to number safely.
         stringstream myStream(input);
-        if (myStream >> myNumber) { break; }
+        if (myStream >> myNumber)
+        {
+            break;
+        }
         cout << "Not a number, please try again";
     }
     return myNumber;
@@ -1037,8 +1083,14 @@ void Console::displayScientists(vector<Scientist> scientists)
              << setw(5) << left << scientists[i].getSex()
              << setw(7) << left << scientists[i].getBirthYear()
              << setw(8) << left;
-        if(scientists[i].getDeathYear() != 0){ cout << scientists[i].getDeathYear(); }
-        else{cout << "Alive";}
+        if(scientists[i].getDeathYear() != 0)
+        {
+            cout << scientists[i].getDeathYear();
+        }
+        else
+        {
+            cout << "Alive";
+        }
         cout << setw(30) << left << scientists[i].getName()
              << setw(50) << left << scientists[i].getAbout()
              << endl;
@@ -1059,7 +1111,10 @@ void Console::displayComputers(vector<Computer> computers)
     for(size_t i = 0; i < computers.size(); i++)
     {
         string wasBuilt = "Yes";
-        if (computers[i].getWasItBuilt()) {wasBuilt = "No"; }
+        if (computers[i].getWasItBuilt())
+        {
+            wasBuilt = "No";
+        }
         cout << setw(5) << left << computers[i].getID()
              << setw(8) << left << wasBuilt
              << setw(11) << left << dataMan->getTypeOfComputerFromId(computers[i].getType())

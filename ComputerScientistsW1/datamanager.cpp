@@ -406,6 +406,9 @@ vector<Scientist> DataManager::findBySex(string sex, ScientistSortOrder sort)
  */
 int DataManager::getage(Scientist oneScientist)
 {
-    if(oneScientist.getDeathYear() == 0) { return 2015 - oneScientist.getBirthYear(); }
+    if(oneScientist.getDeathYear() == 0)
+    {
+        return 2015 - oneScientist.getBirthYear();
+    }
     return oneScientist.getDeathYear() - oneScientist.getBirthYear();
 }
