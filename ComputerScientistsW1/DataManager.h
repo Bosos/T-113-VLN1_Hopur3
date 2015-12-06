@@ -47,6 +47,8 @@ public:
     Scientist getScientistFromId(int id);
     void removeFromComputer(int id);
     Computer getComputerFromId(int id);
+    void updateScientist(Scientist scientis);
+    void updateComputer(Computer comp);
 
     // OLD STUFF
     //void writeNewScientistVectorToFile(vector<Scientist> scientists);

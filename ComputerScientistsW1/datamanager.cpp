@@ -174,7 +174,7 @@ void DataManager::removeFromScientist(int id)
 
 void DataManager::removeFromComputer(int id)
 {
-    string deleteComp = "DELETE FROM computer WHERE ID = " + to_string(id);
+    string deleteComp = "DELETE FROM computers WHERE ID = " + to_string(id);
 
     query.exec(deleteComp.c_str());
     db.commit();
@@ -240,6 +240,7 @@ vector<Scientist> DataManager::getAllScientists(ScientistSortOrder sort)
 
     return allScientists;
 }
+
 // query.next MUST be called before or it will fetch old/wrong data
 Scientist DataManager::getNextScientistQuery(QSqlQuery query)
 {
@@ -411,4 +412,51 @@ int DataManager::getage(Scientist oneScientist)
         return 2015 - oneScientist.getBirthYear();
     }
     return oneScientist.getDeathYear() - oneScientist.getBirthYear();
+}
+
+void DataManager::updateScientist(Scientist scientis)
+{
+    string update = "";
+
+    if (scientis.getDeathYear() == 0)
+    {
+         update = "INSERT OR REPLACE INTO scientists(ID,name,sex,birth,about)"
+              "VALUES('" + to_string(scientis.getID())
+                 + "','" + scientis.getName()
+                 + "','" + scientis.getSex()
+                 + "','" + to_string(scientis.getBirthYear())
+                 + "','" + scientis.getAbout() + "')";
+    }
+    else
+    {
+        update = "INSERT OR REPLACE INTO scientists(ID,name,sex,birth,death,about)"
+             "VALUES('" + to_string(scientis.getID())
+                + "','" + scientis.getName()
+                + "','" + scientis.getSex()
+                + "','" + to_string(scientis.getBirthYear())
+                + "','" + to_string(scientis.getDeathYear())
+                + "','" + scientis.getAbout() + "')";
+    }
+
+    query.exec(update.c_str());
+}
+
+void DataManager::updateComputer(Computer comp)
+{
+    string wasBuilt = "Yes";
+    if(comp.getWasItBuilt())
+    {
+        wasBuilt = "No";
+    }
+
+    string update = "INSERT OR REPLACE INTO computers(ID,name,buildyear,type,wasbuilt,about) "
+                    "VALUES('" + to_string(comp.getID())
+                    + "','" + comp.getName()
+                    + "','" + to_string(comp.getBuildYear())
+                    + "','" + to_string(comp.getType())
+                    + "','" + wasBuilt
+                    + "','" + comp.getAbout()
+                    + "')";
+
+    query.exec(update.c_str());
 }

@@ -51,10 +51,11 @@ void Console::run()
              << "2: See database" << endl
              << "3: Quit";
 
-        int select = getInt("");    //stores the user's choice
+        //stores the user's choice
+        int select = getInt("");
 
-        switch (select) {   //Calls appropriate function based on the user's choice
-
+        //Calls appropriate function based on the user's choice
+        switch (select) {
         case 1:
             editDatabase();
             break;
@@ -88,10 +89,12 @@ void Console::seeDatabase()
              << "4: list of scientist that used a computer";
                 //TODO more to see
 
-        int select = getInt("");    //stores the user's choice
+        //stores the user's choice
+        int select = getInt("");
 
-        switch (select) {   //Calls appropriate function based on the user's choice
-
+        //Calls appropriate function based on the user's choice
+        switch (select)
+        {
         case 1:
             showScientists();
             return;
@@ -191,12 +194,14 @@ void Console::editDatabase()
          << "1: Add a scientist to the database" << endl
          << "2: Add a computer to the database" << endl
          << "3: Add a scientist - computer relation" << endl
-         << "4: Edit an entry in the database" << endl
-         << "5: Delete a scientist from the database" << endl
-         << "6: Delete a computer from the database" << endl
+         << "4: Edit a scientist in the database" << endl
+         << "5: Edit a computer in the database" << endl
+         << "6: Delete a scientist from the database" << endl
+         << "7: Delete a computer from the database" << endl
          << "Other numbers: Go back to the start";
 
-    int select = getInt("");    //Stores the user's choice
+    //Stores the user's choice
+    int select = getInt("");
 
     //Calls appropriate functions based on the user's choice
     switch (select)
@@ -231,10 +236,19 @@ void Console::editDatabase()
             clearScreen();
             cout << frameText("Please enter the name of the scientist you want to edit");
             findScientistToEdit();
-        }while(promptYesNo("Do you want to edit another computer scientist? Y/N"));
+        }while(promptYesNo("Do you want to edit another scientist? Y/N"));
         return;
 
     case 5:
+        do
+        {
+            clearScreen();
+            cout << frameText("Please enter the name of the computer you want to edit");
+            findComputerToEdit();
+        }while(promptYesNo("Do you want to edit another computer? Y/N"));
+        return;
+
+    case 6:
         do
         {
             clearScreen();
@@ -242,7 +256,7 @@ void Console::editDatabase()
             findScientistToDelete();
         }while(promptYesNo("Do you want to delete another computer scientist? Y/N"));
         return;
-    case 6:
+    case 7:
         do
         {
             clearScreen();
@@ -250,7 +264,7 @@ void Console::editDatabase()
             findComputerToDelete();
         }while(promptYesNo("Do you want to delete another computer? Y/N"));
     default:
-        cout << "1-3 not selected, going back\n";
+        cout << "1-7 not selected, going back\n";
         return;
     }
 }
@@ -578,8 +592,7 @@ void Console::changeScientist(Scientist scientis)
         // if yes? maybe
         //saves the modifications to database
 
-        //TODO save changes to scientist
-        //dataMan->writeNewScientistVectorToFile(scientis);
+        dataMan->updateScientist(scientis);
     }while(!promptYesNo(info));
 }
 
@@ -625,10 +638,12 @@ void Console::deleteComputer(Computer comp)
 string Console::promptName()
 {
     string name = "";
+
     //This loops while the name is not valid
     do
     {
         cout << "Name: ";
+
         //gets the user's input
         getline(cin, name);
     } while (!isNameValid(name));
@@ -645,6 +660,7 @@ string Console::promptAbout()
 {
     string about = "";
     cout << "\nAbout: ";
+
     //gets the user's input
     getline(cin, about);
     return about;
@@ -657,10 +673,12 @@ string Console::promptAbout()
 char Console::promptSex()
 {
     string sex = "";
+
     //this loops if sex is not either m/M or f/F
     while(true)
     {
         cout << "Sex (M/F): ";
+
         //gets the user's input
         getline(cin, sex);
 
@@ -1140,3 +1158,83 @@ void Console::promptEnterToContinue()
     getline(cin,stopHere);
 }
 
+void Console::findComputerToEdit()
+{
+    int id = findComputer();
+
+    // if no id was found
+    if (!id) { return; }
+
+    //edits the computer who's ID matches id
+    changeComputer(dataMan->getComputerFromId(id));
+}
+
+void Console::changeComputer(Computer comp)
+{
+    clearScreen();
+
+    string info;
+
+    do{
+        cout << "-------------------------------------------------------------"
+                "\nWhat would you like to change about " + comp.getName() + "?"
+                "\n1: Name"
+                "\n2: Build year"
+                "\n3: Type"
+                "\n4: Was it built"
+                "\n5: About";
+
+        int select = getInt("");
+
+        //User chooses which attribute to edit
+        switch(select)
+        {
+        case 1:
+            //sets the chosen computers name to user's input
+            comp.setName(promptName());
+            break;
+
+        case 2:
+            //sets the chosen computer build year to user's input
+            comp.setBuildYear(promptBirthYear());
+            break;
+
+        case 3:
+            //sets the chosen computers type to user's input
+            comp.setType(promptType());
+            break;
+
+        case 4:
+            //sets the chosen computers was built to user's input
+            comp.setWasItBuilt(promptYesNo("Was the computer built? Y/N"));
+            break;
+
+        case 5:
+            //sets the chosen computers about to user's input
+            comp.setAbout(promptAbout());
+            break;
+
+        default:
+            cout << "1-5 not selected, going back\n";
+            return;
+        }
+
+        //Show the user the modified scientist
+        clearScreen();
+        string wasBuilt = "Yes";
+        if(comp.getWasItBuilt())
+        {
+            wasBuilt = "No";
+        }
+
+                info = frameText(comp.getName() + "'s information is now:") +
+                      "\nName: " + comp.getName() +
+                      "\nBuild Year: " + to_string(comp.getBuildYear()) +
+                      "\nType: " + dataMan->getTypeOfComputerFromId(comp.getID()) +
+                      "\nWas it built: " + wasBuilt +
+                      "\nAbout: " + comp.getAbout() +
+                      "\nDone editing? Y/N";
+
+        dataMan->updateComputer(comp);
+    }while(!promptYesNo(info));
+}

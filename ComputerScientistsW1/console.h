@@ -32,6 +32,8 @@ private:
     void insertComputer();
     void insertUser();
     void showComputers();
+    void findComputerToEdit();
+    void changeComputer(Computer comp);
 
     vector<Computer> getComputer();
     void seeDatabase();
@@ -46,7 +48,7 @@ private:
     int promptDeathYear(int birthYear);
     int getInt(string prompt);
     int promptType();
-    bool promptWasItBuilt();
+    //bool promptWasItBuilt();
     void makeNewTypeOfComputer();
     void showWhatComputersAScientistUsed();
     void showWhatScientistsUsedAComputer();
