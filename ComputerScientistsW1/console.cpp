@@ -801,6 +801,7 @@ vector<Scientist> Console::getScientist()
     int yearStart = 0;
     int yearStop = 0;
     string sex = "";
+    string name = "";
 
     clearScreen();
     cout << frameText("Scientist search")
@@ -820,7 +821,8 @@ vector<Scientist> Console::getScientist()
         return dataMan->getAllScientists (getScientistSort());
 
     case 2:
-        return dataMan->findScientistByName (promptName(), getScientistSort());
+        name = promptName();
+        return dataMan->findScientistByName (name, getScientistSort());
 
     case 3:// we had to pull out these "getInt" methoods because windows add mac were not fetching them in the same order
         yearStart = getInt("Enter the birth year you want to start looking from");
