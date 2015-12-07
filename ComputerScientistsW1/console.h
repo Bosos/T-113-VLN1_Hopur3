@@ -16,8 +16,8 @@ private:
     void editDatabase();
     void showScientists();
     void insertScientist();
-    int findScientist();
-    int findComputer();
+    int promptFindScientist();
+    int promptFindComputer();
     void findScientistToEdit();
     void findScientistToDelete();
     void findComputerToDelete();
@@ -25,12 +25,10 @@ private:
     void findSciAndComToMakeUser();
     void changeScientist(Scientist scientis);
     void deleteScientist(Scientist scientis);
-    ScientistSortOrder getSort();
     Direction getDirection();
     vector<Scientist> getScientist();
     void clearScreen();
     void insertComputer();
-    void insertUser();
     void showComputers();
     void findComputerToEdit();
     void changeComputer(Computer comp);
@@ -39,6 +37,8 @@ private:
     void seeDatabase();
 
     // Promts
+    ScientistSortOrder getScientistSort();
+    ComputerSortOrder getComputerSort();
     bool promptYesNo(string prompt);
     string promptName();
     string promptAbout();
@@ -62,7 +62,6 @@ private:
     // Printers
     void displayScientists(vector<Scientist> scientis);
     void displayComputers(vector<Computer> computers);
-    void displayRelation(Scientist scientist);
     void welcome();
     string frameText(string emphasize);
 

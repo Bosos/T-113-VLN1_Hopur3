@@ -25,9 +25,9 @@ public:
     //LOAD file
     //Scientist parseInput(vector<string> csvLine, int ID);
     vector<Scientist> getAllScientists (ScientistSortOrder sort);
-    vector<Computer> getAllComputers (ScientistSortOrder sort);
+    vector<Computer> getAllComputers (ComputerSortOrder sort);
     vector<Scientist> findScientistByName (string name, ScientistSortOrder sort);
-    vector<Computer> findComputerByName(string subString, ScientistSortOrder sort);
+    vector<Computer> findComputerByName(string subString, ComputerSortOrder sort);
     vector<Scientist> findByBirthYear (int yearFrom, int yearTo, ScientistSortOrder sort);
     vector<Scientist> findByDeathYear (int yearFrom, int yearTo, ScientistSortOrder sort);
     vector<Scientist> findBySex(string sex, ScientistSortOrder sort);
@@ -40,7 +40,7 @@ public:
     void addUser(int userId, int computerId);
     vector<Computer> getComputersFromScientistId(int scientistId);
     vector<Scientist> getScientistsFromComputerId(int computerId);
-    vector<TypeOfComputer> getTypeOfComputers();
+    vector<TypeOfComputer> getAllTypesOfComputers();
     void removeFromScientist(int id);
     void addTypeOfComputer(string type);
     string getTypeOfComputerFromId(int id);

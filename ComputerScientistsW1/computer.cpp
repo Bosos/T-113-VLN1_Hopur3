@@ -32,6 +32,12 @@ bool Computer::getWasItBuilt()
     return wasItBuilt;
 }
 
+string Computer::getWasItBuiltString()
+{
+    if (wasItBuilt){ return "Yes"; }
+    return "No";
+}
+
 string Computer::getAbout()
 {
     return about;

@@ -10,6 +10,8 @@ enum Direction {ASCENDING = 0, DESCENDING};
 
 struct ScientistSortOrder
 {
+    ScientistSortOrder();
+    ScientistSortOrder(ScientistSortBy sortBy);
     string getSortByString();
     string getDirectionString();
     ScientistSortBy sortBy = SID;
@@ -18,6 +20,8 @@ struct ScientistSortOrder
 
 struct ComputerSortOrder
 {
+    ComputerSortOrder();
+    ComputerSortOrder(ComputerSortBy sortBy);
     string getSortByString();
     string getDirectionString();
     ComputerSortBy sortBy = CID;

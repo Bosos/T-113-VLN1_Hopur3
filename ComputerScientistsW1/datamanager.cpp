@@ -19,37 +19,39 @@
 void DataManager::initializeTables()
 {
     query.exec("create table IF NOT EXISTS scientists ("
-               "ID INTEGER primary key NOT NULL,"
-               "name varchar(100) NOT NULL,"
-               "sex char(1) NOT NULL,"
-               "birth INT NOT NULL,"
-               "death INT,"
-               "About text)"
+               " ID INTEGER primary key NOT NULL,"
+               " name varchar(100) NOT NULL,"
+               " sex char(1) NOT NULL,"
+               " birth INT NOT NULL,"
+               " death INT,"
+               " About text)"
               );
 
     query.exec("create table IF NOT EXISTS pctype ("
-               "ID INTEGER primary key NOT NULL,"
-               "type varchar(100) NOT NULL)"
+               " ID INTEGER primary key NOT NULL,"
+               " type varchar(100) NOT NULL)"
               );
 
     query.exec("create table IF NOT EXISTS computers ("
-               "ID INTEGER primary key NOT NULL,"
-               "name varchar(255) NOT NULL,"
-               "buildyear INT,"
-               "type INT REFERENCES pctype(ID) NOT NULL,"
-               "wasbuilt INT,"
-               "About text)"
+               " ID INTEGER primary key NOT NULL,"
+               " name varchar(255) NOT NULL,"
+               " buildyear INT,"
+               " type INT REFERENCES pctype(ID) NOT NULL,"
+               " wasbuilt INT,"
+               " About text)"
               );
 
-    query.exec("create table users ("
-               "ID INTEGER primary key NOT NULL,"
-               "scientistID INT REFERENCES scientists(ID) NOT NULL,"
-               "computerID INT REFERENCES computers(ID) NOT NULL)"
+    query.exec("create table IF NOT EXISTS users ("
+               " ID INTEGER primary key NOT NULL,"
+               " scientistID INT NOT NULL REFERENCES scientists(ID) ON DELETE CASCADE,"
+               " computerID INT NOT NULL REFERENCES computers(ID) ON DELETE CASCADE,"
+               " CONSTRAINT oneUser UNIQUE (scientistID,computerID))"
               );
 
     query.exec("INSERT OR REPLACE INTO pctype VALUES (1, 'Electronic')");
     query.exec("INSERT OR REPLACE INTO pctype VALUES (2, 'Mecanic')");
-    query.exec("INSERT OR REPLACE INTO pctype VALUES (3, 'Transistor Machine')");
+    query.exec("INSERT OR REPLACE INTO pctype VALUES (3, 'Transistor')");
+    query.exec("PRAGMA foreign_keys = ON");
 }
 
 DataManager::DataManager(string dataBaseLocation)
@@ -98,15 +100,15 @@ vector<Scientist> DataManager::getScientistsFromComputerId(int computerId)
     return allRelatedScientist;
 }
 
-vector<TypeOfComputer> DataManager::getTypeOfComputers()
+vector<TypeOfComputer> DataManager::getAllTypesOfComputers()
 {
     vector<TypeOfComputer> returnTypes;
 
     QSqlQuery record("SELECT * FROM pctype");
     while (record.next())
     {
-        int id = record.value(0).toUInt();
-        string name = record.value(1).toString().toStdString();
+        int id = record.value("id").toUInt();
+        string name = record.value("type").toString().toStdString();
         TypeOfComputer newType(id,name);
         returnTypes.push_back(newType);
     }
@@ -229,7 +231,7 @@ vector<Scientist> DataManager::getAllScientists(ScientistSortOrder sort)
     QSqlQuery query(db);
 
     // Otputs the list as the user wants it sorted
-    string command = "SELECT * FROM scientists ORDER BY " + sort.getSortByString() + " " + sort.getDirectionString();
+    string command = "SELECT * FROM scientists ORDER BY " + sort.getSortByString() + " COLLATE NOCASE " + sort.getDirectionString();
     query.exec(command.c_str());
 
     // Creates a scientist from the values and inserts the scientist to a vector
@@ -254,13 +256,13 @@ Scientist DataManager::getNextScientistQuery(QSqlQuery query)
     return Scientist(name, sex[0], birth, death, about, id);
 }
 
-vector<Computer> DataManager::getAllComputers(ScientistSortOrder sort)
+vector<Computer> DataManager::getAllComputers(ComputerSortOrder sort)
 {
     vector<Computer> allComputers;
     QSqlQuery query(db);
 
     // Otputs the list as the user wants it sorted
-    string command = "SELECT * FROM computers ORDER BY " + sort.getSortByString() + " " + sort.getDirectionString();
+    string command = "SELECT * FROM computers ORDER BY " + sort.getSortByString() + " COLLATE NOCASE " + sort.getDirectionString();
     query.exec(command.c_str());
 
     // Creates a computer from the values and inserts the scientist to a vector
@@ -318,7 +320,7 @@ vector<Scientist> DataManager::findScientistByName(string subString, ScientistSo
     return matchingScientists;
 }
 
-vector<Computer> DataManager::findComputerByName(string subString, ScientistSortOrder sort)
+vector<Computer> DataManager::findComputerByName(string subString, ComputerSortOrder sort)
 {
     vector<Computer> allComputers = getAllComputers(sort);
     vector<Computer> matchingComputers;
@@ -360,7 +362,7 @@ vector<Scientist> DataManager::findByBirthYear(int yearFrom, int yearTo, Scienti
     //Checks all scientists and inserts the ones who's birth year matches year parameter into the vector matchingScientists
     for(unsigned int i = 0; i < allScientists.size(); i++)
     {
-        if(allScientists[i].getBirthYear() > yearFrom && allScientists[i].getBirthYear() < yearTo)
+        if(allScientists[i].getBirthYear() >= yearFrom && allScientists[i].getBirthYear() <= yearTo)
         {
             matchingScientists.push_back(allScientists[i]);
         }
@@ -376,7 +378,7 @@ vector<Scientist> DataManager::findByDeathYear(int yearFrom, int yearTo, Scienti
     //Checks all scientists and inserts the ones who's death year matches year parameter into the vector matchingScientists
     for(unsigned int i = 0; i < allScientists.size(); i++)
     {
-        if(allScientists[i].getDeathYear() > yearFrom && allScientists[i].getDeathYear() < yearTo)
+        if(allScientists[i].getDeathYear() >= yearFrom && allScientists[i].getDeathYear() <= yearTo)
         {
             matchingScientists.push_back(allScientists[i]);
         }
@@ -443,20 +445,13 @@ void DataManager::updateScientist(Scientist scientis)
 
 void DataManager::updateComputer(Computer comp)
 {
-    string wasBuilt = "Yes";
-    if(comp.getWasItBuilt())
-    {
-        wasBuilt = "No";
-    }
-
-    string update = "INSERT OR REPLACE INTO computers(ID,name,buildyear,type,wasbuilt,about) "
-                    "VALUES('" + to_string(comp.getID())
-                    + "','" + comp.getName()
-                    + "','" + to_string(comp.getBuildYear())
-                    + "','" + to_string(comp.getType())
-                    + "','" + wasBuilt
-                    + "','" + comp.getAbout()
-                    + "')";
-
-    query.exec(update.c_str());
+    query.prepare("INSERT OR REPLACE INTO computers(ID,name,buildyear,type,wasbuilt,about)"
+                  " VALUES(:id, :name, :buildyear, :type, :wasbuilt, :about)");
+    query.bindValue(":id", comp.getID());
+    query.bindValue(":name", comp.getName().c_str());
+    query.bindValue(":buildyear", comp.getBuildYear());
+    query.bindValue(":type", comp.getType());
+    query.bindValue(":wasbuilt", comp.getWasItBuilt());
+    query.bindValue(":about", comp.getAbout().c_str());
+    query.exec();
 }

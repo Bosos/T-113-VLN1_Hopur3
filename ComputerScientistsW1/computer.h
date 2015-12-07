@@ -17,6 +17,7 @@ public:
     int getBuildYear();
     int getType();
     bool getWasItBuilt();
+    string getWasItBuiltString();
     string getAbout();
     int getID();
     void setName(string newName);
