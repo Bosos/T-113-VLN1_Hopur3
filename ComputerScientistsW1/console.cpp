@@ -377,7 +377,7 @@ void Console::insertScientist()
 
 int Console::promptFindScientist()
 {
-    cout << "Press enter to get a list of all scientists, substrings are accepted, search is not case sensitive:" << endl;
+    cout << "Press enter to get a list of all scientists, substrings are accepted, search is not case sensitive" << endl;
     string name = promptName();
 
     //finds all the scientists whos names match the user input and inserts them to a vector of scientists
@@ -413,7 +413,7 @@ int Console::promptFindScientist()
 
 int Console::promptFindComputer()
 {
-    cout << "Press enter to get a list of all computers, substrings are accepted, search is not case sensitive:" << endl;
+    cout << "Press enter to get a list of all computers, substrings are accepted, \nsearch is not case sensitive" << endl;
     string name = promptName();
 
     //finds all the scientists whos names match the user input and inserts them to a vector of scientists
@@ -817,22 +817,22 @@ void Console::makeNewTypeOfComputer()
  */
 vector<Scientist> Console::getScientist()
 {
+    int select = 0;
     int yearStart = 0;
     int yearStop = 0;
-    int select = 0;
+    string sex = "";
+    string name = "";
 
     clearScreen();
     cout << frameText("Scientist search")
          << "1: Show a list of them all" << endl
-         << "2: Search by a string or substring" << endl
+         << "2: Search by name, full or partial" << endl
          << "3: Search by birth year" << endl
          << "4: Search by death year" << endl
          << "5: Search by sex" << endl
          << DASHES << endl;
 
     select = getInt("");
-    string sex = "";
-    if (select == 0) { return vector<Scientist>(); }
 
     //Fetches a function according to the user's input
     switch (select) {
@@ -841,7 +841,8 @@ vector<Scientist> Console::getScientist()
         return dataMan->getAllScientists (getScientistSort());
 
     case 2:
-        return dataMan->findScientistByName (promptName(), getScientistSort());
+        name = promptName();
+        return dataMan->findScientistByName (name, getScientistSort());
 
     case 3:// we had to pull out these "getInt" methoods because windows add mac were not fetching them in the same order
         yearStart = getInt("Enter the birth year you want to start looking from");
@@ -856,7 +857,7 @@ vector<Scientist> Console::getScientist()
         return dataMan->findBySex(sex, getScientistSort());
 
     default:
-        return getScientist();
+        return vector<Scientist>();
     }
 }
 
@@ -869,10 +870,10 @@ vector<Computer> Console::getComputer()
 
     cout << frameText("Computer search")
          << "1: Show a list of them all" << endl
-         << "2: Search by a string or substring" << endl
-         << "3: Search by build year" << endl
-         << "4: Search by type" << endl
-         << "5: Search by was built" << endl
+         << "2: Search by name, full or partial  (not working yet)" << endl
+         << "3: Search by the build year         (not working yet)" << endl
+         << "4: Search by type of computer       (not working yet)" << endl
+         << "5: Search by if it was built or not (not working yet)" << endl
          << DASHES << endl;
 
     select = getInt("");
@@ -893,7 +894,7 @@ vector<Computer> Console::getComputer()
     case 5:
         return dataMan->findComputerByWasItBuilt (promptWasItBuilt() ,getComputerSort());
     default:
-        return getComputer();
+        return vector<Computer>();
     }
 }
 
