@@ -78,6 +78,10 @@ void Console::run()
     }
 }
 
+/*!
+ * \brief Console::seeDatabase
+ * Gives the option on what the user want to see
+ */
 void Console::seeDatabase()
 {
     while(true)
@@ -119,6 +123,10 @@ void Console::seeDatabase()
     }
 }
 
+/*!
+ * \brief Console::showWhatComputersAScientistUsed
+ * Prints out computers that were used by a selected scientist
+ */
 void Console::showWhatComputersAScientistUsed()
 {
     int id = promptFindScientist();
@@ -142,6 +150,10 @@ void Console::showWhatComputersAScientistUsed()
     promptEnterToContinue();
 }
 
+/*!
+ * \brief Console::showWhatScientistsUsedAComputer
+ * Prints out scientists that used a selected computer
+ */
 void Console::showWhatScientistsUsedAComputer()
 {
     int id = promptFindComputer();
@@ -163,6 +175,10 @@ void Console::showWhatScientistsUsedAComputer()
     promptEnterToContinue();
 }
 
+/*!
+ * \brief Console::showComputers
+ * Prints out computers in sorted order
+ */
 void Console::showComputers()
 {
     //Creates a vector containing all computers in currently database
@@ -186,7 +202,7 @@ void Console::showComputers()
 
 /*!
  * \brief Console::editDatabase
- * runs the editing part of the program
+ * Runs the editing part of the program
  */
 void Console::editDatabase()
 {
@@ -270,6 +286,10 @@ void Console::editDatabase()
     }
 }
 
+/*!
+ * \brief Console::insertComputer
+ * Makes a new computer and adds it to the database
+ */
 void Console::insertComputer()
 {
     cout << frameText("Please fill inn all the information about the computer");
@@ -312,7 +332,7 @@ void Console::insertComputer()
 
 /*!
  * \brief Console::showScientists
- * prints out scientists in sorted order
+ * Prints out scientists in sorted order
  */
 void Console::showScientists()
 {
@@ -335,7 +355,7 @@ void Console::showScientists()
 
 /*!
  * \brief Console::insertScientist
- * for inserting into the datafile
+ * For inserting into the datafile
  */
 void Console::insertScientist()
 {
@@ -375,6 +395,13 @@ void Console::insertScientist()
     this->dataMan->addScientist(Scientist(name, sex, birthYear, deathYear, about, 0));
 }
 
+/*!
+ * \brief Console::promptFindScientist
+ * Finds out if there are more or less then 1 scientist,
+ * if there are more then 1 scientist then it displays them
+ * if there is no scientist, it says that
+ * and if there is only 1 scientist it returns that scientist's ID
+ */
 int Console::promptFindScientist()
 {
     cout << "Press enter to get a list of all scientists, substrings are accepted, search is not case sensitive" << endl;
@@ -411,6 +438,13 @@ int Console::promptFindScientist()
     }
 }
 
+/*!
+ * \brief Console::promptFindComputer
+ * Finds out if there are more or less then 1 computer,
+ * if there are more then 1 computer then it displays them
+ * if there is no computer, it says that
+ * and if there is only 1 computer it returns that computer's ID
+ */
 int Console::promptFindComputer()
 {
     cout << "Press enter to get a list of all computers, substrings are accepted, \nsearch is not case sensitive" << endl;
@@ -478,6 +512,10 @@ void Console::findScientistToDelete()
     deleteScientist(dataMan->getScientistFromId(id));
 }
 
+/*!
+ * \brief Console::findComputerToDelete
+ * Finds the computer the user wants to delete
+ */
 void Console::findComputerToDelete()
 {
     int id = promptFindComputer();
@@ -604,6 +642,12 @@ void Console::deleteScientist(Scientist scientis)
     }
 }
 
+/*!
+ * \brief Console::deleteComputer
+ * \param comp
+ * \param id
+ * Deletes a computer in computers who's ID matches id and saves the changes
+ */
 void Console::deleteComputer(Computer comp)
 {
     clearScreen();
@@ -621,7 +665,7 @@ void Console::deleteComputer(Computer comp)
 /*!
  * \brief Console::promptName
  * Asks the user for input
- * \returns a name
+ * \returns a "name" string
  */
 string Console::promptName()
 {
@@ -752,6 +796,10 @@ int Console::promptDeathYear(int birthYear)
     }
 }
 
+/*!
+ * \brief Console::promptType
+ * \return type
+ */
 int Console::promptType()
 {
     vector<TypeOfComputer> types = dataMan->getAllTypesOfComputers();
@@ -783,26 +831,19 @@ int Console::promptType()
     }
 }
 
+/*!
+ * \brief Console::promptWasItBuilt
+ * \return true if computer was built, false otherwise
+ */
 bool Console::promptWasItBuilt()
 {
-    string wasItBuilt = "";
-    cout << "Was the computer built? " << endl;
-    cin >> wasItBuilt;
-    if(wasItBuilt == "1" || tolower(wasItBuilt[0]) == 'y')
-    {
-        return true;
-    }
-    else if(wasItBuilt == "0" || tolower(wasItBuilt[0]) == 'n')
-    {
-        return false;
-    }
-    else
-    {
-        cout << "\nPlease select (Y/N)/(1/0)" << endl;
-        return promptWasItBuilt();
-    }
+     return promptYesNo("Was the computer built?");
 }
 
+/*!
+ * \brief Console::makeNewTypeOfComputer
+ * If there is a need for another type of a computer
+ */
 void Console::makeNewTypeOfComputer()
 {
     cout << "Enter the type: " << endl;
@@ -861,6 +902,10 @@ vector<Scientist> Console::getScientist()
     }
 }
 
+/*!
+ * \brief Console::getComputer
+ * \return Computer
+ */
 vector<Computer> Console::getComputer()
 {
     clearScreen();
@@ -900,7 +945,7 @@ vector<Computer> Console::getComputer()
 
 /*!
  * \brief Console::getSort
- * \return SortOrder
+ * \return ScientistSortOrder
  */
 ScientistSortOrder Console::getScientistSort()
 {
@@ -933,6 +978,10 @@ ScientistSortOrder Console::getScientistSort()
     return sort;
 }
 
+/*!
+ * \brief Console::getComputerSort
+ * \return ComputerSortOrder
+ */
 ComputerSortOrder Console::getComputerSort()
 {
     int choice;
@@ -967,7 +1016,7 @@ ComputerSortOrder Console::getComputerSort()
 
 /*!
  * \brief Console::getDirection
- * \return
+ * \return direction
  */
 Direction Console::getDirection()
 {
@@ -1043,7 +1092,7 @@ bool Console::isNameValid(string name)
  * \brief Console::prompt
  * For use in Yes / No prompts
  * \returns a true if user types y and false if user types in n,
- * loops until it gets either.
+ * Loops until it gets either.
  */
 bool Console::promptYesNo(string prompt){
     while(true){
@@ -1140,6 +1189,11 @@ void Console::displayScientists(vector<Scientist> scientists)
     cout << DASHES << endl;
 }
 
+/*!
+ * \brief Console::displayComputers
+ * A printer that displays all the relevant info about the computers
+ * \param computers
+ */
 void Console::displayComputers(vector<Computer> computers)
 {
     // This Could be moved into a function,
@@ -1182,6 +1236,11 @@ void Console::displayComputers(vector<Computer> computers)
     cout << DASHES << endl;
 }
 
+/*!
+ * \brief Console::frameText
+ * It's the thing that makes is all look so pretty
+ * \param emphasize
+ */
 string Console::frameText(string emphasize)
 {
     return DASHES + "\n"
@@ -1189,6 +1248,10 @@ string Console::frameText(string emphasize)
          + DASHES + "\n";
 }
 
+/*!
+ * \brief Console::promptEnterToContinue
+ * Enter to contine, need I say more
+ */
 void Console::promptEnterToContinue()
 {
     cout << "Press enter to continue ";
@@ -1196,6 +1259,11 @@ void Console::promptEnterToContinue()
     getline(cin,stopHere);
 }
 
+/*!
+ * \brief Console::findComputerToEdit
+ * Asks for user input in the search of computers with mathcing names
+ * will find substings but is case sensitive
+ */
 void Console::findComputerToEdit()
 {
     int id = promptFindComputer();
@@ -1207,6 +1275,12 @@ void Console::findComputerToEdit()
     changeComputer(dataMan->getComputerFromId(id));
 }
 
+/*!
+ * \brief Console::changeComputer
+ * \param comp
+ * \param id
+ * Performs the edit on a computer in parameter computers that has an ID matching id
+ */
 void Console::changeComputer(Computer comp)
 {
     clearScreen();
