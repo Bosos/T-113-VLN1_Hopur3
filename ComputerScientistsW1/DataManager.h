@@ -31,6 +31,9 @@ public:
     vector<Scientist> findByBirthYear (int yearFrom, int yearTo, ScientistSortOrder sort);
     vector<Scientist> findByDeathYear (int yearFrom, int yearTo, ScientistSortOrder sort);
     vector<Scientist> findBySex(string sex, ScientistSortOrder sort);
+    vector<Computer> findComputerByBuildYear (int yearFrom, int yearTo, ComputerSortOrder sort);
+    vector<Computer> findComputerByType (int type, ComputerSortOrder sort);
+    vector<Computer> findComputerByWasItBuilt (bool wasBuilt ,ComputerSortOrder sort);
     //vector<Scientist> sortBy(vector<Scientist> scientists, SortOrder sort );
     int getage(Scientist oneScientist);
 

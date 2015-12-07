@@ -48,7 +48,7 @@ private:
     int promptDeathYear(int birthYear);
     int getInt(string prompt);
     int promptType();
-    //bool promptWasItBuilt();
+    bool promptWasItBuilt();
     void makeNewTypeOfComputer();
     void showWhatComputersAScientistUsed();
     void showWhatScientistsUsedAComputer();

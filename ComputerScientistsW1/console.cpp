@@ -783,6 +783,26 @@ int Console::promptType()
     }
 }
 
+bool Console::promptWasItBuilt()
+{
+    string wasItBuilt = "";
+    cout << "Was the computer built? " << endl;
+    cin >> wasItBuilt;
+    if(wasItBuilt == "1" || tolower(wasItBuilt[0]) == 'y')
+    {
+        return true;
+    }
+    else if(wasItBuilt == "0" || tolower(wasItBuilt[0]) == 'n')
+    {
+        return false;
+    }
+    else
+    {
+        cout << "\nPlease select (Y/N)/(1/0)" << endl;
+        return promptWasItBuilt();
+    }
+}
+
 void Console::makeNewTypeOfComputer()
 {
     cout << "Enter the type: " << endl;
@@ -844,6 +864,8 @@ vector<Computer> Console::getComputer()
 {
     clearScreen();
     int select = 0;
+    int yearStart = 0;
+    int yearStop = 0;
 
     cout << frameText("Computer search")
          << "1: Show a list of them all" << endl
@@ -854,19 +876,22 @@ vector<Computer> Console::getComputer()
          << DASHES << endl;
 
     select = getInt("");
-    string sex = "";
 
     //Fetches a function according to the user's input
     switch (select)
     {
     case 1:
         return dataMan->getAllComputers (getComputerSort());
-
-    case 2: // TODO
-    case 3:                         //TODO
-    case 4:                                                                 //TODO
+    case 2:
+        return dataMan->findComputerByName (promptName(), getComputerSort());
+    case 3:
+        yearStart = getInt("Enter the build year you want to start looking from");
+        yearStop = getInt("Enter the build year you want to look until");
+        return dataMan->findComputerByBuildYear(yearStart, yearStop, getComputerSort());
+    case 4:
+        return dataMan->findComputerByType (promptType() ,getComputerSort());
     case 5:
-
+        return dataMan->findComputerByWasItBuilt (promptWasItBuilt() ,getComputerSort());
     default:
         return getComputer();
     }
@@ -1072,8 +1097,8 @@ int Console::getInt(string prompt)
  */
 void Console::clearScreen()
 {
-    system("clear");
-   // system("CLS");
+    //system("clear");
+    system("CLS");
 }
 
 /*!

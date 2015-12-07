@@ -402,6 +402,51 @@ vector<Scientist> DataManager::findBySex(string sex, ScientistSortOrder sort)
     return matchingScientists;
 }
 
+vector<Computer> DataManager::findComputerByBuildYear (int yearFrom, int yearTo, ComputerSortOrder sort)
+{
+    vector<Computer> allComputers = getAllComputers(sort);
+    vector<Computer> matchingComputers;
+
+    for(unsigned int i = 0; i < allComputers.size(); i++)
+    {
+        if(allComputers[i].getBuildYear() >= yearFrom && allComputers[i].getBuildYear() <= yearTo)
+        {
+            matchingComputers.push_back(allComputers[i]);
+        }
+    }
+    return matchingComputers;
+}
+
+vector<Computer> DataManager::findComputerByType (int type, ComputerSortOrder sort)
+{
+    vector<Computer> allComputers = getAllComputers(sort);
+    vector<Computer> matchingComputers;
+
+    for(unsigned int i = 0; i < allComputers.size(); i++)
+    {
+        if(allComputers[i].getType() == type)
+        {
+            matchingComputers.push_back(allComputers[i]);
+        }
+    }
+    return matchingComputers;
+}
+
+vector<Computer> DataManager::findComputerByWasItBuilt (bool wasBuilt ,ComputerSortOrder sort)
+{
+    vector<Computer> allComputers = getAllComputers(sort);
+    vector<Computer> matchingComputers;
+
+    for(unsigned int i = 0; i < allComputers.size(); i++)
+    {
+        if((allComputers[i].getWasItBuilt() && wasBuilt) || (!allComputers[i].getWasItBuilt() && !wasBuilt))
+        {
+            matchingComputers.push_back(allComputers[i]);
+        }
+    }
+    return matchingComputers;
+}
+
 /*!
  * \brief DataManager::getage Calculates age of scientist.
  * \param oneScientist
