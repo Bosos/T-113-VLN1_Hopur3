@@ -1,6 +1,5 @@
 #ifndef scientistr
 #define scientistr
-
 #include "stdlib.h"
 #include <string>
 #include <vector>

@@ -1,6 +1,5 @@
 #ifndef dataManager
 #define dataManager
-
 #include "stdlib.h"
 #include <vector>
 #include "Scientist.h"
@@ -21,7 +20,6 @@ class DataManager
 {
 public:
     DataManager(string fileName);
-    ~DataManager();
 
     // Scientists
     void addScientist(Scientist scientis);
