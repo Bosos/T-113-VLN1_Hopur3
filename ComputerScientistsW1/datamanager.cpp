@@ -268,7 +268,7 @@ void DataManager::addScientist(Scientist scientis)
                 + "','" + scientis.getAbout() + "')";
     }
 
-    query.exec(currScientist.c_str());
+    query.exec(QString::fromUtf8(currScientist.c_str()));
 }
 
 /*!
@@ -321,7 +321,7 @@ vector<Scientist> DataManager::getAllScientists(ScientistSortOrder sort)
 Scientist DataManager::getNextScientistQuery(QSqlQuery query)
 {
     int id = query.value("ID").toUInt();
-    string name = query.value("name").toString().toStdString();
+    string name = query.value("name").toString().toUtf8().constData() ;
     string sex = query.value("sex").toString().toStdString();
     int birth = query.value("birth").toUInt();
     int death = query.value("death").toUInt();
