@@ -200,7 +200,7 @@ void DataManager::addTypeOfComputer(string type)
  * Adds a connection between a scientist and a computer,
  * computer owned by scientist\scientist owned a computer
  */
-void DataManager::addUser(int userId, int computerId)
+void DataManager::addCSRelation(int userId, int computerId)
 {
     string newType = "INSERT OR REPLACE INTO users (scientistID,computerID) VALUES ('"
             + to_string(userId) + "','"
@@ -237,8 +237,18 @@ void DataManager::removeFromScientist(int id)
 void DataManager::removeFromComputer(int id)
 {
     string deleteComp = "DELETE FROM computers WHERE ID = " + to_string(id);
-
     query.exec(deleteComp.c_str());
+    db.commit();
+}
+
+/*!
+ * \brief DataManager::removeCSRelation
+ * Deletes the relation between the id's selected
+ */
+void DataManager::removeCSRelation(int userId, int computerId)
+{
+    string deleteUser = "DELETE FROM users WHERE scientistID = " + to_string(userId) + " AND computerID = " + to_string(computerId);
+    query.exec(deleteUser.c_str());
     db.commit();
 }
 

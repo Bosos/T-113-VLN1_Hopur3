@@ -13,51 +13,50 @@
 
 using namespace std;
 
+/*!
+ * \brief The DataManager class
+ * It's responsible for comunicating with the data storage
+ */
 class DataManager
 {
 public:
     DataManager(string fileName);
     ~DataManager();
 
-    //ADD / SAVE scientist
+    // Scientists
     void addScientist(Scientist scientis);
-
-    //LOAD file
-    //Scientist parseInput(vector<string> csvLine, int ID);
+    void updateScientist(Scientist scientis);
+    void removeFromScientist(int id);
+    Scientist getScientistFromId(int id);
     vector<Scientist> getAllScientists (ScientistSortOrder sort);
-    vector<Computer> getAllComputers (ComputerSortOrder sort);
+    vector<Scientist> getScientistsFromComputerId(int computerId);
     vector<Scientist> findScientistByName (string name, ScientistSortOrder sort);
-    vector<Computer> findComputerByName(string subString, ComputerSortOrder sort);
     vector<Scientist> findByBirthYear (int yearFrom, int yearTo, ScientistSortOrder sort);
     vector<Scientist> findByDeathYear (int yearFrom, int yearTo, ScientistSortOrder sort);
     vector<Scientist> findBySex(string sex, ScientistSortOrder sort);
+    int getAge(Scientist oneScientist);
+
+    // Computers
+    void addComputer(Computer comp);
+    void updateComputer(Computer comp);
+    void removeFromComputer(int id);
+    void addTypeOfComputer(string type);
+    Computer getComputerFromId(int id);
+    vector<Computer> getAllComputers (ComputerSortOrder sort);
+    vector<Computer> findComputerByName(string subString, ComputerSortOrder sort);
     vector<Computer> findComputerByBuildYear (int yearFrom, int yearTo, ComputerSortOrder sort);
     vector<Computer> findComputerByType (int type, ComputerSortOrder sort);
     vector<Computer> findComputerByWasItBuilt (bool wasBuilt ,ComputerSortOrder sort);
-    //vector<Scientist> sortBy(vector<Scientist> scientists, SortOrder sort );
-    int getAge(Scientist oneScientist);
-
-    // New stuff
-    void initializeTables();
-    void addComputer(Computer comp);
-    void addUser(int userId, int computerId);
     vector<Computer> getComputersFromScientistId(int scientistId);
-    vector<Scientist> getScientistsFromComputerId(int computerId);
-    vector<TypeOfComputer> getAllTypesOfComputers();
-    void removeFromScientist(int id);
-    void addTypeOfComputer(string type);
-    string getTypeOfComputerFromId(int id);
-    Scientist getScientistFromId(int id);
-    void removeFromComputer(int id);
-    Computer getComputerFromId(int id);
-    void updateScientist(Scientist scientis);
-    void updateComputer(Computer comp);
 
-    // OLD STUFF
-    //void writeNewScientistVectorToFile(vector<Scientist> scientists);
-    //vector<string> scientistToVector(Scientist scientis);
+    // Computer-Scientists relations
+    void addCSRelation(int userId, int computerId);
+    void removeCSRelation(int userId, int computerId);
+    vector<TypeOfComputer> getAllTypesOfComputers();
+    string getTypeOfComputerFromId(int id);
 
 private:
+    void initializeTables();
     Scientist getNextScientistQuery(QSqlQuery query);
     Computer getNextComputerQuery(QSqlQuery query);
 

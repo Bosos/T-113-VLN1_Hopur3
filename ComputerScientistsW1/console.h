@@ -2,69 +2,79 @@
 #define CONSOLE_H
 #include <DataManager.h>
 
+/*!
+ * \brief The Console class
+ * Responsible for outputing data to the console and prompting the user for input
+ */
 class Console
 {
 public:
     Console(DataManager* dataMan);
-    ~Console();
     void run();
+
 private:
     // Class variables
     DataManager* dataMan;
 
-    // Menus
-    void editDatabase();
-    void showScientists();
-    void insertScientist();
-    int promptFindScientist();
+    // Top menus
+    void menuEditDatabase();
+    void menuSeeDatabase();
+
+    // Computers
+    void showComputers();
+    vector<Computer> promptGetComputers();
+    void promptAddComputer();
     int promptFindComputer();
+    void findComputerToEdit();
+    void findComputerToDelete();
+    void changeComputer(Computer comp);
+    void deleteComputer(Computer comp);
+    void promptAddNewTypeOfComputer();
+
+    // Scientists
+    void showScientists();
+    vector<Scientist> promptGetScientists();
+    void promptAddScientist();
+    int promptFindScientist();
     void findScientistToEdit();
     void findScientistToDelete();
-    void findComputerToDelete();
-    void deleteComputer(Computer comp);
-    void findSciAndComToMakeUser();
     void changeScientist(Scientist scientis);
     void deleteScientist(Scientist scientis);
-    Direction getDirection();
-    vector<Scientist> getScientist();
-    void clearScreen();
-    void insertComputer();
-    void showComputers();
-    void findComputerToEdit();
-    void changeComputer(Computer comp);
 
-    vector<Computer> getComputer();
-    void seeDatabase();
+    // Relation
+    void findSciAndComToMakeUser();
+    void deleteSCRelation();
+    void promptShowWhatComputersAScientistUsed();
+    void promptShowWhatScientistsUsedAComputer();
 
-    // Promts
-    ScientistSortOrder getScientistSort();
-    ComputerSortOrder getComputerSort();
-    bool promptYesNo(string prompt);
-    string promptName();
-    string promptAbout();
-    char promptSex();
-    int promptBirthYear();
-    int promptComputerMakeYear();
-    int promptDeathYear(int birthYear);
-    int getInt(string prompt);
-    int promptType();
-    bool promptWasItBuilt();
-    void makeNewTypeOfComputer();
-    void showWhatComputersAScientistUsed();
-    void showWhatScientistsUsedAComputer();
+    // Short prompts
     void promptEnterToContinue();
+    bool promptYesNo(string prompt);
+    int promptForInt(string prompt);
+    string promptForName();
+    string promptForAbout();
+    int promptForBirthYear();
+    int promptDeathYear(int birthYear);
+    int promptForComputerMakeYear();
+    char promptForSex();
+    bool promptForIfItWasItBuilt();
+
+    // Longer prompts
+    ScientistSortOrder promptMenuScientistSort();
+    ComputerSortOrder promptMenuComputerSort();
+    Direction promptMenuSortDirection();
+    int promptMenuTypeOfComputer();
 
     // Checkers
     bool isNameValid(string name);
-    //bool isAboutValid(string about);
     bool welcomeShown;
 
     // Printers
+    void clearScreen();
     void displayScientists(vector<Scientist> scientis);
     void displayComputers(vector<Computer> computers);
     void welcome();
     string frameText(string emphasize);
-
 };
 
 #endif // CONSOLE_H
