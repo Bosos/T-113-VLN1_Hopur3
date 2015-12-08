@@ -915,10 +915,10 @@ vector<Computer> Console::getComputer()
 
     cout << frameText("Computer search")
          << "1: Show a list of them all" << endl
-         << "2: Search by name, full or partial  (not working yet)" << endl
-         << "3: Search by the build year         (not working yet)" << endl
-         << "4: Search by type of computer       (not working yet)" << endl
-         << "5: Search by if it was built or not (not working yet)" << endl
+         << "2: Search by name, full or partial " << endl
+         << "3: Search by the build year        " << endl
+         << "4: Search by type of computer      " << endl
+         << "5: Search by if it was built or not" << endl
          << DASHES << endl;
 
     select = getInt("");
