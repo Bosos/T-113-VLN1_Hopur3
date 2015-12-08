@@ -186,7 +186,7 @@ void Console::showComputers()
 
     if (computers.size() == 0)
     {
-        cout << "No No computer found";
+        cout << "No computer found\n";
     }
 
     //Prints out the computers currently in database
@@ -958,7 +958,7 @@ ScientistSortOrder Console::getScientistSort()
          << "2: Sort by year of birth" << endl
          << "3: Sort by year of death" << endl
          << "4: Sort by sex" << endl
-         << "5+: No sorting" << endl
+         << "5: No sorting" << endl
          << DASHES << endl;
 
     choice = getInt("");
@@ -993,7 +993,7 @@ ComputerSortOrder Console::getComputerSort()
          << "2: Sort by year" << endl
          << "3: Sort by type" << endl
          << "4: Sort by whether or not it was built" << endl
-         << "5+: No sorting" << endl
+         << "5: No sorting" << endl
          << DASHES << endl;
 
     choice = getInt("");
