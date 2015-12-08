@@ -458,17 +458,19 @@ vector<Computer> DataManager::findComputerByName(string subString, ComputerSortO
  */
 vector<Scientist> DataManager::findByBirthYear(int yearFrom, int yearTo, ScientistSortOrder sort)
 {
-    vector<Scientist> allScientists = getAllScientists(sort);
     vector<Scientist> matchingScientists;
 
-    //Checks all scientists and inserts the ones who's birth year matches year parameter into the vector matchingScientists
-    for(unsigned int i = 0; i < allScientists.size(); i++)
+    string scientis = "SELECT * FROM scientists WHERE birth >= '" + to_string(yearFrom)
+                      + "' AND birth <= '" + to_string(yearTo) + "' ORDER BY "
+                      + sort.getSortByString() + " COLLATE NOCASE " + sort.getDirectionString();
+
+    query.exec(scientis.c_str());
+
+    while(query.next())
     {
-        if(allScientists[i].getBirthYear() >= yearFrom && allScientists[i].getBirthYear() <= yearTo)
-        {
-            matchingScientists.push_back(allScientists[i]);
-        }
+        matchingScientists.push_back(getNextScientistQuery(query));
     }
+
     return matchingScientists;
 }
 
@@ -481,17 +483,19 @@ vector<Scientist> DataManager::findByBirthYear(int yearFrom, int yearTo, Scienti
  */
 vector<Scientist> DataManager::findByDeathYear(int yearFrom, int yearTo, ScientistSortOrder sort)
 {
-    vector<Scientist> allScientists = getAllScientists(sort);
     vector<Scientist> matchingScientists;
 
-    //Checks all scientists and inserts the ones who's death year matches year parameter into the vector matchingScientists
-    for(unsigned int i = 0; i < allScientists.size(); i++)
+    string scientis = "SELECT * FROM scientists WHERE death >= '" + to_string(yearFrom)
+                      + "' AND birth <= '" + to_string(yearTo) + "'ORDER BY "
+                      + sort.getSortByString() + " COLLATE NOCASE " + sort.getDirectionString();
+
+    query.exec(scientis.c_str());
+
+    while(query.next())
     {
-        if(allScientists[i].getDeathYear() >= yearFrom && allScientists[i].getDeathYear() <= yearTo)
-        {
-            matchingScientists.push_back(allScientists[i]);
-        }
+        matchingScientists.push_back(getNextScientistQuery(query));
     }
+
     return matchingScientists;
 }
 
@@ -503,17 +507,18 @@ vector<Scientist> DataManager::findByDeathYear(int yearFrom, int yearTo, Scienti
  */
 vector<Scientist> DataManager::findBySex(string sex, ScientistSortOrder sort)
 {
-    vector<Scientist> allScientists = getAllScientists(sort);
     vector<Scientist> matchingScientists;
 
-    //Checks all scientists and inserts the ones who's sex matches sex parameter into the vector matchingScientists
-    for(unsigned int i = 0; i < allScientists.size(); i++)
+    string scientis = "SELECT * FROM scientists WHERE sex = '" + sex + "' ORDER BY "
+                      + sort.getSortByString() + " COLLATE NOCASE " + sort.getDirectionString();
+
+    query.exec(scientis.c_str());
+
+    while(query.next())
     {
-        if(allScientists[i].getSex() == sex[0])
-        {
-            matchingScientists.push_back(allScientists[i]);
-        }
+        matchingScientists.push_back(getNextScientistQuery(query));
     }
+
     return matchingScientists;
 }
 
@@ -526,16 +531,19 @@ vector<Scientist> DataManager::findBySex(string sex, ScientistSortOrder sort)
  */
 vector<Computer> DataManager::findComputerByBuildYear (int yearFrom, int yearTo, ComputerSortOrder sort)
 {
-    vector<Computer> allComputers = getAllComputers(sort);
     vector<Computer> matchingComputers;
 
-    for(unsigned int i = 0; i < allComputers.size(); i++)
+    string comp = "SELECT * FROM computers WHERE buildyear >= '" + to_string(yearFrom)
+                      + "' AND buildyear <= '" + to_string(yearTo) + "' ORDER BY "
+                      + sort.getSortByString() + " COLLATE NOCASE " + sort.getDirectionString();
+
+    query.exec(comp.c_str());
+
+    while(query.next())
     {
-        if(allComputers[i].getBuildYear() >= yearFrom && allComputers[i].getBuildYear() <= yearTo)
-        {
-            matchingComputers.push_back(allComputers[i]);
-        }
+        matchingComputers.push_back(getNextComputerQuery(query));
     }
+
     return matchingComputers;
 }
 
@@ -547,16 +555,18 @@ vector<Computer> DataManager::findComputerByBuildYear (int yearFrom, int yearTo,
  */
 vector<Computer> DataManager::findComputerByType (int type, ComputerSortOrder sort)
 {
-    vector<Computer> allComputers = getAllComputers(sort);
     vector<Computer> matchingComputers;
 
-    for(unsigned int i = 0; i < allComputers.size(); i++)
+    string comp = "SELECT * FROM computers WHERE type = '" + to_string(type) + "' ORDER BY "
+                  + sort.getSortByString() + " COLLATE NOCASE " + sort.getDirectionString();
+
+    query.exec(comp.c_str());
+
+    while(query.next())
     {
-        if(allComputers[i].getType() == type)
-        {
-            matchingComputers.push_back(allComputers[i]);
-        }
+        matchingComputers.push_back(getNextComputerQuery(query));
     }
+
     return matchingComputers;
 }
 
@@ -568,16 +578,18 @@ vector<Computer> DataManager::findComputerByType (int type, ComputerSortOrder so
  */
 vector<Computer> DataManager::findComputerByWasItBuilt (bool wasBuilt ,ComputerSortOrder sort)
 {
-    vector<Computer> allComputers = getAllComputers(sort);
     vector<Computer> matchingComputers;
 
-    for(unsigned int i = 0; i < allComputers.size(); i++)
+    string comp = "SELECT * FROM computers WHERE wasbuilt = '" + to_string(wasBuilt) + "' ORDER BY "
+                  + sort.getSortByString() + " COLLATE NOCASE " + sort.getDirectionString();
+
+    query.exec(comp.c_str());
+
+    while(query.next())
     {
-        if((allComputers[i].getWasItBuilt() && wasBuilt) || (!allComputers[i].getWasItBuilt() && !wasBuilt))
-        {
-            matchingComputers.push_back(allComputers[i]);
-        }
+        matchingComputers.push_back(getNextComputerQuery(query));
     }
+
     return matchingComputers;
 }
 
