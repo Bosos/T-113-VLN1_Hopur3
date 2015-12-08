@@ -1180,7 +1180,7 @@ int Console::promptForInt(string prompt)
  */
 void Console::clearScreen()
 {
-#ifdef MSDOS
+#ifdef Q_OS_WIN32
     system("CLS");
 #else
     system("clear");
