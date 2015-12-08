@@ -47,7 +47,7 @@ int Scientist::getID()
     return ID;
 }
 
-int Scientist::getAge()//Calculates the age of the scientist
+int Scientist::getAge()
 {
     if(deathYear != 0)
     {

@@ -1,0 +1,68 @@
+INSERT INTO users (scientistID, computerID)
+VALUES (1,5);
+
+INSERT INTO users (scientistID, computerID)
+VALUES (1,6);
+
+INSERT INTO users (scientistID, computerID)
+VALUES (2,6);
+
+INSERT INTO users (scientistID, computerID)
+VALUES (3,9);
+
+INSERT INTO users (scientistID, computerID)
+VALUES (3,10);
+
+INSERT INTO users (scientistID, computerID)
+VALUES (3,17);
+
+INSERT INTO users (scientistID, computerID)
+VALUES (4,25);
+
+INSERT INTO users (scientistID, computerID)
+VALUES (5,25);
+
+INSERT INTO users (scientistID, computerID)
+VALUES (6,25);
+
+INSERT INTO users (scientistID, computerID)
+VALUES (7,26);
+
+INSERT INTO users (scientistID, computerID)
+VALUES (8,24);
+
+INSERT INTO users (scientistID, computerID)
+VALUES (8,23);
+
+INSERT INTO users (scientistID, computerID)
+VALUES (9,26);
+
+INSERT INTO users (scientistID, computerID)
+VALUES (10,27);
+
+INSERT INTO users (scientistID, computerID)
+VALUES (11,2);
+
+INSERT INTO users (scientistID, computerID)
+VALUES (12,2);
+
+INSERT INTO users (scientistID, computerID)
+VALUES (15,3);
+
+INSERT INTO users (scientistID, computerID)
+VALUES (16,1);
+
+INSERT INTO users (scientistID, computerID)
+VALUES (17,25);
+
+INSERT INTO users (scientistID, computerID)
+VALUES (18,25);
+
+INSERT INTO users (scientistID, computerID)
+VALUES (19,25);
+
+INSERT INTO users (scientistID, computerID)
+VALUES (20,12);
+
+INSERT INTO users (scientistID, computerID)
+VALUES (20,13);

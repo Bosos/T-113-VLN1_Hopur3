@@ -653,7 +653,7 @@ void DataManager::updateScientist(Scientist scientis)
 }
 
 /*!
- * \brief DataManager::updateComputer
+ * \brief DataManager::updateComputergit push
  * Updates the selected computer with something new instead of the old
  * \param comp
  */
