@@ -52,6 +52,7 @@ void DataManager::initializeTables()
     query.exec("INSERT OR REPLACE INTO pctype VALUES (2, 'Mecanic')");
     query.exec("INSERT OR REPLACE INTO pctype VALUES (3, 'Transistor')");
     query.exec("PRAGMA foreign_keys = ON");
+    query.exec("PRAGMA encoding = \"UTF-8\";");
 }
 
 DataManager::DataManager(string dataBaseLocation)
