@@ -90,7 +90,6 @@ void Console::menuSeeDatabase()
              << "2: Computers" << endl
              << "3: List of what computers a scientist used" << endl
              << "4: list of scientist that used a computer" << endl << DASHES << endl;
-                //TODO more to see
 
         //stores the user's choice
         int select = promptForInt("");
@@ -218,10 +217,8 @@ void Console::menuEditDatabase()
          << "8: Delete a scientist - computer relation" << endl << endl
          << "Other numbers: Go back to the start" << endl << DASHES << endl;
 
-    //Stores the user's choice
     int select = promptForInt("");
 
-    //Calls appropriate functions based on the user's choice
     switch (select)
     {
     case 1:
@@ -307,7 +304,6 @@ void Console::promptAddComputer()
 {
     cout << frameText("Please fill inn all the information about the computer");
 
-    //creating variables
     string info = "";
     string name = "";
     int buildYear = 0;
@@ -316,7 +312,7 @@ void Console::promptAddComputer()
     bool wasItBuilt = false;
     string ans = "No";
 
-    // The user can modify more than one field before he finishes
+    // The user is asked if the new information is correct before applying
     do
     {
         //inserting information about the new computer into the parameters
@@ -567,6 +563,10 @@ void Console::findSciAndComToMakeUser()
     dataMan->addCSRelation(sciId, comId);
 }
 
+/*!
+ * \brief Console::deleteSCRelation
+ * Removes from the users table
+ */
 void Console::deleteSCRelation()
 {
     cout << frameText("First find the scientist('User')");
@@ -791,13 +791,13 @@ int Console::promptForComputerMakeYear()
         makeYear = promptForInt("");
 
         //Only allows birthyear to be greater than or equals to 1200 and less than 2016
-        if(makeYear >= 1800 && makeYear <= 2015)
+        if(makeYear >= 1000 && makeYear <= 2015)
         {
             return makeYear;
         }
 
         // we dont get here if the year was valid
-        cout << "Please enter a valid year.(1800-2015)\n";
+        cout << "Please enter a valid year.(1000-2015)\n";
     }
 }
 
@@ -947,10 +947,10 @@ vector<Computer> Console::promptGetComputers()
 
     cout << frameText("Computer search")
          << "1: Show a list of them all" << endl
-         << "2: Search by name, full or partial  (not working yet)" << endl
-         << "3: Search by the build year         (not working yet)" << endl
-         << "4: Search by type of computer       (not working yet)" << endl
-         << "5: Search by if it was built or not (not working yet)" << endl
+         << "2: Search by name, full or partial" << endl
+         << "3: Search by the build year" << endl
+         << "4: Search by type of computer" << endl
+         << "5: Search by if it was built or not" << endl
          << DASHES << endl;
 
     select = promptForInt("");

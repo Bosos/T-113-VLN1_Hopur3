@@ -9,14 +9,26 @@
 #include <QSqlQuery>
 #include <QSqlRecord>
 
-// having problems with queries? try this
-//    auto error = query.lastError();
-//    if (error.isValid()) {
-//        cout << "ERROR: " << error.text().toStdString() << endl;
-//        cout << query.lastQuery().toStdString() << endl;
-//    }
+
 /*!
  * \brief DataManager::initializeTables
+ */
+
+
+DataManager::DataManager(string dataBaseLocation)
+{
+    this->fileName = dataBaseLocation;
+    db = QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName(QString(fileName.c_str()));
+    db.open();
+
+    query = QSqlQuery(db);
+    initializeTables();
+}
+
+/*!
+ * \brief DataManager::initializeTables
+ * Creates the database and tables if needed
  */
 void DataManager::initializeTables()
 {
@@ -55,17 +67,6 @@ void DataManager::initializeTables()
     query.exec("INSERT OR REPLACE INTO pctype VALUES (3, 'Transistor')");
     query.exec("PRAGMA foreign_keys = ON");
     query.exec("PRAGMA encoding = \"UTF-8\";");
-}
-
-DataManager::DataManager(string dataBaseLocation)
-{
-    this->fileName = dataBaseLocation;
-    db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName(QString(fileName.c_str()));
-    db.open();
-
-    query = QSqlQuery(db);
-    initializeTables();
 }
 
 /*!
@@ -251,8 +252,6 @@ void DataManager::removeCSRelation(int userId, int computerId)
     query.exec(deleteUser.c_str());
     db.commit();
 }
-
-DataManager::~DataManager(){}
 
 /*!
  * \brief DataManager::addScientist
