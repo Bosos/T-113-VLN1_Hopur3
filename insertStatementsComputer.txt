@@ -1,0 +1,80 @@
+INSERT INTO computers (name,buildyear,type,wasbuilt,About)
+VALUES ('Pascals calculator',1642,2,1,'Made by Blaise Pascal');
+
+INSERT INTO computers (name,buildyear,type,wasbuilt,About)
+VALUES ('Arithmometer',1820,2,0,'First digital mechanical calculator');
+
+INSERT INTO computers (name,buildyear,type,wasbuilt,About)
+VALUES ('Curta',1945,2,1,'Small pocket calculator');
+
+INSERT INTO computers (name,buildyear,type,wasbuilt,About)
+VALUES ('Tide-predicting machine',1873,2,1,'A analogue computer for predicting tides');
+
+INSERT INTO computers (name,buildyear,type,wasbuilt,About)
+VALUES ('Differential analyser',1912,2,1,'First made for fire-controle system');
+
+INSERT INTO computers (name,buildyear,type,wasbuilt,About)
+VALUES ('Analytical Engine',1837,2,0,'First design for a turing-complete computer');
+
+INSERT INTO computers (name,buildyear,type,wasbuilt,About)
+VALUES ('Difference engine',1822,2,0,'Was built successfully in 1991');
+
+INSERT INTO computers (name,buildyear,type,wasbuilt,About)
+VALUES ('Z1',1938,4,1,'Was destroyed in an allied bombing');
+
+INSERT INTO computers (name,buildyear,type,wasbuilt,About)
+VALUES ('Bombe',1940,4,1,'Was used to decipher the Enigma machine');
+
+INSERT INTO computers (name,buildyear,type,wasbuilt,About)
+VALUES ('Enigma machine',1923,4,1,'Was used to encrypt Nazi massages during WW2');
+
+INSERT INTO computers (name,buildyear,type,wasbuilt,About)
+VALUES ('SSEM',1948,4,1,'Nicknamed baby and had memory!');
+
+INSERT INTO computers (name,buildyear,type,wasbuilt,About)
+VALUES ('Z3',1941,4,1,'Programmable fully automatic digital computer');
+
+INSERT INTO computers (name,buildyear,type,wasbuilt,About)
+VALUES ('Z4',1945,4,1,'Worlds first commercial digital computer');
+
+INSERT INTO computers (name,buildyear,type,wasbuilt,About)
+VALUES ('ENIAC',1946,1,1,'First electronic general-purpose programmable computer');
+
+INSERT INTO computers (name,buildyear,type,wasbuilt,About)
+VALUES ('Colossus computer',1943,1,1,'First electronic programmable computer');
+
+INSERT INTO computers (name,buildyear,type,wasbuilt,About)
+VALUES ('EDVAC',1949,1,1,'Simular to ENIAC but used binary and could store');
+
+INSERT INTO computers (name,buildyear,type,wasbuilt,About)
+VALUES ('ACE',1946,1,0,'Alan Turings design on programmed stored computer');
+
+INSERT INTO computers (name,buildyear,type,wasbuilt,About)
+VALUES ('Ferranti Mark 1',1951,1,1,'First available general-purpose electronic computer');
+
+INSERT INTO computers (name,buildyear,type,wasbuilt,About)
+VALUES ('UNIVAC I',1951,1,1,'First available general-purpose electronic computer made in the US');
+
+INSERT INTO computers (name,buildyear,type,wasbuilt,About)
+VALUES ('IBM 650',1953,1,1,'weighed over 900 kg and the power supply 1350 kg');
+
+INSERT INTO computers (name,buildyear,type,wasbuilt,About)
+VALUES ('Harwell CADET',1955,3,1,'First transistor computer in europe');
+
+INSERT INTO computers (name,buildyear,type,wasbuilt,About)
+VALUES ('Atlas',1960,3,1,'One of the first supercomputer in the world');
+
+INSERT INTO computers (name,buildyear,type,wasbuilt,About)
+VALUES ('CDC 6600',1964,3,1,'A supercomputer with performance of up to three megaFLOPS!');
+
+INSERT INTO computers (name,buildyear,type,wasbuilt,About)
+VALUES ('Apple I',1976,3,1,'A start of something hor..I mean wonderful!');
+
+INSERT INTO computers (name,buildyear,type,wasbuilt,About)
+VALUES ('Apple II',1977,3,1,'Boooooom! Computers became a hit');
+
+INSERT INTO computers (name,buildyear,type,wasbuilt,About)
+VALUES ('PlayStation 4',2013,3,1,'For those who are to young');
+
+INSERT INTO computers (name,buildyear,type,wasbuilt,About)
+VALUES ('ASCC',1944,4,1,'Used to calculate if implosion was a viable choice');
