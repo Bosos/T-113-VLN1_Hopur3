@@ -65,6 +65,12 @@ DataManager::DataManager(string dataBaseLocation)
     initializeTables();
 }
 
+/*!
+ * \brief DataManager::getComputersFromScientistId
+ * Get all computers that are related to the selected scientist
+ * \param scientistId
+ * \returns computers
+ */
 vector<Computer> DataManager::getComputersFromScientistId(int scientistId)
 {
     vector<Computer> allRelatedComputers;
@@ -83,6 +89,12 @@ vector<Computer> DataManager::getComputersFromScientistId(int scientistId)
     return allRelatedComputers;
 }
 
+/*!
+ * \brief DataManager::getScientistsFromComputerId
+ * Get all scientist that are related to the selected computer
+ * \param computerId
+ * \returns scientists
+ */
 vector<Scientist> DataManager::getScientistsFromComputerId(int computerId)
 {
     vector<Scientist> allRelatedScientist;
@@ -100,6 +112,11 @@ vector<Scientist> DataManager::getScientistsFromComputerId(int computerId)
     return allRelatedScientist;
 }
 
+/*!
+ * \brief DataManager::getAllTypesOfComputers
+ * Gets all the different kinds of types
+ * \returns types
+ */
 vector<TypeOfComputer> DataManager::getAllTypesOfComputers()
 {
     vector<TypeOfComputer> returnTypes;
@@ -115,6 +132,12 @@ vector<TypeOfComputer> DataManager::getAllTypesOfComputers()
     return returnTypes;
 }
 
+/*!
+ * \brief DataManager::getTypeOfComputerFromId
+ * \param id
+ * Gets the type of the computer selected with an id
+ * \returns type
+ */
 string DataManager::getTypeOfComputerFromId(int id)
 {
     string toQstring = "SELECT type FROM pctype WHERE id == " + to_string(id);
@@ -123,6 +146,12 @@ string DataManager::getTypeOfComputerFromId(int id)
     return record.value(0).toString().toStdString();
 }
 
+/*!
+ * \brief DataManager::getScientistFromId
+ * \param id
+ * Gets the scientist selected with an id
+ * \returns scientist
+ */
 Scientist DataManager::getScientistFromId(int id)
 {
     //QSqlQuery query(db); // may or maynot be needed uncomment if database seems flaky
@@ -133,6 +162,12 @@ Scientist DataManager::getScientistFromId(int id)
     return getNextScientistQuery(query);
 }
 
+/*!
+ * \brief DataManager::getComputerFromId
+ * \param id
+ * Gets the computer selected with an id
+ * \returns computer
+ */
 Computer DataManager::getComputerFromId(int id)
 {
     //QSqlQuery query(db); // may or maynot be needed uncomment if database seems flaky
@@ -143,6 +178,11 @@ Computer DataManager::getComputerFromId(int id)
     return getNextComputerQuery(query);
 }
 
+/*!
+ * \brief DataManager::addTypeOfComputer
+ * \param type
+ * Adds another type of computer if needed
+ */
 void DataManager::addTypeOfComputer(string type)
 {
     string newType = "INSERT OR REPLACE INTO pctype (type) VALUES ('" + type + "')";
@@ -150,6 +190,13 @@ void DataManager::addTypeOfComputer(string type)
     db.commit();
 }
 
+/*!
+ * \brief DataManager::addUser
+ * \param userId
+ * \param computerId
+ * Adds a connection between a scientist and a computer,
+ * computer owned by scientist\scientist owned a computer
+ */
 void DataManager::addUser(int userId, int computerId)
 {
     string newType = "INSERT OR REPLACE INTO users (scientistID,computerID) VALUES ('"
@@ -166,6 +213,11 @@ void DataManager::addUser(int userId, int computerId)
 //    query.exec("");
 //}
 
+/*!
+ * \brief DataManager::removeFromScientist
+ * \param id
+ * Deletes the scientist selected with an id
+ */
 void DataManager::removeFromScientist(int id)
 {
     string deleteSci = "DELETE FROM scientists WHERE ID = " + to_string(id);
@@ -174,6 +226,11 @@ void DataManager::removeFromScientist(int id)
     db.commit();
 }
 
+/*!
+ * \brief DataManager::removeFromComputer
+ * \param id
+ * Deletes the computer selected with an id
+ */
 void DataManager::removeFromComputer(int id)
 {
     string deleteComp = "DELETE FROM computers WHERE ID = " + to_string(id);
@@ -185,8 +242,9 @@ void DataManager::removeFromComputer(int id)
 DataManager::~DataManager(){}
 
 /*!
- * \brief DataManager::addScientist Adds a scientist to the cvs file
- * \param Scientist
+ * \brief DataManager::addScientist
+ * Adds a scientist to the database
+ * \param Scientis
  */
 void DataManager::addScientist(Scientist scientis)
 {
@@ -212,6 +270,11 @@ void DataManager::addScientist(Scientist scientis)
     query.exec(currScientist.c_str());
 }
 
+/*!
+ * \brief DataManager::addComputer
+ * Adds a computer to the database
+ * \param comp
+ */
 void DataManager::addComputer(Computer comp)
 {
     query.prepare("INSERT INTO computers(name, buildyear, type, wasbuilt, about)"
@@ -224,6 +287,11 @@ void DataManager::addComputer(Computer comp)
     query.exec();
 }
 
+/*!
+ * \brief DataManager::getAllScientists
+ * \param sort
+ * \returns all the scientists in the database in a sorted order
+ */
 vector<Scientist> DataManager::getAllScientists(ScientistSortOrder sort)
 {
     vector<Scientist> allScientists;
@@ -244,6 +312,11 @@ vector<Scientist> DataManager::getAllScientists(ScientistSortOrder sort)
 }
 
 // query.next MUST be called before or it will fetch old/wrong data
+/*!
+ * \brief DataManager::getNextScientistQuery
+ * \param query
+ * \returns the next scientist
+ */
 Scientist DataManager::getNextScientistQuery(QSqlQuery query)
 {
     int id = query.value("ID").toUInt();
@@ -256,6 +329,11 @@ Scientist DataManager::getNextScientistQuery(QSqlQuery query)
     return Scientist(name, sex[0], birth, death, about, id);
 }
 
+/*!
+ * \brief DataManager::getAllComputers
+ * \param sort
+ * \returns all the computers in the database in a sorted order
+ */
 vector<Computer> DataManager::getAllComputers(ComputerSortOrder sort)
 {
     vector<Computer> allComputers;
@@ -274,6 +352,11 @@ vector<Computer> DataManager::getAllComputers(ComputerSortOrder sort)
 }
 
 // query.next MUST be called before or it will fetch old/wrong data
+/*!
+ * \brief DataManager::getNextComputerQuery
+ * \param query
+ * \returns the next computer
+ */
 Computer DataManager::getNextComputerQuery(QSqlQuery query)
 {
     int id = query.value("ID").toUInt();
@@ -286,6 +369,12 @@ Computer DataManager::getNextComputerQuery(QSqlQuery query)
     return Computer(name, buildYear, type, wasItBuilt, about, id);
 }
 
+/*!
+ * \brief DataManager::findScientistByName
+ * \param subString
+ * \param sort
+ * \returns all scientists matching the substring, if any
+ */
 vector<Scientist> DataManager::findScientistByName(string subString, ScientistSortOrder sort)
 {
     vector<Scientist> allScientists = getAllScientists(sort);
@@ -320,6 +409,12 @@ vector<Scientist> DataManager::findScientistByName(string subString, ScientistSo
     return matchingScientists;
 }
 
+/*!
+ * \brief DataManager::findComputerByName
+ * \param subString
+ * \param sort
+ * \returns all computers matching the substring, if any
+ */
 vector<Computer> DataManager::findComputerByName(string subString, ComputerSortOrder sort)
 {
     vector<Computer> allComputers = getAllComputers(sort);
@@ -354,6 +449,13 @@ vector<Computer> DataManager::findComputerByName(string subString, ComputerSortO
     return matchingComputers;
 }
 
+/*!
+ * \brief DataManager::findByBirthYear
+ * \param yearFrom
+ * \param yearTo
+ * \param sort
+ * \returns all scientists with birthYear on given range
+ */
 vector<Scientist> DataManager::findByBirthYear(int yearFrom, int yearTo, ScientistSortOrder sort)
 {
     vector<Scientist> allScientists = getAllScientists(sort);
@@ -370,6 +472,13 @@ vector<Scientist> DataManager::findByBirthYear(int yearFrom, int yearTo, Scienti
     return matchingScientists;
 }
 
+/*!
+ * \brief DataManager::findByDeathYear
+ * \param yearFrom
+ * \param yearTo
+ * \param sort
+ * \returns all scientists with deathYear on given range
+ */
 vector<Scientist> DataManager::findByDeathYear(int yearFrom, int yearTo, ScientistSortOrder sort)
 {
     vector<Scientist> allScientists = getAllScientists(sort);
@@ -386,6 +495,12 @@ vector<Scientist> DataManager::findByDeathYear(int yearFrom, int yearTo, Scienti
     return matchingScientists;
 }
 
+/*!
+ * \brief DataManager::findBySex
+ * \param sex
+ * \param sort
+ * \returns all scientists matching the selected sex
+ */
 vector<Scientist> DataManager::findBySex(string sex, ScientistSortOrder sort)
 {
     vector<Scientist> allScientists = getAllScientists(sort);
@@ -402,6 +517,13 @@ vector<Scientist> DataManager::findBySex(string sex, ScientistSortOrder sort)
     return matchingScientists;
 }
 
+/*!
+ * \brief DataManager::findComputerByBuildYear
+ * \param yearFrom
+ * \param yearTo
+ * \param sort
+ * \returns all computers built on given range
+ */
 vector<Computer> DataManager::findComputerByBuildYear (int yearFrom, int yearTo, ComputerSortOrder sort)
 {
     vector<Computer> allComputers = getAllComputers(sort);
@@ -417,6 +539,12 @@ vector<Computer> DataManager::findComputerByBuildYear (int yearFrom, int yearTo,
     return matchingComputers;
 }
 
+/*!
+ * \brief DataManager::findComputerByType
+ * \param type
+ * \param sort
+ * \returns all computers matching the selected type
+ */
 vector<Computer> DataManager::findComputerByType (int type, ComputerSortOrder sort)
 {
     vector<Computer> allComputers = getAllComputers(sort);
@@ -432,6 +560,12 @@ vector<Computer> DataManager::findComputerByType (int type, ComputerSortOrder so
     return matchingComputers;
 }
 
+/*!
+ * \brief DataManager::findComputerByWasItBuilt
+ * \param wasBuilt
+ * \param sort
+ * \returns all computers which were ether built or not, depends on what the user selected
+ */
 vector<Computer> DataManager::findComputerByWasItBuilt (bool wasBuilt ,ComputerSortOrder sort)
 {
     vector<Computer> allComputers = getAllComputers(sort);
@@ -448,11 +582,12 @@ vector<Computer> DataManager::findComputerByWasItBuilt (bool wasBuilt ,ComputerS
 }
 
 /*!
- * \brief DataManager::getage Calculates age of scientist.
+ * \brief DataManager::getAge
+ * Calculates age of scientist
  * \param oneScientist
- * \returns the age of the given scientist
+ * \returns the age of the selected scientist
  */
-int DataManager::getage(Scientist oneScientist)
+int DataManager::getAge(Scientist oneScientist)
 {
     if(oneScientist.getDeathYear() == 0)
     {
@@ -461,6 +596,11 @@ int DataManager::getage(Scientist oneScientist)
     return oneScientist.getDeathYear() - oneScientist.getBirthYear();
 }
 
+/*!
+ * \brief DataManager::updateScientist
+ * Updates the selected scientist with something new instead of the old
+ * \param scientis
+ */
 void DataManager::updateScientist(Scientist scientis)
 {
     string update = "";
@@ -488,6 +628,11 @@ void DataManager::updateScientist(Scientist scientis)
     query.exec(update.c_str());
 }
 
+/*!
+ * \brief DataManager::updateComputer
+ * Updates the selected computer with something new instead of the old
+ * \param comp
+ */
 void DataManager::updateComputer(Computer comp)
 {
     query.prepare("INSERT OR REPLACE INTO computers(ID,name,buildyear,type,wasbuilt,about)"

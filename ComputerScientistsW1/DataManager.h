@@ -35,7 +35,7 @@ public:
     vector<Computer> findComputerByType (int type, ComputerSortOrder sort);
     vector<Computer> findComputerByWasItBuilt (bool wasBuilt ,ComputerSortOrder sort);
     //vector<Scientist> sortBy(vector<Scientist> scientists, SortOrder sort );
-    int getage(Scientist oneScientist);
+    int getAge(Scientist oneScientist);
 
     // New stuff
     void initializeTables();
