@@ -18,9 +18,6 @@ Console::Console(DataManager* dataManage)
     welcomeShown = false;
 }
 
-// destructor
-Console::~Console(){}
-
 /*!
  * \brief Console::welcome()
  * Displays very cool WELCOME letters
@@ -54,16 +51,16 @@ void Console::run()
              << "3: Quit" << endl << DASHES << endl;
 
         //stores the user's choice
-        int select = getInt("");
+        int select = promptForInt("");
 
         //Calls appropriate function based on the user's choice
         switch (select) {
         case 1:
-            editDatabase();
+            menuEditDatabase();
             break;
 
         case 2:
-            seeDatabase();
+            menuSeeDatabase();
             break;
 
         case 3:
@@ -82,7 +79,7 @@ void Console::run()
  * \brief Console::seeDatabase
  * Gives the option on what the user want to see
  */
-void Console::seeDatabase()
+void Console::menuSeeDatabase()
 {
     while(true)
     {
@@ -96,7 +93,7 @@ void Console::seeDatabase()
                 //TODO more to see
 
         //stores the user's choice
-        int select = getInt("");
+        int select = promptForInt("");
 
         //Calls appropriate function based on the user's choice
         switch (select)
@@ -110,11 +107,11 @@ void Console::seeDatabase()
             return;
 
         case 3:
-            showWhatComputersAScientistUsed();
+            promptShowWhatComputersAScientistUsed();
             return;
 
         case 4:
-            showWhatScientistsUsedAComputer();
+            promptShowWhatScientistsUsedAComputer();
             return;
 
         default:
@@ -127,7 +124,7 @@ void Console::seeDatabase()
  * \brief Console::showWhatComputersAScientistUsed
  * Prints out computers that were used by a selected scientist
  */
-void Console::showWhatComputersAScientistUsed()
+void Console::promptShowWhatComputersAScientistUsed()
 {
     int id = promptFindScientist();
     vector<Computer> scientistComputers = dataMan->getComputersFromScientistId(id);
@@ -150,11 +147,13 @@ void Console::showWhatComputersAScientistUsed()
     promptEnterToContinue();
 }
 
+
+
 /*!
  * \brief Console::showWhatScientistsUsedAComputer
  * Prints out scientists that used a selected computer
  */
-void Console::showWhatScientistsUsedAComputer()
+void Console::promptShowWhatScientistsUsedAComputer()
 {
     int id = promptFindComputer();
     vector<Scientist> usersOfComputer = dataMan->getScientistsFromComputerId(id);
@@ -181,8 +180,8 @@ void Console::showWhatScientistsUsedAComputer()
  */
 void Console::showComputers()
 {
-    //Creates a vector containing all computers in currently database
-    vector<Computer> computers = getComputer();
+    //Creates a vector containing all computers in current database
+    vector<Computer> computers = promptGetComputers();
 
     if (computers.size() == 0)
     {
@@ -204,22 +203,23 @@ void Console::showComputers()
  * \brief Console::editDatabase
  * Runs the editing part of the program
  */
-void Console::editDatabase()
+void Console::menuEditDatabase()
 {
     clearScreen();
 
     cout << frameText("Edit the Database")
          << "1: Add a scientist to the database" << endl
          << "2: Add a computer to the database" << endl
-         << "3: Add a scientist - computer relation" << endl
+         << "3: Add a scientist - computer relation" << endl << endl
          << "4: Edit a scientist in the database" << endl
-         << "5: Edit a computer in the database" << endl
+         << "5: Edit a computer in the database" << endl << endl
          << "6: Delete a scientist from the database" << endl
          << "7: Delete a computer from the database" << endl
+         << "8: Delete a scientist - computer relation" << endl << endl
          << "Other numbers: Go back to the start" << endl << DASHES << endl;
 
     //Stores the user's choice
-    int select = getInt("");
+    int select = promptForInt("");
 
     //Calls appropriate functions based on the user's choice
     switch (select)
@@ -228,23 +228,25 @@ void Console::editDatabase()
         do
         {
             clearScreen();
-            insertScientist();
-        }while(promptYesNo("Do you want to add another computer scientist? Y/N"));
+            promptAddScientist();
+        } while(promptYesNo("Do you want to add another computer scientist? Y/N"));
 
         return;
+
     case 2:
         do
         {
             clearScreen();
-            insertComputer();
-        }while(promptYesNo("Do you want to add another computer? Y/N"));
+            promptAddComputer();
+        } while(promptYesNo("Do you want to add another computer? Y/N"));
         return;
+
     case 3:
         do
         {
             clearScreen();
             findSciAndComToMakeUser();
-        }while(promptYesNo("Do you want to add another scientist - computer relation? Y/N"));
+        } while(promptYesNo("Do you want to add another scientist - computer relation? Y/N"));
 
         return;
 
@@ -254,7 +256,7 @@ void Console::editDatabase()
             clearScreen();
             cout << frameText("Please enter the name of the scientist you want to edit");
             findScientistToEdit();
-        }while(promptYesNo("Do you want to edit another scientist? Y/N"));
+        } while(promptYesNo("Do you want to edit another scientist? Y/N"));
         return;
 
     case 5:
@@ -263,7 +265,7 @@ void Console::editDatabase()
             clearScreen();
             cout << frameText("Please enter the name of the computer you want to edit");
             findComputerToEdit();
-        }while(promptYesNo("Do you want to edit another computer? Y/N"));
+        } while(promptYesNo("Do you want to edit another computer? Y/N"));
         return;
 
     case 6:
@@ -272,15 +274,26 @@ void Console::editDatabase()
             clearScreen();
             cout << frameText("Please enter the name of the scientist you want to delete");
             findScientistToDelete();
-        }while(promptYesNo("Do you want to delete another computer scientist? Y/N"));
+        } while(promptYesNo("Do you want to delete another computer scientist? Y/N"));
         return;
+
     case 7:
         do
         {
             clearScreen();
             cout << frameText("Please enter the name of the computer you want to delete");
             findComputerToDelete();
-        }while(promptYesNo("Do you want to delete another computer? Y/N"));
+        } while(promptYesNo("Do you want to delete another computer? Y/N"));
+        return;
+
+    case 8:
+        do
+        {
+            clearScreen();
+            deleteSCRelation();
+        } while(promptYesNo("Do you want to delete another scientist - computer relation? Y/N"));
+        return;
+
     default:
         return;
     }
@@ -290,7 +303,7 @@ void Console::editDatabase()
  * \brief Console::insertComputer
  * Makes a new computer and adds it to the database
  */
-void Console::insertComputer()
+void Console::promptAddComputer()
 {
     cout << frameText("Please fill inn all the information about the computer");
 
@@ -307,10 +320,10 @@ void Console::insertComputer()
     do
     {
         //inserting information about the new computer into the parameters
-        name = promptName();
-        buildYear = promptComputerMakeYear();
-        type = promptType();
-        about = promptAbout();
+        name = promptForName();
+        buildYear = promptForComputerMakeYear();
+        type = promptMenuTypeOfComputer();
+        about = promptForAbout();
         wasItBuilt = promptYesNo("Was the computer built? Y/N");
 
         if(wasItBuilt) {ans = "Yes";}
@@ -324,7 +337,7 @@ void Console::insertComputer()
                "\nAbout: " + about +
                "\nIs this correct? Y/N";
 
-    }while(!promptYesNo(info));
+    } while(!promptYesNo(info));
 
     // adds the new computer to the database
     this->dataMan->addComputer(Computer(name, buildYear, type, wasItBuilt, about, 0));
@@ -332,12 +345,12 @@ void Console::insertComputer()
 
 /*!
  * \brief Console::showScientists
- * Prints out scientists in sorted order
+ * Asks the user for a string to search by and shows the results
  */
 void Console::showScientists()
 {
-    //Creates a vector containing all scientists in currently database
-    vector<Scientist> scientists = getScientist();
+    //Creates a vector of scientist from the results of getScientist
+    vector<Scientist> scientists = promptGetScientists();
 
 
     if (scientists.size() == 0) { cout << "No Scientist found" << endl; }
@@ -357,7 +370,7 @@ void Console::showScientists()
  * \brief Console::insertScientist
  * For inserting into the datafile
  */
-void Console::insertScientist()
+void Console::promptAddScientist()
 {
 
     cout << frameText("Please fill inn all the information about the scientist");
@@ -374,11 +387,11 @@ void Console::insertScientist()
     do
     {
         //inserting information about the new scientist into the parameters
-        name = promptName();
-        sex = promptSex();
-        birthYear = promptBirthYear();
+        name = promptForName();
+        sex = promptForSex();
+        birthYear = promptForBirthYear();
         deathYear = promptDeathYear(birthYear);
-        about = promptAbout();
+        about = promptForAbout();
 
         clearScreen();
         info = frameText("Scientist information:") +
@@ -389,7 +402,7 @@ void Console::insertScientist()
                "\nAbout: " + about +
                "\nIs this correct? Y/N ";
 
-    }while(!promptYesNo(info));
+    } while(!promptYesNo(info));
 
     //adds the new scientist to the database
     this->dataMan->addScientist(Scientist(name, sex, birthYear, deathYear, about, 0));
@@ -404,8 +417,9 @@ void Console::insertScientist()
  */
 int Console::promptFindScientist()
 {
-    cout << "Press enter to get a list of all scientists, substrings are accepted, search is not case sensitive" << endl;
-    string name = promptName();
+    cout << "Press enter to get a list of all scientists, you can search with a partial of a name," << endl
+         << "search is not case sensitive" << endl;
+    string name = promptForName();
 
     //finds all the scientists whos names match the user input and inserts them to a vector of scientists
     vector<Scientist> allScientists = dataMan->findScientistByName(name, ScientistSortOrder());
@@ -421,7 +435,7 @@ int Console::promptFindScientist()
         cout <<"Matching scientists, insert the ID of the scientist you want to select";
 
         // ask user to select and return the selected id
-        return getInt("");
+        return promptForInt("");
     }
 
     //if there are no matching scientists
@@ -447,8 +461,9 @@ int Console::promptFindScientist()
  */
 int Console::promptFindComputer()
 {
-    cout << "Press enter to get a list of all computers, substrings are accepted, \nsearch is not case sensitive" << endl;
-    string name = promptName();
+    cout << "Press enter to get a list of all computers, you can search with a partial of a name," << endl
+         << "search is not case sensitive" << endl;
+    string name = promptForName();
 
     //finds all the scientists whos names match the user input and inserts them to a vector of scientists
     vector<Computer> allComputers = dataMan->findComputerByName(name, ComputerSortOrder());
@@ -464,7 +479,7 @@ int Console::promptFindComputer()
         cout <<"Matching computers, insert the ID of the computer you want to select";
 
         // ask user to select and return the selected id
-        return getInt("");
+        return promptForInt("");
     }
 
     //if there are no matching computers
@@ -537,8 +552,9 @@ void Console::findComputerToDelete()
  */
 void Console::findSciAndComToMakeUser()
 {
-    cout << frameText("Find the computers a scientist used/theorized");
+    cout << frameText("First find the scientist('User')");
     int sciId = promptFindScientist();
+    cout << frameText("Now find the computer that the scientist used");
     int comId = promptFindComputer();
 
     // if no id was found on either
@@ -548,7 +564,23 @@ void Console::findSciAndComToMakeUser()
     }
 
     //edits the scientist who's ID matches id
-    dataMan->addUser(sciId, comId);
+    dataMan->addCSRelation(sciId, comId);
+}
+
+void Console::deleteSCRelation()
+{
+    cout << frameText("First find the scientist('User')");
+    int sciId = promptFindScientist();
+    vector<Computer> scientistComputers = dataMan->getComputersFromScientistId(sciId);
+    if (scientistComputers.size() == 0)
+    {
+        cout << "No computer found, no relation to delete" << endl;
+        promptEnterToContinue();
+        return;
+    }
+    displayComputers(scientistComputers);
+    int selection = promptForInt("Type in the Id of the computer you want detach from the user from");
+    dataMan->removeCSRelation(sciId,selection);
 }
 
 /*!
@@ -571,22 +603,22 @@ void Console::changeScientist(Scientist scientis)
              << "4: Year of death" << endl
              << "5: About" << endl << DASHES << endl;
 
-        int select = getInt("");
+        int select = promptForInt("");
 
         switch(select){ //User chooses which attribute to edit
         case 1:
             //sets the chosen scientists name to user's input
-            scientis.setName(promptName());
+            scientis.setName(promptForName());
             break;
 
         case 2:
             //sets the chosen scientists sex to user's input
-            scientis.setSex(promptSex());
+            scientis.setSex(promptForSex());
             break;
 
         case 3:
             //sets the chosen scientists birth year to user's input
-            scientis.setBirthYear(promptBirthYear());
+            scientis.setBirthYear(promptForBirthYear());
             break;
 
         case 4:
@@ -596,7 +628,7 @@ void Console::changeScientist(Scientist scientis)
 
         case 5:
             //sets the chosen scientist's about to user's input
-            scientis.setAbout(promptAbout());
+            scientis.setAbout(promptForAbout());
             break;
 
         default:
@@ -619,7 +651,7 @@ void Console::changeScientist(Scientist scientis)
         //saves the modifications to database
 
         dataMan->updateScientist(scientis);
-    }while(!promptYesNo(info));
+    } while(!promptYesNo(info));
 }
 
 /*!
@@ -667,7 +699,7 @@ void Console::deleteComputer(Computer comp)
  * Asks the user for input
  * \returns a "name" string
  */
-string Console::promptName()
+string Console::promptForName()
 {
     string name = "";
 
@@ -688,7 +720,7 @@ string Console::promptName()
  * Asks the user for input
  * \returns an "about" string
  */
-string Console::promptAbout()
+string Console::promptForAbout()
 {
     string about = "";
     cout << "About: ";
@@ -702,7 +734,7 @@ string Console::promptAbout()
  * Asks the user to define which sex
  * \returns sex
  */
-char Console::promptSex()
+char Console::promptForSex()
 {
     string sex = "";
 
@@ -727,13 +759,13 @@ char Console::promptSex()
  * \brief Console::promptBirthYear
  * \return birthYear
  */
-int Console::promptBirthYear()
+int Console::promptForBirthYear()
 {
     int birthYear = 0;
     while(true)
     {
         cout << "Year of birth";
-        birthYear = getInt("");
+        birthYear = promptForInt("");
 
         //Only allows birthyear to be greater than or equals to 1200 and less than 2016
         if(birthYear >= 1200 && birthYear <= 2015)
@@ -750,13 +782,13 @@ int Console::promptBirthYear()
  * \brief Console::promptComputerMakeYear
  * \return birthYear
  */
-int Console::promptComputerMakeYear()
+int Console::promptForComputerMakeYear()
 {
     int makeYear = 0;
     while(true)
     {
         cout << "When was the computer made/theorized";
-        makeYear = getInt("");
+        makeYear = promptForInt("");
 
         //Only allows birthyear to be greater than or equals to 1200 and less than 2016
         if(makeYear >= 1800 && makeYear <= 2015)
@@ -780,7 +812,7 @@ int Console::promptDeathYear(int birthYear)
     while(true)
     {
         cout << "Year of death (0 if still alive)";
-        deathYear = getInt("");
+        deathYear = promptForInt("");
 
         // Only allows deathyear to be 0 or greater than birthyear and less than 2016
         // the scientist can not be older than 110
@@ -800,7 +832,7 @@ int Console::promptDeathYear(int birthYear)
  * \brief Console::promptType
  * \return type
  */
-int Console::promptType()
+int Console::promptMenuTypeOfComputer()
 {
     vector<TypeOfComputer> types = dataMan->getAllTypesOfComputers();
     size_t select;
@@ -813,11 +845,11 @@ int Console::promptType()
     }
     cout << types.size() + 1 << ": Add another type";
 
-    select = getInt("");
+    select = promptForInt("");
 
     if (select == types.size() + 1)
     {
-        makeNewTypeOfComputer();
+        promptAddNewTypeOfComputer();
         return select;
     }
     else if (select > 0 && select <= types.size())
@@ -827,7 +859,7 @@ int Console::promptType()
     else
     {
         cout << "\nPlease select a number between 1 and " << types.size() + 1 << endl;
-        return promptType();
+        return promptMenuTypeOfComputer();
     }
 }
 
@@ -835,16 +867,16 @@ int Console::promptType()
  * \brief Console::promptWasItBuilt
  * \return true if computer was built, false otherwise
  */
-bool Console::promptWasItBuilt()
+bool Console::promptForIfItWasItBuilt()
 {
-     return promptYesNo("Was the computer built?");
+     return promptYesNo("Was the computer built? Y/N");
 }
 
 /*!
  * \brief Console::makeNewTypeOfComputer
  * If there is a need for another type of a computer
  */
-void Console::makeNewTypeOfComputer()
+void Console::promptAddNewTypeOfComputer()
 {
     cout << "Enter the type: " << endl;
     string type = "";
@@ -856,7 +888,7 @@ void Console::makeNewTypeOfComputer()
  * \brief Console::getScientist
  * \return Scientist
  */
-vector<Scientist> Console::getScientist()
+vector<Scientist> Console::promptGetScientists()
 {
     int select = 0;
     int yearStart = 0;
@@ -873,29 +905,29 @@ vector<Scientist> Console::getScientist()
          << "5: Search by sex" << endl
          << DASHES << endl;
 
-    select = getInt("");
+    select = promptForInt("");
 
     //Fetches a function according to the user's input
     switch (select) {
 
     case 1:
-        return dataMan->getAllScientists (getScientistSort());
+        return dataMan->getAllScientists (promptMenuScientistSort());
 
     case 2:
-        name = promptName();
-        return dataMan->findScientistByName (name, getScientistSort());
+        name = promptForName();
+        return dataMan->findScientistByName (name, promptMenuScientistSort());
 
     case 3:// we had to pull out these "getInt" methoods because windows add mac were not fetching them in the same order
-        yearStart = getInt("Enter the birth year you want to start looking from");
-        yearStop = getInt("Enter the birth year you want to look until");
-        return dataMan->findByBirthYear(yearStart, yearStop, getScientistSort());
+        yearStart = promptForInt("Enter the birth year you want to start looking from");
+        yearStop = promptForInt("Enter the birth year you want to look until");
+        return dataMan->findByBirthYear(yearStart, yearStop, promptMenuScientistSort());
     case 4:
-        yearStart = getInt("Enter the death year you want to start looking from");
-        yearStop = getInt("Enter the death year you want to look until");
-        return dataMan->findByDeathYear(yearStart, yearStop, getScientistSort());
+        yearStart = promptForInt("Enter the death year you want to start looking from");
+        yearStop = promptForInt("Enter the death year you want to look until");
+        return dataMan->findByDeathYear(yearStart, yearStop, promptMenuScientistSort());
     case 5:
-        sex = promptSex();
-        return dataMan->findBySex(sex, getScientistSort());
+        sex = promptForSex();
+        return dataMan->findBySex(sex, promptMenuScientistSort());
 
     default:
         return vector<Scientist>();
@@ -906,7 +938,7 @@ vector<Scientist> Console::getScientist()
  * \brief Console::getComputer
  * \return Computer
  */
-vector<Computer> Console::getComputer()
+vector<Computer> Console::promptGetComputers()
 {
     clearScreen();
     int select = 0;
@@ -921,23 +953,23 @@ vector<Computer> Console::getComputer()
          << "5: Search by if it was built or not (not working yet)" << endl
          << DASHES << endl;
 
-    select = getInt("");
+    select = promptForInt("");
 
     //Fetches a function according to the user's input
     switch (select)
     {
     case 1:
-        return dataMan->getAllComputers (getComputerSort());
+        return dataMan->getAllComputers (promptMenuComputerSort());
     case 2:
-        return dataMan->findComputerByName (promptName(), getComputerSort());
+        return dataMan->findComputerByName (promptForName(), promptMenuComputerSort());
     case 3:
-        yearStart = getInt("Enter the build year you want to start looking from");
-        yearStop = getInt("Enter the build year you want to look until");
-        return dataMan->findComputerByBuildYear(yearStart, yearStop, getComputerSort());
+        yearStart = promptForInt("Enter the build year you want to start looking from");
+        yearStop = promptForInt("Enter the build year you want to look until");
+        return dataMan->findComputerByBuildYear(yearStart, yearStop, promptMenuComputerSort());
     case 4:
-        return dataMan->findComputerByType (promptType() ,getComputerSort());
+        return dataMan->findComputerByType (promptMenuTypeOfComputer() ,promptMenuComputerSort());
     case 5:
-        return dataMan->findComputerByWasItBuilt (promptWasItBuilt() ,getComputerSort());
+        return dataMan->findComputerByWasItBuilt (promptForIfItWasItBuilt() ,promptMenuComputerSort());
     default:
         return vector<Computer>();
     }
@@ -947,7 +979,7 @@ vector<Computer> Console::getComputer()
  * \brief Console::getSort
  * \return ScientistSortOrder
  */
-ScientistSortOrder Console::getScientistSort()
+ScientistSortOrder Console::promptMenuScientistSort()
 {
     int choice;
     ScientistSortOrder sort;
@@ -961,7 +993,7 @@ ScientistSortOrder Console::getScientistSort()
          << "5: No sorting" << endl
          << DASHES << endl;
 
-    choice = getInt("");
+    choice = promptForInt("");
 
     //Fetches the desired sorting information
     switch ( choice )
@@ -974,7 +1006,7 @@ ScientistSortOrder Console::getScientistSort()
     default:return ScientistSortOrder(SID);
     }
 
-    sort.direction = getDirection();
+    sort.direction = promptMenuSortDirection();
     return sort;
 }
 
@@ -982,7 +1014,7 @@ ScientistSortOrder Console::getScientistSort()
  * \brief Console::getComputerSort
  * \return ComputerSortOrder
  */
-ComputerSortOrder Console::getComputerSort()
+ComputerSortOrder Console::promptMenuComputerSort()
 {
     int choice;
     ComputerSortOrder sort;
@@ -996,7 +1028,7 @@ ComputerSortOrder Console::getComputerSort()
          << "5: No sorting" << endl
          << DASHES << endl;
 
-    choice = getInt("");
+    choice = promptForInt("");
 
     //Fetches the desired sorting information
     switch ( choice )
@@ -1009,7 +1041,7 @@ ComputerSortOrder Console::getComputerSort()
     default:return ComputerSortOrder(CID);
     }
 
-    sort.direction = getDirection();
+    sort.direction = promptMenuSortDirection();
     return sort;
 }
 
@@ -1018,7 +1050,7 @@ ComputerSortOrder Console::getComputerSort()
  * \brief Console::getDirection
  * \return direction
  */
-Direction Console::getDirection()
+Direction Console::promptMenuSortDirection()
 {
     cout << DASHES << endl <<
             "Ascending or descending?\n"
@@ -1026,7 +1058,7 @@ Direction Console::getDirection()
             "2: Descending?\n";
 
     int choice;
-    choice = getInt("");
+    choice = promptForInt("");
     switch ( choice )
     {
     case 1: return ASCENDING;
@@ -1122,7 +1154,7 @@ bool Console::promptYesNo(string prompt){
  * \param prompt
  * \return myNumber
  */
-int Console::getInt(string prompt)
+int Console::promptForInt(string prompt)
 {
     string input = "";
     int myNumber = 0;
@@ -1143,12 +1175,16 @@ int Console::getInt(string prompt)
 
 /*!
  * \brief Console::clearScreen
- * Dirty way of making the console look nicer when running
+ * Dirty way of making the console look nicer when running,
+ * the correct version is chosen when compiled
  */
 void Console::clearScreen()
 {
-    //system("clear");
+#ifdef MSDOS
     system("CLS");
+#else
+    system("clear");
+#endif
 }
 
 /*!
@@ -1197,7 +1233,7 @@ void Console::displayScientists(vector<Scientist> scientists)
 void Console::displayComputers(vector<Computer> computers)
 {
     // This Could be moved into a function,
-    // sets the with of the name column, they tend to differ wildly in lenght
+    // sets the with of the name and type column, they tend to differ wildly in lenght
     int longestComputerName = 4;
     int longestTypeName = 4;
     for (size_t i = 0; i < computers.size(); i++)
@@ -1296,24 +1332,24 @@ void Console::changeComputer(Computer comp)
              << "5: About" << endl
              << DASHES << endl;
 
-        int select = getInt("");
+        int select = promptForInt("");
 
         //User chooses which attribute to edit
         switch(select)
         {
         case 1:
             //sets the chosen computers name to user's input
-            comp.setName(promptName());
+            comp.setName(promptForName());
             break;
 
         case 2:
             //sets the chosen computer build year to user's input
-            comp.setBuildYear(promptComputerMakeYear());
+            comp.setBuildYear(promptForComputerMakeYear());
             break;
 
         case 3:
             //sets the chosen computers type to user's input
-            comp.setType(promptType());
+            comp.setType(promptMenuTypeOfComputer());
             break;
 
         case 4:
@@ -1323,7 +1359,7 @@ void Console::changeComputer(Computer comp)
 
         case 5:
             //sets the chosen computers about to user's input
-            comp.setAbout(promptAbout());
+            comp.setAbout(promptForAbout());
             break;
 
         default:
@@ -1344,5 +1380,5 @@ void Console::changeComputer(Computer comp)
                       "\nDone editing? Y/N";
 
         dataMan->updateComputer(comp);
-    }while(!promptYesNo(info));
+    } while(!promptYesNo(info));
 }

@@ -4,6 +4,11 @@
 #include <string>
 using namespace std;
 
+/*!
+ * \brief The ScientistSortBy enum
+ * These enums and structs store sorting information that tells
+ * the dataManager how to sort incoming data
+ */
 enum ScientistSortBy {SID = 0, SNAME, BIRTH, DEATH, SEX};
 enum ComputerSortBy {CID = 0, CNAME, BUILT, TYPE, WASBUILT};
 enum Direction {ASCENDING = 0, DESCENDING};
