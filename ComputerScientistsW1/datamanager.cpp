@@ -15,33 +15,35 @@
 //        cout << "ERROR: " << error.text().toStdString() << endl;
 //        cout << query.lastQuery().toStdString() << endl;
 //    }
-
+/*!
+ * \brief DataManager::initializeTables
+ */
 void DataManager::initializeTables()
 {
-    query.exec("create table IF NOT EXISTS scientists ("
+    query.exec(" CREATE TABLE IF NOT EXISTS scientists ("
                " ID INTEGER primary key NOT NULL,"
-               " name varchar(100) NOT NULL,"
-               " sex char(1) NOT NULL,"
+               " name VARCHAR(100) NOT NULL,"
+               " sex CHAR(1) NOT NULL,"
                " birth INT NOT NULL,"
                " death INT,"
                " About text)"
               );
 
-    query.exec("create table IF NOT EXISTS pctype ("
+    query.exec(" CREATE TABLE IF NOT EXISTS pctype ("
                " ID INTEGER primary key NOT NULL,"
-               " type varchar(100) NOT NULL)"
+               " type VARCHAR(100) NOT NULL)"
               );
 
-    query.exec("create table IF NOT EXISTS computers ("
+    query.exec(" CREATE TABLE IF NOT EXISTS computers ("
                " ID INTEGER primary key NOT NULL,"
-               " name varchar(255) NOT NULL,"
+               " name VARCHAR(255) NOT NULL,"
                " buildyear INT,"
                " type INT REFERENCES pctype(ID) NOT NULL,"
                " wasbuilt INT,"
                " About text)"
               );
 
-    query.exec("create table IF NOT EXISTS users ("
+    query.exec(" CREATE TABLE IF NOT EXISTS users ("
                " ID INTEGER primary key NOT NULL,"
                " scientistID INT NOT NULL REFERENCES scientists(ID) ON DELETE CASCADE,"
                " computerID INT NOT NULL REFERENCES computers(ID) ON DELETE CASCADE,"
