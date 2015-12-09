@@ -1,6 +1,5 @@
 #ifndef dataManager
 #define dataManager
-
 #include "stdlib.h"
 #include <vector>
 #include "Scientist.h"

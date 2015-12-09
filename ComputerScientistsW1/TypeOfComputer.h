@@ -13,7 +13,6 @@ public:
 private:
     int id;
     string type;
-    // option string about;
 };
 
 #endif // TYPEOFCOMPUTER_H

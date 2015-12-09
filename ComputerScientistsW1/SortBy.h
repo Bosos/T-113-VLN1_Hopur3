@@ -1,7 +1,7 @@
 #ifndef SORTBY
 #define SORTBY
-
 #include <string>
+
 using namespace std;
 
 /*!

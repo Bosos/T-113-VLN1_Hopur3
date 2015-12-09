@@ -1,6 +1,5 @@
 #ifndef COMPUTER
 #define COMPUTER
-
 #include <string>
 #include <vector>
 #include "ConnectedTo.h"
