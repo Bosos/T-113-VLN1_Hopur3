@@ -1142,7 +1142,7 @@ ComputerSortOrder Console::promptMenuComputerSort()
     case 1: sort.sortBy = CNAME; break;
     case 2: sort.sortBy = BUILT; break;
     case 3: sort.sortBy = TYPE; break;
-    case 4: sort.sortBy = BUILT; break;
+    case 4: sort.sortBy = WASBUILT; break;
     case 5:
     default: return ComputerSortOrder(CID);
     }

@@ -234,7 +234,7 @@ vector<Scientist> DataManager::findByDeathYear(int yearFrom, int yearTo, Scienti
     vector<Scientist> matchingScientists;
 
     string scientis = "SELECT * FROM scientists WHERE death >= '" + to_string(yearFrom)
-                      + "' AND birth <= '" + to_string(yearTo) + "'ORDER BY "
+                      + "' AND death <= '" + to_string(yearTo) + "'ORDER BY "
                       + sort.getSortByString() + " COLLATE NOCASE " + sort.getDirectionString();
 
     query.exec(scientis.c_str());
