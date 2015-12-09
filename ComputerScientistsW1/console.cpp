@@ -28,17 +28,17 @@ void Console::run()
     {
         clearScreen();
 
-        // welcome is only shown once
+        // Welcome is only shown once
         welcome();
         cout << frameText("Welcome to the Computer Scientists database. Enter a number")
              << "1: Edit database" << endl
              << "2: See database" << endl
              << "3: Quit" << endl << DASHES << endl;
 
-        //stores the user's choice
+        // Stores the user's choice
         int select = promptForInt("");
 
-        //Calls appropriate function based on the user's choice
+        // Calls appropriate function based on the user's choice
         switch (select) {
         case 1:
             menuEditDatabase();
@@ -174,10 +174,10 @@ void Console::menuSeeDatabase()
              << "3: List of what computers a scientist used" << endl
              << "4: list of scientist that used a computer" << endl << DASHES << endl;
 
-        //stores the user's choice
+        // Stores the user's choice
         int select = promptForInt("");
 
-        //Calls appropriate function based on the user's choice
+        // Calls appropriate function based on the user's choice
         switch (select)
         {
         case 1:
@@ -208,7 +208,7 @@ void Console::menuSeeDatabase()
  */
 void Console::showComputers()
 {
-    //Creates a vector containing all computers in current database
+    // Creates a vector containing all computers in current database
     vector<Computer> computers = promptGetComputers();
 
     if (computers.size() == 0)
@@ -216,7 +216,7 @@ void Console::showComputers()
         cout << "No computer found\n";
     }
 
-    //Prints out the computers currently in database
+    // Prints out the computers currently in database
     else
     {
         clearScreen();
@@ -248,7 +248,7 @@ vector<Computer> Console::promptGetComputers()
 
     select = promptForInt("");
 
-    //Fetches a function according to the user's input
+    // Fetches a function according to the user's input
     switch (select)
     {
     case 1:
@@ -287,7 +287,7 @@ void Console::promptAddComputer()
     // The user is asked if the new information is correct before applying
     do
     {
-        //inserting information about the new computer into the parameters
+        // Inserting information about the new computer into the parameters
         name = promptForName();
         buildYear = promptForComputerMakeYear();
         type = promptMenuTypeOfComputer();
@@ -307,7 +307,7 @@ void Console::promptAddComputer()
 
     } while(!promptYesNo(info));
 
-    // adds the new computer to the database
+    // Adds the new computer to the database
     this->dataMan->addComputer(Computer(name, buildYear, type, wasItBuilt, about, 0));
 }
 
@@ -324,7 +324,7 @@ int Console::promptFindComputer()
          << "search is not case sensitive" << endl;
     string name = promptForName();
 
-    //finds all the scientists whos names match the user input and inserts them to a vector of scientists
+    //Finds all the scientists whos names match the user input and inserts them to a vector of scientists
     vector<Computer> allComputers = dataMan->findComputerByName(name, ComputerSortOrder());
 
     //If there are more than 1 scientists that match the user input,
@@ -337,18 +337,18 @@ int Console::promptFindComputer()
 
         cout <<"Matching computers, insert the ID of the computer you want to select";
 
-        // ask user to select and return the selected id
+        // Ask user to select and return the selected id
         return promptForInt("");
     }
 
-    //if there are no matching computers
+    // If there are no matching computers
     else if(allComputers.size() == 0)
     {
         cout << "\nSorry, there is no matching computer in database\n";
         return 0;
     }
 
-    //return the only computer, if there is only one computer who's name matches the input
+    // Return the only computer, if there is only one computer who's name matches the input
     else
     {
         return allComputers.at(0).getID();
@@ -364,10 +364,10 @@ void Console::findComputerToEdit()
 {
     int id = promptFindComputer();
 
-    // if no id was found
+    // If no id was found
     if (!id) { return; }
 
-    //edits the computer who's ID matches id
+    // Edits the computer who's ID matches id
     changeComputer(dataMan->getComputerFromId(id));
 }
 
@@ -379,13 +379,13 @@ void Console::findComputerToDelete()
 {
     int id = promptFindComputer();
 
-    // if no id was found
+    // If no id was found
     if (!id)
     {
         return;
     }
 
-    //deletes the scientist who's ID matches id
+    // Deletes the scientist who's ID matches id
     deleteComputer(dataMan->getComputerFromId(id));
 }
 
@@ -412,7 +412,7 @@ void Console::changeComputer(Computer comp)
 
         int select = promptForInt("");
 
-        //User chooses which attribute to edit
+        // User chooses which attribute to edit
         switch(select)
         {
         case 1:
@@ -421,22 +421,22 @@ void Console::changeComputer(Computer comp)
             break;
 
         case 2:
-            //sets the chosen computer build year to user's input
+            // Sets the chosen computer build year to user's input
             comp.setBuildYear(promptForComputerMakeYear());
             break;
 
         case 3:
-            //sets the chosen computers type to user's input
+            // Sets the chosen computers type to user's input
             comp.setType(promptMenuTypeOfComputer());
             break;
 
         case 4:
-            //sets the chosen computers was built to user's input
+            // Sets the chosen computers was built to user's input
             comp.setWasItBuilt(promptYesNo("Was the computer built? Y/N"));
             break;
 
         case 5:
-            //sets the chosen computers about to user's input
+            // Sets the chosen computers about to user's input
             comp.setAbout(promptForAbout());
             break;
 
@@ -445,7 +445,7 @@ void Console::changeComputer(Computer comp)
             return;
         }
 
-        //Show the user the modified scientist
+        // Show the user the modified scientist
         clearScreen();
 
                 info = frameText(comp.getName() + "'s information is now:") +
@@ -473,10 +473,10 @@ void Console::deleteComputer(Computer comp)
     displayComputers(vector<Computer>(1,comp));
 
 
-    //User has to be sure if he want's to totally eliminate this computer
+    // User has to be sure if he want's to totally eliminate this computer
     if(promptYesNo("Sure you want to delete " + comp.getName() + " Y/N"))
     {
-        //computer has been removed from database
+        // Computer has been removed from database
         dataMan->removeFromComputer(comp.getID());
     }
 }
@@ -487,7 +487,7 @@ void Console::deleteComputer(Computer comp)
  */
 void Console::promptAddNewTypeOfComputer()
 {
-    cout << "Enter the type: " << endl;
+    cout << "Enter the type: ";
     string type = "";
     getline(cin, type);
     dataMan->addTypeOfComputer(type);
@@ -499,13 +499,13 @@ void Console::promptAddNewTypeOfComputer()
  */
 void Console::showScientists()
 {
-    //Creates a vector of scientist from the results of getScientist
+    // Creates a vector of scientist from the results of getScientist
     vector<Scientist> scientists = promptGetScientists();
 
 
     if (scientists.size() == 0) { cout << "No Scientist found" << endl; }
 
-    //Prints out the scientists currently in database
+    // Prints out the scientists currently in database
     else
     {
         clearScreen();
@@ -539,7 +539,7 @@ vector<Scientist> Console::promptGetScientists()
 
     select = promptForInt("");
 
-    //Fetches a function according to the user's input
+    // Fetches a function according to the user's input
     switch (select) {
 
     case 1:
@@ -549,7 +549,8 @@ vector<Scientist> Console::promptGetScientists()
         name = promptForName();
         return dataMan->findScientistByName (name, promptMenuScientistSort());
 
-    case 3:// we had to pull out these "getInt" methoods because windows add mac were not fetching them in the same order
+    // We had to pull out these "getInt" methoods because windows add mac were not fetching them in the same order
+    case 3:
         yearStart = promptForInt("Enter the birth year you want to start looking from");
         yearStop = promptForInt("Enter the birth year you want to look until");
         return dataMan->findByBirthYear(yearStart, yearStop, promptMenuScientistSort());
@@ -575,7 +576,7 @@ void Console::promptAddScientist()
 
     cout << frameText("Please fill inn all the information about the scientist");
 
-    //creating variables
+    // Creating variables
     string info = "";
     string name = "";
     char sex = ' ';
@@ -586,7 +587,7 @@ void Console::promptAddScientist()
     // The user can modify more than one field before he finishes
     do
     {
-        //inserting information about the new scientist into the parameters
+        // Inserting information about the new scientist into the parameters
         name = promptForName();
         sex = promptForSex();
         birthYear = promptForBirthYear();
@@ -604,7 +605,7 @@ void Console::promptAddScientist()
 
     } while(!promptYesNo(info));
 
-    //adds the new scientist to the database
+    // Adds the new scientist to the database
     this->dataMan->addScientist(Scientist(name, sex, birthYear, deathYear, about, 0));
 }
 
@@ -621,10 +622,10 @@ int Console::promptFindScientist()
          << "search is not case sensitive" << endl;
     string name = promptForName();
 
-    //finds all the scientists whos names match the user input and inserts them to a vector of scientists
+    // Finds all the scientists whos names match the user input and inserts them to a vector of scientists
     vector<Scientist> allScientists = dataMan->findScientistByName(name, ScientistSortOrder());
 
-    //If there are more than 1 scientists that match the user input,
+    // If there are more than 1 scientists that match the user input,
     //the program shows all of them to the user and then
     //the user chooses the id of the scientist he want's to edit
     if(allScientists.size() > 1)
@@ -634,18 +635,18 @@ int Console::promptFindScientist()
 
         cout <<"Matching scientists, insert the ID of the scientist you want to select";
 
-        // ask user to select and return the selected id
+        // Ask user to select and return the selected id
         return promptForInt("");
     }
 
-    //if there are no matching scientists
+    // If there are no matching scientists
     else if(allScientists.size() == 0)
     {
         cout << "\nSorry, there is no matching scientist in database\n";
         return 0;
     }
 
-    //return the only scientist, if there is only one scientist who's name matches the input
+    // Return the only scientist, if there is only one scientist who's name matches the input
     else
     {
         return allScientists.at(0).getID();
@@ -661,10 +662,10 @@ void Console::findScientistToEdit()
 {
     int id = promptFindScientist();
 
-    // if no id was found
+    // If no id was found
     if (!id) { return; }
 
-    //edits the scientist who's ID matches id
+    // Edits the scientist who's ID matches id
     changeScientist(dataMan->getScientistFromId(id));
 }
 
@@ -676,10 +677,10 @@ void Console::findScientistToDelete()
 {
     int id = promptFindScientist();
 
-    // if no id was found
+    // If no id was found
     if (!id) { return; }
 
-    //deletes the scientist who's ID matches id
+    // Deletes the scientist who's ID matches id
     deleteScientist(dataMan->getScientistFromId(id));
 }
 
@@ -705,29 +706,31 @@ void Console::changeScientist(Scientist scientis)
 
         int select = promptForInt("");
 
-        switch(select){ //User chooses which attribute to edit
+        // User chooses which attribute to edit
+        switch(select)
+        {
         case 1:
-            //sets the chosen scientists name to user's input
+            // Sets the chosen scientists name to user's input
             scientis.setName(promptForName());
             break;
 
         case 2:
-            //sets the chosen scientists sex to user's input
+            // Sets the chosen scientists sex to user's input
             scientis.setSex(promptForSex());
             break;
 
         case 3:
-            //sets the chosen scientists birth year to user's input
+            // Sets the chosen scientists birth year to user's input
             scientis.setBirthYear(promptForBirthYear());
             break;
 
         case 4:
-            //sets the chosen scientists death year to user's input
+            // Sets the chosen scientists death year to user's input
             scientis.setDeathYear(promptDeathYear(scientis.getBirthYear()));
             break;
 
         case 5:
-            //sets the chosen scientist's about to user's input
+            // Sets the chosen scientist's about to user's input
             scientis.setAbout(promptForAbout());
             break;
 
@@ -736,7 +739,7 @@ void Console::changeScientist(Scientist scientis)
             return;
         }
 
-        //Show the user the modified scientist
+        // Show the user the modified scientist
         clearScreen();
                 info = frameText(scientis.getName() + "'s information is now:") +
                       "Name: " + scientis.getName() +
@@ -747,9 +750,7 @@ void Console::changeScientist(Scientist scientis)
                       "\n" + DASHES +
                       "\nDone editing? Y/N";
 
-        // if yes? maybe
-        //saves the modifications to database
-
+        // Saves the modifications to database
         dataMan->updateScientist(scientis);
     } while(!promptYesNo(info));
 }
@@ -766,10 +767,10 @@ void Console::deleteScientist(Scientist scientis)
     displayScientists(vector<Scientist>(1,scientis));
 
 
-    //User has to be sure if he want's to totally eliminate this scientist
+    // User has to be sure if he want's to totally eliminate this scientist
     if(promptYesNo("Sure you want to delete " + scientis.getName() + " Y/N"))
     {
-        //scientist has been removed from database
+        // Scientist will be removed from database
         dataMan->removeFromScientist(scientis.getID());
     }
 }
@@ -786,13 +787,13 @@ void Console::findSciAndComToMakeUser()
     cout << frameText("Now find the computer that the scientist used");
     int comId = promptFindComputer();
 
-    // if no id was found on either
+    // If no id was found on either
     if (!sciId || !comId)
     {
         return;
     }
 
-    //edits the scientist who's ID matches id
+    // Edits the scientist who's ID matches id
     dataMan->addCSRelation(sciId, comId);
 }
 
@@ -941,12 +942,12 @@ string Console::promptForName()
 {
     string name = "";
 
-    //This loops while the name is not valid
+    // This loops while the name is not valid
     do
     {
         cout << "Name: ";
 
-        //gets the user's input
+        // Gets the user's input
         getline(cin, name);
     } while (!isNameValid(name));
 
@@ -963,7 +964,7 @@ string Console::promptForAbout()
     string about = "";
     cout << "About: ";
 
-    //gets the user's input
+    // Gets the user's input
     getline(cin, about);
     return about;
 }
@@ -980,13 +981,13 @@ int Console::promptForBirthYear()
         cout << "Year of birth";
         birthYear = promptForInt("");
 
-        //Only allows birthyear to be greater than or equals to 1200 and less than 2016
+        // Only allows birthyear to be greater than or equals to 1200 and less than 2016
         if(birthYear >= 1200 && birthYear <= 2015)
         {
             return birthYear;
         }
 
-        // we dont get here if the year was valid
+        // We dont get here if the year was valid
         cout << "Please enter a valid birth year.(1200-2015)\n";
     }
 }
@@ -1005,7 +1006,7 @@ int Console::promptDeathYear(int birthYear)
         deathYear = promptForInt("");
 
         // Only allows deathyear to be 0 or greater than birthyear and less than 2016
-        // the scientist can not be older than 110
+        // The scientist can not be older than 110
         if    ((deathYear == 0 && 2015 - birthYear <= 110)
            || ((deathYear > birthYear && deathYear <= 2015)
            &&  (deathYear - birthYear <= 110)))
@@ -1013,7 +1014,7 @@ int Console::promptDeathYear(int birthYear)
             return deathYear;
         }
 
-        // we dont get here if the year was valid
+        // We dont get here if the year was valid
         cout << "Please enter a valid birth year. The scientist can not be older than 110 years and can not have died before being born\n";
     }
 }
@@ -1030,13 +1031,13 @@ int Console::promptForComputerMakeYear()
         cout << "When was the computer made/theorized";
         makeYear = promptForInt("");
 
-        //Only allows birthyear to be greater than or equals to 1200 and less than 2016
+        // Only allows birthyear to be greater than or equals to 1200 and less than 2016
         if(makeYear >= 1000 && makeYear <= 2015)
         {
             return makeYear;
         }
 
-        // we dont get here if the year was valid
+        // We dont get here if the year was valid
         cout << "Please enter a valid year.(1000-2015)\n";
     }
 }
@@ -1050,18 +1051,18 @@ char Console::promptForSex()
 {
     string sex = "";
 
-    //this loops if sex is not either m/M or f/F
+    // This loops if sex is not either m/M or f/F
     while(true)
     {
         cout << "Sex (M/F): ";
 
-        //gets the user's input
+        // Gets the user's input
         getline(cin, sex);
 
-        //Makes sure that sex is upper-case
+        // Makes sure that sex is upper-case
         sex[0] = toupper(sex[0]);
 
-        //Only allows M and F
+        // Only allows M and F
         if(sex[0] == 'M' || sex[0] == 'F') { return sex[0]; }
         else { cout << "Please enter a valid sex.\n"; }
     }
@@ -1096,7 +1097,7 @@ ScientistSortOrder Console::promptMenuScientistSort()
 
     choice = promptForInt("");
 
-    //Fetches the desired sorting information
+    // Fetches the desired sorting information
     switch ( choice )
     {
     case 1: sort.sortBy = SNAME; break;
@@ -1131,7 +1132,7 @@ ComputerSortOrder Console::promptMenuComputerSort()
 
     choice = promptForInt("");
 
-    //Fetches the desired sorting information
+    // Fetches the desired sorting information
     switch ( choice )
     {
     case 1: sort.sortBy = CNAME; break;
@@ -1182,7 +1183,7 @@ int Console::promptMenuTypeOfComputer()
     {
         cout << i + 1 << ": " << types.at(i).getType() << endl;
     }
-    cout << types.size() + 1 << ": Add another type";
+    cout << types.size() + 1 << ": Add another type\n";
 
     select = promptForInt("");
 
@@ -1314,10 +1315,10 @@ void Console::displayScientists(vector<Scientist> scientists)
  */
 void Console::displayComputers(vector<Computer> computers)
 {
-    // This Could be moved into a function,
-    // sets the with of the name and type column, they tend to differ wildly in lenght
-    int longestComputerName = 4;
-    int longestTypeName = 4;
+    // This Could be moved into a function..
+    // Sets the with of the name and type column, they tend to differ wildly in lenght
+    unsigned int longestComputerName = 4;
+    unsigned int longestTypeName = 4;
     for (size_t i = 0; i < computers.size(); i++)
     {
         if (computers.at(i).getName().length() > longestComputerName)

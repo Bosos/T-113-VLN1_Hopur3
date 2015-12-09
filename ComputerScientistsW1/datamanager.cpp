@@ -31,19 +31,19 @@ void DataManager::addScientist(Scientist scientis)
     if (scientis.getDeathYear() == 0)
     {
          currScientist = "INSERT INTO scientists(name,sex,birth,about)"
-              "VALUES('" + scientis.getName()
-                 + "','" + scientis.getSex()
-                 + "','" + to_string(scientis.getBirthYear())
-                 + "','" + scientis.getAbout() + "')";
+                         "VALUES('" + scientis.getName()
+                         + "','" + scientis.getSex()
+                         + "','" + to_string(scientis.getBirthYear())
+                         + "','" + scientis.getAbout() + "')";
     }
     else
     {
         currScientist = "INSERT INTO scientists(name,sex,birth,death,about)"
-             "VALUES('" + scientis.getName()
-                + "','" + scientis.getSex()
-                + "','" + to_string(scientis.getBirthYear())
-                + "','" + to_string(scientis.getDeathYear())
-                + "','" + scientis.getAbout() + "')";
+                        "VALUES('" + scientis.getName()
+                        + "','" + scientis.getSex()
+                        + "','" + to_string(scientis.getBirthYear())
+                        + "','" + to_string(scientis.getDeathYear())
+                        + "','" + scientis.getAbout() + "')";
     }
 
     query.exec(QString::fromUtf8(currScientist.c_str()));
@@ -61,21 +61,21 @@ void DataManager::updateScientist(Scientist scientis)
     if (scientis.getDeathYear() == 0)
     {
          update = "INSERT OR REPLACE INTO scientists(ID,name,sex,birth,about)"
-              "VALUES('" + to_string(scientis.getID())
-                 + "','" + scientis.getName()
-                 + "','" + scientis.getSex()
-                 + "','" + to_string(scientis.getBirthYear())
-                 + "','" + scientis.getAbout() + "')";
+                  "VALUES('" + to_string(scientis.getID())
+                  + "','" + scientis.getName()
+                  + "','" + scientis.getSex()
+                  + "','" + to_string(scientis.getBirthYear())
+                  + "','" + scientis.getAbout() + "')";
     }
     else
     {
         update = "INSERT OR REPLACE INTO scientists(ID,name,sex,birth,death,about)"
-             "VALUES('" + to_string(scientis.getID())
-                + "','" + scientis.getName()
-                + "','" + scientis.getSex()
-                + "','" + to_string(scientis.getBirthYear())
-                + "','" + to_string(scientis.getDeathYear())
-                + "','" + scientis.getAbout() + "')";
+                 "VALUES('" + to_string(scientis.getID())
+                 + "','" + scientis.getName()
+                 + "','" + scientis.getSex()
+                 + "','" + to_string(scientis.getBirthYear())
+                 + "','" + to_string(scientis.getDeathYear())
+                 + "','" + scientis.getAbout() + "')";
     }
 
     query.exec(update.c_str());
@@ -102,7 +102,7 @@ void DataManager::removeFromScientist(int id)
  */
 Scientist DataManager::getScientistFromId(int id)
 {
-    //QSqlQuery query(db); // may or maynot be needed uncomment if database seems flaky
+    // QSqlQuery query(db); // may or maynot be needed uncomment if database seems flaky
     query.prepare("SELECT * FROM scientists WHERE id == :id");
     query.bindValue(":id", id);
     query.exec();
@@ -122,7 +122,9 @@ vector<Scientist> DataManager::getAllScientists(ScientistSortOrder sort)
     QSqlQuery query(db);
 
     // Otputs the list as the user wants it sorted
-    string command = "SELECT * FROM scientists ORDER BY " + sort.getSortByString() + " COLLATE NOCASE " + sort.getDirectionString();
+    string command = "SELECT * FROM scientists ORDER BY " + sort.getSortByString()
+                     + " COLLATE NOCASE " + sort.getDirectionString();
+
     query.exec(command.c_str());
 
     // Creates a scientist from the values and inserts the scientist to a vector
@@ -144,16 +146,20 @@ vector<Scientist> DataManager::getScientistsFromComputerId(int computerId)
 {
     vector<Scientist> allRelatedScientist;
     QSqlQuery query(db);
+
     query.prepare("SELECT scientists.*"
                   " FROM scientists"
                   " JOIN users on scientists.ID = users.scientistID"
                   " WHERE users.computerID = :comID");
+
     query.bindValue(":comID", computerId);
     query.exec();
+
     while(query.next())
     {
         allRelatedScientist.push_back(getNextScientistQuery(query));
     }
+
     return allRelatedScientist;
 }
 
@@ -165,35 +171,19 @@ vector<Scientist> DataManager::getScientistsFromComputerId(int computerId)
  */
 vector<Scientist> DataManager::findScientistByName(string subString, ScientistSortOrder sort)
 {
-    vector<Scientist> allScientists = getAllScientists(sort);
     vector<Scientist> matchingScientists;
-    string temp;
-    string name;
 
-    //sets substring to all lowercase
-    for(unsigned int i = 0; i < subString.length(); i++)
+    string scientis = "SELECT * FROM scientists WHERE LOWER(name) LIKE LOWER('%"
+                      + subString + "%' )" + "ORDER BY " + sort.getSortByString()
+                      + " COLLATE NOCASE " + sort.getDirectionString();
+
+    query.exec(scientis.c_str());
+
+    while(query.next())
     {
-        subString[i] = tolower(subString[i]);
+        matchingScientists.push_back(getNextScientistQuery(query));
     }
 
-    //Checks all scientists and inserts the ones who's name matches name parameter into the vector matchingScientists
-    for(unsigned int i = 0; i < allScientists.size(); i++)
-    {
-        name = allScientists[i].getName();
-
-        //sets the scientist name to all lowercase
-        for(unsigned int j = 0; j < name.length(); j++)
-        {
-            temp += tolower(name[j]);
-        }
-
-        //inserts the matching scientists to a vector
-        if(temp.find(subString) != std::string::npos)
-        {
-             matchingScientists.push_back(allScientists[i]);
-        }
-        temp = "";
-    }
     return matchingScientists;
 }
 
@@ -294,11 +284,13 @@ void DataManager::addComputer(Computer comp)
 {
     query.prepare("INSERT INTO computers(name, buildyear, type, wasbuilt, about)"
                   "VALUES(:name, :buildyear, :type, :wasbuilt, :about)");
+
     query.bindValue(":name", comp.getName().c_str());
     query.bindValue(":buildyear", comp.getBuildYear());
     query.bindValue(":type", comp.getType());
     query.bindValue(":wasbuilt", comp.getWasItBuilt());
     query.bindValue(":about", comp.getAbout().c_str());
+
     query.exec();
 }
 
@@ -311,12 +303,14 @@ void DataManager::updateComputer(Computer comp)
 {
     query.prepare("INSERT OR REPLACE INTO computers(ID,name,buildyear,type,wasbuilt,about)"
                   " VALUES(:id, :name, :buildyear, :type, :wasbuilt, :about)");
+
     query.bindValue(":id", comp.getID());
     query.bindValue(":name", comp.getName().c_str());
     query.bindValue(":buildyear", comp.getBuildYear());
     query.bindValue(":type", comp.getType());
     query.bindValue(":wasbuilt", comp.getWasItBuilt());
     query.bindValue(":about", comp.getAbout().c_str());
+
     query.exec();
 }
 
@@ -328,6 +322,7 @@ void DataManager::updateComputer(Computer comp)
 void DataManager::removeFromComputer(int id)
 {
     string deleteComp = "DELETE FROM computers WHERE ID = " + to_string(id);
+
     query.exec(deleteComp.c_str());
     db.commit();
 }
@@ -340,6 +335,7 @@ void DataManager::removeFromComputer(int id)
 void DataManager::addTypeOfComputer(string type)
 {
     string newType = "INSERT OR REPLACE INTO pctype (type) VALUES ('" + type + "')";
+
     query.exec(newType.c_str());
     db.commit();
 }
@@ -352,11 +348,13 @@ void DataManager::addTypeOfComputer(string type)
  */
 Computer DataManager::getComputerFromId(int id)
 {
-    //QSqlQuery query(db); // may or maynot be needed uncomment if database seems flaky
+    // QSqlQuery query(db); // may or maynot be needed uncomment if database seems flaky
     query.prepare("SELECT * FROM computers WHERE id == :id");
     query.bindValue(":id", id);
+
     query.exec();
     query.next();
+
     return getNextComputerQuery(query);
 }
 
@@ -370,8 +368,10 @@ vector<Computer> DataManager::getAllComputers(ComputerSortOrder sort)
     vector<Computer> allComputers;
     QSqlQuery query(db);
 
-    // Otputs the list as the user wants it sorted
-    string command = "SELECT * FROM computers ORDER BY " + sort.getSortByString() + " COLLATE NOCASE " + sort.getDirectionString();
+    // Outputs the list as the user wants it sorted
+    string command = "SELECT * FROM computers ORDER BY " + sort.getSortByString()
+                     + " COLLATE NOCASE " + sort.getDirectionString();
+
     query.exec(command.c_str());
 
     // Creates a computer from the values and inserts the scientist to a vector
@@ -379,6 +379,7 @@ vector<Computer> DataManager::getAllComputers(ComputerSortOrder sort)
     {
         allComputers.push_back(getNextComputerQuery(query));
     }
+
     return allComputers;
 }
 
@@ -390,35 +391,18 @@ vector<Computer> DataManager::getAllComputers(ComputerSortOrder sort)
  */
 vector<Computer> DataManager::findComputerByName(string subString, ComputerSortOrder sort)
 {
-    vector<Computer> allComputers = getAllComputers(sort);
     vector<Computer> matchingComputers;
-    string temp;
-    string name;
 
-    //sets substring to all lowercase
-    for(unsigned int i = 0; i < subString.length(); i++)
+    string comp = "SELECT * FROM computers WHERE LOWER(name) LIKE LOWER('%" + subString + "%' )"
+                   + "ORDER BY " + sort.getSortByString() + " COLLATE NOCASE " + sort.getDirectionString();
+
+    query.exec(comp.c_str());
+
+    while(query.next())
     {
-        subString[i] = tolower(subString[i]);
+        matchingComputers.push_back(getNextComputerQuery(query));
     }
 
-    //Checks all scientists and inserts the ones who's name matches name parameter into the vector matchingScientists
-    for(unsigned int i = 0; i < allComputers.size(); i++)
-    {
-        name = allComputers[i].getName();
-
-        //sets the scientist name to all lowercase
-        for(unsigned int j = 0; j < name.length(); j++)
-        {
-            temp += tolower(name[j]);
-        }
-
-        //inserts the matching scientists to a vector
-        if(temp.find(subString) != std::string::npos)
-        {
-             matchingComputers.push_back(allComputers[i]);
-        }
-        temp = "";
-    }
     return matchingComputers;
 }
 
@@ -503,17 +487,20 @@ vector<Computer> DataManager::getComputersFromScientistId(int scientistId)
 {
     vector<Computer> allRelatedComputers;
     QSqlQuery query(db);
+
     query.prepare("SELECT computers.*"
                   " FROM computers"
                   " JOIN users on computers.ID = users.computerID"
                   " WHERE users.scientistID = :sciID");
     query.bindValue(":sciID", scientistId);
+
     query.exec();
 
     while(query.next())
     {
         allRelatedComputers.push_back(getNextComputerQuery(query));
     }
+
     return allRelatedComputers;
 }
 
@@ -527,8 +514,8 @@ vector<Computer> DataManager::getComputersFromScientistId(int scientistId)
 void DataManager::addCSRelation(int userId, int computerId)
 {
     string newType = "INSERT OR REPLACE INTO users (scientistID,computerID) VALUES ('"
-            + to_string(userId) + "','"
-            + to_string(computerId) + "' )";
+                     + to_string(userId) + "','"
+                     + to_string(computerId) + "' )";
 
     query.exec(newType.c_str());
     db.commit();
@@ -540,7 +527,9 @@ void DataManager::addCSRelation(int userId, int computerId)
  */
 void DataManager::removeCSRelation(int userId, int computerId)
 {
-    string deleteUser = "DELETE FROM users WHERE scientistID = " + to_string(userId) + " AND computerID = " + to_string(computerId);
+    string deleteUser = "DELETE FROM users WHERE scientistID = " + to_string(userId)
+                        + " AND computerID = " + to_string(computerId);
+
     query.exec(deleteUser.c_str());
     db.commit();
 }
@@ -555,6 +544,7 @@ vector<TypeOfComputer> DataManager::getAllTypesOfComputers()
     vector<TypeOfComputer> returnTypes;
 
     QSqlQuery record("SELECT * FROM pctype");
+
     while (record.next())
     {
         int id = record.value("id").toUInt();
@@ -562,6 +552,7 @@ vector<TypeOfComputer> DataManager::getAllTypesOfComputers()
         TypeOfComputer newType(id,name);
         returnTypes.push_back(newType);
     }
+
     return returnTypes;
 }
 
@@ -576,6 +567,7 @@ string DataManager::getTypeOfComputerFromId(int id)
     string toQstring = "SELECT type FROM pctype WHERE id == " + to_string(id);
     QSqlQuery record(toQstring.c_str());
     record.next();
+
     return record.value(0).toString().toStdString();
 }
 
@@ -585,6 +577,7 @@ string DataManager::getTypeOfComputerFromId(int id)
 //        cout << "ERROR: " << error.text().toStdString() << endl;
 //        cout << query.lastQuery().toStdString() << endl;
 //    }
+
 /*!
  * \brief DataManager::initializeTables
  */
@@ -627,7 +620,7 @@ void DataManager::initializeTables()
     query.exec("PRAGMA encoding = \"UTF-8\";");
 }
 
-// query.next MUST be called before or it will fetch old/wrong data
+// Query.next MUST be called before or it will fetch old/wrong data
 /*!
  * \brief DataManager::getNextScientistQuery
  * \param query

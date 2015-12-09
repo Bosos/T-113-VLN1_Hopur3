@@ -78,12 +78,136 @@
 > **Add a scientist - computer relation**
   1. After welcome message, choose *1. Edit database*.
   2. Then choose *3. Add a scientist - computer relation*.
-  3. //TODO
+  3. Now add the scientist you want to connect by either searching for his name or press enter to see all scientists in database and choose the scientist's ID.
+  4. Now add the computer you want to connect the scientist to by either searching for it's name or press enter to see all computers in database and choose the computer's ID.
+  5. Scientist - computer relation has been made.
 
 > **See a scientist - computer relation**
-  //TODO
+  1. After welcome message, choose *2. See database*.
+  2. Choose wheather you want to see all scientists connected to a computer(3) or a computer connected to a scientist(4).
+  3. Now look up the scientist/computer you want to see relations to by either typing the name or press enter to get a list of all computers/scientists and choose the computer's/scientist's ID.
+
+> **Delete a scientist - computer relation**
+  1. After welcome message, choose *1. Edit database*.
+  2. Choose *8. Delete a scientist - computer relation*
+  3. Now find the scientist of which you want to delete relations by either typing in his/her name or pressing enter to get a list of all scientists in database and then choose his/her ID.
+  4. You will now see a list of all the computers this scientist is connected to and to delete relation, you simply choose the computer's ID of whom you wish to remove.
+  5. Relation has been deleted.
 
 #### 3. Programming rules
-  * blablabla
-  * blablabla
-  * //TODO
+> **Classes**
+  * PascalCasing
+
+> **Variables**
+  * camelCasing
+
+> **Functions**
+  * camelCasing
+
+> **Comments**
+  * Comments should be written above the code that is being explained as well as having the same indentation. The comments should always start with a space.
+  > **Not like this**
+      int object = number;
+      string thing = foo; //Comment about the string
+
+  > **But like this**
+      int object = number;
+
+      // Comment about the string
+      string thing = foo;
+  
+  * Comments about loops should not be "inside" the loop, but above it.
+  > **Not like this**
+      if(bool)
+      {
+        //Comment about the loop
+        foo = bar;
+      }
+
+  > **But like this**
+      // Comment about the loop
+      if(bool)
+      {
+        foo = bar;
+      }
+
+  * Comments should be as short as possible, but concise. Should a comment too long to fit to the screen it should be divided to two or more lines.
+  > **Like this**
+      // Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+      // sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+      // Ut enim ad minim veniam, quis nostrud exercitation ullamco 
+      // laboris nisi ut aliquip ex ea commodo consequat. Duis aute 
+      // irure dolor in reprehenderit in voluptate velit esse cillum 
+      // dolore eu fugiat nulla pariatur. Excepteur sint occaecat 
+      // cupidatat non proident, sunt in culpa qui officia deserunt 
+      // mollit anim id est laborum.
+
+  * Comments on functions should be in Doxygen(/*!) and be placed **above** the function being explained.
+
+> **Curly brackets**
+  * Curly brackets should not open in the same line as a function name/loop condition except if it has only one shor line inside.
+
+  > **Not like this**
+      foo(){
+        bar = i;
+        i += i;
+      }
+
+  > **But like this**
+      foo()
+      {
+        bar = i;
+        i += i;
+      }
+
+  > **The exception**
+      foo() { bar = i; }
+
+> **Loops and boolean conditions**
+  * Loops and boolean conditions should always have curly brackets
+
+  > **Like this**
+      if(bool)
+      {
+        foo = bar;
+      }
+
+  > **But not like this**
+      if(bool)
+        foo = bar; 
+
+  *If a boolean condition is too long to fit in one line it should be broken down to two or more lines.
+
+  > **Not like this**
+      if(condition == anotherCondition && (something > somethingElse || something < theThirdThing))
+      {
+        foo = bar;
+      }
+
+  > **But like this**
+      if(condition == anotherCondition
+         && (something > somethingElse
+         || something < theThirdTing))
+      {
+        foo = bar;
+      }
+> **Lines and spacing**
+  * Try as mutch as possible to group similar things together, but if something is clearer in some other way the clarity wins.
+  * There should be a single empty line between "groups".
+
+> **Not like this**
+    {
+      int foo;
+      string str;
+      int numb;
+      if(contidion){ bar = i; };
+    }
+
+> **But like this**
+    {
+      int foo;
+      int numb;
+      string str;
+
+      if(contidion){bar = i; };
+    }
