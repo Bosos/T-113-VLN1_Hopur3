@@ -26,6 +26,7 @@ DataManager::DataManager(string dataBaseLocation)
     initializeTables();
 }
 
+
 /*!
  * \brief DataManager::initializeTables
  * Creates the database and tables if needed

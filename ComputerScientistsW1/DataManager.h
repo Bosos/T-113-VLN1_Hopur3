@@ -21,7 +21,6 @@ class DataManager
 {
 public:
     DataManager(string fileName);
-    ~DataManager();
 
     // Scientists
     void addScientist(Scientist scientis);
