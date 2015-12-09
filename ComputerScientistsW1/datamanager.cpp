@@ -579,12 +579,6 @@ string DataManager::getTypeOfComputerFromId(int id)
     return record.value(0).toString().toStdString();
 }
 
-// having problems with queries? try this
-//    auto error = query.lastError();
-//    if (error.isValid()) {
-//        cout << "ERROR: " << error.text().toStdString() << endl;
-//        cout << query.lastQuery().toStdString() << endl;
-//    }
 /*!
  * \brief DataManager::initializeTables
  */
@@ -662,4 +656,43 @@ Computer DataManager::getNextComputerQuery(QSqlQuery query)
     string about = query.value("about").toString().toStdString();
 
     return Computer(name, buildYear, type, wasItBuilt, about, id);
+}
+
+int DataManager::findLongestName(vector<Computer> computers)
+{
+    size_t longestComputerName = 4;
+    for (size_t i = 0; i < computers.size(); i++)
+    {
+        if (computers.at(i).getName().length() > longestComputerName)
+        {
+            longestComputerName = computers.at(i).getName().length();
+        }
+    }
+    return longestComputerName + 3;
+}
+
+int DataManager::findLongestName(vector<Scientist> Scientists)
+{
+    size_t longestScientistName = 4;
+    for (size_t i = 0; i < Scientists.size(); i++)
+    {
+        if (Scientists.at(i).getName().length() > longestScientistName)
+        {
+            longestScientistName = Scientists.at(i).getName().length();
+        }
+    }
+    return longestScientistName + 3;
+}
+
+int DataManager::findLongestComputerTypeName(vector<Computer> computers)
+{
+    size_t longestTypeName = 6;
+    for (size_t i = 0; i < computers.size(); i++)
+    {
+        if (getTypeOfComputerFromId(computers[i].getType()).length() > longestTypeName)
+        {
+            longestTypeName = getTypeOfComputerFromId(computers[i].getType()).length();
+        }
+    }
+    return longestTypeName + 3;
 }
