@@ -224,7 +224,7 @@ vector<Scientist> DataManager::findByDeathYear(int yearFrom, int yearTo, Scienti
     vector<Scientist> matchingScientists;
 
     string scientis = "SELECT * FROM scientists WHERE death >= '" + to_string(yearFrom)
-                      + "' AND birth <= '" + to_string(yearTo) + "'ORDER BY "
+                      + "' AND death <= '" + to_string(yearTo) + "'ORDER BY "
                       + sort.getSortByString() + " COLLATE NOCASE " + sort.getDirectionString();
 
     query.exec(scientis.c_str());
@@ -571,13 +571,6 @@ string DataManager::getTypeOfComputerFromId(int id)
     return record.value(0).toString().toStdString();
 }
 
-// having problems with queries? try this
-//    auto error = query.lastError();
-//    if (error.isValid()) {
-//        cout << "ERROR: " << error.text().toStdString() << endl;
-//        cout << query.lastQuery().toStdString() << endl;
-//    }
-
 /*!
  * \brief DataManager::initializeTables
  */
@@ -616,6 +609,7 @@ void DataManager::initializeTables()
     query.exec("INSERT OR REPLACE INTO pctype VALUES (1, 'Electronic')");
     query.exec("INSERT OR REPLACE INTO pctype VALUES (2, 'Mecanic')");
     query.exec("INSERT OR REPLACE INTO pctype VALUES (3, 'Transistor')");
+    query.exec("INSERT OR REPLACE INTO pctype VALUES (4, 'Electromechanical')");
     query.exec("PRAGMA foreign_keys = ON");
     query.exec("PRAGMA encoding = \"UTF-8\";");
 }
@@ -654,4 +648,43 @@ Computer DataManager::getNextComputerQuery(QSqlQuery query)
     string about = query.value("about").toString().toStdString();
 
     return Computer(name, buildYear, type, wasItBuilt, about, id);
+}
+
+int DataManager::findLongestName(vector<Computer> computers)
+{
+    size_t longestComputerName = 4;
+    for (size_t i = 0; i < computers.size(); i++)
+    {
+        if (computers.at(i).getName().length() > longestComputerName)
+        {
+            longestComputerName = computers.at(i).getName().length();
+        }
+    }
+    return longestComputerName + 3;
+}
+
+int DataManager::findLongestName(vector<Scientist> Scientists)
+{
+    size_t longestScientistName = 4;
+    for (size_t i = 0; i < Scientists.size(); i++)
+    {
+        if (Scientists.at(i).getName().length() > longestScientistName)
+        {
+            longestScientistName = Scientists.at(i).getName().length();
+        }
+    }
+    return longestScientistName + 3;
+}
+
+int DataManager::findLongestComputerTypeName(vector<Computer> computers)
+{
+    size_t longestTypeName = 6;
+    for (size_t i = 0; i < computers.size(); i++)
+    {
+        if (getTypeOfComputerFromId(computers[i].getType()).length() > longestTypeName)
+        {
+            longestTypeName = getTypeOfComputerFromId(computers[i].getType()).length();
+        }
+    }
+    return longestTypeName + 3;
 }

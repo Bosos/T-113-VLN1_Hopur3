@@ -33,6 +33,7 @@ public:
     vector<Scientist> findByDeathYear (int yearFrom, int yearTo, ScientistSortOrder sort);
     vector<Scientist> findBySex(string sex, ScientistSortOrder sort);
     int getAge(Scientist oneScientist);
+    int findLongestName(vector<Scientist> Scientists);
 
     // Computers
     void addComputer(Computer comp);
@@ -46,6 +47,8 @@ public:
     vector<Computer> findComputerByType (int type, ComputerSortOrder sort);
     vector<Computer> findComputerByWasItBuilt (bool wasBuilt ,ComputerSortOrder sort);
     vector<Computer> getComputersFromScientistId(int scientistId);
+    int findLongestName(vector<Computer> computers);
+    int findLongestComputerTypeName(vector<Computer> computers);
 
     // Computer-Scientists relations
     void addCSRelation(int userId, int computerId);

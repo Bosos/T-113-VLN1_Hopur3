@@ -10,8 +10,6 @@ Computer::Computer(string newName, int newBuildYear, int newType, bool NewWasItB
     ID = newID;
 }
 
-Computer::Computer(){}
-Computer::~Computer(){}
 string Computer::getName()
 {
     return name;

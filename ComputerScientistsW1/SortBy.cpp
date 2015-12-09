@@ -32,7 +32,7 @@ string ComputerSortOrder::getSortByString()
     case CNAME: return "name";
     case BUILT: return "buildyear";
     case TYPE: return "type";
-    case WASBUILT: return "wasbuild";
+    case WASBUILT: return "wasbuilt";
     case CID:
     default: return "id";
     }

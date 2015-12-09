@@ -10,8 +10,6 @@ class Computer
 {
 public:
     Computer(string newName, int newBuildYear, int newType, bool NewWasItBuilt, string newAbout, int newID);
-    Computer();
-    ~Computer();
     string getName();
     int getBuildYear();
     int getType();
