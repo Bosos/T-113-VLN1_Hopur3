@@ -2,7 +2,7 @@
 #include <stdexcept>
 #include <iostream>
 
-Scientist::Scientist(string newName, char newSex, int newBirthYear, int newDeathYear, string newAbout, int newID)
+Scientist::Scientist(QString newName, char newSex, int newBirthYear, int newDeathYear, QString newAbout, int newID)
 {
     name = newName;
     sex = newSex;
@@ -17,7 +17,7 @@ Scientist::Scientist(string newName, char newSex, int newBirthYear, int newDeath
     }
 }
 
-string Scientist::getName() const
+QString Scientist::getName() const
 {
     return name;
 }
@@ -37,7 +37,7 @@ int Scientist::getDeathYear() const
     return deathYear;
 }
 
-string Scientist::getAbout()
+QString Scientist::getAbout()
 {
     return about;
 }
@@ -59,7 +59,7 @@ int Scientist::getAge()
     }
 }
 
-void Scientist::setName(string newName)
+void Scientist::setName(QString newName)
 {
     name = newName;
 }
@@ -80,7 +80,7 @@ void Scientist::setDeathYear(int newDeathYear)
     deathYear = newDeathYear;
 }
 
-void Scientist::setAbout(string newAbout)
+void Scientist::setAbout(QString newAbout)
 {
     about = newAbout;
 }
