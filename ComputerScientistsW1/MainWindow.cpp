@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->dataMan = new DataManager(fileLocation);
 
     ui->setupUi(this);
+    ui->ScientistSelected->setHidden(true);
     updateScientist();
 }
 
@@ -18,7 +19,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_nameField_textChanged(const QString &arg1)
+void MainWindow::on_scientistNameField_textChanged(const QString &arg1)
 {
     updateScientist();
 }
@@ -46,23 +47,26 @@ void MainWindow::on_scientistTableView_clicked(const QModelIndex &index)
     QString birth = index.sibling(row,2).data().toString();
     QString death = index.sibling(row,3).data().toString();
     QString about = index.sibling(row,4).data().toString();
+    int sexInt = 0;
+    if (sex == "F") { sexInt = 1; }
+    else if (sex == "M") { sexInt = 2; }
 
-    ui->nameField->setText(name);
-    //ui->sexComboBox->setAttribute();
+    ui->selectedScientistNameField->setText(name);
+    ui->sexComboBox->setCurrentIndex(sexInt);
     ui->yearOfBirthField->setText(birth);
     ui->yearOfDeathField->setText(death);
-    ui->aboutField->setText(about);
+    ui->scientistAboutField->setText(about);
 }
 
 
 ScientistSearch MainWindow::getScientistFromInput()
 {
     ScientistSearch sciSearch;
-    sciSearch.name = ui->nameField->text();
+    sciSearch.name = ui->scientistNameField->text();
     sciSearch.setSex(ui->sexComboBox->currentText());
     sciSearch.birth = ui->yearOfBirthField->text();
     sciSearch.death = ui->yearOfDeathField->text();
-    sciSearch.about = ui->aboutField->text();
+    sciSearch.about = ui->scientistAboutField->text();
     return sciSearch;
 }
 
@@ -73,10 +77,30 @@ void MainWindow::updateScientist()
     ui->scientistTableView->resizeColumnsToContents();
 }
 
-void MainWindow::on_AddPushButton_released()
+void MainWindow::on_addScientistPushButton_released()
 {
    dataMan->addScientist(getScientistFromInput());
     updateScientist();
 }
 
+void MainWindow::on_clearScientistPushButton_released()
+{
+    ui->scientistNameField->setText("");
+    ui->sexComboBox->setCurrentIndex(0);
+    ui->yearOfBirthField->setText("");
+    ui->yearOfDeathField->setText("");
+    ui->scientistAboutField->setText("");
+}
+
+void MainWindow::on_selectScientistPushButton_released()
+{
+    ui->ScientistSelected->setHidden(false);
+    ui->headTab->setHidden(true);
+}
+
+void MainWindow::on_selectedScientistOKPushButton_released()
+{
+    ui->ScientistSelected->setHidden(true);
+    ui->headTab->setHidden(false);
+}
 
