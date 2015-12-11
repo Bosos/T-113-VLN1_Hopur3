@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->dataMan = new DataManager(fileLocation);
 
     updateScientist();
+    ui->scientistPicture->setAcceptDrops(true);
 }
 
 MainWindow::~MainWindow()
@@ -40,7 +41,7 @@ void MainWindow::on_yearOfDeathField_textEdited()
     updateScientist();
 }
 
-void MainWindow::on_scientistTableView_clicked(const QModelIndex &index)
+void MainWindow::on_foundScientistTableView_clicked(const QModelIndex &index)
 {
     int row = index.row();
     QString name = index.sibling(row,0).data().toString();
@@ -59,11 +60,14 @@ void MainWindow::on_scientistTableView_clicked(const QModelIndex &index)
     ui->selectedScientistAboutField->setPlainText(about);
 
     ui->selectedScientistComputerSearch->setHidden(true);
+    ui->selectedScientistRemoAddButonWidget->setHidden(false);
+
     ui->windowSwitcher->setCurrentIndex(1);
 }
 void MainWindow::on_selectedScientistAddComputer_released()
 {
-    ui->selectedScientistComputerSearch->setHidden(!ui->selectedScientistComputerSearch->isHidden());
+    ui->selectedScientistComputerSearch->setHidden(false);
+    ui->selectedScientistRemoAddButonWidget->setHidden(true);
 }
 
 
@@ -80,9 +84,9 @@ ScientistSearch MainWindow::getScientistFromInput()
 
 void MainWindow::updateScientist()
 {
-    ui->scientistTableView->setSortingEnabled(true);
-    ui->scientistTableView->setModel(dataMan->search(getScientistFromInput()));
-    ui->scientistTableView->resizeColumnsToContents();
+    ui->foundScientistTableView->setSortingEnabled(true);
+    ui->foundScientistTableView->setModel(dataMan->search(getScientistFromInput()));
+    ui->foundScientistTableView->resizeColumnsToContents();
 }
 
 void MainWindow::on_addScientistPushButton_released()
@@ -104,3 +108,64 @@ void MainWindow::on_selectedScientistOKPushButton_released()
 {
     ui->windowSwitcher->setCurrentIndex(0);
 }
+
+void MainWindow::on_computerSelectedAddScientist_released()
+{
+    ui->computerSelectedScientistSearch->setHidden(!ui->computerSelectedScientistSearch->isHidden());
+}
+
+void MainWindow::on_selectedScientistComputerSearchDoneButton_clicked()
+{
+    ui->selectedScientistComputerSearch->setHidden(true);
+    ui->selectedScientistRemoAddButonWidget->setHidden(false);
+}
+
+
+void MainWindow::on_selectedScientistDeleteScientistPushButton_clicked()
+{
+    if (QMessageBox::Yes == QMessageBox(QMessageBox::Information, "title", "Testing dialogs", QMessageBox::Yes|QMessageBox::No).exec())
+    {
+        qDebug() << "Scientist deleted";
+    }
+    int ret = QMessageBox::warning(this,"Hello fish","Are you sure you want to delete this scientist?","DELETE","Cancel" );
+
+    qDebug() << ret;
+}
+
+void MainWindow::on_scientistChangePictureButton_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
+                                                    "/home",
+                                                    tr("Images (*.png *.xpm *.jpg)"));
+    if(!fileName.isEmpty())
+    {
+        QImage image(fileName);
+
+        if(image.isNull())
+        {
+            QMessageBox::information(this,"Image Viewer","Error Displaying image");
+            return;
+        }
+            QGraphicsScene* scene = new QGraphicsScene();
+            QGraphicsView* view = new QGraphicsView(scene);
+
+            view->setDragMode(QGraphicsView::NoDrag);
+            view->setEnabled(false);
+            QGraphicsPixmapItem* item = new QGraphicsPixmapItem(QPixmap::fromImage(image));
+            QRect rect(0,0,138,178);
+            item->setPixmap(item->pixmap().scaled(138,178,Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
+
+            item->setPixmap(item->pixmap().copy(rect));
+
+            scene->addItem(item);
+
+            ui->scientistPicture->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+            ui->scientistPicture->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+            ui->scientistPicture->setScene(scene);
+            //ui->scientistPicture->fitInView(item,Qt::KeepAspectRatioByExpanding);
+
+            ui->scientistPicture->show();
+    }
+}
+
+

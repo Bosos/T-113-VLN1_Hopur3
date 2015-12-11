@@ -6,6 +6,10 @@
 #include "DataManager.h"
 #include <SearchCriteria.h>
 #include <Scientist.h>
+#include <QMessageBox>
+#include <QFileDialog>
+#include <QGraphicsPixmapItem>
+#include <QDropEvent>
 
 namespace Ui {
 class MainWindow;
@@ -25,10 +29,15 @@ private slots:
     void on_yearOfBirthField_textEdited();
     void on_yearOfDeathField_textEdited();
     void on_addScientistPushButton_released();
-    void on_scientistTableView_clicked(const QModelIndex &index);
+    void on_foundScientistTableView_clicked(const QModelIndex &index);
     void on_clearScientistPushButton_released();
     void on_selectedScientistOKPushButton_released();
     void on_selectedScientistAddComputer_released();
+    void on_computerSelectedAddScientist_released();
+    void on_selectedScientistDeleteScientistPushButton_clicked();
+    void on_scientistChangePictureButton_clicked();
+    void on_selectedScientistComputerSearchDoneButton_clicked();
+
 
 private:
     Ui::MainWindow *ui;
