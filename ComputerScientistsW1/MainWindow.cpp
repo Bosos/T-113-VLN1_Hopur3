@@ -106,4 +106,3 @@ void MainWindow::on_selectedScientistOKPushButton_released()
     ui->ScientistSelected->setHidden(true);
     ui->headTab->setHidden(false);
 }
-

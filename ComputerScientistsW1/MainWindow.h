@@ -30,7 +30,6 @@ private slots:
     void on_selectedScientistOKPushButton_released();
     void on_selectedScientistAddComputer_released();
 
-
 private:
     Ui::MainWindow *ui;
     DataManager* dataMan;
