@@ -20,10 +20,10 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_scientistNameField_textChanged(const QString &arg1);
+    void on_scientistNameField_textEdited();
     void on_sexComboBox_activated(const QString &arg1);
-    void on_yearOfBirthField_textChanged(const QString &arg1);
-    void on_yearOfDeathField_textChanged(const QString &arg1);
+    void on_yearOfBirthField_textEdited();
+    void on_yearOfDeathField_textEdited();
     void on_addScientistPushButton_released();
     void on_scientistTableView_clicked(const QModelIndex &index);
     void on_clearScientistPushButton_released();

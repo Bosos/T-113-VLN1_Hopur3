@@ -7,7 +7,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ui->ScientistSelected->setHidden(true);
+    ui->windowSwitcher->setCurrentIndex(0);
 
     string fileLocation = "database.sqlite";
     this->dataMan = new DataManager(fileLocation);
@@ -20,7 +20,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_scientistNameField_textChanged(const QString &arg1)
+void MainWindow::on_scientistNameField_textEdited()
 {
     updateScientist();
 }
@@ -30,12 +30,12 @@ void MainWindow::on_sexComboBox_activated(const QString &arg1)
     updateScientist();
 }
 
-void MainWindow::on_yearOfBirthField_textChanged(const QString &arg1)
+void MainWindow::on_yearOfBirthField_textEdited()
 {
     updateScientist();
 }
 
-void MainWindow::on_yearOfDeathField_textChanged(const QString &arg1)
+void MainWindow::on_yearOfDeathField_textEdited()
 {
     updateScientist();
 }
@@ -59,8 +59,7 @@ void MainWindow::on_scientistTableView_clicked(const QModelIndex &index)
     ui->selectedScientistAboutField->setPlainText(about);
 
     ui->selectedScientistComputerSearch->setHidden(true);
-    ui->ScientistSelected->setHidden(false);
-    ui->headTab->setHidden(true);
+    ui->windowSwitcher->setCurrentIndex(1);
 }
 void MainWindow::on_selectedScientistAddComputer_released()
 {
@@ -103,6 +102,5 @@ void MainWindow::on_clearScientistPushButton_released()
 
 void MainWindow::on_selectedScientistOKPushButton_released()
 {
-    ui->ScientistSelected->setHidden(true);
-    ui->headTab->setHidden(false);
+    ui->windowSwitcher->setCurrentIndex(0);
 }
