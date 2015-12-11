@@ -7,8 +7,8 @@ VALUES ('Ada Lovelace','F',1815,1852,'The first programmer');
 INSERT INTO scientists (name,sex,birth,death,About)
 VALUES ('Alan Turing','M',1912,1954,'Ever heard of turing complete');
 
-INSERT INTO scientists (name,sex,birth,death,About)
-VALUES ('Donald Knuth','M',1938,0,'Author of the multi-volume work');
+INSERT INTO scientists (name,sex,birth,About)
+VALUES ('Donald Knuth','M',1938,'Author of the multi-volume work');
 
 INSERT INTO scientists (name,sex,birth,death,About)
 VALUES ('Anita Borg','F',1949,2003,'Fought for womens representation in computing');
@@ -16,14 +16,14 @@ VALUES ('Anita Borg','F',1949,2003,'Fought for womens representation in computin
 INSERT INTO scientists (name,sex,birth,death,About)
 VALUES ('John Backus','M',1924,2007,'Inventor of the Backus-Naur form');
 
-INSERT INTO scientists (name,sex,birth,death,About)
-VALUES ('Markus Persson','M',1979,0,'The maker of Minecraft');
+INSERT INTO scientists (name,sex,birth,About)
+VALUES ('Markus Persson','M',1979,'The maker of Minecraft');
 
-INSERT INTO scientists (name,sex,birth,death,About)
-VALUES ('Steve Wozniak','M',1950,0,'One of the founder of Apple');
+INSERT INTO scientists (name,sex,birth,About)
+VALUES ('Steve Wozniak','M',1950,'One of the founder of Apple');
 
-INSERT INTO scientists (name,sex,birth,death,About)
-VALUES ('Mark Zuckerberg','M',1984,0,'Founder and maker of Facebook');
+INSERT INTO scientists (name,sex,birth,About)
+VALUES ('Mark Zuckerberg','M',1984,'Founder and maker of Facebook');
 
 INSERT INTO scientists (name,sex,birth,death,About)
 VALUES ('Grace Hopper','F',1906,1992,'United States Navy Rear Admiral');
@@ -46,14 +46,14 @@ VALUES ('Curt Herzstark','M',1902,1988,'Disigned and made the Curta calculator')
 INSERT INTO scientists (name,sex,birth,death,About)
 VALUES ('Blaise Pascal','M',1623,1662,'Child prodigy known for making the Pascals calulator');
 
-INSERT INTO scientists (name,sex,birth,death,About)
-VALUES ('Adele Goldberg','F',1945,0,'Received the ACM Software Systems Award in 1987');
+INSERT INTO scientists (name,sex,birth,About)
+VALUES ('Adele Goldberg','F',1945,'Received the ACM Software Systems Award in 1987');
 
-INSERT INTO scientists (name,sex,birth,death,About)
-VALUES ('Sophie Wilson','F',1957,0,'Designed the instruction set of the ARM processor');
+INSERT INTO scientists (name,sex,birth,About)
+VALUES ('Sophie Wilson','F',1957,'Designed the instruction set of the ARM processor');
 
-INSERT INTO scientists (name,sex,birth,death,About)
-VALUES ('Frances E. Allen','F',1932,0,'First woman to win the Turing Award');
+INSERT INTO scientists (name,sex,birth,About)
+VALUES ('Frances E. Allen','F',1932,'First woman to win the Turing Award');
 
 INSERT INTO scientists (name,sex,birth,death,About)
 VALUES ('Konrad Zuse','M',1910,1995,'Made the first programmable Turing-complete computer');

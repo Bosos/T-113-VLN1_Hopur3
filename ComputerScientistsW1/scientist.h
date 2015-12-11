@@ -2,6 +2,7 @@
 #define scientistr
 #include "stdlib.h"
 #include <string>
+#include <qstring.h>
 #include <vector>
 #include "ConnectedTo.h"
 
@@ -10,25 +11,26 @@ using namespace std;
 class Scientist
 {
 public:
-    Scientist(string newName, char newSex, int newBirthYear, int newDeathYear, string newAbout, int ID);
-    string getName() const;
+    Scientist(QString newName, char newSex, int newBirthYear, int newDeathYear, QString newAbout, int ID);
+    Scientist(QString newName, QString newSex, int newBirthYear, int newDeathYear, QString newAbout, int newID);
+    QString getName() const;
     char getSex() const;
     int getBirthYear() const;
     int getDeathYear() const;
-    string getAbout();
+    QString getAbout();
     int getID();
     int getAge();
-    void setName(string newName);
+    void setName(QString newName);
     void setSex(char newSex);
     void setBirthYear(int newBirthYear);
     void setDeathYear(int newDeathYear);
-    void setAbout(string newAbout);
+    void setAbout(QString newAbout);
 private:
-    string name;
+    QString name;
     char sex;
     int birthYear;
     int deathYear;
-    string about;
+    QString about;
     int ID;
 };
 

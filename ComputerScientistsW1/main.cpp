@@ -1,18 +1,31 @@
-#include <iostream>
-#include <Console.h>
-#include "DataManager.h"
+#include "mainwindow.h"
+#include <QApplication>
 
-using  namespace std;
-
-int main()
+int main(int argc, char *argv[])
 {
-    string fileLocation = "database.sqlite";
-    DataManager* dataMan = new DataManager(fileLocation);
-    Console console(dataMan);
+    QApplication a(argc, argv);
+    MainWindow w;
+    w.show();
 
-    console.run();
-
-    delete dataMan;
-
-    return 0;
+    return a.exec();
 }
+
+
+//#include <iostream>
+//#include <Console.h>
+//#include "DataManager.h"
+
+//using  namespace std;
+
+//int main()
+//{
+
+
+//    Console console(dataMan);
+
+//    console.run();
+
+//    delete dataMan;
+
+//    return 0;
+//}

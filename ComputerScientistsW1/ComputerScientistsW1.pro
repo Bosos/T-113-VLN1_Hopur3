@@ -1,10 +1,11 @@
 QT += core
 QT += sql
-QT -= gui
+QT += gui
+QT += widgets
 
 TARGET = ComputerScientistsW3
 CONFIG += console
-CONFIG -= app_bundle
+CONFIG += app_bundle
 CONFIG += c++11
 
 TEMPLATE = app
@@ -15,7 +16,9 @@ SOURCES += main.cpp \
     Scientist.cpp \
     Computer.cpp \
     TypeOfComputer.cpp \
-    SortBy.cpp
+    SortBy.cpp \
+    mainwindow.cpp \
+    SearchCriteria.cpp
 
 HEADERS += \
     Console.h \
@@ -23,4 +26,9 @@ HEADERS += \
     Scientist.h \
     SortBy.h \
     Computer.h \
-    TypeOfComputer.h
+    TypeOfComputer.h \
+    mainwindow.h \
+    SearchCriteria.h
+
+FORMS += \
+    mainwindow.ui

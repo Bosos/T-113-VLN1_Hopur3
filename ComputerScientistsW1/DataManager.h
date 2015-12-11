@@ -9,6 +9,7 @@
 #include <QSqlDatabase>
 #include <QSqlRecord>
 #include <TypeOfComputer.h>
+#include <SearchCriteria.h>
 
 using namespace std;
 
@@ -22,51 +23,54 @@ public:
     DataManager(string fileName);
 
     // Scientists
-    void addScientist(Scientist scientis);
-    void updateScientist(Scientist scientis);
-    void removeFromScientist(int id);
-    Scientist getScientistFromId(int id);
-    vector<Scientist> getAllScientists (ScientistSortOrder sort);
-    vector<Scientist> getScientistsFromComputerId(int computerId);
-    vector<Scientist> findScientistByName (string name, ScientistSortOrder sort);
-    vector<Scientist> findByBirthYear (int yearFrom, int yearTo, ScientistSortOrder sort);
-    vector<Scientist> findByDeathYear (int yearFrom, int yearTo, ScientistSortOrder sort);
-    vector<Scientist> findBySex(string sex, ScientistSortOrder sort);
-    int getAge(Scientist oneScientist);
-    int findLongestName(vector<Scientist> Scientists);
+    void addScientist(ScientistSearch scientistSearch);
+    QSqlQueryModel* search(ScientistSearch scientist);
+    bool isScientistSearchAvalidScientist(ScientistSearch scientist);
+    Scientist makeScientistFromSearchCriteria(ScientistSearch scientist);
 
-    // Computers
-    void addComputer(Computer comp);
-    void updateComputer(Computer comp);
-    void removeFromComputer(int id);
-    void addTypeOfComputer(string type);
-    Computer getComputerFromId(int id);
-    vector<Computer> getAllComputers (ComputerSortOrder sort);
-    vector<Computer> findComputerByName(string subString, ComputerSortOrder sort);
-    vector<Computer> findComputerByBuildYear (int yearFrom, int yearTo, ComputerSortOrder sort);
-    vector<Computer> findComputerByType (int type, ComputerSortOrder sort);
-    vector<Computer> findComputerByWasItBuilt (bool wasBuilt ,ComputerSortOrder sort);
-    vector<Computer> getComputersFromScientistId(int scientistId);
-    int findLongestName(vector<Computer> computers);
-    int findLongestComputerTypeName(vector<Computer> computers);
+//    void updateScientist(Scientist scientis);
+//    void removeFromScientist(int id);
+//    Scientist getScientistFromId(int id);
+//    vector<Scientist> getAllScientists (ScientistSortOrder sort);
+//    vector<Scientist> getScientistsFromComputerId(int computerId);
+//    vector<Scientist> findScientistByName (string name, ScientistSortOrder sort);
+//    vector<Scientist> findByBirthYear (int yearFrom, int yearTo, ScientistSortOrder sort);
+//    vector<Scientist> findByDeathYear (int yearFrom, int yearTo, ScientistSortOrder sort);
+//    vector<Scientist> findBySex(string sex, ScientistSortOrder sort);
+//    int getAge(Scientist oneScientist);
+//    int findLongestName(vector<Scientist> Scientists);
 
-    // Computer-Scientists relations
-    void addCSRelation(int userId, int computerId);
-    void removeCSRelation(int userId, int computerId);
-    vector<TypeOfComputer> getAllTypesOfComputers();
-    string getTypeOfComputerFromId(int id);
+//    // Computers
+//    void addComputer(Computer comp);
+//    void updateComputer(Computer comp);
+//    void removeFromComputer(int id);
+//    void addTypeOfComputer(string type);
+//    Computer getComputerFromId(int id);
+//    vector<Computer> getAllComputers (ComputerSortOrder sort);
+//    vector<Computer> findComputerByName(string subString, ComputerSortOrder sort);
+//    vector<Computer> findComputerByBuildYear (int yearFrom, int yearTo, ComputerSortOrder sort);
+//    vector<Computer> findComputerByType (int type, ComputerSortOrder sort);
+//    vector<Computer> findComputerByWasItBuilt (bool wasBuilt ,ComputerSortOrder sort);
+//    vector<Computer> getComputersFromScientistId(int scientistId);
+//    int findLongestName(vector<Computer> computers);
+//    int findLongestComputerTypeName(vector<Computer> computers);
 
-private:
-    void initializeTables();
-    Scientist getNextScientistQuery(QSqlQuery query);
-    Computer getNextComputerQuery(QSqlQuery query);
+//    // Computer-Scientists relations
+//    void addCSRelation(int userId, int computerId);
+//    void removeCSRelation(int userId, int computerId);
+//    vector<TypeOfComputer> getAllTypesOfComputers();
+//    string getTypeOfComputerFromId(int id);
 
-    string fileName;
+    //testing purposes
     QSqlDatabase db;
     QSqlQuery query;
+private:
+    void initializeTables();
+//    Scientist getNextScientistQuery(QSqlQuery query);
+//    Computer getNextComputerQuery(QSqlQuery query);
+
+    string fileName;
+
 };
 
 #endif // dataManager
-
-
-
