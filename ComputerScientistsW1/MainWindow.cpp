@@ -1,16 +1,17 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <Scientist.h>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    ui->setupUi(this);
+
+    ui->ScientistSelected->setHidden(true);
+
     string fileLocation = "database.sqlite";
     this->dataMan = new DataManager(fileLocation);
 
-    ui->setupUi(this);
-    ui->ScientistSelected->setHidden(true);
     updateScientist();
 }
 
@@ -52,10 +53,18 @@ void MainWindow::on_scientistTableView_clicked(const QModelIndex &index)
     else if (sex == "M") { sexInt = 2; }
 
     ui->selectedScientistNameField->setText(name);
-    ui->sexComboBox->setCurrentIndex(sexInt);
-    ui->yearOfBirthField->setText(birth);
-    ui->yearOfDeathField->setText(death);
-    ui->scientistAboutField->setText(about);
+    ui->selectedScientistSexComboBox->setCurrentIndex(sexInt);
+    ui->selectedScientistYearOfBirthField->setText(birth);
+    ui->selectedScientistYearOfDeathField->setText(death);
+    ui->selectedScientistAboutField->setPlainText(about);
+
+    ui->selectedScientistComputerSearch->setHidden(true);
+    ui->ScientistSelected->setHidden(false);
+    ui->headTab->setHidden(true);
+}
+void MainWindow::on_selectedScientistAddComputer_released()
+{
+    ui->selectedScientistComputerSearch->setHidden(!ui->selectedScientistComputerSearch->isHidden());
 }
 
 
@@ -90,12 +99,6 @@ void MainWindow::on_clearScientistPushButton_released()
     ui->yearOfBirthField->setText("");
     ui->yearOfDeathField->setText("");
     ui->scientistAboutField->setText("");
-}
-
-void MainWindow::on_selectScientistPushButton_released()
-{
-    ui->ScientistSelected->setHidden(false);
-    ui->headTab->setHidden(true);
 }
 
 void MainWindow::on_selectedScientistOKPushButton_released()

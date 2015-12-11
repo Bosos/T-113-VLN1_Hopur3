@@ -1,9 +1,11 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "ui_mainwindow.h"
 #include <QMainWindow>
 #include "DataManager.h"
 #include <SearchCriteria.h>
+#include <Scientist.h>
 
 namespace Ui {
 class MainWindow;
@@ -25,8 +27,8 @@ private slots:
     void on_addScientistPushButton_released();
     void on_scientistTableView_clicked(const QModelIndex &index);
     void on_clearScientistPushButton_released();
-    void on_selectScientistPushButton_released();
     void on_selectedScientistOKPushButton_released();
+    void on_selectedScientistAddComputer_released();
 
 
 private:

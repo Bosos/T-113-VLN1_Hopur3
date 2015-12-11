@@ -13,6 +13,7 @@ DataManager::DataManager(string dataBaseLocation)
 {
     this->fileName = dataBaseLocation;
     db = QSqlDatabase::addDatabase("QSQLITE");
+
     db.setDatabaseName(QString(fileName.c_str()));
     db.open();
 
