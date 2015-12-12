@@ -1,4 +1,4 @@
-#include "DataManager.h"
+ #include "DataManager.h"
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -94,19 +94,69 @@ QSqlQueryModel* DataManager::search(ScientistSearch scientist)
     if (scientist.getSex() == "F") {sex = "F";}
     else if (scientist.getSex() == "M") {sex = "M";}
 
-    string meme = "select name, sex, birth, death, about from scientists"
+    string meme = "SELECT s.id, s.name, sex.value as Sex, s.birth as 'Birth year', s.death as 'Death year', s.about"
+                  " FROM scientists s"
+                  " JOIN sex USING (sex)"
                   " where name like '%" + scientist.name.toStdString() + "%'"
                   " and sex like '%" + sex+ "%'"
                   " and birth like '%" + BiYe + "%'"
                   " and ifnull (death,'') like '%" + DeYe + "%'";
 
-    // This really should be done in the dataMan, here for testing
     QString mame = meme.c_str();
     qDebug() << ( mame );
     query->exec(meme.c_str());
     model->setQuery(*query);
     return model;
 }
+
+void DataManager::storeScientistPicture(QString fileName, int scientistId)
+{
+    if(fileName.isEmpty()) { return; }
+
+    QImage image(fileName);
+
+//        if(image.isNull())
+//        {
+//            QMessageBox::information(this,"Image Viewer","Error Displaying image");
+//            return;
+//        }
+
+    QGraphicsPixmapItem* item = new QGraphicsPixmapItem(QPixmap::fromImage(image));
+    QRect rect(0,0,138,178);
+    item->setPixmap(item->pixmap().scaled(138,178,Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
+    item->setPixmap(item->pixmap().copy(rect));
+
+    QByteArray inByteArray;
+    QBuffer inBuffer( &inByteArray );
+    inBuffer.open( QIODevice::WriteOnly );
+    item->pixmap().save( &inBuffer, "PNG" ); // write inPixmap into inByteArray in PNG format
+    query.clear();
+    query.prepare( "INSERT OR REPLACE INTO imgTableScientist (scientistID, filename, imagedata)"
+                   " VALUES (:scientistid, 'profile.png', :imageData)" );
+    query.bindValue( ":scientistid", scientistId );
+    query.bindValue( ":imageData", inByteArray );
+    qDebug() << query.lastQuery();
+    if(!query.exec()){ qDebug() << "Error inserting image into table:\n" << query.lastError();}
+}
+
+QPixmap DataManager::getScientistPicture(int scientistId)
+{
+    query.prepare("SELECT imagedata from imgTableScientist WHERE scientistID = :sciID");
+    query.bindValue( ":sciID", scientistId );
+    qDebug() << query.lastQuery();
+
+    if(!query.exec()){ qDebug() << "Error getting image from table:\n" << query.lastError(); }
+
+    query.first();
+
+    QByteArray outByteArray = query.value( 0 ).toByteArray();
+    QPixmap outPixmap = QPixmap();
+    outPixmap.loadFromData( outByteArray );
+
+    return outPixmap;
+}
+
+
 
 ///*!
 // * \brief DataManager::updateScientist
@@ -643,36 +693,49 @@ QSqlQueryModel* DataManager::search(ScientistSearch scientist)
  */
 void DataManager::initializeTables()
 {
-    query.exec(" CREATE TABLE IF NOT EXISTS scientists ("
+    query.exec("CREATE TABLE IF NOT EXISTS sex"
+               " (sex CHAR(1) primary key NOT NULL,"
+               " value VARCHAR(20) NOT NULL) WITHOUT ROWID");
+
+    query.exec("CREATE TABLE IF NOT EXISTS scientists ("
                " ID INTEGER primary key NOT NULL,"
-               " name VARCHAR(100) NOT NULL,"
-               " sex CHAR(1) NOT NULL,"
-               " birth INT NOT NULL,"
-               " death INT,"
+               " Name VARCHAR(100) NOT NULL,"
+               " Sex CHAR(1) REFERENCES sex(sex) NOT NULL,"
+               " Birth INT NOT NULL,"
+               " Death INT,"
                " About text)"
               );
 
-    query.exec(" CREATE TABLE IF NOT EXISTS pctype ("
+    query.exec("CREATE TABLE IF NOT EXISTS pctype ("
                " ID INTEGER primary key NOT NULL,"
                " type VARCHAR(100) NOT NULL)"
               );
 
-    query.exec(" CREATE TABLE IF NOT EXISTS computers ("
+    query.exec("CREATE TABLE IF NOT EXISTS computers ("
                " ID INTEGER primary key NOT NULL,"
-               " name VARCHAR(255) NOT NULL,"
-               " buildyear INT,"
-               " type INT REFERENCES pctype(ID) NOT NULL,"
-               " wasbuilt INT,"
+               " Name VARCHAR(255) NOT NULL,"
+               " Buildyear INT,"
+               " Type INT REFERENCES pctype(ID) NOT NULL,"
+               " Wasbuilt INT,"
                " About text)"
               );
 
-    query.exec(" CREATE TABLE IF NOT EXISTS users ("
+    query.exec("CREATE TABLE IF NOT EXISTS users ("
                " ID INTEGER primary key NOT NULL,"
                " scientistID INT NOT NULL REFERENCES scientists(ID) ON DELETE CASCADE,"
                " computerID INT NOT NULL REFERENCES computers(ID) ON DELETE CASCADE,"
                " CONSTRAINT oneUser UNIQUE (scientistID,computerID))"
               );
 
+    query.exec("CREATE TABLE IF NOT EXISTS imgTableScientist ("
+               " scientistID INT NOT NULL REFERENCES scientists(ID) ON DELETE CASCADE,"
+               " filename TEXT,"
+               " imagedata BLOB,"
+               " CONSTRAINT onePicture UNIQUE (scientistID))"
+               );
+
+    query.exec("INSERT OR REPLACE INTO sex VALUES ('F', 'Female')");
+    query.exec("INSERT OR REPLACE INTO sex VALUES ('M', 'Male')");
     query.exec("INSERT OR REPLACE INTO pctype VALUES (1, 'Electronic')");
     query.exec("INSERT OR REPLACE INTO pctype VALUES (2, 'Mecanic')");
     query.exec("INSERT OR REPLACE INTO pctype VALUES (3, 'Transistor')");

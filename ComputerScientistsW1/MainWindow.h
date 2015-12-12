@@ -9,7 +9,6 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QGraphicsPixmapItem>
-#include <QDropEvent>
 
 namespace Ui {
 class MainWindow;
@@ -37,12 +36,17 @@ private slots:
     void on_selectedScientistDeleteScientistPushButton_clicked();
     void on_scientistChangePictureButton_clicked();
     void on_selectedScientistComputerSearchDoneButton_clicked();
-
+    void on_addComputerPushButton_clicked();
+    void on_computerSelectedOKPushButton_clicked();
+    void on_foundScientistTableView_doubleClicked(const QModelIndex &index);
+    void on_editScientistpushButton_clicked();
 
 private:
     Ui::MainWindow *ui;
     DataManager* dataMan;
+    int currentlySelectedID;
     void updateScientist();
+    void updateScientistProfilePicture();
     ScientistSearch getScientistFromInput();
 
 };

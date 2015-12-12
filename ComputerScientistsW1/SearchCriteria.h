@@ -14,6 +14,16 @@ private:
     QString sex = "";
 };
 
+struct ComputerSearch
+{
+    QString name = "";
+    QString buildYear;
+    QString type;
+    QString wasItBuilt;
+    QString about;
+    QString ID;
+};
+
 
 class SearchCriteria
 {

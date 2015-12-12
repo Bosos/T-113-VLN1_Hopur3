@@ -10,6 +10,7 @@
 #include <QSqlRecord>
 #include <TypeOfComputer.h>
 #include <SearchCriteria.h>
+#include <QGraphicsPixmapItem>
 
 using namespace std;
 
@@ -27,6 +28,8 @@ public:
     QSqlQueryModel* search(ScientistSearch scientist);
     bool isScientistSearchAvalidScientist(ScientistSearch scientist);
     Scientist makeScientistFromSearchCriteria(ScientistSearch scientist);
+    void storeScientistPicture(QString fileName, int currentlySelectedID);
+    QPixmap getScientistPicture(int scientistId);
 
 //    void updateScientist(Scientist scientis);
 //    void removeFromScientist(int id);
@@ -62,9 +65,10 @@ public:
 //    string getTypeOfComputerFromId(int id);
 
     //testing purposes
+
+private:
     QSqlDatabase db;
     QSqlQuery query;
-private:
     void initializeTables();
 //    Scientist getNextScientistQuery(QSqlQuery query);
 //    Computer getNextComputerQuery(QSqlQuery query);

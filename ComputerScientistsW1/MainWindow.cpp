@@ -43,15 +43,22 @@ void MainWindow::on_yearOfDeathField_textEdited()
 
 void MainWindow::on_foundScientistTableView_clicked(const QModelIndex &index)
 {
+    // gerist eitthvað þegar það er bara smellt einusinni á reit?
+}
+
+void MainWindow::on_foundScientistTableView_doubleClicked(const QModelIndex &index)
+{
     int row = index.row();
-    QString name = index.sibling(row,0).data().toString();
-    QString sex = index.sibling(row,1).data().toString();
-    QString birth = index.sibling(row,2).data().toString();
-    QString death = index.sibling(row,3).data().toString();
-    QString about = index.sibling(row,4).data().toString();
+    currentlySelectedID = index.sibling(row, 0).data().toInt();
+    QString name = index.sibling(row,1).data().toString();
+    QString sex = index.sibling(row,2).data().toString();
+    QString birth = index.sibling(row,3).data().toString();
+    QString death = index.sibling(row,4).data().toString();
+    QString about = index.sibling(row,5).data().toString();
+
     int sexInt = 0;
-    if (sex == "F") { sexInt = 1; }
-    else if (sex == "M") { sexInt = 2; }
+    if (sex == "Female") { sexInt = 1; }
+    else if (sex == "Male") { sexInt = 2; }
 
     ui->selectedScientistNameField->setText(name);
     ui->selectedScientistSexComboBox->setCurrentIndex(sexInt);
@@ -62,8 +69,15 @@ void MainWindow::on_foundScientistTableView_clicked(const QModelIndex &index)
     ui->selectedScientistComputerSearch->setHidden(true);
     ui->selectedScientistRemoAddButonWidget->setHidden(false);
 
+    updateScientistProfilePicture();
     ui->windowSwitcher->setCurrentIndex(1);
 }
+
+void MainWindow::on_editScientistpushButton_clicked()
+{
+    on_foundScientistTableView_doubleClicked (ui->foundScientistTableView->selectionModel()->currentIndex());
+}
+
 void MainWindow::on_selectedScientistAddComputer_released()
 {
     ui->selectedScientistComputerSearch->setHidden(false);
@@ -87,11 +101,33 @@ void MainWindow::updateScientist()
     ui->foundScientistTableView->setSortingEnabled(true);
     ui->foundScientistTableView->setModel(dataMan->search(getScientistFromInput()));
     ui->foundScientistTableView->resizeColumnsToContents();
+    ui->foundScientistTableView->setColumnHidden(0,true);
+}
+
+void MainWindow::updateScientistProfilePicture()
+{
+    QPixmap profilePicture = dataMan->getScientistPicture(currentlySelectedID);
+
+    QGraphicsScene* scene = new QGraphicsScene();
+    QGraphicsView* view = new QGraphicsView(scene);
+    QGraphicsPixmapItem* item = new QGraphicsPixmapItem(profilePicture);
+
+
+    view->setDragMode(QGraphicsView::NoDrag);
+    view->setEnabled(false);
+    scene->addItem(item);
+
+    ui->scientistPicture->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->scientistPicture->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->scientistPicture->setScene(scene);
+    //ui->scientistPicture->fitInView(item,Qt::KeepAspectRatioByExpanding);
+
+    ui->scientistPicture->show();
 }
 
 void MainWindow::on_addScientistPushButton_released()
 {
-   dataMan->addScientist(getScientistFromInput());
+    dataMan->addScientist(getScientistFromInput());
     updateScientist();
 }
 
@@ -137,35 +173,19 @@ void MainWindow::on_scientistChangePictureButton_clicked()
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
                                                     "/home",
                                                     tr("Images (*.png *.xpm *.jpg)"));
-    if(!fileName.isEmpty())
-    {
-        QImage image(fileName);
 
-        if(image.isNull())
-        {
-            QMessageBox::information(this,"Image Viewer","Error Displaying image");
-            return;
-        }
-            QGraphicsScene* scene = new QGraphicsScene();
-            QGraphicsView* view = new QGraphicsView(scene);
-
-            view->setDragMode(QGraphicsView::NoDrag);
-            view->setEnabled(false);
-            QGraphicsPixmapItem* item = new QGraphicsPixmapItem(QPixmap::fromImage(image));
-            QRect rect(0,0,138,178);
-            item->setPixmap(item->pixmap().scaled(138,178,Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
-
-            item->setPixmap(item->pixmap().copy(rect));
-
-            scene->addItem(item);
-
-            ui->scientistPicture->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-            ui->scientistPicture->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-            ui->scientistPicture->setScene(scene);
-            //ui->scientistPicture->fitInView(item,Qt::KeepAspectRatioByExpanding);
-
-            ui->scientistPicture->show();
-    }
+    dataMan->storeScientistPicture(fileName, currentlySelectedID);
+    updateScientistProfilePicture();
 }
 
 
+
+void MainWindow::on_addComputerPushButton_clicked()
+{
+    ui->windowSwitcher->setCurrentIndex(2);
+}
+
+void MainWindow::on_computerSelectedOKPushButton_clicked()
+{
+    ui->windowSwitcher->setCurrentIndex(0);
+}
