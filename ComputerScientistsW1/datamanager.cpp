@@ -824,15 +824,15 @@ QSqlQueryModel* DataManager::searchComputer(ComputerSearch computer)
     QSqlQueryModel* model = new QSqlQueryModel();
     QSqlQuery* query = new QSqlQuery(db);
 
-    string type;
-    string wasBuilt;
+    string type = computer.getType().toStdString();
+    string wasBuilt = computer.getType().toStdString();
 
-    if(computer.getType() == "1"){type = "1";}
-    if(computer.getType() == "2"){type = "2";}
-    if(computer.getType() == "3"){type = "3";}
-    if(computer.getType() == "4"){type = "4";}
-    if(computer.getWasItBuilt() == "0"){wasBuilt = "0";}
-    if(computer.getWasItBuilt() == "1"){wasBuilt = "1";}
+//    if(computer.getType() == "1"){type = "1";}
+//    if(computer.getType() == "2"){type = "2";}
+//    if(computer.getType() == "3"){type = "3";}
+//    if(computer.getType() == "4"){type = "4";}
+//    if(computer.getWasItBuilt() == "0"){wasBuilt = "0";}
+//    if(computer.getWasItBuilt() == "1"){wasBuilt = "1";}
 
     string comp = "SELECT c.ID, c.Name, t.type AS Type, c.Buildyear AS 'Build year',"
                   " CASE c.wasbuilt WHEN 1 THEN 'Yes'"
