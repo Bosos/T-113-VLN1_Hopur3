@@ -24,7 +24,7 @@ public:
 
 private slots:
     void on_scientistNameField_textEdited();
-    void on_sexComboBox_activated(const QString &arg1);
+    void on_sexComboBox_activated();
     void on_yearOfBirthField_textEdited();
     void on_yearOfDeathField_textEdited();
     void on_addScientistPushButton_released();
@@ -36,24 +36,24 @@ private slots:
     void on_selectedScientistDeleteScientistPushButton_clicked();
     void on_scientistChangePictureButton_clicked();
     void on_selectedScientistComputerSearchDoneButton_clicked();
-    void on_addComputerPushButton_clicked();
     void on_computerSelectedOKPushButton_clicked();
     void on_foundScientistTableView_doubleClicked(const QModelIndex &index);
     void on_editScientistpushButton_clicked();
 
-    void on_computerNameLineEdit_textEdited(const QString &arg1);
+    void on_computerNameLineEdit_textEdited();
 
-    void on_computerBuiltYearlineEdit_textEdited(const QString &arg1);
+    void on_computerBuiltYearlineEdit_textEdited();
 
-    void on_computerSearchTypeComboBox_activated(const QString &arg1);
+    void on_computerSearchTypeComboBox_activated();
 
-    void on_computerSearchWasItBuiltComboBox_activated(const QString &arg1);
+    void on_computerSearchWasItBuiltComboBox_activated();
 
     void on_clearComputerPushButton_clicked();
 
     void on_foundComputersTableView_doubleClicked(const QModelIndex &index);
 
     void on_addComputerPushButton_released();
+
 
 private:
     Ui::MainWindow *ui;

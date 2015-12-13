@@ -576,7 +576,7 @@
                    </property>
                   </widget>
                  </item>
-                 <item alignment="Qt::AlignHCenter|Qt::AlignBottom">
+                 <item alignment="Qt::AlignLeft|Qt::AlignBottom">
                   <widget class="QPushButton" name="scientistChangePictureButton">
                    <property name="minimumSize">
                     <size>
@@ -1158,7 +1158,7 @@
                   <number>0</number>
                  </property>
                  <property name="sizeConstraint">
-                  <enum>QLayout::SetMinimumSize</enum>
+                  <enum>QLayout::SetDefaultConstraint</enum>
                  </property>
                  <property name="leftMargin">
                   <number>0</number>
@@ -1169,7 +1169,7 @@
                  <property name="rightMargin">
                   <number>0</number>
                  </property>
-                 <item alignment="Qt::AlignHCenter|Qt::AlignBottom">
+                 <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
                   <widget class="QGraphicsView" name="computerSelectedPicture">
                    <property name="minimumSize">
                     <size>
@@ -1185,7 +1185,7 @@
                    </property>
                   </widget>
                  </item>
-                 <item alignment="Qt::AlignHCenter|Qt::AlignBottom">
+                 <item alignment="Qt::AlignHCenter">
                   <widget class="QPushButton" name="computerSelectedChangePicturePushButton">
                    <property name="minimumSize">
                     <size>
@@ -1290,13 +1290,13 @@
                     <widget class="QGroupBox" name="computerSelectedMiscGroupBox">
                      <property name="minimumSize">
                       <size>
-                       <width>119</width>
+                       <width>145</width>
                        <height>0</height>
                       </size>
                      </property>
                      <property name="maximumSize">
                       <size>
-                       <width>119</width>
+                       <width>145</width>
                        <height>16777215</height>
                       </size>
                      </property>
@@ -1327,8 +1327,14 @@
                           <height>16777215</height>
                          </size>
                         </property>
+                        <property name="inputMask">
+                         <string/>
+                        </property>
                         <property name="text">
                          <string/>
+                        </property>
+                        <property name="maxLength">
+                         <number>4</number>
                         </property>
                         <property name="alignment">
                          <set>Qt::AlignCenter</set>

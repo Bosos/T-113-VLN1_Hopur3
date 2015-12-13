@@ -27,7 +27,7 @@ void MainWindow::on_scientistNameField_textEdited()
     updateScientist();
 }
 
-void MainWindow::on_sexComboBox_activated(const QString &arg1)
+void MainWindow::on_sexComboBox_activated()
 {
     updateScientist();
 }
@@ -100,7 +100,9 @@ ScientistSearch MainWindow::getScientistFromInput()
 void MainWindow::updateScientist()
 {
     ui->foundScientistTableView->setSortingEnabled(true);
-    ui->foundScientistTableView->setModel(dataMan->search(getScientistFromInput()));
+    QSortFilterProxyModel *sqlproxy = new QSortFilterProxyModel(this);
+    sqlproxy->setSourceModel(dataMan->search(getScientistFromInput()));
+    ui->foundScientistTableView->setModel(sqlproxy);
     ui->foundScientistTableView->resizeColumnsToContents();
     ui->foundScientistTableView->setColumnHidden(0,true);
 }
@@ -112,7 +114,6 @@ void MainWindow::updateScientistProfilePicture()
     QGraphicsScene* scene = new QGraphicsScene();
     QGraphicsView* view = new QGraphicsView(scene);
     QGraphicsPixmapItem* item = new QGraphicsPixmapItem(profilePicture);
-
 
     view->setDragMode(QGraphicsView::NoDrag);
     view->setEnabled(false);
@@ -196,7 +197,9 @@ void MainWindow::on_computerSelectedOKPushButton_clicked()
 void MainWindow::updateComputer()
 {
     ui->foundComputersTableView->setSortingEnabled(true);
-    ui->foundComputersTableView->setModel(dataMan->searchComputer(getComputerFromInput()));
+    QSortFilterProxyModel *sqlproxy = new QSortFilterProxyModel(this);
+    sqlproxy->setSourceModel(dataMan->searchComputer(getComputerFromInput()));
+    ui->foundComputersTableView->setModel(sqlproxy);
     ui->foundComputersTableView->resizeColumnsToContents();
     ui->foundComputersTableView->setColumnHidden(0, true);
 }
@@ -213,22 +216,22 @@ ComputerSearch MainWindow::getComputerFromInput()
     return compSearch;
 }
 
-void MainWindow::on_computerNameLineEdit_textEdited(const QString &arg1)
+void MainWindow::on_computerNameLineEdit_textEdited()
 {
     updateComputer();
 }
 
-void MainWindow::on_computerBuiltYearlineEdit_textEdited(const QString &arg1)
+void MainWindow::on_computerBuiltYearlineEdit_textEdited()
 {
     updateComputer();
 }
 
-void MainWindow::on_computerSearchTypeComboBox_activated(const QString &arg1)
+void MainWindow::on_computerSearchTypeComboBox_activated()
 {
     updateComputer();
 }
 
-void MainWindow::on_computerSearchWasItBuiltComboBox_activated(const QString &arg1)
+void MainWindow::on_computerSearchWasItBuiltComboBox_activated()
 {
     updateComputer();
 }
