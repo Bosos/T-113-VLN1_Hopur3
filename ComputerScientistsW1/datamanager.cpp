@@ -818,3 +818,79 @@ void DataManager::initializeTables()
 //    }
 //    return longestTypeName + 3;
 //}
+
+QSqlQueryModel* DataManager::searchComputer(ComputerSearch computer)
+{
+    QSqlQueryModel* model = new QSqlQueryModel();
+    QSqlQuery* query = new QSqlQuery(db);
+
+    string type;
+    string wasBuilt;
+
+    if(computer.getType() == "1"){type = "1";}
+    if(computer.getType() == "2"){type = "2";}
+    if(computer.getType() == "3"){type = "3";}
+    if(computer.getType() == "4"){type = "4";}
+    if(computer.getWasItBuilt() == "0"){wasBuilt = "0";}
+    if(computer.getWasItBuilt() == "1"){wasBuilt = "1";}
+
+    string comp = "SELECT c.ID, c.Name, t.type AS Type, c.Buildyear AS 'Build year',"
+                  " CASE c.wasbuilt WHEN 1 THEN 'Yes'"
+                               "ELSE 'No'"
+                  " END AS 'Was it built?',"
+                  " c.About"
+                  " FROM computers c JOIN pctype t ON c.Type = t.ID"
+                  " WHERE c.Name LIKE '%" + computer.name.toStdString() + "%'"
+                  " AND c.Type LIKE '%" + type + "%'"
+                  " AND c.Buildyear LIKE '%" + computer.buildYear.toStdString() + "%'"
+                  " AND c.Wasbuilt LIKE '%" + wasBuilt + "%'";
+
+    QString compu = comp.c_str();
+    qDebug() << ( compu );
+    query->exec(comp.c_str());
+    model->setQuery(*query);
+
+    return model;
+}
+
+void DataManager::addComputer(ComputerSearch co)
+{
+    bool wasBuilt;
+
+    if(co.getWasItBuilt() == "0") {wasBuilt = 0; }
+    if(co.getWasItBuilt() == "1") {wasBuilt = 1; }
+
+
+    Computer comp(co.name.toStdString(), co.buildYear.toInt(), co.getType().toInt(), wasBuilt, co.about.toStdString(), 0);
+
+    query.prepare("INSERT INTO computers(name, buildyear, type, wasbuilt, about)"
+                  "VALUES(:name, :buildyear, :type, :wasbuilt, :about)");
+    query.bindValue(":name", comp.getName().c_str());
+    query.bindValue(":buildyear", comp.getBuildYear());
+    query.bindValue(":type", comp.getType());
+    query.bindValue(":wasbuilt", comp.getWasItBuilt());
+    query.bindValue(":about", comp.getAbout().c_str());
+    query.exec();
+
+}
+
+void DataManager::updateComputerDatabase(ComputerSearch comp, int id)
+{
+    /*query.prepare("INSERT OR REPLACE INTO computers(ID, name,buildyear,type,wasbuilt,about)"
+                  " VALUES(:id, :name, :buildyear, :type, :wasbuilt, :about)");*/
+    stringstream ss;
+    ss << id;
+    string strID = ss.str();
+
+    query.prepare("UPDATE computers"
+                  " SET name = :name, type = :type, buildyear = :buildyear, wasbuilt = :wasbuilt, about = :about"
+                  " WHERE id = :id");
+
+    query.bindValue(":id", strID.c_str());
+    query.bindValue(":name", comp.name.toStdString().c_str());
+    query.bindValue(":buildyear", comp.buildYear.toInt());
+    query.bindValue(":type", comp.getType().toInt());
+    query.bindValue(":wasbuilt", comp.getWasItBuilt().toInt());
+    query.bindValue(":about", comp.about.toStdString().c_str());
+    query.exec();
+}

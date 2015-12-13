@@ -41,6 +41,20 @@ private slots:
     void on_foundScientistTableView_doubleClicked(const QModelIndex &index);
     void on_editScientistpushButton_clicked();
 
+    void on_computerNameLineEdit_textEdited(const QString &arg1);
+
+    void on_computerBuiltYearlineEdit_textEdited(const QString &arg1);
+
+    void on_computerSearchTypeComboBox_activated(const QString &arg1);
+
+    void on_computerSearchWasItBuiltComboBox_activated(const QString &arg1);
+
+    void on_clearComputerPushButton_clicked();
+
+    void on_foundComputersTableView_doubleClicked(const QModelIndex &index);
+
+    void on_addComputerPushButton_released();
+
 private:
     Ui::MainWindow *ui;
     DataManager* dataMan;
@@ -48,6 +62,10 @@ private:
     void updateScientist();
     void updateScientistProfilePicture();
     ScientistSearch getScientistFromInput();
+
+    void updateComputer();
+    ComputerSearch getComputerFromInput();
+
 
 };
 

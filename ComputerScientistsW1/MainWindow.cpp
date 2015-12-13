@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->dataMan = new DataManager(fileLocation);
 
     updateScientist();
+    updateComputer();
     ui->scientistPicture->setAcceptDrops(true);
 }
 
@@ -178,14 +179,104 @@ void MainWindow::on_scientistChangePictureButton_clicked()
     updateScientistProfilePicture();
 }
 
-
-
-void MainWindow::on_addComputerPushButton_clicked()
-{
-    ui->windowSwitcher->setCurrentIndex(2);
-}
-
 void MainWindow::on_computerSelectedOKPushButton_clicked()
 {
     ui->windowSwitcher->setCurrentIndex(0);
+    ComputerSearch comp;
+    comp.name = ui->computerSelectedNameField->text();
+    comp.setType(ui->computerSelectedTypeComboBox->currentText());
+    comp.buildYear = ui->computerSelectedComputerBuiltYearlineEdit->text();
+    comp.setWasItBuilt(ui->computerSelectedWasItBuiltComboBox->currentText());
+    comp.about = ui->computerAboutlineEdit->text();
+
+    dataMan->updateComputerDatabase(comp, currentlySelectedID);
+    updateComputer();
+}
+
+void MainWindow::updateComputer()
+{
+    ui->foundComputersTableView->setSortingEnabled(true);
+    ui->foundComputersTableView->setModel(dataMan->searchComputer(getComputerFromInput()));
+    ui->foundComputersTableView->resizeColumnsToContents();
+    ui->foundComputersTableView->setColumnHidden(0, true);
+}
+
+ComputerSearch MainWindow::getComputerFromInput()
+{
+    ComputerSearch compSearch;
+    compSearch.name = ui->computerNameLineEdit->text();
+    compSearch.setType(ui->computerSearchTypeComboBox->currentText());
+    compSearch.buildYear = ui->computerBuiltYearlineEdit->text();
+    compSearch.setWasItBuilt(ui->computerSearchWasItBuiltComboBox->currentText());
+    compSearch.about = ui->computerAboutlineEdit->text();
+
+    return compSearch;
+}
+
+void MainWindow::on_computerNameLineEdit_textEdited(const QString &arg1)
+{
+    updateComputer();
+}
+
+void MainWindow::on_computerBuiltYearlineEdit_textEdited(const QString &arg1)
+{
+    updateComputer();
+}
+
+void MainWindow::on_computerSearchTypeComboBox_activated(const QString &arg1)
+{
+    updateComputer();
+}
+
+void MainWindow::on_computerSearchWasItBuiltComboBox_activated(const QString &arg1)
+{
+    updateComputer();
+}
+
+void MainWindow::on_clearComputerPushButton_clicked()
+{
+    ui->computerNameLineEdit->setText("");
+    ui->computerBuiltYearlineEdit->setText("");
+    ui->computerSearchWasItBuiltComboBox->setCurrentIndex(0);
+    ui->computerSearchTypeComboBox->setCurrentIndex(0);
+    ui->computerAboutlineEdit->setText("");
+
+    updateComputer();
+}
+
+void MainWindow::on_foundComputersTableView_doubleClicked(const QModelIndex &index)
+{
+    int row = index.row();
+    currentlySelectedID = index.sibling(row, 0).data().toInt();
+    QString name = index.sibling(row,1).data().toString();
+    QString type = index.sibling(row,2).data().toString();
+    QString buildYear = index.sibling(row,3).data().toString();
+    QString wasBuilt = index.sibling(row,4).data().toString();
+    QString about = index.sibling(row,5).data().toString();
+
+    int typeInt = 0;
+    int builtInt = 0;
+    if (type == "Electronic") { typeInt = 1; }
+    else if (type == "Mecanic") { typeInt = 2; }
+    else if (type == "Transistor") { typeInt = 3; }
+    else if (type == "Electromechanical") { typeInt = 4; }
+    if ( wasBuilt == "Yes") { builtInt = 1; }
+    else if (wasBuilt == "No") { builtInt = 2; }
+
+    ui->computerSelectedNameField->setText(name);
+    ui->computerSelectedTypeComboBox->setCurrentIndex(typeInt);
+    ui->computerSelectedComputerBuiltYearlineEdit->setText(buildYear);
+    ui->computerSelectedWasItBuiltComboBox->setCurrentIndex(builtInt);
+    ui->computerSelectedAboutField->setPlainText(about);
+
+    ui->computerSelectedScientistSearch->setHidden(true);
+    ui->computerSelectedRemoAddButonWidget->setHidden(false);
+
+    ui->windowSwitcher->setCurrentIndex(2);
+}
+
+void MainWindow::on_addComputerPushButton_released()
+{
+    dataMan->addComputer(getComputerFromInput());
+    updateComputer();
 }

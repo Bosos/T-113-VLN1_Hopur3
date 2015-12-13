@@ -16,12 +16,16 @@ private:
 
 struct ComputerSearch
 {
+    void setType(QString type);
+    void setWasItBuilt(QString wasBuilt);
+    QString getType();
+    QString getWasItBuilt();
     QString name = "";
-    QString buildYear;
-    QString type;
-    QString wasItBuilt;
-    QString about;
-    QString ID;
+    QString buildYear = "";
+    QString about = "";
+private:
+    QString type = "";
+    QString wasItBuilt = "";
 };
 
 

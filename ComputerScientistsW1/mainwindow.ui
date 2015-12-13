@@ -48,14 +48,14 @@
     <item>
      <widget class="QStackedWidget" name="windowSwitcher">
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="Home">
        <layout class="QVBoxLayout" name="verticalLayout_17">
         <item>
          <widget class="QTabWidget" name="headTab">
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="scientistTab">
            <attribute name="title">
@@ -322,7 +322,22 @@
                    </item>
                    <item>
                     <property name="text">
-                     <string>AutoPopulate</string>
+                     <string>Electronic</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Mecanic</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Transistor</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Electromechanical</string>
                     </property>
                    </item>
                   </widget>
@@ -336,12 +351,12 @@
                    </item>
                    <item>
                     <property name="text">
-                     <string>It was built</string>
+                     <string>Yes</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>It was not built</string>
+                     <string>No</string>
                     </property>
                    </item>
                   </widget>
@@ -394,7 +409,7 @@
                 <number>4</number>
                </property>
                <item>
-                <widget class="QColumnView" name="foundComputersColumnView"/>
+                <widget class="QTableView" name="foundComputersTableView"/>
                </item>
               </layout>
              </widget>
@@ -1080,7 +1095,7 @@
       <widget class="QWidget" name="SelectedComputer">
        <layout class="QHBoxLayout" name="horizontalLayout_14">
         <property name="spacing">
-         <number>-1</number>
+         <number>6</number>
         </property>
         <item>
          <widget class="QTabWidget" name="computerSelectedTab">
@@ -1332,7 +1347,22 @@
                         </item>
                         <item>
                          <property name="text">
-                          <string>AutoPopulate</string>
+                          <string>Electronic</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string>Mecanic</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string>Transistor</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string>Electromechanic</string>
                          </property>
                         </item>
                        </widget>
@@ -1346,12 +1376,12 @@
                         </item>
                         <item>
                          <property name="text">
-                          <string>It was built</string>
+                          <string>Yes</string>
                          </property>
                         </item>
                         <item>
                          <property name="text">
-                          <string>It was not built</string>
+                          <string>No</string>
                          </property>
                         </item>
                        </widget>
@@ -1707,7 +1737,6 @@
   <tabstop>computerAboutlineEdit</tabstop>
   <tabstop>addComputerPushButton</tabstop>
   <tabstop>clearComputerPushButton</tabstop>
-  <tabstop>foundComputersColumnView</tabstop>
   <tabstop>pushButton_2</tabstop>
   <tabstop>pushButton_3</tabstop>
   <tabstop>dial</tabstop>
