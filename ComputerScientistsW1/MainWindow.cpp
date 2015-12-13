@@ -12,6 +12,10 @@ MainWindow::MainWindow(QWidget *parent) :
     string fileLocation = "database.sqlite";
     this->dataMan = new DataManager(fileLocation);
 
+    ui->yearOfBirthField->setValidator(new QIntValidator(1000, 2015, this));
+    ui->yearOfDeathField->setValidator(new QIntValidator(1000, 2015, this));
+    ui->computerBuiltYearlineEdit->setValidator(new QIntValidator(1000, 2015, this));
+
     updateScientist();
     updateComputer();
     ui->scientistPicture->setAcceptDrops(true);
@@ -38,6 +42,12 @@ void MainWindow::on_yearOfBirthField_textEdited()
 }
 
 void MainWindow::on_yearOfDeathField_textEdited()
+{
+    updateScientist();
+}
+
+
+void MainWindow::on_scientistAboutField_textChanged()
 {
     updateScientist();
 }

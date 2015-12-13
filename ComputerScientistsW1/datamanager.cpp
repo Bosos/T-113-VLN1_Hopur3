@@ -84,26 +84,16 @@ QSqlQueryModel* DataManager::search(ScientistSearch scientist)
     QSqlQueryModel* model = new QSqlQueryModel();
     QSqlQuery* query = new QSqlQuery(db);
 
-    string BiYe = scientist.birth.toStdString();
-    string DeYe = scientist.death.toStdString();
-
-    if (BiYe == "0") { BiYe = "";}
-    if (DeYe == "0") { DeYe = "";}
-    string sex = "";
-
-    if (scientist.getSex() == "F") {sex = "F";}
-    else if (scientist.getSex() == "M") {sex = "M";}
-
     string meme = "SELECT s.id, s.name, sex.value as Sex, s.birth as 'Birth year', s.death as 'Death year', s.about"
                   " FROM scientists s"
                   " JOIN sex USING (sex)"
                   " where name like '%" + scientist.name.toStdString() + "%'"
-                  " and sex like '%" + sex+ "%'"
-                  " and birth like '%" + BiYe + "%'"
-                  " and ifnull (death,'') like '%" + DeYe + "%'";
+                  " and sex like '%" + scientist.getSex().toStdString() + "%'"
+                  " and birth like '%" + scientist.birth.toStdString() + "%'"
+                  " and ifnull (death,'') like '%" + scientist.death.toStdString() + "%'"
+                  " and about like '%" + scientist.about.toStdString() + "%'";
 
-    QString mame = meme.c_str();
-    qDebug() << ( mame );
+    qDebug() << meme.c_str();
     query->exec(meme.c_str());
     model->setQuery(*query);
     return model;

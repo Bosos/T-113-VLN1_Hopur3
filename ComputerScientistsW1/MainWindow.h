@@ -27,15 +27,16 @@ private slots:
     void on_sexComboBox_activated();
     void on_yearOfBirthField_textEdited();
     void on_yearOfDeathField_textEdited();
+    void on_scientistAboutField_textChanged();
     void on_addScientistPushButton_released();
     void on_foundScientistTableView_clicked(const QModelIndex &index);
     void on_clearScientistPushButton_released();
     void on_selectedScientistOKPushButton_released();
     void on_selectedScientistAddComputer_released();
-    void on_computerSelectedAddScientist_released();
     void on_selectedScientistDeleteScientistPushButton_clicked();
-    void on_scientistChangePictureButton_clicked();
     void on_selectedScientistComputerSearchDoneButton_clicked();
+    void on_scientistChangePictureButton_clicked();
+    void on_computerSelectedAddScientist_released();
     void on_computerSelectedOKPushButton_clicked();
     void on_foundScientistTableView_doubleClicked(const QModelIndex &index);
     void on_editScientistpushButton_clicked();
@@ -53,6 +54,7 @@ private slots:
     void on_foundComputersTableView_doubleClicked(const QModelIndex &index);
 
     void on_addComputerPushButton_released();
+
 
 
 private:
