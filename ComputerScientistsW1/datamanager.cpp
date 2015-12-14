@@ -224,26 +224,16 @@ QSqlQueryModel* DataManager::searchComputer(ComputerSearch computerSearch)
     QSqlQueryModel* model = new QSqlQueryModel();
     QSqlQuery* query = new QSqlQuery(db);
 
-    string type = computerSearch.getType().toStdString();
-    string wasItBuilt = computerSearch.getWasItBuilt().toStdString();
-
-//    if(computer.getType() == "1"){type = "1";}
-//    if(computer.getType() == "2"){type = "2";}
-//    if(computer.getType() == "3"){type = "3";}
-//    if(computer.getType() == "4"){type = "4";}
-//    if(computer.getWasItBuilt() == "0"){wasBuilt = "0";}
-//    if(computer.getWasItBuilt() == "1"){wasBuilt = "1";}
-
     string computer = "SELECT c.ID, c.Name, t.type AS Type, c.Buildyear AS 'Build year',"
-                  " CASE c.wasbuilt WHEN 1 THEN 'Yes'"
-                               "ELSE 'No'"
-                  " END AS 'Was it built?',"
-                  " c.About"
-                  " FROM computers c JOIN pctype t ON c.Type = t.ID"
-                  " WHERE c.Name LIKE '%" + computerSearch.name.toStdString() + "%'"
-                  " AND c.Type LIKE '%" + type + "%'"
-                  " AND c.Buildyear LIKE '%" + computerSearch.buildYear.toStdString() + "%'"
-                  " AND c.Wasbuilt LIKE '%" + wasItBuilt + "%'";
+                      " CASE c.wasbuilt WHEN 1 THEN 'Yes'"
+                      " ELSE 'No'"
+                      " END AS 'Was it built?',"
+                      " c.About"
+                      " FROM computers c JOIN pctype t ON c.Type = t.ID"
+                      " WHERE c.Name LIKE '%" + computerSearch.name.toStdString() + "%'"
+                      " AND c.Type LIKE '%" + computerSearch.getType().toStdString() + "%'"
+                      " AND c.Buildyear LIKE '%" + computerSearch.buildYear.toStdString() + "%'"
+                      " AND c.Wasbuilt LIKE '%" + computerSearch.getWasItBuilt().toStdString() + "%'";
 
     qDebug() << ( computer.c_str() );
     query->exec(computer.c_str());
@@ -262,6 +252,7 @@ void DataManager::addComputer(ComputerSearch computerSearch)
                       wasItBuilt,
                       computerSearch.about.toStdString(),
                       0);
+
 
     query.prepare("INSERT INTO computers(name, buildyear, type, wasbuilt, about)"
                   "VALUES(:name, :buildyear, :type, :wasbuilt, :about)");

@@ -48,7 +48,6 @@ void MainWindow::on_yearOfDeathField_textEdited()
     updateScientist();
 }
 
-
 void MainWindow::on_scientistAboutField_textChanged()
 {
     updateScientist();
@@ -83,6 +82,7 @@ void MainWindow::on_foundScientistTableView_doubleClicked(const QModelIndex &ind
     ui->selectedScientistRemoAddButonWidget->setHidden(false);
 
     updateScientistProfilePicture();
+    updateScinetistUsedComputers();
     ui->windowSwitcher->setCurrentIndex(1);
 }
 
@@ -116,6 +116,7 @@ void MainWindow::updateScientist()
     sqlproxy->setSourceModel(serviceMan->search(getScientistFromInput()));
     ui->foundScientistTableView->setModel(sqlproxy);
     ui->foundScientistTableView->resizeColumnsToContents();
+    ui->foundScientistTableView->horizontalHeader()->setStretchLastSection(true);
     ui->foundScientistTableView->setColumnHidden(0,true);
 }
 
@@ -138,6 +139,18 @@ void MainWindow::updateScientistProfilePicture()
 
     ui->scientistPicture->show();
 }
+
+void MainWindow::updateScinetistUsedComputers()
+{
+    ui->selectedScientistComputerTable->setSortingEnabled(true);
+    QSortFilterProxyModel *sqlproxy = new QSortFilterProxyModel(this);
+    sqlproxy->setSourceModel(serviceMan->searchComputerToScientist(currentlySelectedID));
+    ui->selectedScientistComputerTable->setModel(sqlproxy);
+    ui->selectedScientistComputerTable->resizeColumnsToContents();
+    ui->selectedScientistComputerTable->horizontalHeader()->setStretchLastSection(true);
+    ui->selectedScientistComputerTable->setColumnHidden(0, true);
+}
+
 
 void MainWindow::on_addScientistPushButton_released()
 {
@@ -174,7 +187,8 @@ void MainWindow::on_selectedScientistDeleteScientistPushButton_clicked()
         serviceMan->deleteScientist(currentlySelectedID);
         updateScientist();
     }
-    int ret = QMessageBox::warning(this,"Hello fish","Are you sure you want to delete this scientist?","DELETE","Cancel" );
+
+    int ret = QMessageBox::warning(this,"Deleting the selected scientist", "Are you sure you want to delete " "?", "DELETE","Cancel" );
 
     qDebug() << ret;
 }
@@ -225,6 +239,7 @@ void MainWindow::updateComputer()
     sqlproxy->setSourceModel(serviceMan->searchComputer(getComputerFromInput()));
     ui->foundComputersTableView->setModel(sqlproxy);
     ui->foundComputersTableView->resizeColumnsToContents();
+    ui->foundComputersTableView->horizontalHeader()->setStretchLastSection(true);
     ui->foundComputersTableView->setColumnHidden(0, true);
 }
 
@@ -233,6 +248,7 @@ ComputerSearch MainWindow::getComputerFromInput()
     ComputerSearch compSearch;
     compSearch.name = ui->computerNameLineEdit->text();
     compSearch.setType(ui->computerSearchTypeComboBox->currentText());
+    qDebug() << "the type selected " << compSearch.getType();
     compSearch.buildYear = ui->computerBuiltYearlineEdit->text();
     compSearch.setWasItBuilt(ui->computerSearchWasItBuiltComboBox->currentText());
     compSearch.about = ui->computerAboutlineEdit->text();
@@ -324,6 +340,7 @@ void MainWindow::updateScientistsWhoUsedComputer()
     sqlproxy->setSourceModel(serviceMan->searchScientistToComputer(currentlySelectedID));
     ui->computerSelectedScientistTable->setModel(sqlproxy);
     ui->computerSelectedScientistTable->resizeColumnsToContents();
+    ui->computerSelectedScientistTable->horizontalHeader()->setStretchLastSection(true);
     ui->computerSelectedScientistTable->setColumnHidden(0, true);
 }
 
