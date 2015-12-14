@@ -48,14 +48,14 @@
     <item>
      <widget class="QStackedWidget" name="windowSwitcher">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="Home">
        <layout class="QVBoxLayout" name="verticalLayout_17">
         <item>
          <widget class="QTabWidget" name="headTab">
           <property name="currentIndex">
-           <number>1</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="scientistTab">
            <attribute name="title">
@@ -75,7 +75,7 @@
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_8">
                <property name="spacing">
-                <number>0</number>
+                <number>3</number>
                </property>
                <property name="leftMargin">
                 <number>4</number>
@@ -99,7 +99,7 @@
                    <property name="minimumSize">
                     <size>
                      <width>160</width>
-                     <height>0</height>
+                     <height>21</height>
                     </size>
                    </property>
                    <property name="maximumSize">
@@ -118,6 +118,12 @@
                  </item>
                  <item>
                   <widget class="QComboBox" name="sexComboBox">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>21</height>
+                    </size>
+                   </property>
                    <property name="maximumSize">
                     <size>
                      <width>80</width>
@@ -146,6 +152,12 @@
                  </item>
                  <item>
                   <widget class="QLineEdit" name="yearOfBirthField">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>21</height>
+                    </size>
+                   </property>
                    <property name="maximumSize">
                     <size>
                      <width>90</width>
@@ -162,6 +174,12 @@
                  </item>
                  <item>
                   <widget class="QLineEdit" name="yearOfDeathField">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>21</height>
+                    </size>
+                   </property>
                    <property name="maximumSize">
                     <size>
                      <width>90</width>
@@ -197,6 +215,12 @@
                </item>
                <item>
                 <widget class="QLineEdit" name="scientistAboutField">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>21</height>
+                  </size>
+                 </property>
                  <property name="placeholderText">
                   <string>About</string>
                  </property>
@@ -265,7 +289,7 @@
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_11">
                <property name="spacing">
-                <number>0</number>
+                <number>3</number>
                </property>
                <property name="leftMargin">
                 <number>4</number>
@@ -286,6 +310,12 @@
                  </property>
                  <item>
                   <widget class="QLineEdit" name="computerNameLineEdit">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>21</height>
+                    </size>
+                   </property>
                    <property name="text">
                     <string/>
                    </property>
@@ -296,6 +326,12 @@
                  </item>
                  <item>
                   <widget class="QLineEdit" name="computerBuiltYearlineEdit">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>21</height>
+                    </size>
+                   </property>
                    <property name="maximumSize">
                     <size>
                      <width>80</width>
@@ -315,6 +351,12 @@
                  </item>
                  <item>
                   <widget class="QComboBox" name="computerSearchTypeComboBox">
+                   <property name="minimumSize">
+                    <size>
+                     <width>119</width>
+                     <height>21</height>
+                    </size>
+                   </property>
                    <item>
                     <property name="text">
                      <string>Type</string>
@@ -344,6 +386,12 @@
                  </item>
                  <item>
                   <widget class="QComboBox" name="computerSearchWasItBuiltComboBox">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>21</height>
+                    </size>
+                   </property>
                    <item>
                     <property name="text">
                      <string>Was it built</string>
@@ -379,6 +427,12 @@
                </item>
                <item>
                 <widget class="QLineEdit" name="computerAboutlineEdit">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>21</height>
+                  </size>
+                 </property>
                  <property name="placeholderText">
                   <string>About</string>
                  </property>

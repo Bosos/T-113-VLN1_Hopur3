@@ -266,10 +266,6 @@ void DataManager::addComputer(ComputerSearch computerSearch)
 
 void DataManager::updateScientistDatabase(ScientistSearch scientistSearch, int id)
 {
-    stringstream ss;
-    ss << id;
-    string strID = ss.str();
-
     query.prepare("UPDATE scientists"
                   " SET name = :name, birth = :birth, death = :death, about = :about, sex = :sex "
                   " WHERE id = :id");
@@ -285,20 +281,16 @@ void DataManager::updateScientistDatabase(ScientistSearch scientistSearch, int i
 
 void DataManager::updateComputerDatabase(ComputerSearch computerSearch, int id)
 {
-    stringstream ss;
-    ss << id;
-    string strID = ss.str();
-
     query.prepare("UPDATE computers"
                   " SET name = :name, type = :type, buildyear = :buildyear, wasbuilt = :wasbuilt, about = :about"
                   " WHERE id = :id");
 
-    query.bindValue(":id", strID.c_str());
-    query.bindValue(":name", computerSearch.name.toStdString().c_str());
-    query.bindValue(":buildyear", computerSearch.buildYear.toInt());
-    query.bindValue(":type", computerSearch.getType().toInt());
-    query.bindValue(":wasbuilt", computerSearch.getWasItBuilt().toInt());
-    query.bindValue(":about", computerSearch.about.toStdString().c_str());
+    query.bindValue(":id", id);
+    query.bindValue(":name", computerSearch.name);
+    query.bindValue(":buildyear", computerSearch.buildYear);
+    query.bindValue(":type", computerSearch.getType());
+    query.bindValue(":wasbuilt", computerSearch.getWasItBuilt());
+    query.bindValue(":about", computerSearch.about);
     query.exec();
 }
 
