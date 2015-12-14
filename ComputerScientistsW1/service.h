@@ -10,6 +10,10 @@
 #include <SearchCriteria.h>
 #include <QGraphicsPixmapItem>
 
+/*!
+ * \brief The Service class
+ * It's responsible for the communication between the interface and the data manager
+ */
 class Service
 {
 public:
@@ -26,12 +30,12 @@ public:
     Scientist makeScientistFromSearchCriteria(ScientistSearch scientist);
 
     //Computer
-    void addComputer(ComputerSearch co);
+    void addComputer(ComputerSearch computerSearch);
     void updateComputerDatabase(ComputerSearch comp, int id);
     void deleteComputer(int id);
-    bool isComputerSearchAvalidComputer(ComputerSearch computer);
+    bool isComputerSearchAvalidComputer(ComputerSearch computerSearch);
 
-    QSqlQueryModel* searchComputer(ComputerSearch computer);
+    QSqlQueryModel* searchComputer(ComputerSearch computerSearch);
 
     //Relations
     QSqlQueryModel* searchScientistToComputer(int id);

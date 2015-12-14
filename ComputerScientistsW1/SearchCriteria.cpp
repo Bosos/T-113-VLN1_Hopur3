@@ -12,7 +12,6 @@ QString ScientistSearch::getSex()
     return this->sex;
 }
 
-
 SearchCriteria::SearchCriteria()
 {
 

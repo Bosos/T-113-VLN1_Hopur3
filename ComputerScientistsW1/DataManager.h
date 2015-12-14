@@ -32,9 +32,9 @@ public:
     void storeScientistPicture(QString fileName, int currentlySelectedID);
     QPixmap getScientistPicture(int scientistId);
 
-    QSqlQueryModel* searchComputer(ComputerSearch computer);
-    void addComputer(ComputerSearch co);
-    void updateComputerDatabase(ComputerSearch comp, int id);
+    QSqlQueryModel* searchComputer(ComputerSearch computerSearch);
+    void addComputer(ComputerSearch computerSearch);
+    void updateComputerDatabase(ComputerSearch computerSearch, int id);
     void deleteComputer(int id);
     QSqlQueryModel* searchScientistToComputer(int id);
     QSqlQueryModel* searchComputerToScientist(int id);

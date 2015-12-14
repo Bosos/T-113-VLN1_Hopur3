@@ -74,7 +74,6 @@ void Scientist::setBirthYear(int newBirthYear)
     birthYear = newBirthYear;
 }
 
-
 void Scientist::setDeathYear(int newDeathYear)
 {
     deathYear = newDeathYear;

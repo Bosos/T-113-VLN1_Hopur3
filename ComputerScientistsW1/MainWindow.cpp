@@ -178,7 +178,6 @@ void MainWindow::on_selectedScientistDeleteScientistPushButton_clicked()
         ui->windowSwitcher->setCurrentIndex(0);
         serviceMan->deleteScientist(currentlySelectedID);
         updateScientist();
-
     }
     int ret = QMessageBox::warning(this,"Hello fish","Are you sure you want to delete this scientist?","DELETE","Cancel" );
 

@@ -54,14 +54,15 @@ Scientist Service::makeScientistFromSearchCriteria(ScientistSearch scientist)
 }
 
 //Computer
-void Service::addComputer(ComputerSearch co)
+void Service::addComputer(ComputerSearch computerSearch)
 {
-    return dataMan->addComputer(co);
+    if (!isComputerSearchAvalidComputer(computerSearch)) {return;}
+    return dataMan->addComputer(computerSearch);
 }
 
-void Service::updateComputerDatabase(ComputerSearch comp, int id)
+void Service::updateComputerDatabase(ComputerSearch computerSearch, int id)
 {
-    return dataMan->updateComputerDatabase(comp, id);
+    return dataMan->updateComputerDatabase(computerSearch, id);
 }
 
 void Service::deleteComputer(int id)
@@ -69,16 +70,23 @@ void Service::deleteComputer(int id)
     return dataMan->deleteComputer(id);
 }
 
-bool isComputerSearchAvalidComputer(ComputerSearch computer)
+/*!
+ * \brief isComputerSearchAvalidComputer
+ * Returns true if all of the new information is valid while
+ * adding a new computer
+ * \param computer
+ * \return
+ */
+bool Service::isComputerSearchAvalidComputer(ComputerSearch computerSearch)
 {
-    if (computer.name.length() < 1) { return false; }
-    if (computer.buildYear.toInt() < 1200 && computer.buildYear.toInt() > 2015) { return false; }
+    if (computerSearch.name.length() < 1) { return false; }
+    if (computerSearch.buildYear.toInt() < 1200 && computerSearch.buildYear.toInt() > 2015) { return false; }
     return true;
 }
 
-QSqlQueryModel* Service::searchComputer(ComputerSearch computer)
+QSqlQueryModel* Service::searchComputer(ComputerSearch computerSearch)
 {
-    return dataMan->searchComputer(computer);
+    return dataMan->searchComputer(computerSearch);
 }
 
 //Relations
