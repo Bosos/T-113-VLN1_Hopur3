@@ -21,6 +21,7 @@ public:
 
     //Scientist
     void addScientist(ScientistSearch scientistSearch);
+    void updateScientistDatabase(ScientistSearch scientistSearch, int id);
     void deleteScientist(int id);
     bool isScientistSearchAvalidScientist(ScientistSearch scientist);
     void storeScientistPicture(QString fileName, int currentlySelectedID);

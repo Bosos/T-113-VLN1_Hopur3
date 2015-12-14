@@ -154,11 +154,6 @@ void MainWindow::on_clearScientistPushButton_released()
     ui->scientistAboutField->setText("");
 }
 
-void MainWindow::on_selectedScientistOKPushButton_released()
-{
-    ui->windowSwitcher->setCurrentIndex(0);
-}
-
 void MainWindow::on_computerSelectedAddScientist_released()
 {
     ui->computerSelectedScientistSearch->setHidden(!ui->computerSelectedScientistSearch->isHidden());
@@ -194,17 +189,32 @@ void MainWindow::on_scientistChangePictureButton_clicked()
     updateScientistProfilePicture();
 }
 
+void MainWindow::on_selectedScientistOKPushButton_clicked()
+{
+    ScientistSearch scientistSearch;
+
+    scientistSearch.name = ui->selectedScientistNameField->text();
+    scientistSearch.setSex(ui->selectedScientistSexComboBox->currentText());
+    scientistSearch.birth = ui->selectedScientistYearOfBirthField->text();
+    scientistSearch.death = ui->selectedScientistYearOfDeathField->text();
+    scientistSearch.about = ui->selectedScientistAboutField->toPlainText();
+
+    serviceMan->updateScientistDatabase(scientistSearch, currentlySelectedID);
+    updateScientist();
+    ui->windowSwitcher->setCurrentIndex(0);
+}
+
 void MainWindow::on_computerSelectedOKPushButton_clicked()
 {
     ui->windowSwitcher->setCurrentIndex(0);
-    ComputerSearch comp;
-    comp.name = ui->computerSelectedNameField->text();
-    comp.setType(ui->computerSelectedTypeComboBox->currentText());
-    comp.buildYear = ui->computerSelectedComputerBuiltYearlineEdit->text();
-    comp.setWasItBuilt(ui->computerSelectedWasItBuiltComboBox->currentText());
-    comp.about = ui->computerSelectedAboutField->toPlainText();
+    ComputerSearch computerSearch;
+    computerSearch.name = ui->computerSelectedNameField->text();
+    computerSearch.setType(ui->computerSelectedTypeComboBox->currentText());
+    computerSearch.buildYear = ui->computerSelectedComputerBuiltYearlineEdit->text();
+    computerSearch.setWasItBuilt(ui->computerSelectedWasItBuiltComboBox->currentText());
+    computerSearch.about = ui->computerSelectedAboutField->toPlainText();
 
-    serviceMan->updateComputerDatabase(comp, currentlySelectedID);
+    serviceMan->updateComputerDatabase(computerSearch, currentlySelectedID);
     updateComputer();
 }
 
@@ -404,3 +414,4 @@ void MainWindow::on_headTab_tabBarClicked(int index)
     updateScientistUsers(0);
     updateComputerUsers(0);
 }
+

@@ -96,26 +96,6 @@ void DataManager::deleteScientist(int id)
 
 }
 
-void DataManager::updateScientistDatabase(ScientistSearch scientistsearch, int id)
-{
-    stringstream ss;
-    ss << id;
-    string strID = ss.str();
-
-    query.prepare("UPDATE scientist"
-                  " SET name = :name, birthyear = :birthyear, deathyear = :deathyear, about = :about, sex = :sex "
-                  " WHERE id = :id");
-
-    query.bindValue(":id", strID.c_str());
-    query.bindValue(":name", scientistsearch.name.toStdString().c_str());
-    query.bindValue(":birthyear", scientistsearch.birth.toInt());
-    query.bindValue(":deathyear", scientistsearch.death.toInt());
-    query.bindValue(":sex", scientistsearch.getSex().toStdString().c_str());
-    query.bindValue(":about", scientistsearch.about.toStdString().c_str());
-    query.exec();
-
-}
-
 QSqlQueryModel* DataManager::search(ScientistSearch scientist)
 {
     QSqlQueryModel* model = new QSqlQueryModel();
@@ -290,6 +270,25 @@ void DataManager::addComputer(ComputerSearch computerSearch)
     query.bindValue(":type", computer.getType());
     query.bindValue(":wasbuilt", computer.getWasItBuilt());
     query.bindValue(":about", computer.getAbout().c_str());
+    query.exec();
+}
+
+void DataManager::updateScientistDatabase(ScientistSearch scientistSearch, int id)
+{
+    stringstream ss;
+    ss << id;
+    string strID = ss.str();
+
+    query.prepare("UPDATE scientists"
+                  " SET name = :name, birth = :birth, death = :death, about = :about, sex = :sex "
+                  " WHERE id = :id");
+
+    query.bindValue(":id", id);
+    query.bindValue(":name", scientistSearch.name);
+    query.bindValue(":birth", scientistSearch.birth);
+    query.bindValue(":death", scientistSearch.death);
+    query.bindValue(":sex", scientistSearch.getSex());
+    query.bindValue(":about", scientistSearch.about);
     query.exec();
 }
 

@@ -31,7 +31,6 @@ private slots:
     void on_addScientistPushButton_released();
     void on_foundScientistTableView_clicked(const QModelIndex &index);
     void on_clearScientistPushButton_released();
-    void on_selectedScientistOKPushButton_released();
     void on_selectedScientistAddComputer_released();
     void on_selectedScientistDeleteScientistPushButton_clicked();
     void on_selectedScientistComputerSearchDoneButton_clicked();
@@ -66,6 +65,8 @@ private slots:
     void on_registeredComputers_clicked(const QModelIndex &index);
 
     void on_headTab_tabBarClicked(int index);
+
+    void on_selectedScientistOKPushButton_clicked();
 
 private:
     Ui::MainWindow *ui;

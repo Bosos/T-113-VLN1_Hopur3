@@ -12,6 +12,11 @@ void Service::addScientist(ScientistSearch scientistSearch)
     return dataMan->addScientist(scientistSearch);
 }
 
+void Service::updateScientistDatabase(ScientistSearch scientistSearch, int id)
+{
+    return dataMan->updateScientistDatabase(scientistSearch, id);
+}
+
 void Service::deleteScientist(int id)
 {
     return dataMan->deleteScientist(id);
