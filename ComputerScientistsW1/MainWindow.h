@@ -73,6 +73,8 @@ private:
     int currentlySelectedID;
     void updateScientist();
     void updateScientistProfilePicture();
+    void updateScinetistUsedComputers();
+
     ScientistSearch getScientistFromInput();
 
     void updateComputer();
