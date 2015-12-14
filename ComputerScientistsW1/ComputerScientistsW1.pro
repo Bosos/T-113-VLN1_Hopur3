@@ -4,14 +4,12 @@ QT += gui
 QT += widgets
 
 TARGET = ComputerScientistsW3
-CONFIG += console
 CONFIG += app_bundle
 CONFIG += c++11
 
 TEMPLATE = app
 
 SOURCES += main.cpp \
-    Console.cpp \
     DataManager.cpp \
     Scientist.cpp \
     Computer.cpp \
@@ -22,7 +20,6 @@ SOURCES += main.cpp \
     Service.cpp
 
 HEADERS += \
-    Console.h \
     DataManager.h \
     Scientist.h \
     SortBy.h \

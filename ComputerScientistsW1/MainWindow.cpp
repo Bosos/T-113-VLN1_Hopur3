@@ -170,7 +170,6 @@ void MainWindow::on_selectedScientistComputerSearchDoneButton_clicked()
     ui->selectedScientistRemoAddButonWidget->setHidden(false);
 }
 
-
 void MainWindow::on_selectedScientistDeleteScientistPushButton_clicked()
 {
     if (QMessageBox::Yes == QMessageBox(QMessageBox::Information, "title", "Testing dialogs", QMessageBox::Yes|QMessageBox::No).exec())
