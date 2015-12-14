@@ -68,6 +68,25 @@ void DataManager::addScientist(ScientistSearch scientistSearch)
 
 }
 
+/*!
+ * \brief DataManager::deleteScientist
+ * deletes a scientist in the database
+ * \param Scientis
+ */
+void DataManager::deleteScientist(int id)
+{
+    stringstream ss;
+    ss << id;
+    string strID = ss.str();
+
+    query.prepare("DELETE FROM scientists"
+                  " WHERE id = :id");
+
+    query.bindValue(":id", strID.c_str());
+    query.exec();
+
+}
+
 QSqlQueryModel* DataManager::search(ScientistSearch scientist)
 {
     QSqlQueryModel* model = new QSqlQueryModel();

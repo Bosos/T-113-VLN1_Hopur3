@@ -172,9 +172,14 @@ void MainWindow::on_selectedScientistComputerSearchDoneButton_clicked()
 
 void MainWindow::on_selectedScientistDeleteScientistPushButton_clicked()
 {
+
     if (QMessageBox::Yes == QMessageBox(QMessageBox::Information, "title", "Testing dialogs", QMessageBox::Yes|QMessageBox::No).exec())
     {
         qDebug() << "Scientist deleted";
+        ui->windowSwitcher->setCurrentIndex(0);
+        dataMan->deleteScientist(currentlySelectedID);
+        updateScientist();
+
     }
     int ret = QMessageBox::warning(this,"Hello fish","Are you sure you want to delete this scientist?","DELETE","Cancel" );
 
