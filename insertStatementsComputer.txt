@@ -34,8 +34,6 @@ VALUES ('SSEM',1948,4,1,'Nicknamed baby and had memory!');
 INSERT INTO computers (name,buildyear,type,wasbuilt,About)
 VALUES ('Z3',1941,4,1,'Programmable fully automatic digital computer');
 
-INSERT INTO pctype (ID, type) VALUES (4,electromechanical);
-
 INSERT INTO computers (name,buildyear,type,wasbuilt,About)
 VALUES ('Z4',1945,4,1,'Worlds first commercial digital computer');
 
@@ -80,5 +78,3 @@ VALUES ('PlayStation 4',2013,3,1,'For those who are to young');
 
 INSERT INTO computers (name,buildyear,type,wasbuilt,About)
 VALUES ('ASCC',1944,4,1,'Used to calculate if implosion was a viable choice');
-
-INSERT INTO pctype (ID, type) VALUES (4,'Electromechanical');

@@ -3,12 +3,12 @@
 
 #include "ui_mainwindow.h"
 #include <QMainWindow>
-#include "DataManager.h"
 #include <SearchCriteria.h>
 #include <Scientist.h>
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QGraphicsPixmapItem>
+#include "service.h"
 
 namespace Ui {
 class MainWindow;
@@ -69,7 +69,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    DataManager* dataMan;
+    Service* serviceMan;
     int currentlySelectedID;
     void updateScientist();
     void updateScientistProfilePicture();

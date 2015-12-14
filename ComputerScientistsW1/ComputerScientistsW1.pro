@@ -18,7 +18,8 @@ SOURCES += main.cpp \
     TypeOfComputer.cpp \
     SortBy.cpp \
     mainwindow.cpp \
-    SearchCriteria.cpp
+    SearchCriteria.cpp \
+    Service.cpp
 
 HEADERS += \
     Console.h \
@@ -27,8 +28,9 @@ HEADERS += \
     SortBy.h \
     Computer.h \
     TypeOfComputer.h \
-    mainwindow.h \
-    SearchCriteria.h
+    SearchCriteria.h \
+    Service.h \
+    mainwindow.h
 
 FORMS += \
     mainwindow.ui

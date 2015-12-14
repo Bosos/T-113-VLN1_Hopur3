@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->windowSwitcher->setCurrentIndex(0);
 
     string fileLocation = "database.sqlite";
-    this->dataMan = new DataManager(fileLocation);
+    this->serviceMan = new Service(fileLocation);
 
     ui->yearOfBirthField->setValidator(new QIntValidator(1000, 2015, this));
     ui->yearOfDeathField->setValidator(new QIntValidator(1000, 2015, this));
@@ -113,7 +113,7 @@ void MainWindow::updateScientist()
 {
     ui->foundScientistTableView->setSortingEnabled(true);
     QSortFilterProxyModel *sqlproxy = new QSortFilterProxyModel(this);
-    sqlproxy->setSourceModel(dataMan->search(getScientistFromInput()));
+    sqlproxy->setSourceModel(serviceMan->search(getScientistFromInput()));
     ui->foundScientistTableView->setModel(sqlproxy);
     ui->foundScientistTableView->resizeColumnsToContents();
     ui->foundScientistTableView->setColumnHidden(0,true);
@@ -121,7 +121,7 @@ void MainWindow::updateScientist()
 
 void MainWindow::updateScientistProfilePicture()
 {
-    QPixmap profilePicture = dataMan->getScientistPicture(currentlySelectedID);
+    QPixmap profilePicture = serviceMan->getScientistPicture(currentlySelectedID);
 
     QGraphicsScene* scene = new QGraphicsScene();
     QGraphicsView* view = new QGraphicsView(scene);
@@ -141,7 +141,7 @@ void MainWindow::updateScientistProfilePicture()
 
 void MainWindow::on_addScientistPushButton_released()
 {
-    dataMan->addScientist(getScientistFromInput());
+    serviceMan->addScientist(getScientistFromInput());
     updateScientist();
 }
 
@@ -188,7 +188,7 @@ void MainWindow::on_scientistChangePictureButton_clicked()
                                                     "/home",
                                                     tr("Images (*.png *.xpm *.jpg)"));
 
-    dataMan->storeScientistPicture(fileName, currentlySelectedID);
+    serviceMan->storeScientistPicture(fileName, currentlySelectedID);
     updateScientistProfilePicture();
 }
 
@@ -202,7 +202,7 @@ void MainWindow::on_computerSelectedOKPushButton_clicked()
     comp.setWasItBuilt(ui->computerSelectedWasItBuiltComboBox->currentText());
     comp.about = ui->computerSelectedAboutField->toPlainText();
 
-    dataMan->updateComputerDatabase(comp, currentlySelectedID);
+    serviceMan->updateComputerDatabase(comp, currentlySelectedID);
     updateComputer();
 }
 
@@ -210,7 +210,7 @@ void MainWindow::updateComputer()
 {
     ui->foundComputersTableView->setSortingEnabled(true);
     QSortFilterProxyModel *sqlproxy = new QSortFilterProxyModel(this);
-    sqlproxy->setSourceModel(dataMan->searchComputer(getComputerFromInput()));
+    sqlproxy->setSourceModel(serviceMan->searchComputer(getComputerFromInput()));
     ui->foundComputersTableView->setModel(sqlproxy);
     ui->foundComputersTableView->resizeColumnsToContents();
     ui->foundComputersTableView->setColumnHidden(0, true);
@@ -294,14 +294,14 @@ void MainWindow::on_foundComputersTableView_doubleClicked(const QModelIndex &ind
 
 void MainWindow::on_addComputerPushButton_released()
 {
-    dataMan->addComputer(getComputerFromInput());
+    serviceMan->addComputer(getComputerFromInput());
     updateComputer();
 }
 
 void MainWindow::on_computerSelectedDeleteComputerPushButton_released()
 {
     ui->windowSwitcher->setCurrentIndex(0);
-    dataMan->deleteComputer(currentlySelectedID);
+    serviceMan->deleteComputer(currentlySelectedID);
     updateComputer();
 }
 
@@ -309,7 +309,7 @@ void MainWindow::updateScientistsWhoUsedComputer()
 {
     ui->computerSelectedScientistTable->setSortingEnabled(true);
     QSortFilterProxyModel *sqlproxy = new QSortFilterProxyModel(this);
-    sqlproxy->setSourceModel(dataMan->searchScientistToComputer(currentlySelectedID));
+    sqlproxy->setSourceModel(serviceMan->searchScientistToComputer(currentlySelectedID));
     ui->computerSelectedScientistTable->setModel(sqlproxy);
     ui->computerSelectedScientistTable->resizeColumnsToContents();
     ui->computerSelectedScientistTable->setColumnHidden(0, true);
@@ -330,7 +330,7 @@ void MainWindow::updateComputerUsers(int id)
 
     if(id != 0)
     {
-        sqlproxy->setSourceModel(dataMan->searchComputerToScientist(id));
+        sqlproxy->setSourceModel(serviceMan->searchComputerToScientist(id));
     }
     else
     {
@@ -341,7 +341,7 @@ void MainWindow::updateComputerUsers(int id)
         comp.buildYear = "";
         comp.about = "";
 
-        sqlproxy->setSourceModel(dataMan->searchComputer(comp));
+        sqlproxy->setSourceModel(serviceMan->searchComputer(comp));
     }
 
     ui->registeredComputers->setModel(sqlproxy);
@@ -374,7 +374,7 @@ void MainWindow::updateScientistUsers(int id)
 
     if(id != 0)
     {
-        sqlproxy->setSourceModel(dataMan->searchScientistToComputer(id));
+        sqlproxy->setSourceModel(serviceMan->searchScientistToComputer(id));
     }
     else
     {
@@ -385,7 +385,7 @@ void MainWindow::updateScientistUsers(int id)
         scientist.death = "";
         scientist.about = "";
 
-        sqlproxy->setSourceModel(dataMan->search(scientist));
+        sqlproxy->setSourceModel(serviceMan->search(scientist));
     }
 
     ui->registeredScientists->setModel(sqlproxy);
