@@ -26,6 +26,7 @@ public:
     // Scientists
     void addScientist(ScientistSearch scientistSearch);
     void deleteScientist(int id);
+    void updateScientistDatabase(ScientistSearch scientistsearch, int id);
     QSqlQueryModel* search(ScientistSearch scientist);
     bool isScientistSearchAvalidScientist(ScientistSearch scientist);
     Scientist makeScientistFromSearchCriteria(ScientistSearch scientist);
