@@ -12,6 +12,13 @@ void Service::addScientist(ScientistSearch scientistSearch)
     return dataMan->addScientist(scientistSearch);
 }
 
+/*!
+ * \brief Service::isScientistSearchAvalidScientist
+ * Returns true if all of the new information is valid while
+ * adding a new scientist
+ * \param scientist
+ * \return
+ */
 bool Service::isScientistSearchAvalidScientist(ScientistSearch scientist)
 {
     if (scientist.name.length() < 1) { return false; }
@@ -55,6 +62,13 @@ void Service::updateComputerDatabase(ComputerSearch comp, int id)
 void Service::deleteComputer(int id)
 {
     return dataMan->deleteComputer(id);
+}
+
+bool isComputerSearchAvalidComputer(ComputerSearch computer)
+{
+    if (computer.name.length() < 1) { return false; }
+    if (computer.buildYear.toInt() < 1200 && computer.buildYear.toInt() > 2015) { return false; }
+    return true;
 }
 
 QSqlQueryModel* Service::searchComputer(ComputerSearch computer)

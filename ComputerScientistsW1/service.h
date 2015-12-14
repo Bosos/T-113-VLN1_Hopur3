@@ -1,11 +1,14 @@
 #ifndef SERVICE
 #define SERVICE
-
 #include "DataManager.h"
-#include "scientist.h"
-#include "computer.h"
-#include <string>
-
+#include "Scientist.h"
+#include "Computer.h"
+#include "stdlib.h"
+#include <vector>
+#include <SortBy.h>
+#include <TypeOfComputer.h>
+#include <SearchCriteria.h>
+#include <QGraphicsPixmapItem>
 
 class Service
 {
@@ -25,6 +28,7 @@ public:
     void addComputer(ComputerSearch co);
     void updateComputerDatabase(ComputerSearch comp, int id);
     void deleteComputer(int id);
+    bool isComputerSearchAvalidComputer(ComputerSearch computer);
 
     QSqlQueryModel* searchComputer(ComputerSearch computer);
 
