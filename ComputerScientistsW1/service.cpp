@@ -8,6 +8,7 @@ Service::Service(string fileLocation)
 //Scientist
 void Service::addScientist(ScientistSearch scientistSearch)
 {
+    if (!isScientistSearchAvalidScientist(scientistSearch)) {return;}
     return dataMan->addScientist(scientistSearch);
 }
 

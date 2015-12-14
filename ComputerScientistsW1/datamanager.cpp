@@ -21,14 +21,15 @@ DataManager::DataManager(string dataBaseLocation)
     initializeTables();
 }
 
-bool DataManager::isScientistSearchAvalidScientist(ScientistSearch scientist)
+//Moved up to service
+/*bool DataManager::isScientistSearchAvalidScientist(ScientistSearch scientist)
 {
     if (scientist.name.length() < 1) { return false; }
     if (scientist.getSex() != "M" && scientist.getSex() != "F" ) { return false; }
     if (scientist.birth.toInt() < 1200) { return false; }
     if (scientist.death.toInt() > 2015) { return false; }
     return true;
-}
+}*/
 
 Scientist DataManager::makeScientistFromSearchCriteria(ScientistSearch scientist)
 {
@@ -49,8 +50,6 @@ Scientist DataManager::makeScientistFromSearchCriteria(ScientistSearch scientist
  */
 void DataManager::addScientist(ScientistSearch scientistSearch)
 {
-    if (!isScientistSearchAvalidScientist(scientistSearch)) {return;}
-
     Scientist scientist = makeScientistFromSearchCriteria(scientistSearch);
     string currScientist = "";
 
