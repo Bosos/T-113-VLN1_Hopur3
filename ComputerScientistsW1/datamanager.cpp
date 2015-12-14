@@ -101,7 +101,7 @@ QSqlQueryModel* DataManager::search(ScientistSearch scientist)
     QSqlQueryModel* model = new QSqlQueryModel();
     QSqlQuery* query = new QSqlQuery(db);
 
-    string meme = "SELECT s.id, s.name, sex.value as Sex, s.birth as 'Birth year', s.death as 'Death year', s.about"
+    string meme = "SELECT s.id, s.name as Name, sex.value as Sex, s.birth as Birth, s.death as Death, s.about"
                   " FROM scientists s"
                   " JOIN sex USING (sex)"
                   " where name like '%" + scientist.name.toStdString() + "%'"

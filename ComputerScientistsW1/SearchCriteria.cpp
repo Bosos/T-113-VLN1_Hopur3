@@ -17,19 +17,16 @@ SearchCriteria::SearchCriteria()
 
 }
 
-void ComputerSearch::setType(QString type)
+void ComputerSearch::setType(int type)
 {
-    if(type == "Electronic") {this->type = "1"; }
-    else if(type == "Mecanic") {this->type = "2"; }
-    else if(type == "Transistor") {this->type = "3"; }
-    else if(type == "Electromechanical") {this->type = "4"; }
-    else {this->type = ""; }
+    if(!type) { this->type = ""; }
+    else { this->type = QString::number(type); }
 }
 
-void ComputerSearch::setWasItBuilt(QString wasBuilt)
+void ComputerSearch::setWasItBuilt(int wasBuilt)
 {
-    if(wasBuilt == "Yes") {this->wasItBuilt = "1"; }
-    else if(wasBuilt == "No") {this->wasItBuilt = "0"; }
+    if(wasBuilt == 1) {this->wasItBuilt = "1"; }
+    else if(wasBuilt == 2) {this->wasItBuilt = "0"; }
     else {this->wasItBuilt = ""; }
 }
 

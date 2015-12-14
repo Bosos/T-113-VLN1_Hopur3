@@ -16,8 +16,8 @@ private:
 
 struct ComputerSearch
 {
-    void setType(QString type);
-    void setWasItBuilt(QString wasBuilt);
+    void setType(int type);
+    void setWasItBuilt(int wasBuilt);
     QString getType();
     QString getWasItBuilt();
     QString name = "";

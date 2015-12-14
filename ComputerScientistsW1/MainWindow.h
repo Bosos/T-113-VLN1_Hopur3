@@ -39,34 +39,26 @@ private slots:
     void on_computerSelectedOKPushButton_clicked();
     void on_foundScientistTableView_doubleClicked(const QModelIndex &index);
     void on_editScientistpushButton_clicked();
-
     void on_computerNameLineEdit_textEdited();
-
     void on_computerBuiltYearlineEdit_textEdited();
-
     void on_computerSearchTypeComboBox_activated();
-
     void on_computerSearchWasItBuiltComboBox_activated();
-
     void on_clearComputerPushButton_clicked();
-
     void on_foundComputersTableView_doubleClicked(const QModelIndex &index);
-
     void on_addComputerPushButton_released();
-
-
-
     void on_computerSelectedDeleteComputerPushButton_released();
-
     void on_registeredScientists_clicked(const QModelIndex &index);
-
     void on_pushButton_released();
-
     void on_registeredComputers_clicked(const QModelIndex &index);
-
     void on_headTab_tabBarClicked(int index);
 
     void on_selectedScientistOKPushButton_clicked();
+
+    void on_selectedScientistComputerSearchNameField_textChanged();
+
+    void on_selectedScientistComputerSearchBuiltYearField_textEdited();
+
+    void on_selectedScientistComputerSearchTypeComboBox_currentIndexChanged(int index);
 
 private:
     Ui::MainWindow *ui;
@@ -75,8 +67,10 @@ private:
     void updateScientist();
     void updateScientistProfilePicture();
     void updateScinetistUsedComputers();
-
+    void updateSelectedScientistComputerSearchTableView();
     ScientistSearch getScientistFromInput();
+    ComputerSearch getComputerFromScientistAddComputerInput();
+
 
     void updateComputer();
     ComputerSearch getComputerFromInput();

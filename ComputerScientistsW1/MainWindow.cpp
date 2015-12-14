@@ -95,6 +95,7 @@ void MainWindow::on_selectedScientistAddComputer_released()
 {
     ui->selectedScientistComputerSearch->setHidden(false);
     ui->selectedScientistRemoAddButonWidget->setHidden(true);
+    updateSelectedScientistComputerSearchTableView();
 }
 
 
@@ -151,6 +152,16 @@ void MainWindow::updateScinetistUsedComputers()
     ui->selectedScientistComputerTable->setColumnHidden(0, true);
 }
 
+void MainWindow::updateSelectedScientistComputerSearchTableView()
+{
+    ui->selectedScientistComputerSearchTableView->setSortingEnabled(true);
+    QSortFilterProxyModel *sqlproxy = new QSortFilterProxyModel(this);
+    sqlproxy->setSourceModel(serviceMan->searchComputer(getComputerFromScientistAddComputerInput()));
+    ui->selectedScientistComputerSearchTableView->setModel(sqlproxy);
+    ui->selectedScientistComputerSearchTableView->resizeColumnsToContents();
+    ui->selectedScientistComputerSearchTableView->horizontalHeader()->setStretchLastSection(true);
+    ui->selectedScientistComputerSearchTableView->setColumnHidden(0, true);
+}
 
 void MainWindow::on_addScientistPushButton_released()
 {
@@ -180,16 +191,12 @@ void MainWindow::on_selectedScientistComputerSearchDoneButton_clicked()
 
 void MainWindow::on_selectedScientistDeleteScientistPushButton_clicked()
 {
-    if (QMessageBox::Yes == QMessageBox(QMessageBox::Information, "title", "Testing dialogs", QMessageBox::Yes|QMessageBox::No).exec())
-    {
-        qDebug() << "Scientist deleted";
-        ui->windowSwitcher->setCurrentIndex(0);
-        serviceMan->deleteScientist(currentlySelectedID);
-        updateScientist();
-    }
-
     int ret = QMessageBox::warning(this,"Deleting the selected scientist", "Are you sure you want to delete " "?", "DELETE","Cancel" );
-
+    if (ret) { return; }
+    qDebug() << "Scientist deleted";
+    ui->windowSwitcher->setCurrentIndex(0);
+    serviceMan->deleteScientist(currentlySelectedID);
+    updateScientist();
     qDebug() << ret;
 }
 
@@ -223,9 +230,9 @@ void MainWindow::on_computerSelectedOKPushButton_clicked()
     ui->windowSwitcher->setCurrentIndex(0);
     ComputerSearch computerSearch;
     computerSearch.name = ui->computerSelectedNameField->text();
-    computerSearch.setType(ui->computerSelectedTypeComboBox->currentText());
+    computerSearch.setType(ui->computerSelectedTypeComboBox->currentIndex());
     computerSearch.buildYear = ui->computerSelectedComputerBuiltYearlineEdit->text();
-    computerSearch.setWasItBuilt(ui->computerSelectedWasItBuiltComboBox->currentText());
+    computerSearch.setWasItBuilt(ui->computerSelectedWasItBuiltComboBox->currentIndex());
     computerSearch.about = ui->computerSelectedAboutField->toPlainText();
 
     serviceMan->updateComputerDatabase(computerSearch, currentlySelectedID);
@@ -245,15 +252,25 @@ void MainWindow::updateComputer()
 
 ComputerSearch MainWindow::getComputerFromInput()
 {
-    ComputerSearch compSearch;
-    compSearch.name = ui->computerNameLineEdit->text();
-    compSearch.setType(ui->computerSearchTypeComboBox->currentText());
-    qDebug() << "the type selected " << compSearch.getType();
-    compSearch.buildYear = ui->computerBuiltYearlineEdit->text();
-    compSearch.setWasItBuilt(ui->computerSearchWasItBuiltComboBox->currentText());
-    compSearch.about = ui->computerAboutlineEdit->text();
+    ComputerSearch computerSearch;
+    computerSearch.name = ui->computerNameLineEdit->text();
+    computerSearch.setType(ui->computerSearchTypeComboBox->currentIndex());
+    computerSearch.buildYear = ui->computerBuiltYearlineEdit->text();
+    computerSearch.setWasItBuilt(ui->computerSearchWasItBuiltComboBox->currentIndex());
+    computerSearch.about = ui->computerAboutlineEdit->text();
 
-    return compSearch;
+    return computerSearch;
+}
+
+ComputerSearch MainWindow::getComputerFromScientistAddComputerInput()
+{
+    ComputerSearch computerSearch;
+    computerSearch.name = ui->selectedScientistComputerSearchNameField->text();
+    computerSearch.setType(ui->selectedScientistComputerSearchTypeComboBox->currentIndex());
+    computerSearch.buildYear = ui->selectedScientistComputerSearchBuiltYearField->text();
+    computerSearch.setWasItBuilt(ui->selectedScientistComputerSearchWasItBuiltComboBox->currentIndex());
+
+    return computerSearch;
 }
 
 void MainWindow::on_computerNameLineEdit_textEdited()
@@ -365,8 +382,8 @@ void MainWindow::updateComputerUsers(int id)
     {
         ComputerSearch comp;
         comp.name = "";
-        comp.setType("");
-        comp.setWasItBuilt("");
+        comp.setType(0);
+        comp.setWasItBuilt(0);
         comp.buildYear = "";
         comp.about = "";
 
@@ -432,3 +449,19 @@ void MainWindow::on_headTab_tabBarClicked(int index)
     updateComputerUsers(0);
 }
 
+
+void MainWindow::on_selectedScientistComputerSearchNameField_textChanged()
+{
+    updateSelectedScientistComputerSearchTableView();
+}
+
+void MainWindow::on_selectedScientistComputerSearchBuiltYearField_textEdited()
+{
+    updateSelectedScientistComputerSearchTableView();
+}
+
+void MainWindow::on_selectedScientistComputerSearchTypeComboBox_currentIndexChanged(int index)
+{
+    qDebug() << index;
+    updateSelectedScientistComputerSearchTableView();
+}
