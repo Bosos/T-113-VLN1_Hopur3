@@ -12,6 +12,11 @@ void Service::addScientist(ScientistSearch scientistSearch)
     return dataMan->addScientist(scientistSearch);
 }
 
+void Service::deleteScientist(int id)
+{
+    return dataMan->deleteScientist(id);
+}
+
 /*!
  * \brief Service::isScientistSearchAvalidScientist
  * Returns true if all of the new information is valid while
