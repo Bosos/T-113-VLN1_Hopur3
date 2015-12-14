@@ -34,6 +34,11 @@ public:
     QSqlQueryModel* searchComputer(ComputerSearch computer);
     void addComputer(ComputerSearch co);
     void updateComputerDatabase(ComputerSearch comp, int id);
+    void deleteComputer(int id);
+    QSqlQueryModel* searchScientistToComputer(int id);
+    QSqlQueryModel* searchComputerToScientist(int id);
+
+
 
 
 //    void updateScientist(Scientist scientis);

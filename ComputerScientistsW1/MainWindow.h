@@ -57,6 +57,16 @@ private slots:
 
 
 
+    void on_computerSelectedDeleteComputerPushButton_released();
+
+    void on_registeredScientists_clicked(const QModelIndex &index);
+
+    void on_pushButton_released();
+
+    void on_registeredComputers_clicked(const QModelIndex &index);
+
+    void on_headTab_tabBarClicked(int index);
+
 private:
     Ui::MainWindow *ui;
     DataManager* dataMan;
@@ -67,7 +77,12 @@ private:
 
     void updateComputer();
     ComputerSearch getComputerFromInput();
+    void updateScientistsWhoUsedComputer();
+    void searchScientistsToComputer(int id);
 
+    void updateScientistUsers(int id);
+    void updateComputerUsers(int id);
+    int currentlySelectedUserID;
 
 };
 

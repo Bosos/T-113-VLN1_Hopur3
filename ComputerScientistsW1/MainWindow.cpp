@@ -18,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     updateScientist();
     updateComputer();
+    updateScientistUsers(0);
+    updateComputerUsers(0);
     ui->scientistPicture->setAcceptDrops(true);
 }
 
@@ -198,7 +200,7 @@ void MainWindow::on_computerSelectedOKPushButton_clicked()
     comp.setType(ui->computerSelectedTypeComboBox->currentText());
     comp.buildYear = ui->computerSelectedComputerBuiltYearlineEdit->text();
     comp.setWasItBuilt(ui->computerSelectedWasItBuiltComboBox->currentText());
-    comp.about = ui->computerAboutlineEdit->text();
+    comp.about = ui->computerSelectedAboutField->toPlainText();
 
     dataMan->updateComputerDatabase(comp, currentlySelectedID);
     updateComputer();
@@ -267,6 +269,8 @@ void MainWindow::on_foundComputersTableView_doubleClicked(const QModelIndex &ind
     QString wasBuilt = index.sibling(row,4).data().toString();
     QString about = index.sibling(row,5).data().toString();
 
+    updateScientistsWhoUsedComputer();
+
     int typeInt = 0;
     int builtInt = 0;
     if (type == "Electronic") { typeInt = 1; }
@@ -292,4 +296,109 @@ void MainWindow::on_addComputerPushButton_released()
 {
     dataMan->addComputer(getComputerFromInput());
     updateComputer();
+}
+
+void MainWindow::on_computerSelectedDeleteComputerPushButton_released()
+{
+    ui->windowSwitcher->setCurrentIndex(0);
+    dataMan->deleteComputer(currentlySelectedID);
+    updateComputer();
+}
+
+void MainWindow::updateScientistsWhoUsedComputer()
+{
+    ui->computerSelectedScientistTable->setSortingEnabled(true);
+    QSortFilterProxyModel *sqlproxy = new QSortFilterProxyModel(this);
+    sqlproxy->setSourceModel(dataMan->searchScientistToComputer(currentlySelectedID));
+    ui->computerSelectedScientistTable->setModel(sqlproxy);
+    ui->computerSelectedScientistTable->resizeColumnsToContents();
+    ui->computerSelectedScientistTable->setColumnHidden(0, true);
+}
+
+void MainWindow::on_registeredScientists_clicked(const QModelIndex &index)
+{
+    int row = index.row();
+    currentlySelectedUserID = index.sibling(row, 0).data().toInt();
+
+    updateComputerUsers(currentlySelectedUserID);
+}
+
+void MainWindow::updateComputerUsers(int id)
+{
+    ui->registeredComputers->setSortingEnabled(true);
+    QSortFilterProxyModel *sqlproxy = new QSortFilterProxyModel(this);
+
+    if(id != 0)
+    {
+        sqlproxy->setSourceModel(dataMan->searchComputerToScientist(id));
+    }
+    else
+    {
+        ComputerSearch comp;
+        comp.name = "";
+        comp.setType("");
+        comp.setWasItBuilt("");
+        comp.buildYear = "";
+        comp.about = "";
+
+        sqlproxy->setSourceModel(dataMan->searchComputer(comp));
+    }
+
+    ui->registeredComputers->setModel(sqlproxy);
+    ui->registeredComputers->resizeColumnsToContents();
+    ui->registeredComputers->setColumnHidden(0, true);
+    ui->registeredComputers->setColumnHidden(2, true);
+    ui->registeredComputers->setColumnHidden(4, true);
+    ui->registeredComputers->setColumnHidden(5, true);
+}
+
+void MainWindow::on_pushButton_released()
+{
+    updateComputerUsers(0);
+    updateScientistUsers(0);
+    currentlySelectedUserID = 0;
+}
+
+void MainWindow::on_registeredComputers_clicked(const QModelIndex &index)
+{
+    int row = index.row();
+    currentlySelectedUserID = index.sibling(row, 0).data().toInt();
+
+    updateScientistUsers(currentlySelectedUserID);
+}
+
+void MainWindow::updateScientistUsers(int id)
+{
+    ui->registeredScientists->setSortingEnabled(true);
+    QSortFilterProxyModel *sqlproxy = new QSortFilterProxyModel(this);
+
+    if(id != 0)
+    {
+        sqlproxy->setSourceModel(dataMan->searchScientistToComputer(id));
+    }
+    else
+    {
+        ScientistSearch scientist;
+        scientist.name = "";
+        scientist.setSex("");
+        scientist.birth = "";
+        scientist.death = "";
+        scientist.about = "";
+
+        sqlproxy->setSourceModel(dataMan->search(scientist));
+    }
+
+    ui->registeredScientists->setModel(sqlproxy);
+    ui->registeredScientists->resizeColumnsToContents();
+    ui->registeredScientists->setColumnHidden(0, true);
+    ui->registeredScientists->setColumnHidden(2, true);
+    ui->registeredScientists->setColumnHidden(4, true);
+    ui->registeredScientists->setColumnHidden(5, true);
+}
+
+void MainWindow::on_headTab_tabBarClicked(int index)
+{
+    currentlySelectedUserID = 0;
+    updateScientistUsers(0);
+    updateComputerUsers(0);
 }

@@ -866,8 +866,6 @@ void DataManager::addComputer(ComputerSearch co)
 
 void DataManager::updateComputerDatabase(ComputerSearch comp, int id)
 {
-    /*query.prepare("INSERT OR REPLACE INTO computers(ID, name,buildyear,type,wasbuilt,about)"
-                  " VALUES(:id, :name, :buildyear, :type, :wasbuilt, :about)");*/
     stringstream ss;
     ss << id;
     string strID = ss.str();
@@ -883,4 +881,60 @@ void DataManager::updateComputerDatabase(ComputerSearch comp, int id)
     query.bindValue(":wasbuilt", comp.getWasItBuilt().toInt());
     query.bindValue(":about", comp.about.toStdString().c_str());
     query.exec();
+}
+
+void DataManager::deleteComputer(int id)
+{
+    stringstream ss;
+    ss << id;
+    string strID = ss.str();
+
+    query.prepare("DELETE FROM computers"
+                  " WHERE id = :id");
+
+    query.bindValue(":id", strID.c_str());
+    query.exec();
+}
+
+QSqlQueryModel* DataManager::searchScientistToComputer(int id)
+{
+    QSqlQueryModel* model = new QSqlQueryModel();
+    QSqlQuery* query = new QSqlQuery(db);
+
+    stringstream ss;
+    ss << id;
+    string strID = ss.str();
+
+    string search = "SELECT s.id, s.name, sex.value as Sex, s.birth as 'Birth year', s.death as 'Death year', s.about"
+                    " FROM users u JOIN scientists s ON u.scientistID = s.ID"
+                    " JOIN sex USING (sex)"
+                    " WHERE u.computerID = '" + strID + "'";
+
+    QString sci = search.c_str();
+    qDebug() << ( sci );
+    query->exec(search.c_str());
+    model->setQuery(*query);
+
+    return model;
+}
+
+QSqlQueryModel* DataManager::searchComputerToScientist(int id)
+{
+    QSqlQueryModel* model = new QSqlQueryModel();
+    QSqlQuery* query = new QSqlQuery(db);
+
+    stringstream ss;
+    ss << id;
+    string strID = ss.str();
+
+    string search = "SELECT c.ID, c.name, c.type, c.buildyear, c.wasbuilt, c.about"
+                    " FROM computers c JOIN users u ON u.computerID = c.ID"
+                    " WHERE u.scientistID = '" + strID + "'";
+
+    QString sci = search.c_str();
+    qDebug() << ( sci );
+    query->exec(search.c_str());
+    model->setQuery(*query);
+
+    return model;
 }
