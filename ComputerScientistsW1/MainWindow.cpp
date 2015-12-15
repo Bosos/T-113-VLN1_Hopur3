@@ -410,7 +410,7 @@ void MainWindow::updateScientistsWhoUsedComputer()
 {
     ui->computerSelectedScientistTable->setSortingEnabled(true);
     QSortFilterProxyModel *sqlproxy = new QSortFilterProxyModel(this);
-    sqlproxy->setSourceModel(serviceMan->searchScientistToComputer(currentlySelectedUserID));
+    sqlproxy->setSourceModel(serviceMan->searchScientistToComputer(currentlySelectedComputerID));
     ui->computerSelectedScientistTable->setModel(sqlproxy);
     ui->computerSelectedScientistTable->resizeColumnsToContents();
     ui->computerSelectedScientistTable->horizontalHeader()->setStretchLastSection(true);
@@ -572,3 +572,4 @@ void MainWindow::on_selectedScientistComputerSearchTableView_doubleClicked(const
 {
     on_selectedScientistComputerSearcAddpushButton_clicked();
 }
+
