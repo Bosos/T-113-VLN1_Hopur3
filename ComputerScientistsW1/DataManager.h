@@ -27,29 +27,26 @@ public:
     void addScientist(ScientistSearch scientistSearch);
     void updateScientistDatabase(ScientistSearch scientistSearch, int id);
     void deleteScientist(int id);
-    QSqlQueryModel* search(ScientistSearch scientist);
-    bool isScientistSearchAvalidScientist(ScientistSearch scientist);
-    Scientist makeScientistFromSearchCriteria(ScientistSearch scientist);
     void storeScientistPicture(QString fileName, int currentlySelectedID);
     QPixmap getScientistPicture(int scientistId);
+    Scientist makeScientistFromSearchCriteria(ScientistSearch scientistSearch);
+    QSqlQueryModel* search(ScientistSearch scientist);
+    vector<QString> scientistExists(ScientistSearch scientistSearch);
 
-    QSqlQueryModel* searchComputer(ComputerSearch computerSearch);
+    //Computers
     void addComputer(ComputerSearch computerSearch);
     void updateComputerDatabase(ComputerSearch computerSearch, int id);
     void deleteComputer(int id);
-    QSqlQueryModel* searchScientistToComputer(int id);
-    QSqlQueryModel* searchComputerToScientist(int id);
     void storeComputerPicture(QString fileName, int currentlySelectedComputerID);
     QPixmap getComputerPicture(int computerId);
+    QSqlQueryModel* searchComputer(ComputerSearch computerSearch);
+    int computerExists(ComputerSearch computerSearch);
 
-
+    //Relations
     void addCSRelation(int userId, int computerId);
     void removeCSRelation(int userId, int computerId);
-
-
-    vector<QString> scientistExists(ScientistSearch scientist);
-    int computerExists(ComputerSearch computer);
-
+    QSqlQueryModel* searchScientistToComputer(int id);
+    QSqlQueryModel* searchComputerToScientist(int id);
 
 private:
     QSqlDatabase db;
@@ -57,7 +54,6 @@ private:
     void initializeTables();
 
     string fileName;
-
 };
 
 #endif // dataManager
