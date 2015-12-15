@@ -583,3 +583,8 @@ void MainWindow::on_computerSelectedScientistTable_doubleClicked(const QModelInd
 {
     on_foundScientistTableView_doubleClicked(index);
 }
+
+void MainWindow::on_computerSelectedScientistSearchTableView_doubleClicked()
+{
+    on_computerSelectedScientistSearchAddPushButton_clicked();
+}
