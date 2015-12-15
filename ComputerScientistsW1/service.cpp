@@ -6,6 +6,13 @@ Service::Service(string fileLocation)
 }
 
 //Scientist
+
+bool Service::scientistExists(ScientistSearch sci)
+{
+    if(dataMan->scientistExists(sci)) { return true; }
+    else { return false; }
+}
+
 void Service::addScientist(ScientistSearch scientistSearch)
 {
     if (!isScientistSearchAvalidScientist(scientistSearch)) {return;}
@@ -59,6 +66,13 @@ Scientist Service::makeScientistFromSearchCriteria(ScientistSearch scientist)
 }
 
 //Computer
+
+bool Service::computerExists(ComputerSearch comp)
+{
+    if(dataMan->computerExists(comp)) { return true; }
+    else { return false; }
+}
+
 void Service::addComputer(ComputerSearch computerSearch)
 {
     if (!isComputerSearchAvalidComputer(computerSearch)) {return;}

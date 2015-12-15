@@ -39,6 +39,8 @@ public:
     void deleteComputer(int id);
     QSqlQueryModel* searchScientistToComputer(int id);
     QSqlQueryModel* searchComputerToScientist(int id);
+    int scientistExists(ScientistSearch scientist);
+    int computerExists(ComputerSearch computer);
 
 private:
     QSqlDatabase db;

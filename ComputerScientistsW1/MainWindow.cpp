@@ -165,8 +165,18 @@ void MainWindow::updateSelectedScientistComputerSearchTableView()
 
 void MainWindow::on_addScientistPushButton_released()
 {
-    serviceMan->addScientist(getScientistFromInput());
-    updateScientist();
+    ScientistSearch sci = getScientistFromInput();
+    if(serviceMan->scientistExists(sci))
+    {
+        // Please find a better heading than 'Double Scientist'
+        int ret = QMessageBox::warning(this,"Double Scientist", "The scientist already exists", "OK" );
+        if (ret) { return; }
+    }
+    else
+    {
+        serviceMan->addScientist(sci);
+        updateScientist();
+    }
 }
 
 void MainWindow::on_clearScientistPushButton_released()
@@ -322,8 +332,9 @@ void MainWindow::on_foundComputersTableView_doubleClicked(const QModelIndex &ind
     else if (type == "Mecanic") { typeInt = 2; }
     else if (type == "Transistor") { typeInt = 3; }
     else if (type == "Electromechanical") { typeInt = 4; }
-    if ( wasBuilt == "Yes") { builtInt = 1; }
-    else if (wasBuilt == "No") { builtInt = 2; }
+    else if (type == "Other") { typeInt = 5; }
+    if ( wasBuilt == "Built") { builtInt = 1; }
+    else if (wasBuilt == "Not built") { builtInt = 2; }
 
     ui->computerSelectedNameField->setText(name);
     ui->computerSelectedTypeComboBox->setCurrentIndex(typeInt);
@@ -339,12 +350,25 @@ void MainWindow::on_foundComputersTableView_doubleClicked(const QModelIndex &ind
 
 void MainWindow::on_addComputerPushButton_released()
 {
-    serviceMan->addComputer(getComputerFromInput());
-    updateComputer();
+    ComputerSearch comp = getComputerFromInput();
+
+    if(serviceMan->computerExists(comp))
+    {
+        int ret = QMessageBox::warning(this, "Double computer", "This computer already exists", "OK");
+        if (ret) { return; }
+    }
+    else
+    {
+        serviceMan->addComputer(comp);
+        updateComputer();
+    }
 }
 
 void MainWindow::on_computerSelectedDeleteComputerPushButton_released()
 {
+    int ret = QMessageBox::warning(this,"Deleting the selected computer", "Are you sure you want to delete " "?", "DELETE","Cancel" );
+    if (ret) { return; }
+
     ui->windowSwitcher->setCurrentIndex(0);
     serviceMan->deleteComputer(currentlySelectedID);
     updateComputer();
@@ -392,6 +416,7 @@ void MainWindow::updateComputerUsers(int id)
 
     ui->registeredComputers->setModel(sqlproxy);
     ui->registeredComputers->resizeColumnsToContents();
+    ui->registeredComputers->horizontalHeader()->setStretchLastSection(true);
     ui->registeredComputers->setColumnHidden(0, true);
     ui->registeredComputers->setColumnHidden(2, true);
     ui->registeredComputers->setColumnHidden(4, true);
@@ -436,6 +461,7 @@ void MainWindow::updateScientistUsers(int id)
 
     ui->registeredScientists->setModel(sqlproxy);
     ui->registeredScientists->resizeColumnsToContents();
+    ui->registeredScientists->horizontalHeader()->setStretchLastSection(true);
     ui->registeredScientists->setColumnHidden(0, true);
     ui->registeredScientists->setColumnHidden(2, true);
     ui->registeredScientists->setColumnHidden(4, true);

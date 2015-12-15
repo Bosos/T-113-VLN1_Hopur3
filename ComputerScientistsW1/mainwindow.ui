@@ -48,14 +48,14 @@
     <item>
      <widget class="QStackedWidget" name="windowSwitcher">
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="Home">
        <layout class="QVBoxLayout" name="verticalLayout_17">
         <item>
          <widget class="QTabWidget" name="headTab">
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="scientistTab">
            <attribute name="title">
@@ -388,6 +388,11 @@
                      <string>Electromechanical</string>
                     </property>
                    </item>
+                   <item>
+                    <property name="text">
+                     <string>Other</string>
+                    </property>
+                   </item>
                   </widget>
                  </item>
                  <item>
@@ -405,12 +410,12 @@
                    </item>
                    <item>
                     <property name="text">
-                     <string>Yes</string>
+                     <string>Built</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>No</string>
+                     <string>Not built</string>
                     </property>
                    </item>
                   </widget>
@@ -1508,6 +1513,11 @@
                           <string>Electromechanic</string>
                          </property>
                         </item>
+                        <item>
+                         <property name="text">
+                          <string>Other</string>
+                         </property>
+                        </item>
                        </widget>
                       </item>
                       <item>
@@ -1525,12 +1535,12 @@
                         </item>
                         <item>
                          <property name="text">
-                          <string>Was built</string>
+                          <string>Built</string>
                          </property>
                         </item>
                         <item>
                          <property name="text">
-                          <string>Was only theorized</string>
+                          <string>Not built</string>
                          </property>
                         </item>
                        </widget>

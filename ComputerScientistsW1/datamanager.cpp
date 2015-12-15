@@ -178,7 +178,8 @@ void DataManager::initializeTables()
                " Sex CHAR(1) REFERENCES sex(sex) NOT NULL,"
                " Birth INT NOT NULL,"
                " Death INT,"
-               " About text)"
+               " About text,"
+               " CONSTRAINT oneScientist UNIQUE (Name, Sex, Birth, Death))"
               );
 
     query.exec("CREATE TABLE IF NOT EXISTS pctype ("
@@ -192,7 +193,8 @@ void DataManager::initializeTables()
                " Buildyear INT,"
                " Type INT REFERENCES pctype(ID) NOT NULL,"
                " Wasbuilt INT,"
-               " About text)"
+               " About text,"
+               " CONSTRAINT oneComputer UNIQUE (Name, Buildyear, Type, Wasbuilt))"
               );
 
     query.exec("CREATE TABLE IF NOT EXISTS users ("
@@ -215,6 +217,7 @@ void DataManager::initializeTables()
     query.exec("INSERT OR REPLACE INTO pctype VALUES (2, 'Mecanic')");
     query.exec("INSERT OR REPLACE INTO pctype VALUES (3, 'Transistor')");
     query.exec("INSERT OR REPLACE INTO pctype VALUES (4, 'Electromechanical')");
+    query.exec("INSERT OR REPLACE INTO pctype VALUES (5, 'Other')");
     query.exec("PRAGMA foreign_keys = ON");
     query.exec("PRAGMA encoding = \"UTF-8\";");
 }
@@ -225,8 +228,8 @@ QSqlQueryModel* DataManager::searchComputer(ComputerSearch computerSearch)
     QSqlQuery* query = new QSqlQuery(db);
 
     string computer = "SELECT c.ID, c.Name, t.type AS Type, c.Buildyear AS 'Build year',"
-                      " CASE c.wasbuilt WHEN 1 THEN 'Yes'"
-                      " ELSE 'No'"
+                      " CASE c.wasbuilt WHEN 1 THEN 'Built'"
+                      " ELSE 'Not built'"
                       " END AS 'Was it built?',"
                       " c.About"
                       " FROM computers c JOIN pctype t ON c.Type = t.ID"
@@ -348,4 +351,42 @@ QSqlQueryModel* DataManager::searchComputerToScientist(int id)
     model->setQuery(*query);
 
     return model;
+}
+
+int DataManager::scientistExists(ScientistSearch scientist)
+{
+    QSqlQueryModel model;
+    int counter;
+
+    string search = "SELECT COUNT(*) AS 'count'"
+                    " FROM scientists"
+                    " WHERE name LIKE '%" + scientist.name.toStdString() + "%'"
+                    " AND sex LIKE '%" + scientist.getSex().toStdString() + "%'"
+                    " AND birth LIKE '%" + scientist.birth.toStdString() + "%'"
+                    " AND IFNULL (death,'') LIKE '%" + scientist.death.toStdString() + "%'";
+
+    model.setQuery(search.c_str());
+
+    counter = model.data(model.index(0, 0)).toInt();
+
+    return counter;
+}
+
+int DataManager::computerExists(ComputerSearch computer)
+{
+    QSqlQueryModel model;
+    int counter;
+
+    string search = "SELECT COUNT(*)"
+                    " FROM computers"
+                    " WHERE Name LIKE '%" + computer.name.toStdString() + "%'"
+                    " AND Type LIKE '%" + computer.getType().toStdString() + "%'"
+                    " AND Buildyear LIKE '%" + computer.buildYear.toStdString() + "%'"
+                    " AND Wasbuilt LIKE '%" + computer.getWasItBuilt().toStdString() + "%'";
+
+    model.setQuery(search.c_str());
+
+    counter = model.data(model.index(0, 0)).toInt();
+
+    return counter;
 }
