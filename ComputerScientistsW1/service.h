@@ -35,12 +35,15 @@ public:
     void updateComputerDatabase(ComputerSearch comp, int id);
     void deleteComputer(int id);
     bool isComputerSearchAvalidComputer(ComputerSearch computerSearch);
-
+    QPixmap getComputerPicture(int computerId);
+    void storeComputerPicture(QString fileName, int currentlySelectedComputerID);
     QSqlQueryModel* searchComputer(ComputerSearch computerSearch);
 
     //Relations
     QSqlQueryModel* searchScientistToComputer(int id);
     QSqlQueryModel* searchComputerToScientist(int id);
+    void addCSRelation(int userId, int computerId);
+    void removeCSRelation(int userId, int computerId);
 
 private:
     DataManager* dataMan;

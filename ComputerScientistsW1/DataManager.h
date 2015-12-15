@@ -39,6 +39,13 @@ public:
     void deleteComputer(int id);
     QSqlQueryModel* searchScientistToComputer(int id);
     QSqlQueryModel* searchComputerToScientist(int id);
+    void storeComputerPicture(QString fileName, int currentlySelectedComputerID);
+    QPixmap getComputerPicture(int computerId);
+
+
+    void addCSRelation(int userId, int computerId);
+    void removeCSRelation(int userId, int computerId);
+
 
 private:
     QSqlDatabase db;

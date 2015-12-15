@@ -8,6 +8,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     ui->windowSwitcher->setCurrentIndex(0);
+    ui->editScientistpushButton->setHidden(true);
+    ui->editSelectedComputerPushButton->setHidden(true);
 
     string fileLocation = "database.sqlite";
     this->serviceMan = new Service(fileLocation);
@@ -20,7 +22,6 @@ MainWindow::MainWindow(QWidget *parent) :
     updateComputer();
     updateScientistUsers(0);
     updateComputerUsers(0);
-    ui->scientistPicture->setAcceptDrops(true);
 }
 
 MainWindow::~MainWindow()
@@ -55,13 +56,14 @@ void MainWindow::on_scientistAboutField_textChanged()
 
 void MainWindow::on_foundScientistTableView_clicked(const QModelIndex &index)
 {
-    // gerist eitthvað þegar það er bara smellt einusinni á reit?
+    ui->editScientistpushButton->setHidden(false);
 }
 
 void MainWindow::on_foundScientistTableView_doubleClicked(const QModelIndex &index)
 {
     int row = index.row();
-    currentlySelectedID = index.sibling(row, 0).data().toInt();
+    currentlySelectedUserID = index.sibling(row, 0).data().toInt();
+    currentlySelectedComputerID = 0;
     QString name = index.sibling(row,1).data().toString();
     QString sex = index.sibling(row,2).data().toString();
     QString birth = index.sibling(row,3).data().toString();
@@ -91,7 +93,7 @@ void MainWindow::on_editScientistpushButton_clicked()
     on_foundScientistTableView_doubleClicked (ui->foundScientistTableView->selectionModel()->currentIndex());
 }
 
-void MainWindow::on_selectedScientistAddComputer_released()
+void MainWindow::on_selectedScientistAddComputer_clicked()
 {
     ui->selectedScientistComputerSearch->setHidden(false);
     ui->selectedScientistRemoAddButonWidget->setHidden(true);
@@ -123,7 +125,7 @@ void MainWindow::updateScientist()
 
 void MainWindow::updateScientistProfilePicture()
 {
-    QPixmap profilePicture = serviceMan->getScientistPicture(currentlySelectedID);
+    QPixmap profilePicture = serviceMan->getScientistPicture(currentlySelectedUserID);
 
     QGraphicsScene* scene = new QGraphicsScene();
     QGraphicsView* view = new QGraphicsView(scene);
@@ -141,11 +143,31 @@ void MainWindow::updateScientistProfilePicture()
     ui->scientistPicture->show();
 }
 
+void MainWindow::updateComputerProfilePicture()
+{
+    QPixmap profilePicture = serviceMan->getComputerPicture(currentlySelectedComputerID);
+
+    QGraphicsScene* scene = new QGraphicsScene();
+    QGraphicsView* view = new QGraphicsView(scene);
+    QGraphicsPixmapItem* item = new QGraphicsPixmapItem(profilePicture);
+
+    view->setDragMode(QGraphicsView::NoDrag);
+    view->setEnabled(false);
+    scene->addItem(item);
+
+    ui->computerSelectedPicture->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->computerSelectedPicture->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->computerSelectedPicture->setScene(scene);
+    //ui->scientistPicture->fitInView(item,Qt::KeepAspectRatioByExpanding);
+
+    ui->computerSelectedPicture->show();
+}
+
 void MainWindow::updateScinetistUsedComputers()
 {
     ui->selectedScientistComputerTable->setSortingEnabled(true);
     QSortFilterProxyModel *sqlproxy = new QSortFilterProxyModel(this);
-    sqlproxy->setSourceModel(serviceMan->searchComputerToScientist(currentlySelectedID));
+    sqlproxy->setSourceModel(serviceMan->searchComputerToScientist(currentlySelectedUserID));
     ui->selectedScientistComputerTable->setModel(sqlproxy);
     ui->selectedScientistComputerTable->resizeColumnsToContents();
     ui->selectedScientistComputerTable->horizontalHeader()->setStretchLastSection(true);
@@ -163,13 +185,13 @@ void MainWindow::updateSelectedScientistComputerSearchTableView()
     ui->selectedScientistComputerSearchTableView->setColumnHidden(0, true);
 }
 
-void MainWindow::on_addScientistPushButton_released()
+void MainWindow::on_addScientistPushButton_clicked()
 {
     serviceMan->addScientist(getScientistFromInput());
     updateScientist();
 }
 
-void MainWindow::on_clearScientistPushButton_released()
+void MainWindow::on_clearScientistPushButton_clicked()
 {
     ui->scientistNameField->setText("");
     ui->sexComboBox->setCurrentIndex(0);
@@ -178,7 +200,7 @@ void MainWindow::on_clearScientistPushButton_released()
     ui->scientistAboutField->setText("");
 }
 
-void MainWindow::on_computerSelectedAddScientist_released()
+void MainWindow::on_computerSelectedAddScientist_clicked()
 {
     ui->computerSelectedScientistSearch->setHidden(!ui->computerSelectedScientistSearch->isHidden());
 }
@@ -195,7 +217,7 @@ void MainWindow::on_selectedScientistDeleteScientistPushButton_clicked()
     if (ret) { return; }
     qDebug() << "Scientist deleted";
     ui->windowSwitcher->setCurrentIndex(0);
-    serviceMan->deleteScientist(currentlySelectedID);
+    serviceMan->deleteScientist(currentlySelectedUserID);
     updateScientist();
     qDebug() << ret;
 }
@@ -206,7 +228,7 @@ void MainWindow::on_scientistChangePictureButton_clicked()
                                                     "/home",
                                                     tr("Images (*.png *.xpm *.jpg)"));
 
-    serviceMan->storeScientistPicture(fileName, currentlySelectedID);
+    serviceMan->storeScientistPicture(fileName, currentlySelectedUserID);
     updateScientistProfilePicture();
 }
 
@@ -220,7 +242,7 @@ void MainWindow::on_selectedScientistOKPushButton_clicked()
     scientistSearch.death = ui->selectedScientistYearOfDeathField->text();
     scientistSearch.about = ui->selectedScientistAboutField->toPlainText();
 
-    serviceMan->updateScientistDatabase(scientistSearch, currentlySelectedID);
+    serviceMan->updateScientistDatabase(scientistSearch, currentlySelectedUserID);
     updateScientist();
     ui->windowSwitcher->setCurrentIndex(0);
 }
@@ -235,7 +257,7 @@ void MainWindow::on_computerSelectedOKPushButton_clicked()
     computerSearch.setWasItBuilt(ui->computerSelectedWasItBuiltComboBox->currentIndex());
     computerSearch.about = ui->computerSelectedAboutField->toPlainText();
 
-    serviceMan->updateComputerDatabase(computerSearch, currentlySelectedID);
+    serviceMan->updateComputerDatabase(computerSearch, currentlySelectedComputerID);
     updateComputer();
 }
 
@@ -307,7 +329,7 @@ void MainWindow::on_clearComputerPushButton_clicked()
 void MainWindow::on_foundComputersTableView_doubleClicked(const QModelIndex &index)
 {
     int row = index.row();
-    currentlySelectedID = index.sibling(row, 0).data().toInt();
+    currentlySelectedComputerID = index.sibling(row, 0).data().toInt();
     QString name = index.sibling(row,1).data().toString();
     QString type = index.sibling(row,2).data().toString();
     QString buildYear = index.sibling(row,3).data().toString();
@@ -334,19 +356,21 @@ void MainWindow::on_foundComputersTableView_doubleClicked(const QModelIndex &ind
     ui->computerSelectedScientistSearch->setHidden(true);
     ui->computerSelectedRemoAddButonWidget->setHidden(false);
 
+    updateComputerProfilePicture();
+
     ui->windowSwitcher->setCurrentIndex(2);
 }
 
-void MainWindow::on_addComputerPushButton_released()
+void MainWindow::on_addComputerPushButton_clicked()
 {
     serviceMan->addComputer(getComputerFromInput());
     updateComputer();
 }
 
-void MainWindow::on_computerSelectedDeleteComputerPushButton_released()
+void MainWindow::on_computerSelectedDeleteComputerPushButton_clicked()
 {
     ui->windowSwitcher->setCurrentIndex(0);
-    serviceMan->deleteComputer(currentlySelectedID);
+    serviceMan->deleteComputer(currentlySelectedComputerID);
     updateComputer();
 }
 
@@ -354,7 +378,7 @@ void MainWindow::updateScientistsWhoUsedComputer()
 {
     ui->computerSelectedScientistTable->setSortingEnabled(true);
     QSortFilterProxyModel *sqlproxy = new QSortFilterProxyModel(this);
-    sqlproxy->setSourceModel(serviceMan->searchScientistToComputer(currentlySelectedID));
+    sqlproxy->setSourceModel(serviceMan->searchScientistToComputer(currentlySelectedUserID));
     ui->computerSelectedScientistTable->setModel(sqlproxy);
     ui->computerSelectedScientistTable->resizeColumnsToContents();
     ui->computerSelectedScientistTable->horizontalHeader()->setStretchLastSection(true);
@@ -364,9 +388,9 @@ void MainWindow::updateScientistsWhoUsedComputer()
 void MainWindow::on_registeredScientists_clicked(const QModelIndex &index)
 {
     int row = index.row();
-    currentlySelectedUserID = index.sibling(row, 0).data().toInt();
+    currentlySelectedUserIDForUsers = index.sibling(row, 0).data().toInt();
 
-    updateComputerUsers(currentlySelectedUserID);
+    updateComputerUsers(currentlySelectedUserIDForUsers);
 }
 
 void MainWindow::updateComputerUsers(int id)
@@ -398,19 +422,19 @@ void MainWindow::updateComputerUsers(int id)
     ui->registeredComputers->setColumnHidden(5, true);
 }
 
-void MainWindow::on_pushButton_released()
+void MainWindow::on_pushButton_clicked()
 {
     updateComputerUsers(0);
     updateScientistUsers(0);
-    currentlySelectedUserID = 0;
+    currentlySelectedUserIDForUsers = 0;
 }
 
 void MainWindow::on_registeredComputers_clicked(const QModelIndex &index)
 {
     int row = index.row();
-    currentlySelectedUserID = index.sibling(row, 0).data().toInt();
+    currentlySelectedUserIDForUsers = index.sibling(row, 0).data().toInt();
 
-    updateScientistUsers(currentlySelectedUserID);
+    updateScientistUsers(currentlySelectedUserIDForUsers);
 }
 
 void MainWindow::updateScientistUsers(int id)
@@ -444,11 +468,10 @@ void MainWindow::updateScientistUsers(int id)
 
 void MainWindow::on_headTab_tabBarClicked(int index)
 {
-    currentlySelectedUserID = 0;
+    currentlySelectedUserIDForUsers = 0;
     updateScientistUsers(0);
     updateComputerUsers(0);
 }
-
 
 void MainWindow::on_selectedScientistComputerSearchNameField_textChanged()
 {
@@ -460,8 +483,53 @@ void MainWindow::on_selectedScientistComputerSearchBuiltYearField_textEdited()
     updateSelectedScientistComputerSearchTableView();
 }
 
-void MainWindow::on_selectedScientistComputerSearchTypeComboBox_currentIndexChanged(int index)
+void MainWindow::on_selectedScientistComputerSearchWasItBuiltComboBox_currentIndexChanged()
 {
-    qDebug() << index;
     updateSelectedScientistComputerSearchTableView();
+}
+
+void MainWindow::on_selectedScientistComputerSearchTypeComboBox_currentIndexChanged()
+{
+    updateSelectedScientistComputerSearchTableView();
+}
+
+void MainWindow::on_selectedScientistComputerSearcAddpushButton_clicked()
+{
+    serviceMan->addCSRelation(currentlySelectedUserID,currentlySelectedComputerID);
+    updateScinetistUsedComputers();
+}
+
+void MainWindow::on_selectedScientistComputerSearchTableView_clicked(const QModelIndex &index)
+{
+    int row = index.row();
+    currentlySelectedComputerID = index.sibling(row, 0).data().toInt();
+}
+
+void MainWindow::on_selectedScientistComputerTable_clicked(const QModelIndex &index)
+{
+    int row = index.row();
+    currentlySelectedComputerID = index.sibling(row, 0).data().toInt();
+    on_selectedScientistComputerSearchDoneButton_clicked();
+}
+
+void MainWindow::on_selectedScientistRemoveSelectedComputerPushButton_clicked()
+{
+    serviceMan->removeCSRelation(currentlySelectedUserID,currentlySelectedComputerID);
+    updateScinetistUsedComputers();
+}
+
+
+void MainWindow::on_foundComputersTableView_clicked(const QModelIndex &index)
+{
+    ui->editSelectedComputerPushButton->setHidden(false);
+}
+
+void MainWindow::on_computerSelectedChangePicturePushButton_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
+                                                    "/home",
+                                                    tr("Images (*.png *.xpm *.jpg)"));
+
+    serviceMan->storeComputerPicture(fileName, currentlySelectedComputerID);
+    updateComputerProfilePicture();
 }

@@ -37,7 +37,7 @@
      <number>0</number>
     </property>
     <property name="topMargin">
-     <number>10</number>
+     <number>0</number>
     </property>
     <property name="rightMargin">
      <number>0</number>
@@ -48,14 +48,17 @@
     <item>
      <widget class="QStackedWidget" name="windowSwitcher">
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="Home">
        <layout class="QVBoxLayout" name="verticalLayout_17">
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
         <item>
          <widget class="QTabWidget" name="headTab">
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="scientistTab">
            <attribute name="title">
@@ -199,6 +202,12 @@
                  </item>
                  <item>
                   <widget class="QPushButton" name="addScientistPushButton">
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
                    <property name="text">
                     <string>Add</string>
                    </property>
@@ -454,7 +463,7 @@
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_9">
                <property name="spacing">
-                <number>0</number>
+                <number>4</number>
                </property>
                <property name="leftMargin">
                 <number>4</number>
@@ -470,6 +479,25 @@
                </property>
                <item>
                 <widget class="QTableView" name="foundComputersTableView"/>
+               </item>
+               <item alignment="Qt::AlignRight">
+                <widget class="QPushButton" name="editSelectedComputerPushButton">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>150</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Edit Selected</string>
+                 </property>
+                </widget>
                </item>
               </layout>
              </widget>
@@ -553,561 +581,243 @@
          <number>0</number>
         </property>
         <item>
-         <widget class="QTabWidget" name="scientistSelectedTab">
-          <property name="currentIndex">
-           <number>0</number>
+         <widget class="QGroupBox" name="groupBox">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>242</height>
+           </size>
           </property>
-          <widget class="QWidget" name="sciTab">
-           <attribute name="title">
-            <string>Selected scientist</string>
-           </attribute>
-           <layout class="QVBoxLayout" name="verticalLayout_5">
-            <property name="spacing">
-             <number>0</number>
-            </property>
-            <property name="topMargin">
-             <number>12</number>
-            </property>
-            <property name="bottomMargin">
-             <number>10</number>
-            </property>
-            <item>
-             <widget class="QGroupBox" name="groupBox">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>242</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>16777215</width>
-                <height>242</height>
-               </size>
-              </property>
-              <property name="title">
-               <string>Scientist info -  Edit</string>
-              </property>
-              <layout class="QHBoxLayout" name="horizontalLayout_2">
-               <property name="spacing">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>242</height>
+           </size>
+          </property>
+          <property name="title">
+           <string>Scientist info -  Edit</string>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <property name="spacing">
+            <number>4</number>
+           </property>
+           <property name="leftMargin">
+            <number>4</number>
+           </property>
+           <property name="topMargin">
+            <number>4</number>
+           </property>
+           <property name="rightMargin">
+            <number>4</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <layout class="QVBoxLayout" name="scientistPictureLayout" stretch="0">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="sizeConstraint">
+              <enum>QLayout::SetMinimumSize</enum>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>6</number>
+             </property>
+             <item alignment="Qt::AlignHCenter|Qt::AlignBottom">
+              <widget class="QGraphicsView" name="scientistPicture">
+               <property name="minimumSize">
+                <size>
+                 <width>215</width>
+                 <height>215</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>215</width>
+                 <height>215</height>
+                </size>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Plain</enum>
+               </property>
+               <property name="lineWidth">
                 <number>0</number>
                </property>
+               <property name="dragMode">
+                <enum>QGraphicsView::NoDrag</enum>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="selectedScientistInfoLayout">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QGroupBox" name="groupBox_5">
+               <property name="title">
+                <string>Name</string>
+               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_3">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
+                <property name="leftMargin">
+                 <number>3</number>
+                </property>
+                <property name="topMargin">
+                 <number>3</number>
+                </property>
+                <property name="rightMargin">
+                 <number>3</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>3</number>
+                </property>
+                <item>
+                 <widget class="QLineEdit" name="selectedScientistNameField">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>21</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="accessibleName">
+                   <string/>
+                  </property>
+                  <property name="placeholderText">
+                   <string>Name</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout">
+               <property name="spacing">
+                <number>7</number>
+               </property>
                <property name="leftMargin">
-                <number>4</number>
+                <number>0</number>
                </property>
                <property name="topMargin">
-                <number>4</number>
+                <number>0</number>
                </property>
                <property name="rightMargin">
-                <number>4</number>
+                <number>0</number>
                </property>
                <property name="bottomMargin">
                 <number>0</number>
                </property>
                <item>
-                <layout class="QVBoxLayout" name="scientistPictureLayout" stretch="0,0">
-                 <property name="spacing">
-                  <number>0</number>
+                <widget class="QGroupBox" name="groupBox_4">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>111</height>
+                  </size>
                  </property>
-                 <property name="sizeConstraint">
-                  <enum>QLayout::SetMinimumSize</enum>
+                 <property name="title">
+                  <string>About</string>
                  </property>
-                 <property name="leftMargin">
-                  <number>0</number>
-                 </property>
-                 <property name="topMargin">
-                  <number>0</number>
-                 </property>
-                 <property name="rightMargin">
-                  <number>0</number>
-                 </property>
-                 <property name="bottomMargin">
-                  <number>6</number>
-                 </property>
-                 <item alignment="Qt::AlignHCenter|Qt::AlignBottom">
-                  <widget class="QGraphicsView" name="scientistPicture">
-                   <property name="minimumSize">
-                    <size>
-                     <width>140</width>
-                     <height>180</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>140</width>
-                     <height>180</height>
-                    </size>
-                   </property>
-                   <property name="frameShape">
-                    <enum>QFrame::NoFrame</enum>
-                   </property>
-                   <property name="frameShadow">
-                    <enum>QFrame::Plain</enum>
-                   </property>
-                   <property name="lineWidth">
-                    <number>0</number>
-                   </property>
-                   <property name="dragMode">
-                    <enum>QGraphicsView::NoDrag</enum>
-                   </property>
-                  </widget>
-                 </item>
-                 <item alignment="Qt::AlignLeft|Qt::AlignBottom">
-                  <widget class="QPushButton" name="scientistChangePictureButton">
-                   <property name="minimumSize">
-                    <size>
-                     <width>150</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>150</width>
-                     <height>16777215</height>
-                    </size>
-                   </property>
-                   <property name="text">
-                    <string>Change Picture</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item>
-                <layout class="QVBoxLayout" name="selectedScientistInfoLayout">
-                 <property name="spacing">
-                  <number>0</number>
-                 </property>
-                 <property name="leftMargin">
-                  <number>0</number>
-                 </property>
-                 <property name="topMargin">
-                  <number>0</number>
-                 </property>
-                 <property name="rightMargin">
-                  <number>0</number>
-                 </property>
-                 <property name="bottomMargin">
-                  <number>0</number>
-                 </property>
-                 <item>
-                  <widget class="QGroupBox" name="groupBox_5">
-                   <property name="title">
-                    <string>Name</string>
-                   </property>
-                   <layout class="QHBoxLayout" name="horizontalLayout_3">
-                    <property name="spacing">
-                     <number>0</number>
-                    </property>
-                    <property name="leftMargin">
-                     <number>3</number>
-                    </property>
-                    <property name="topMargin">
-                     <number>3</number>
-                    </property>
-                    <property name="rightMargin">
-                     <number>3</number>
-                    </property>
-                    <property name="bottomMargin">
-                     <number>3</number>
-                    </property>
-                    <item>
-                     <widget class="QLineEdit" name="selectedScientistNameField">
-                      <property name="minimumSize">
-                       <size>
-                        <width>0</width>
-                        <height>21</height>
-                       </size>
-                      </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>16777215</width>
-                        <height>16777215</height>
-                       </size>
-                      </property>
-                      <property name="accessibleName">
-                       <string/>
-                      </property>
-                      <property name="placeholderText">
-                       <string>Name</string>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </widget>
-                 </item>
-                 <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout">
-                   <property name="spacing">
-                    <number>7</number>
-                   </property>
-                   <property name="leftMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="topMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="rightMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="bottomMargin">
-                    <number>0</number>
-                   </property>
-                   <item>
-                    <widget class="QGroupBox" name="groupBox_4">
-                     <property name="minimumSize">
-                      <size>
-                       <width>0</width>
-                       <height>111</height>
-                      </size>
-                     </property>
-                     <property name="title">
-                      <string>About</string>
-                     </property>
-                     <layout class="QHBoxLayout" name="horizontalLayout_4">
-                      <property name="spacing">
-                       <number>0</number>
-                      </property>
-                      <property name="leftMargin">
-                       <number>3</number>
-                      </property>
-                      <property name="topMargin">
-                       <number>3</number>
-                      </property>
-                      <property name="rightMargin">
-                       <number>3</number>
-                      </property>
-                      <property name="bottomMargin">
-                       <number>3</number>
-                      </property>
-                      <item>
-                       <widget class="QPlainTextEdit" name="selectedScientistAboutField">
-                        <property name="minimumSize">
-                         <size>
-                          <width>0</width>
-                          <height>0</height>
-                         </size>
-                        </property>
-                       </widget>
-                      </item>
-                     </layout>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QGroupBox" name="groupBox_6">
-                     <property name="minimumSize">
-                      <size>
-                       <width>119</width>
-                       <height>0</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>119</width>
-                       <height>16777215</height>
-                      </size>
-                     </property>
-                     <property name="title">
-                      <string>Discription</string>
-                     </property>
-                     <layout class="QVBoxLayout" name="verticalLayout_10">
-                      <property name="spacing">
-                       <number>7</number>
-                      </property>
-                      <property name="leftMargin">
-                       <number>3</number>
-                      </property>
-                      <property name="topMargin">
-                       <number>3</number>
-                      </property>
-                      <property name="rightMargin">
-                       <number>3</number>
-                      </property>
-                      <property name="bottomMargin">
-                       <number>3</number>
-                      </property>
-                      <item>
-                       <widget class="QComboBox" name="selectedScientistSexComboBox">
-                        <property name="minimumSize">
-                         <size>
-                          <width>0</width>
-                          <height>21</height>
-                         </size>
-                        </property>
-                        <property name="maximumSize">
-                         <size>
-                          <width>16777215</width>
-                          <height>16777215</height>
-                         </size>
-                        </property>
-                        <property name="toolTipDuration">
-                         <number>-3</number>
-                        </property>
-                        <item>
-                         <property name="text">
-                          <string>Sex</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string>Female</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string>Male</string>
-                         </property>
-                        </item>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QLineEdit" name="selectedScientistYearOfBirthField">
-                        <property name="minimumSize">
-                         <size>
-                          <width>0</width>
-                          <height>21</height>
-                         </size>
-                        </property>
-                        <property name="maximumSize">
-                         <size>
-                          <width>16777215</width>
-                          <height>16777215</height>
-                         </size>
-                        </property>
-                        <property name="placeholderText">
-                         <string>Year of birth</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QLineEdit" name="selectedScientistYearOfDeathField">
-                        <property name="minimumSize">
-                         <size>
-                          <width>0</width>
-                          <height>21</height>
-                         </size>
-                        </property>
-                        <property name="maximumSize">
-                         <size>
-                          <width>16777215</width>
-                          <height>16777215</height>
-                         </size>
-                        </property>
-                        <property name="placeholderText">
-                         <string>Year of death</string>
-                        </property>
-                       </widget>
-                      </item>
-                     </layout>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_10">
-                   <property name="spacing">
-                    <number>8</number>
-                   </property>
-                   <property name="leftMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="topMargin">
-                    <number>5</number>
-                   </property>
-                   <item>
-                    <spacer name="horizontalSpacer">
-                     <property name="orientation">
-                      <enum>Qt::Horizontal</enum>
-                     </property>
-                     <property name="sizeHint" stdset="0">
-                      <size>
-                       <width>40</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                    </spacer>
-                   </item>
-                   <item>
-                    <widget class="QPushButton" name="selectedScientistDeleteScientistPushButton">
-                     <property name="text">
-                      <string>Delete Scientist</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item alignment="Qt::AlignRight">
-                    <widget class="QPushButton" name="selectedScientistOKPushButton">
-                     <property name="maximumSize">
-                      <size>
-                       <width>80</width>
-                       <height>16777215</height>
-                      </size>
-                     </property>
-                     <property name="focusPolicy">
-                      <enum>Qt::ClickFocus</enum>
-                     </property>
-                     <property name="text">
-                      <string>OK</string>
-                     </property>
-                     <property name="autoDefault">
-                      <bool>false</bool>
-                     </property>
-                     <property name="default">
-                      <bool>true</bool>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                </layout>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item>
-             <widget class="QSplitter" name="splitter">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="childrenCollapsible">
-               <bool>false</bool>
-              </property>
-              <widget class="QGroupBox" name="selectedScientistFoundComputerCaption">
-               <property name="title">
-                <string>The Scientist has used these computers</string>
-               </property>
-               <layout class="QVBoxLayout" name="verticalLayout_4">
-                <property name="spacing">
-                 <number>6</number>
-                </property>
-                <property name="leftMargin">
-                 <number>4</number>
-                </property>
-                <property name="topMargin">
-                 <number>4</number>
-                </property>
-                <property name="rightMargin">
-                 <number>4</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>4</number>
-                </property>
-                <item>
-                 <widget class="QTableView" name="selectedScientistComputerTable"/>
-                </item>
-                <item>
-                 <widget class="QWidget" name="selectedScientistRemoAddButonWidget" native="true">
-                  <layout class="QHBoxLayout" name="horizontalLayout_5">
-                   <property name="spacing">
-                    <number>8</number>
-                   </property>
-                   <property name="leftMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="topMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="rightMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="bottomMargin">
-                    <number>0</number>
-                   </property>
-                   <item>
-                    <spacer name="horizontalSpacer_3">
-                     <property name="orientation">
-                      <enum>Qt::Horizontal</enum>
-                     </property>
-                     <property name="sizeHint" stdset="0">
-                      <size>
-                       <width>381</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                    </spacer>
-                   </item>
-                   <item>
-                    <widget class="QPushButton" name="selectedScientistRemoveSelectedComputerPushButton">
-                     <property name="text">
-                      <string>Remove Selected Computer</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QPushButton" name="selectedScientistAddComputer">
-                     <property name="maximumSize">
-                      <size>
-                       <width>140</width>
-                       <height>16777215</height>
-                      </size>
-                     </property>
-                     <property name="text">
-                      <string>Add Computers</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </widget>
-                </item>
-               </layout>
-              </widget>
-              <widget class="QGroupBox" name="selectedScientistComputerSearch">
-               <property name="title">
-                <string>Computer Search  -  Select the one you want to add to the scientist</string>
-               </property>
-               <layout class="QVBoxLayout" name="verticalLayout_2">
-                <property name="spacing">
-                 <number>5</number>
-                </property>
-                <property name="leftMargin">
-                 <number>4</number>
-                </property>
-                <property name="topMargin">
-                 <number>4</number>
-                </property>
-                <property name="rightMargin">
-                 <number>4</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>4</number>
-                </property>
-                <item>
-                 <widget class="QTableView" name="selectedScientistComputerSearchTableView"/>
-                </item>
-                <item>
-                 <layout class="QHBoxLayout" name="selectedScientistComputerSearchButtonRow">
+                 <layout class="QHBoxLayout" name="horizontalLayout_4">
                   <property name="spacing">
-                   <number>8</number>
+                   <number>0</number>
                   </property>
                   <property name="leftMargin">
-                   <number>0</number>
+                   <number>3</number>
                   </property>
                   <property name="topMargin">
-                   <number>0</number>
+                   <number>3</number>
                   </property>
                   <property name="rightMargin">
-                   <number>0</number>
+                   <number>3</number>
                   </property>
                   <property name="bottomMargin">
-                   <number>0</number>
+                   <number>3</number>
                   </property>
                   <item>
-                   <widget class="QLineEdit" name="selectedScientistComputerSearchNameField">
+                   <widget class="QPlainTextEdit" name="selectedScientistAboutField">
                     <property name="minimumSize">
                      <size>
                       <width>0</width>
-                      <height>21</height>
+                      <height>0</height>
                      </size>
-                    </property>
-                    <property name="text">
-                     <string/>
-                    </property>
-                    <property name="placeholderText">
-                     <string>Name</string>
                     </property>
                    </widget>
                   </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QGroupBox" name="groupBox_6">
+                 <property name="minimumSize">
+                  <size>
+                   <width>119</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>119</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="title">
+                  <string>Discription</string>
+                 </property>
+                 <layout class="QVBoxLayout" name="verticalLayout_10">
+                  <property name="spacing">
+                   <number>7</number>
+                  </property>
+                  <property name="leftMargin">
+                   <number>3</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>3</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>3</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>3</number>
+                  </property>
                   <item>
-                   <widget class="QLineEdit" name="selectedScientistComputerSearchBuiltYearField">
+                   <widget class="QComboBox" name="selectedScientistSexComboBox">
                     <property name="minimumSize">
                      <size>
                       <width>0</width>
@@ -1116,20 +826,643 @@
                     </property>
                     <property name="maximumSize">
                      <size>
-                      <width>70</width>
+                      <width>16777215</width>
                       <height>16777215</height>
                      </size>
                     </property>
-                    <property name="text">
-                     <string/>
+                    <property name="toolTipDuration">
+                     <number>-3</number>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>Sex</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Female</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Male</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="selectedScientistYearOfBirthField">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>21</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777215</width>
+                      <height>16777215</height>
+                     </size>
                     </property>
                     <property name="placeholderText">
-                     <string>Year</string>
+                     <string>Year of birth</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QComboBox" name="selectedScientistComputerSearchTypeComboBox">
+                   <widget class="QLineEdit" name="selectedScientistYearOfDeathField">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>21</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777215</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="placeholderText">
+                     <string>Year of death</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_10">
+               <property name="spacing">
+                <number>8</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>4</number>
+               </property>
+               <property name="rightMargin">
+                <number>4</number>
+               </property>
+               <property name="bottomMargin">
+                <number>4</number>
+               </property>
+               <item>
+                <widget class="QPushButton" name="scientistChangePictureButton">
+                 <property name="minimumSize">
+                  <size>
+                   <width>150</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>150</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Change Picture</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QPushButton" name="selectedScientistDeleteScientistPushButton">
+                 <property name="text">
+                  <string>Delete Scientist</string>
+                 </property>
+                </widget>
+               </item>
+               <item alignment="Qt::AlignRight">
+                <widget class="QPushButton" name="selectedScientistOKPushButton">
+                 <property name="maximumSize">
+                  <size>
+                   <width>80</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="focusPolicy">
+                  <enum>Qt::ClickFocus</enum>
+                 </property>
+                 <property name="text">
+                  <string>OK</string>
+                 </property>
+                 <property name="autoDefault">
+                  <bool>false</bool>
+                 </property>
+                 <property name="default">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSplitter" name="splitter">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="childrenCollapsible">
+           <bool>false</bool>
+          </property>
+          <widget class="QGroupBox" name="selectedScientistFoundComputerCaption">
+           <property name="title">
+            <string>The Scientist has used these computers</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <property name="spacing">
+             <number>6</number>
+            </property>
+            <property name="leftMargin">
+             <number>4</number>
+            </property>
+            <property name="topMargin">
+             <number>4</number>
+            </property>
+            <property name="rightMargin">
+             <number>4</number>
+            </property>
+            <property name="bottomMargin">
+             <number>4</number>
+            </property>
+            <item>
+             <widget class="QTableView" name="selectedScientistComputerTable"/>
+            </item>
+            <item>
+             <widget class="QWidget" name="selectedScientistRemoAddButonWidget" native="true">
+              <layout class="QHBoxLayout" name="horizontalLayout_5">
+               <property name="spacing">
+                <number>8</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <spacer name="horizontalSpacer_3">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>381</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QPushButton" name="selectedScientistRemoveSelectedComputerPushButton">
+                 <property name="text">
+                  <string>Remove Selected Computer</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="selectedScientistAddComputer">
+                 <property name="maximumSize">
+                  <size>
+                   <width>140</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Add Computers</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QGroupBox" name="selectedScientistComputerSearch">
+           <property name="title">
+            <string>Computer Search  -  Select the one you want to add to the scientist</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <property name="spacing">
+             <number>5</number>
+            </property>
+            <property name="leftMargin">
+             <number>4</number>
+            </property>
+            <property name="topMargin">
+             <number>4</number>
+            </property>
+            <property name="rightMargin">
+             <number>4</number>
+            </property>
+            <property name="bottomMargin">
+             <number>4</number>
+            </property>
+            <item>
+             <widget class="QTableView" name="selectedScientistComputerSearchTableView">
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Sunken</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="selectedScientistComputerSearchButtonRow">
+              <property name="spacing">
+               <number>8</number>
+              </property>
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QLineEdit" name="selectedScientistComputerSearchNameField">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>21</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="placeholderText">
+                 <string>Name</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="selectedScientistComputerSearchBuiltYearField">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>21</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>70</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="placeholderText">
+                 <string>Year</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="selectedScientistComputerSearchTypeComboBox">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>21</height>
+                 </size>
+                </property>
+                <item>
+                 <property name="text">
+                  <string>Type</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Electronic</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Mecanic</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Transistor</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Electromechanical</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="selectedScientistComputerSearchWasItBuiltComboBox">
+                <property name="minimumSize">
+                 <size>
+                  <width>120</width>
+                  <height>21</height>
+                 </size>
+                </property>
+                <item>
+                 <property name="text">
+                  <string>Was it buit</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>It was built</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>It was not built</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="selectedScientistComputerSearcAddpushButton">
+                <property name="text">
+                 <string>Add Selected</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="selectedScientistComputerSearchDoneButton">
+                <property name="text">
+                 <string>Done</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="SelectedComputer">
+       <layout class="QVBoxLayout" name="verticalLayout_13">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QGroupBox" name="computerSelectedInfoPane">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>242</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>242</height>
+           </size>
+          </property>
+          <property name="title">
+           <string>Computer info -  Edit</string>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_6">
+           <property name="spacing">
+            <number>4</number>
+           </property>
+           <property name="leftMargin">
+            <number>4</number>
+           </property>
+           <property name="topMargin">
+            <number>4</number>
+           </property>
+           <property name="rightMargin">
+            <number>4</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <layout class="QVBoxLayout" name="computerSelectedPicturePane" stretch="0">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="sizeConstraint">
+              <enum>QLayout::SetDefaultConstraint</enum>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>6</number>
+             </property>
+             <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+              <widget class="QGraphicsView" name="computerSelectedPicture">
+               <property name="minimumSize">
+                <size>
+                 <width>215</width>
+                 <height>215</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>215</width>
+                 <height>215</height>
+                </size>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Plain</enum>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="selectedComputerInfoLayout">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QGroupBox" name="computerSelectedNameGroupBox">
+               <property name="title">
+                <string>Name</string>
+               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_7">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
+                <property name="leftMargin">
+                 <number>3</number>
+                </property>
+                <property name="topMargin">
+                 <number>3</number>
+                </property>
+                <property name="rightMargin">
+                 <number>3</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>3</number>
+                </property>
+                <item>
+                 <widget class="QLineEdit" name="computerSelectedNameField">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>21</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="accessibleName">
+                   <string/>
+                  </property>
+                  <property name="placeholderText">
+                   <string>Name</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_8">
+               <property name="spacing">
+                <number>7</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QGroupBox" name="computerSelectedMiscGroupBox">
+                 <property name="minimumSize">
+                  <size>
+                   <width>145</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>145</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="title">
+                  <string>Discription</string>
+                 </property>
+                 <layout class="QVBoxLayout" name="verticalLayout_15">
+                  <property name="spacing">
+                   <number>7</number>
+                  </property>
+                  <property name="leftMargin">
+                   <number>3</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>3</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>3</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>3</number>
+                  </property>
+                  <item>
+                   <widget class="QLineEdit" name="computerSelectedComputerBuiltYearlineEdit">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>21</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777215</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="inputMask">
+                     <string/>
+                    </property>
+                    <property name="text">
+                     <string/>
+                    </property>
+                    <property name="maxLength">
+                     <number>4</number>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                    <property name="placeholderText">
+                     <string>Built year</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QComboBox" name="computerSelectedTypeComboBox">
                     <property name="minimumSize">
                      <size>
                       <width>0</width>
@@ -1158,112 +1491,88 @@
                     </item>
                     <item>
                      <property name="text">
-                      <string>Electromechanical</string>
+                      <string>Electromechanic</string>
                      </property>
                     </item>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QComboBox" name="selectedScientistComputerSearchWasItBuiltComboBox">
+                   <widget class="QComboBox" name="computerSelectedWasItBuiltComboBox">
                     <property name="minimumSize">
                      <size>
-                      <width>120</width>
+                      <width>0</width>
                       <height>21</height>
                      </size>
                     </property>
                     <item>
                      <property name="text">
-                      <string>Was it buit</string>
+                      <string>Was it built</string>
                      </property>
                     </item>
                     <item>
                      <property name="text">
-                      <string>It was built</string>
+                      <string>Was built</string>
                      </property>
                     </item>
                     <item>
                      <property name="text">
-                      <string>It was not built</string>
+                      <string>Was only theorized</string>
                      </property>
                     </item>
                    </widget>
                   </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QGroupBox" name="computerSelectedAboutGroupBox">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>111</height>
+                  </size>
+                 </property>
+                 <property name="title">
+                  <string>About</string>
+                 </property>
+                 <layout class="QHBoxLayout" name="horizontalLayout_9">
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
+                  <property name="leftMargin">
+                   <number>3</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>3</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>3</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>3</number>
+                  </property>
                   <item>
-                   <widget class="QPushButton" name="pushButton_2">
-                    <property name="text">
-                     <string>Add Selected</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="selectedScientistComputerSearchDoneButton">
-                    <property name="text">
-                     <string>Done</string>
+                   <widget class="QPlainTextEdit" name="computerSelectedAboutField">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>0</height>
+                     </size>
                     </property>
                    </widget>
                   </item>
                  </layout>
-                </item>
-               </layout>
-              </widget>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="SelectedComputer">
-       <layout class="QHBoxLayout" name="horizontalLayout_14">
-        <property name="spacing">
-         <number>0</number>
-        </property>
-        <item>
-         <widget class="QTabWidget" name="computerSelectedTab">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="currentIndex">
-           <number>0</number>
-          </property>
-          <widget class="QWidget" name="comTab">
-           <attribute name="title">
-            <string>Selected computer</string>
-           </attribute>
-           <layout class="QVBoxLayout" name="verticalLayout_7">
-            <property name="spacing">
-             <number>0</number>
-            </property>
-            <property name="bottomMargin">
-             <number>10</number>
-            </property>
-            <item>
-             <widget class="QGroupBox" name="computerSelectedInfoPane">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>242</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>16777215</width>
-                <height>242</height>
-               </size>
-              </property>
-              <property name="title">
-               <string>Computer info -  Edit</string>
-              </property>
-              <layout class="QHBoxLayout" name="horizontalLayout_6">
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_11">
                <property name="spacing">
-                <number>0</number>
+                <number>8</number>
                </property>
                <property name="leftMargin">
-                <number>4</number>
+                <number>0</number>
                </property>
                <property name="topMargin">
                 <number>4</number>
@@ -1272,610 +1581,308 @@
                 <number>4</number>
                </property>
                <property name="bottomMargin">
+                <number>4</number>
+               </property>
+               <item>
+                <widget class="QPushButton" name="computerSelectedChangePicturePushButton">
+                 <property name="minimumSize">
+                  <size>
+                   <width>150</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>150</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Change Picture</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer_2">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QPushButton" name="computerSelectedDeleteComputerPushButton">
+                 <property name="text">
+                  <string>Delete Computer</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="computerSelectedOKPushButton">
+                 <property name="maximumSize">
+                  <size>
+                   <width>80</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="focusPolicy">
+                  <enum>Qt::ClickFocus</enum>
+                 </property>
+                 <property name="text">
+                  <string>OK</string>
+                 </property>
+                 <property name="autoDefault">
+                  <bool>false</bool>
+                 </property>
+                 <property name="default">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSplitter" name="splitter_2">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <widget class="QGroupBox" name="computerSelectedFoundScientistCaption">
+           <property name="title">
+            <string>The computer has been used by these scientists</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_16">
+            <property name="spacing">
+             <number>6</number>
+            </property>
+            <property name="leftMargin">
+             <number>4</number>
+            </property>
+            <property name="topMargin">
+             <number>4</number>
+            </property>
+            <property name="rightMargin">
+             <number>4</number>
+            </property>
+            <property name="bottomMargin">
+             <number>4</number>
+            </property>
+            <item>
+             <widget class="QTableView" name="computerSelectedScientistTable"/>
+            </item>
+            <item>
+             <widget class="QWidget" name="computerSelectedRemoAddButonWidget" native="true">
+              <layout class="QHBoxLayout" name="horizontalLayout_12">
+               <property name="spacing">
+                <number>8</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
                 <number>0</number>
                </property>
                <item>
-                <layout class="QVBoxLayout" name="computerSelectedPicturePane" stretch="0,0">
-                 <property name="spacing">
-                  <number>0</number>
+                <spacer name="horizontalSpacer_4">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
                  </property>
-                 <property name="sizeConstraint">
-                  <enum>QLayout::SetDefaultConstraint</enum>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
                  </property>
-                 <property name="leftMargin">
-                  <number>0</number>
-                 </property>
-                 <property name="topMargin">
-                  <number>0</number>
-                 </property>
-                 <property name="rightMargin">
-                  <number>0</number>
-                 </property>
-                 <property name="bottomMargin">
-                  <number>6</number>
-                 </property>
-                 <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-                  <widget class="QGraphicsView" name="computerSelectedPicture">
-                   <property name="minimumSize">
-                    <size>
-                     <width>140</width>
-                     <height>180</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>140</width>
-                     <height>180</height>
-                    </size>
-                   </property>
-                  </widget>
-                 </item>
-                 <item alignment="Qt::AlignHCenter">
-                  <widget class="QPushButton" name="computerSelectedChangePicturePushButton">
-                   <property name="minimumSize">
-                    <size>
-                     <width>150</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>150</width>
-                     <height>16777215</height>
-                    </size>
-                   </property>
-                   <property name="text">
-                    <string>Change Picture</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
+                </spacer>
                </item>
                <item>
-                <layout class="QVBoxLayout" name="selectedComputerInfoLayout">
-                 <property name="spacing">
-                  <number>0</number>
+                <widget class="QPushButton" name="computerSelectedScientistSelectedRemoveSelectedButton">
+                 <property name="text">
+                  <string>Remove Selected Scientist</string>
                  </property>
-                 <property name="leftMargin">
-                  <number>4</number>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="computerSelectedAddScientist">
+                 <property name="maximumSize">
+                  <size>
+                   <width>140</width>
+                   <height>16777215</height>
+                  </size>
                  </property>
-                 <property name="topMargin">
-                  <number>4</number>
+                 <property name="text">
+                  <string>Add a scientists</string>
                  </property>
-                 <property name="rightMargin">
-                  <number>4</number>
-                 </property>
-                 <property name="bottomMargin">
-                  <number>4</number>
-                 </property>
-                 <item>
-                  <widget class="QGroupBox" name="computerSelectedNameGroupBox">
-                   <property name="title">
-                    <string>Name</string>
-                   </property>
-                   <layout class="QHBoxLayout" name="horizontalLayout_7">
-                    <property name="spacing">
-                     <number>0</number>
-                    </property>
-                    <property name="leftMargin">
-                     <number>3</number>
-                    </property>
-                    <property name="topMargin">
-                     <number>3</number>
-                    </property>
-                    <property name="rightMargin">
-                     <number>3</number>
-                    </property>
-                    <property name="bottomMargin">
-                     <number>3</number>
-                    </property>
-                    <item>
-                     <widget class="QLineEdit" name="computerSelectedNameField">
-                      <property name="minimumSize">
-                       <size>
-                        <width>0</width>
-                        <height>21</height>
-                       </size>
-                      </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>16777215</width>
-                        <height>16777215</height>
-                       </size>
-                      </property>
-                      <property name="accessibleName">
-                       <string/>
-                      </property>
-                      <property name="placeholderText">
-                       <string>Name</string>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </widget>
-                 </item>
-                 <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_8">
-                   <property name="spacing">
-                    <number>7</number>
-                   </property>
-                   <property name="leftMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="topMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="rightMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="bottomMargin">
-                    <number>0</number>
-                   </property>
-                   <item>
-                    <widget class="QGroupBox" name="computerSelectedMiscGroupBox">
-                     <property name="minimumSize">
-                      <size>
-                       <width>145</width>
-                       <height>0</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>145</width>
-                       <height>16777215</height>
-                      </size>
-                     </property>
-                     <property name="title">
-                      <string>Discription</string>
-                     </property>
-                     <layout class="QVBoxLayout" name="verticalLayout_15">
-                      <property name="spacing">
-                       <number>7</number>
-                      </property>
-                      <property name="leftMargin">
-                       <number>3</number>
-                      </property>
-                      <property name="topMargin">
-                       <number>3</number>
-                      </property>
-                      <property name="rightMargin">
-                       <number>3</number>
-                      </property>
-                      <property name="bottomMargin">
-                       <number>3</number>
-                      </property>
-                      <item>
-                       <widget class="QLineEdit" name="computerSelectedComputerBuiltYearlineEdit">
-                        <property name="minimumSize">
-                         <size>
-                          <width>0</width>
-                          <height>21</height>
-                         </size>
-                        </property>
-                        <property name="maximumSize">
-                         <size>
-                          <width>16777215</width>
-                          <height>16777215</height>
-                         </size>
-                        </property>
-                        <property name="inputMask">
-                         <string/>
-                        </property>
-                        <property name="text">
-                         <string/>
-                        </property>
-                        <property name="maxLength">
-                         <number>4</number>
-                        </property>
-                        <property name="alignment">
-                         <set>Qt::AlignCenter</set>
-                        </property>
-                        <property name="placeholderText">
-                         <string>Built year</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QComboBox" name="computerSelectedTypeComboBox">
-                        <property name="minimumSize">
-                         <size>
-                          <width>0</width>
-                          <height>21</height>
-                         </size>
-                        </property>
-                        <item>
-                         <property name="text">
-                          <string>Type</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string>Electronic</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string>Mecanic</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string>Transistor</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string>Electromechanic</string>
-                         </property>
-                        </item>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QComboBox" name="computerSelectedWasItBuiltComboBox">
-                        <property name="minimumSize">
-                         <size>
-                          <width>0</width>
-                          <height>21</height>
-                         </size>
-                        </property>
-                        <item>
-                         <property name="text">
-                          <string>Was it built</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string>Was built</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string>Was only theorized</string>
-                         </property>
-                        </item>
-                       </widget>
-                      </item>
-                     </layout>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QGroupBox" name="computerSelectedAboutGroupBox">
-                     <property name="minimumSize">
-                      <size>
-                       <width>0</width>
-                       <height>111</height>
-                      </size>
-                     </property>
-                     <property name="title">
-                      <string>About</string>
-                     </property>
-                     <layout class="QHBoxLayout" name="horizontalLayout_9">
-                      <property name="spacing">
-                       <number>0</number>
-                      </property>
-                      <property name="leftMargin">
-                       <number>3</number>
-                      </property>
-                      <property name="topMargin">
-                       <number>3</number>
-                      </property>
-                      <property name="rightMargin">
-                       <number>3</number>
-                      </property>
-                      <property name="bottomMargin">
-                       <number>3</number>
-                      </property>
-                      <item>
-                       <widget class="QPlainTextEdit" name="computerSelectedAboutField">
-                        <property name="minimumSize">
-                         <size>
-                          <width>0</width>
-                          <height>0</height>
-                         </size>
-                        </property>
-                       </widget>
-                      </item>
-                     </layout>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_11">
-                   <property name="spacing">
-                    <number>8</number>
-                   </property>
-                   <property name="leftMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="topMargin">
-                    <number>0</number>
-                   </property>
-                   <item>
-                    <spacer name="horizontalSpacer_2">
-                     <property name="orientation">
-                      <enum>Qt::Horizontal</enum>
-                     </property>
-                     <property name="sizeHint" stdset="0">
-                      <size>
-                       <width>40</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                    </spacer>
-                   </item>
-                   <item>
-                    <widget class="QPushButton" name="computerSelectedDeleteComputerPushButton">
-                     <property name="text">
-                      <string>Delete Computer</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QPushButton" name="computerSelectedOKPushButton">
-                     <property name="maximumSize">
-                      <size>
-                       <width>80</width>
-                       <height>16777215</height>
-                      </size>
-                     </property>
-                     <property name="focusPolicy">
-                      <enum>Qt::ClickFocus</enum>
-                     </property>
-                     <property name="text">
-                      <string>OK</string>
-                     </property>
-                     <property name="autoDefault">
-                      <bool>false</bool>
-                     </property>
-                     <property name="default">
-                      <bool>true</bool>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                </layout>
+                </widget>
                </item>
               </layout>
              </widget>
             </item>
+           </layout>
+          </widget>
+          <widget class="QGroupBox" name="computerSelectedScientistSearch">
+           <property name="title">
+            <string>Scientist search  -  Select the one you want to add to the computer</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_14">
+            <property name="spacing">
+             <number>5</number>
+            </property>
+            <property name="leftMargin">
+             <number>4</number>
+            </property>
+            <property name="topMargin">
+             <number>4</number>
+            </property>
+            <property name="rightMargin">
+             <number>4</number>
+            </property>
+            <property name="bottomMargin">
+             <number>4</number>
+            </property>
             <item>
-             <widget class="QSplitter" name="splitter_2">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
+             <widget class="QTableView" name="computerSelectedScientistSearchTableView"/>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="computerSelectedScientistSearchButtonRow">
+              <property name="spacing">
+               <number>7</number>
               </property>
-              <widget class="QGroupBox" name="computerSelectedFoundScientistCaption">
-               <property name="title">
-                <string>The computer has been used by these scientists</string>
-               </property>
-               <layout class="QVBoxLayout" name="verticalLayout_16">
-                <property name="spacing">
-                 <number>6</number>
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QLineEdit" name="computerSelectedScientistSearchNameField">
+                <property name="minimumSize">
+                 <size>
+                  <width>160</width>
+                  <height>21</height>
+                 </size>
                 </property>
-                <property name="leftMargin">
-                 <number>4</number>
+                <property name="maximumSize">
+                 <size>
+                  <width>600</width>
+                  <height>16777215</height>
+                 </size>
                 </property>
-                <property name="topMargin">
-                 <number>4</number>
+                <property name="accessibleName">
+                 <string/>
                 </property>
-                <property name="rightMargin">
-                 <number>4</number>
+                <property name="placeholderText">
+                 <string>Name</string>
                 </property>
-                <property name="bottomMargin">
-                 <number>4</number>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="computerSelectedScientistSearchsexComboBox">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>21</height>
+                 </size>
                 </property>
-                <item>
-                 <widget class="QTableView" name="computerSelectedScientistTable"/>
-                </item>
-                <item>
-                 <widget class="QWidget" name="computerSelectedRemoAddButonWidget" native="true">
-                  <layout class="QHBoxLayout" name="horizontalLayout_12">
-                   <property name="spacing">
-                    <number>8</number>
-                   </property>
-                   <property name="leftMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="topMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="rightMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="bottomMargin">
-                    <number>0</number>
-                   </property>
-                   <item>
-                    <spacer name="horizontalSpacer_4">
-                     <property name="orientation">
-                      <enum>Qt::Horizontal</enum>
-                     </property>
-                     <property name="sizeHint" stdset="0">
-                      <size>
-                       <width>40</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                    </spacer>
-                   </item>
-                   <item>
-                    <widget class="QPushButton" name="computerSelectedScientistSelectedRemoveSelectedButton">
-                     <property name="text">
-                      <string>Remove Selected Scientist</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QPushButton" name="computerSelectedAddScientist">
-                     <property name="maximumSize">
-                      <size>
-                       <width>140</width>
-                       <height>16777215</height>
-                      </size>
-                     </property>
-                     <property name="text">
-                      <string>Add a scientists</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </widget>
-                </item>
-               </layout>
-              </widget>
-              <widget class="QGroupBox" name="computerSelectedScientistSearch">
-               <property name="title">
-                <string>Scientist search  -  Select the one you want to add to the computer</string>
-               </property>
-               <layout class="QVBoxLayout" name="verticalLayout_14">
-                <property name="spacing">
-                 <number>5</number>
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>16777215</height>
+                 </size>
                 </property>
-                <property name="leftMargin">
-                 <number>4</number>
-                </property>
-                <property name="topMargin">
-                 <number>4</number>
-                </property>
-                <property name="rightMargin">
-                 <number>4</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>4</number>
+                <property name="toolTipDuration">
+                 <number>-3</number>
                 </property>
                 <item>
-                 <widget class="QTableView" name="computerSelectedScientistSearchTableView"/>
+                 <property name="text">
+                  <string>Sex</string>
+                 </property>
                 </item>
                 <item>
-                 <layout class="QHBoxLayout" name="computerSelectedScientistSearchButtonRow">
-                  <property name="spacing">
-                   <number>7</number>
-                  </property>
-                  <property name="leftMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="topMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="rightMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="bottomMargin">
-                   <number>0</number>
-                  </property>
-                  <item>
-                   <widget class="QLineEdit" name="computerSelectedScientistSearchNameField">
-                    <property name="minimumSize">
-                     <size>
-                      <width>160</width>
-                      <height>21</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>600</width>
-                      <height>16777215</height>
-                     </size>
-                    </property>
-                    <property name="accessibleName">
-                     <string/>
-                    </property>
-                    <property name="placeholderText">
-                     <string>Name</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QComboBox" name="computerSelectedScientistSearchsexComboBox">
-                    <property name="minimumSize">
-                     <size>
-                      <width>0</width>
-                      <height>21</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>80</width>
-                      <height>16777215</height>
-                     </size>
-                    </property>
-                    <property name="toolTipDuration">
-                     <number>-3</number>
-                    </property>
-                    <item>
-                     <property name="text">
-                      <string>Sex</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>Female</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>Male</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="computerSelectedScientistSearchyearOfBirthField">
-                    <property name="minimumSize">
-                     <size>
-                      <width>0</width>
-                      <height>21</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>90</width>
-                      <height>16777215</height>
-                     </size>
-                    </property>
-                    <property name="alignment">
-                     <set>Qt::AlignCenter</set>
-                    </property>
-                    <property name="placeholderText">
-                     <string>Year of birth</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="computerSelectedScientistSearchyearOfDeathField">
-                    <property name="minimumSize">
-                     <size>
-                      <width>0</width>
-                      <height>21</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>90</width>
-                      <height>16777215</height>
-                     </size>
-                    </property>
-                    <property name="alignment">
-                     <set>Qt::AlignCenter</set>
-                    </property>
-                    <property name="placeholderText">
-                     <string>Year of death</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="computerSelectedScientistSearchDoneButton">
-                    <property name="text">
-                     <string>Done</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
+                 <property name="text">
+                  <string>Female</string>
+                 </property>
                 </item>
-               </layout>
-              </widget>
-             </widget>
+                <item>
+                 <property name="text">
+                  <string>Male</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="computerSelectedScientistSearchyearOfBirthField">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>21</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>90</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+                <property name="placeholderText">
+                 <string>Year of birth</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="computerSelectedScientistSearchyearOfDeathField">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>21</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>90</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+                <property name="placeholderText">
+                 <string>Year of death</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="computerSelectedScientistSearchDoneButton">
+                <property name="text">
+                 <string>Done</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
            </layout>
           </widget>
@@ -1887,7 +1894,11 @@
     </item>
    </layout>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QStatusBar" name="statusBar">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
@@ -1906,13 +1917,11 @@
   <tabstop>computerAboutlineEdit</tabstop>
   <tabstop>addComputerPushButton</tabstop>
   <tabstop>clearComputerPushButton</tabstop>
-  <tabstop>scientistSelectedTab</tabstop>
   <tabstop>selectedScientistNameField</tabstop>
   <tabstop>selectedScientistAboutField</tabstop>
   <tabstop>selectedScientistSexComboBox</tabstop>
   <tabstop>selectedScientistYearOfBirthField</tabstop>
   <tabstop>selectedScientistYearOfDeathField</tabstop>
-  <tabstop>scientistChangePictureButton</tabstop>
   <tabstop>selectedScientistDeleteScientistPushButton</tabstop>
   <tabstop>scientistPicture</tabstop>
   <tabstop>selectedScientistComputerTable</tabstop>
@@ -1921,14 +1930,12 @@
   <tabstop>selectedScientistComputerSearchTypeComboBox</tabstop>
   <tabstop>selectedScientistComputerSearchWasItBuiltComboBox</tabstop>
   <tabstop>selectedScientistComputerSearchDoneButton</tabstop>
-  <tabstop>computerSelectedTab</tabstop>
   <tabstop>computerSelectedNameField</tabstop>
   <tabstop>computerSelectedComputerBuiltYearlineEdit</tabstop>
   <tabstop>computerSelectedTypeComboBox</tabstop>
   <tabstop>computerSelectedWasItBuiltComboBox</tabstop>
   <tabstop>computerSelectedAboutField</tabstop>
   <tabstop>computerSelectedDeleteComputerPushButton</tabstop>
-  <tabstop>computerSelectedChangePicturePushButton</tabstop>
   <tabstop>computerSelectedPicture</tabstop>
   <tabstop>computerSelectedScientistTable</tabstop>
   <tabstop>computerSelectedScientistSearchNameField</tabstop>

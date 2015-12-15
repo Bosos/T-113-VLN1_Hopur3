@@ -122,15 +122,9 @@ void DataManager::storeScientistPicture(QString fileName, int scientistId)
 
     QImage image(fileName);
 
-//        if(image.isNull())
-//        {
-//            QMessageBox::information(this,"Image Viewer","Error Displaying image");
-//            return;
-//        }
-
     QGraphicsPixmapItem* item = new QGraphicsPixmapItem(QPixmap::fromImage(image));
-    QRect rect(0,0,138,178);
-    item->setPixmap(item->pixmap().scaled(138,178,Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
+    QRect rect(0,0,215,215);
+    item->setPixmap(item->pixmap().scaled(215,215,Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
     item->setPixmap(item->pixmap().copy(rect));
 
     QByteArray inByteArray;
@@ -150,6 +144,47 @@ QPixmap DataManager::getScientistPicture(int scientistId)
 {
     query.prepare("SELECT imagedata from imgTableScientist WHERE scientistID = :sciID");
     query.bindValue( ":sciID", scientistId );
+    qDebug() << query.lastQuery();
+
+    if(!query.exec()){ qDebug() << "Error getting image from table:\n" << query.lastError(); }
+
+    query.first();
+
+    QByteArray outByteArray = query.value( 0 ).toByteArray();
+    QPixmap outPixmap = QPixmap();
+    outPixmap.loadFromData( outByteArray );
+
+    return outPixmap;
+}
+
+void DataManager::storeComputerPicture(QString fileName, int computerId)
+{
+    if(fileName.isEmpty()) { return; }
+
+    QImage image(fileName);
+
+    QGraphicsPixmapItem* item = new QGraphicsPixmapItem(QPixmap::fromImage(image));
+    QRect rect(0,0,215,215);
+    item->setPixmap(item->pixmap().scaled(215,215,Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
+    item->setPixmap(item->pixmap().copy(rect));
+
+    QByteArray inByteArray;
+    QBuffer inBuffer( &inByteArray );
+    inBuffer.open( QIODevice::WriteOnly );
+    item->pixmap().save( &inBuffer, "PNG" ); // write inPixmap into inByteArray in PNG format
+    query.clear();
+    query.prepare( "INSERT OR REPLACE INTO imgTableComputer (computerID, filename, imagedata)"
+                   " VALUES (:computerID, 'profile.png', :imageData)" );
+    query.bindValue( ":computerID", computerId );
+    query.bindValue( ":imageData", inByteArray );
+    qDebug() << query.lastQuery();
+    if(!query.exec()){ qDebug() << "Error inserting image into table:\n" << query.lastError();}
+}
+
+QPixmap DataManager::getComputerPicture(int computerId)
+{
+    query.prepare("SELECT imagedata from imgTableComputer WHERE computerID = :computerID");
+    query.bindValue( ":computerID", computerId );
     qDebug() << query.lastQuery();
 
     if(!query.exec()){ qDebug() << "Error getting image from table:\n" << query.lastError(); }
@@ -207,6 +242,13 @@ void DataManager::initializeTables()
                " filename TEXT,"
                " imagedata BLOB,"
                " CONSTRAINT onePicture UNIQUE (scientistID))"
+               );
+
+    query.exec("CREATE TABLE IF NOT EXISTS imgTableComputer ("
+               " computerID INT NOT NULL REFERENCES computers(ID) ON DELETE CASCADE,"
+               " filename TEXT,"
+               " imagedata BLOB,"
+               " CONSTRAINT onePicture UNIQUE (computerID))"
                );
 
     query.exec("INSERT OR REPLACE INTO sex VALUES ('F', 'Female')");
@@ -338,8 +380,13 @@ QSqlQueryModel* DataManager::searchComputerToScientist(int id)
     ss << id;
     string strID = ss.str();
 
-    string search = "SELECT c.ID, c.name, c.type, c.buildyear, c.wasbuilt, c.about"
-                    " FROM computers c JOIN users u ON u.computerID = c.ID"
+    string search = "SELECT c.ID, c.Name, p.type AS Type, c.Buildyear AS 'Build year',"
+                    " CASE c.wasbuilt WHEN 1 THEN 'Yes'"
+                    " ELSE 'No'"
+                    " END AS 'Was it built?', c.about"
+                    " FROM computers c"
+                    " JOIN users u ON u.computerID = c.ID"
+                    " JOIN pctype p ON p.ID = c.type"
                     " WHERE u.scientistID = '" + strID + "'";
 
     QString sci = search.c_str();
@@ -348,4 +395,34 @@ QSqlQueryModel* DataManager::searchComputerToScientist(int id)
     model->setQuery(*query);
 
     return model;
+}
+
+/*!
+ * \brief DataManager::addUser
+ * \param userId
+ * \param computerId
+ * Adds a connection between a scientist and a computer,
+ * computer owned by scientist\scientist owned a computer
+ */
+void DataManager::addCSRelation(int userId, int computerId)
+{
+    string newType = "INSERT OR REPLACE INTO users (scientistID,computerID) VALUES ('"
+            + to_string(userId) + "','"
+            + to_string(computerId) + "' )";
+
+    query.exec(newType.c_str());
+    db.commit();
+}
+
+/*!
+ * \brief DataManager::removeCSRelation
+ * Deletes the relation between the id's selected
+ */
+void DataManager::removeCSRelation(int userId, int computerId)
+{
+    string deleteUser = "DELETE FROM users"
+                        " WHERE scientistID = " + to_string(userId) +
+                        " AND computerID = " + to_string(computerId);
+    query.exec(deleteUser.c_str());
+    db.commit();
 }

@@ -28,14 +28,14 @@ private slots:
     void on_yearOfBirthField_textEdited();
     void on_yearOfDeathField_textEdited();
     void on_scientistAboutField_textChanged();
-    void on_addScientistPushButton_released();
+    void on_addScientistPushButton_clicked();
     void on_foundScientistTableView_clicked(const QModelIndex &index);
-    void on_clearScientistPushButton_released();
-    void on_selectedScientistAddComputer_released();
+    void on_clearScientistPushButton_clicked();
+    void on_selectedScientistAddComputer_clicked();
     void on_selectedScientistDeleteScientistPushButton_clicked();
     void on_selectedScientistComputerSearchDoneButton_clicked();
     void on_scientistChangePictureButton_clicked();
-    void on_computerSelectedAddScientist_released();
+    void on_computerSelectedAddScientist_clicked();
     void on_computerSelectedOKPushButton_clicked();
     void on_foundScientistTableView_doubleClicked(const QModelIndex &index);
     void on_editScientistpushButton_clicked();
@@ -45,10 +45,10 @@ private slots:
     void on_computerSearchWasItBuiltComboBox_activated();
     void on_clearComputerPushButton_clicked();
     void on_foundComputersTableView_doubleClicked(const QModelIndex &index);
-    void on_addComputerPushButton_released();
-    void on_computerSelectedDeleteComputerPushButton_released();
+    void on_addComputerPushButton_clicked();
+    void on_computerSelectedDeleteComputerPushButton_clicked();
     void on_registeredScientists_clicked(const QModelIndex &index);
-    void on_pushButton_released();
+    void on_pushButton_clicked();
     void on_registeredComputers_clicked(const QModelIndex &index);
     void on_headTab_tabBarClicked(int index);
 
@@ -58,12 +58,27 @@ private slots:
 
     void on_selectedScientistComputerSearchBuiltYearField_textEdited();
 
-    void on_selectedScientistComputerSearchTypeComboBox_currentIndexChanged(int index);
+    void on_selectedScientistComputerSearchTypeComboBox_currentIndexChanged();
+
+    void on_selectedScientistComputerSearcAddpushButton_clicked();
+
+    void on_selectedScientistComputerSearchTableView_clicked(const QModelIndex &index);
+
+    void on_selectedScientistComputerTable_clicked(const QModelIndex &index);
+
+    void on_selectedScientistRemoveSelectedComputerPushButton_clicked();
+
+    void on_selectedScientistComputerSearchWasItBuiltComboBox_currentIndexChanged();
+
+    void on_foundComputersTableView_clicked(const QModelIndex &index);
+
+    void on_computerSelectedChangePicturePushButton_clicked();
 
 private:
     Ui::MainWindow *ui;
     Service* serviceMan;
-    int currentlySelectedID;
+    int currentlySelectedUserID = 1;
+    int currentlySelectedComputerID = 1;
     void updateScientist();
     void updateScientistProfilePicture();
     void updateScinetistUsedComputers();
@@ -76,11 +91,10 @@ private:
     ComputerSearch getComputerFromInput();
     void updateScientistsWhoUsedComputer();
     void searchScientistsToComputer(int id);
-
+    void updateComputerProfilePicture();
     void updateScientistUsers(int id);
     void updateComputerUsers(int id);
-    int currentlySelectedUserID;
-
+    int currentlySelectedUserIDForUsers;
 };
 
 #endif // MAINWINDOW_H

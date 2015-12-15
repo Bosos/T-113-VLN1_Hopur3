@@ -104,3 +104,23 @@ QSqlQueryModel* Service::searchComputerToScientist(int id)
 {
     return dataMan->searchComputerToScientist(id);
 }
+
+void Service::addCSRelation(int userId, int computerId)
+{
+    return dataMan->addCSRelation(userId, computerId);
+}
+
+void Service::removeCSRelation(int userId, int computerId)
+{
+    return dataMan->removeCSRelation(userId, computerId);
+}
+
+QPixmap Service::getComputerPicture(int computerId)
+{
+    return dataMan->getComputerPicture(computerId);
+}
+
+void Service::storeComputerPicture(QString fileName, int currentlySelectedComputerID)
+{
+    return dataMan->storeComputerPicture(fileName, currentlySelectedComputerID);
+}
