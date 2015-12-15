@@ -48,7 +48,7 @@
     <item>
      <widget class="QStackedWidget" name="windowSwitcher">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="Home">
        <layout class="QVBoxLayout" name="verticalLayout_17">
@@ -58,7 +58,7 @@
         <item>
          <widget class="QTabWidget" name="headTab">
           <property name="currentIndex">
-           <number>2</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="scientistTab">
            <attribute name="title">
@@ -1198,17 +1198,17 @@
                 </property>
                 <item>
                  <property name="text">
-                  <string>Was it buit</string>
+                  <string>Was it Built?</string>
                  </property>
                 </item>
                 <item>
                  <property name="text">
-                  <string>It was built</string>
+                  <string>Built</string>
                  </property>
                 </item>
                 <item>
                  <property name="text">
-                  <string>It was not built</string>
+                  <string>Not Built</string>
                  </property>
                 </item>
                </widget>
