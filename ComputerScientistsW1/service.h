@@ -25,7 +25,7 @@ public:
     void deleteScientist(int id);
     bool isScientistSearchAvalidScientist(ScientistSearch scientist);
     void storeScientistPicture(QString fileName, int currentlySelectedID);
-    bool scientistExists(ScientistSearch sci);
+    vector<QString> scientistExists(ScientistSearch sci);
 
     QSqlQueryModel* search(ScientistSearch scientist);
     QPixmap getScientistPicture(int scientistId);

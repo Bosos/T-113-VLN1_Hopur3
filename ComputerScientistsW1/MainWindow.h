@@ -74,6 +74,8 @@ private slots:
 
     void on_computerSelectedChangePicturePushButton_clicked();
 
+    void on_selectedScientistComputerSearchTableView_doubleClicked(const QModelIndex &index);
+
 private:
     Ui::MainWindow *ui;
     Service* serviceMan;

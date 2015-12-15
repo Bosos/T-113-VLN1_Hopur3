@@ -12,10 +12,18 @@ QString ScientistSearch::getSex()
     return this->sex;
 }
 
-SearchCriteria::SearchCriteria()
+int ScientistSearch::getAge()
 {
-
+    if(death.toInt() != 0)
+    {
+        return death.toInt() - birth.toInt();
+    }
+    else
+    {
+        return 2015 - birth.toInt();
+    }
 }
+//----------------
 
 void ComputerSearch::setType(int type)
 {

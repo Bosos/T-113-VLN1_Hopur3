@@ -430,23 +430,25 @@ void DataManager::removeCSRelation(int userId, int computerId)
     db.commit();
 }
 
-int DataManager::scientistExists(ScientistSearch scientist)
+vector<QString> DataManager::scientistExists(ScientistSearch scientist)
 {
-    QSqlQueryModel model;
-    int counter;
-
-    string search = "SELECT COUNT(*) AS 'count'"
+    vector<QString> message;
+    string search = "SELECT COUNT(*) AS count"
                     " FROM scientists"
-                    " WHERE name LIKE '%" + scientist.name.toStdString() + "%'"
-                    " AND sex LIKE '%" + scientist.getSex().toStdString() + "%'"
-                    " AND birth LIKE '%" + scientist.birth.toStdString() + "%'"
-                    " AND IFNULL (death,'') LIKE '%" + scientist.death.toStdString() + "%'";
+                    " WHERE name = '" + scientist.name.toStdString() + "'" +
+                    " AND sex = '" + scientist.getSex().toStdString() + "'" +
+                    " AND birth = " + scientist.birth.toStdString();
 
-    model.setQuery(search.c_str());
+    query.exec(search.c_str());
+    query.next();
 
-    counter = model.data(model.index(0, 0)).toInt();
+    if (scientist.getSex() == ""){message.push_back("Sex has to be chosen");}
+    if (scientist.getAge() > 120){message.push_back("Age should be realistic, nothing over 120 years old");}
+    if (scientist.birth == ""){message.push_back("Birth cant be empty");}
+    if (scientist.name == ""){message.push_back("Name cant be empty");}
+    if (query.value("count").toInt()) {message.push_back("Scientist seems to exist");}
 
-    return counter;
+    return message;
 }
 
 int DataManager::computerExists(ComputerSearch computer)

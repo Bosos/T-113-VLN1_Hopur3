@@ -7,10 +7,9 @@ Service::Service(string fileLocation)
 
 //Scientist
 
-bool Service::scientistExists(ScientistSearch sci)
+vector<QString> Service::scientistExists(ScientistSearch sci)
 {
-    if(dataMan->scientistExists(sci)) { return true; }
-    else { return false; }
+    return dataMan->scientistExists(sci);
 }
 
 void Service::addScientist(ScientistSearch scientistSearch)

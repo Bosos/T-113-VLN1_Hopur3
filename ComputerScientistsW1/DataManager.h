@@ -47,7 +47,7 @@ public:
     void removeCSRelation(int userId, int computerId);
 
 
-    int scientistExists(ScientistSearch scientist);
+    vector<QString> scientistExists(ScientistSearch scientist);
     int computerExists(ComputerSearch computer);
 
 

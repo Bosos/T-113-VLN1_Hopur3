@@ -188,10 +188,18 @@ void MainWindow::updateSelectedScientistComputerSearchTableView()
 void MainWindow::on_addScientistPushButton_clicked()
 {
     ScientistSearch sci = getScientistFromInput();
-    if(serviceMan->scientistExists(sci))
+    vector<QString> errMessages= serviceMan->scientistExists(sci);
+    if(errMessages.size() > 0)
     {
+        QString completeMessage;
+        while(errMessages.size() > 0)
+        {
+            completeMessage += " " + errMessages.back() + "\n";
+            errMessages.pop_back();
+        }
+        qDebug() << completeMessage;
         // Please find a better heading than 'Double Scientist'
-        int ret = QMessageBox::warning(this,"Double Scientist", "The scientist already exists", "OK" );
+        int ret = QMessageBox::warning(this,"Double Scientist", completeMessage, "OK" );
         if (ret) { return; }
     }
     else
@@ -558,4 +566,9 @@ void MainWindow::on_computerSelectedChangePicturePushButton_clicked()
 
     serviceMan->storeComputerPicture(fileName, currentlySelectedComputerID);
     updateComputerProfilePicture();
+}
+
+void MainWindow::on_selectedScientistComputerSearchTableView_doubleClicked(const QModelIndex &index)
+{
+    on_selectedScientistComputerSearcAddpushButton_clicked();
 }
