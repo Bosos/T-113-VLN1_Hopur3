@@ -237,6 +237,11 @@ void MainWindow::on_selectedScientistOKPushButton_clicked()
     ui->windowSwitcher->setCurrentIndex(0);
 }
 
+void MainWindow::on_scientistChangeCancelpushButton_clicked()
+{
+    ui->windowSwitcher->setCurrentIndex(0);
+}
+
 void MainWindow::on_computerSelectedOKPushButton_clicked()
 {
     ComputerSearch computerSearch;
@@ -250,6 +255,11 @@ void MainWindow::on_computerSelectedOKPushButton_clicked()
     serviceMan->updateComputerDatabase(computerSearch, currentlySelectedComputerID);
     updateComputer();
     ui->editSelectedComputerPushButton->setDisabled(true);
+    ui->windowSwitcher->setCurrentIndex(0);
+}
+
+void MainWindow::on_computerSelectedCancelPushButton_clicked()
+{
     ui->windowSwitcher->setCurrentIndex(0);
 }
 
