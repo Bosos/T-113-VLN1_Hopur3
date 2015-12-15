@@ -20,6 +20,19 @@ MainWindow::MainWindow(QWidget *parent) :
 
     updateScientist();
     updateComputer();
+
+    ui->foundScientistTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->foundScientistTableView->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->foundComputersTableView ->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->foundComputersTableView->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->selectedScientistComputerTable->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->selectedScientistComputerTable->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->selectedScientistComputerSearchTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->selectedScientistComputerSearchTableView->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->computerSelectedScientistTable->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->computerSelectedScientistTable->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->computerSelectedScientistSearchTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->computerSelectedScientistSearchTableView->setSelectionMode(QAbstractItemView::SingleSelection);
 }
 
 MainWindow::~MainWindow()
@@ -52,7 +65,7 @@ void MainWindow::on_scientistAboutField_textChanged()
     updateScientist();
 }
 
-void MainWindow::on_foundScientistTableView_clicked(const QModelIndex &index)
+void MainWindow::on_foundScientistTableView_pressed()
 {
     ui->editScientistpushButton->setDisabled(false);
 }
@@ -117,6 +130,7 @@ void MainWindow::updateScientist()
     ui->foundScientistTableView->setSortingEnabled(true);
     QSortFilterProxyModel *sqlproxy = new QSortFilterProxyModel(this);
     sqlproxy->setSourceModel(serviceMan->search(getScientistFromInput()));
+    sqlproxy->setSortCaseSensitivity(Qt::CaseInsensitive);
     ui->foundScientistTableView->setModel(sqlproxy);
     ui->foundScientistTableView->resizeColumnsToContents();
     ui->foundScientistTableView->horizontalHeader()->setStretchLastSection(true);
@@ -268,6 +282,7 @@ void MainWindow::updateComputer()
     ui->foundComputersTableView->setSortingEnabled(true);
     QSortFilterProxyModel *sqlproxy = new QSortFilterProxyModel(this);
     sqlproxy->setSourceModel(serviceMan->searchComputer(getComputerFromInput()));
+    sqlproxy->setSortCaseSensitivity(Qt::CaseInsensitive);
     ui->foundComputersTableView->setModel(sqlproxy);
     ui->foundComputersTableView->resizeColumnsToContents();
     ui->foundComputersTableView->horizontalHeader()->setStretchLastSection(true);
@@ -488,8 +503,7 @@ void MainWindow::on_selectedScientistRemoveSelectedComputerPushButton_clicked()
     updateScinetistUsedComputers();
 }
 
-
-void MainWindow::on_foundComputersTableView_clicked(const QModelIndex &index)
+void MainWindow::on_foundComputersTableView_pressed()
 {
     ui->editSelectedComputerPushButton->setDisabled(false);
 }
@@ -572,6 +586,7 @@ void MainWindow::on_computerSelectedScientistTable_clicked(const QModelIndex &in
 {
     int row = index.row();
     currentlySelectedUserID = index.sibling(row, 0).data().toInt();
+    on_computerSelectedScientistSearchDoneButton_clicked();
 }
 
 void MainWindow::on_computerSelectedScientistSelectedRemoveSelectedButton_clicked()

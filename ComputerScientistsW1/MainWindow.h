@@ -29,7 +29,6 @@ private slots:
     void on_yearOfDeathField_textEdited();
     void on_scientistAboutField_textChanged();
     void on_addScientistPushButton_clicked();
-    void on_foundScientistTableView_clicked(const QModelIndex &index);
     void on_clearScientistPushButton_clicked();
     void on_selectedScientistAddComputer_clicked();
     void on_selectedScientistDeleteScientistPushButton_clicked();
@@ -66,7 +65,7 @@ private slots:
 
     void on_selectedScientistComputerSearchWasItBuiltComboBox_currentIndexChanged();
 
-    void on_foundComputersTableView_clicked(const QModelIndex &index);
+    void on_foundComputersTableView_pressed();
 
     void on_computerSelectedChangePicturePushButton_clicked();
 
@@ -104,6 +103,8 @@ private slots:
     void on_scientistChangeCancelpushButton_clicked();
 
     void on_computerSelectedCancelPushButton_clicked();
+
+    void on_foundScientistTableView_pressed();
 
 private:
     Ui::MainWindow *ui;
