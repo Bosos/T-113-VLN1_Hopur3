@@ -76,6 +76,8 @@ private slots:
 
     void on_selectedScientistComputerSearchTableView_doubleClicked(const QModelIndex &index);
 
+    void on_selectedScientistComputerTable_doubleClicked(const QModelIndex &index);
+
 private:
     Ui::MainWindow *ui;
     Service* serviceMan;

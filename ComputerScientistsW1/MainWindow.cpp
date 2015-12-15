@@ -82,6 +82,7 @@ void MainWindow::on_foundScientistTableView_doubleClicked(const QModelIndex &ind
 
     ui->selectedScientistComputerSearch->setHidden(true);
     ui->selectedScientistRemoAddButonWidget->setHidden(false);
+    ui->splitter_4->setSizes({250,5000});
 
     updateScientistProfilePicture();
     updateScinetistUsedComputers();
@@ -126,7 +127,6 @@ void MainWindow::updateScientist()
 void MainWindow::updateScientistProfilePicture()
 {
     QPixmap profilePicture = serviceMan->getScientistPicture(currentlySelectedUserID);
-
     QGraphicsScene* scene = new QGraphicsScene();
     QGraphicsPixmapItem* item = new QGraphicsPixmapItem(profilePicture);
 
@@ -136,14 +136,12 @@ void MainWindow::updateScientistProfilePicture()
     ui->scientistPicture->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->scientistPicture->setScene(scene);
     ui->scientistPicture->setFixedWidth(setWidth(profilePicture.width()));
-
     ui->scientistPicture->show();
 }
 
 void MainWindow::updateComputerProfilePicture()
 {
     QPixmap profilePicture = serviceMan->getComputerPicture(currentlySelectedComputerID);
-
     QGraphicsScene* scene = new QGraphicsScene();
     QGraphicsPixmapItem* item = new QGraphicsPixmapItem(profilePicture);
 
@@ -153,7 +151,6 @@ void MainWindow::updateComputerProfilePicture()
     ui->computerSelectedPicture->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->computerSelectedPicture->setScene(scene);
     ui->computerSelectedPicture->setFixedWidth(setWidth(profilePicture.width()));
-
     ui->computerSelectedPicture->show();
 }
 
@@ -370,6 +367,7 @@ void MainWindow::on_foundComputersTableView_doubleClicked(const QModelIndex &ind
     ui->computerSelectedRemoAddButonWidget->setHidden(false);
 
     updateComputerProfilePicture();
+    ui->splitter_3->setSizes({250,5000});
 
     ui->windowSwitcher->setCurrentIndex(2);
 }
@@ -538,6 +536,11 @@ void MainWindow::on_selectedScientistComputerTable_clicked(const QModelIndex &in
     int row = index.row();
     currentlySelectedComputerID = index.sibling(row, 0).data().toInt();
     on_selectedScientistComputerSearchDoneButton_clicked();
+}
+
+void MainWindow::on_selectedScientistComputerTable_doubleClicked(const QModelIndex &index)
+{
+    on_foundComputersTableView_doubleClicked(index);
 }
 
 void MainWindow::on_selectedScientistRemoveSelectedComputerPushButton_clicked()
