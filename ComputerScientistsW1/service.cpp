@@ -6,7 +6,6 @@ Service::Service(string fileLocation)
 }
 
 //Scientist
-
 vector<QString> Service::scientistExists(ScientistSearch sci)
 {
     return dataMan->scientistExists(sci);
