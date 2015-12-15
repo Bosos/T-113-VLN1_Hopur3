@@ -48,7 +48,7 @@
     <item>
      <widget class="QStackedWidget" name="windowSwitcher">
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="Home">
        <layout class="QVBoxLayout" name="verticalLayout_17">
@@ -58,7 +58,7 @@
         <item>
          <widget class="QTabWidget" name="headTab">
           <property name="currentIndex">
-           <number>2</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="scientistTab">
            <attribute name="title">
@@ -585,13 +585,13 @@
           <property name="minimumSize">
            <size>
             <width>0</width>
-            <height>242</height>
+            <height>250</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
             <width>16777215</width>
-            <height>242</height>
+            <height>250</height>
            </size>
           </property>
           <property name="title">
@@ -611,57 +611,35 @@
             <number>4</number>
            </property>
            <property name="bottomMargin">
-            <number>0</number>
+            <number>4</number>
            </property>
            <item>
-            <layout class="QVBoxLayout" name="scientistPictureLayout" stretch="0">
-             <property name="spacing">
+            <widget class="QGraphicsView" name="scientistPicture">
+             <property name="minimumSize">
+              <size>
+               <width>215</width>
+               <height>215</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>215</width>
+               <height>215</height>
+              </size>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::NoFrame</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Plain</enum>
+             </property>
+             <property name="lineWidth">
               <number>0</number>
              </property>
-             <property name="sizeConstraint">
-              <enum>QLayout::SetMinimumSize</enum>
+             <property name="dragMode">
+              <enum>QGraphicsView::NoDrag</enum>
              </property>
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>6</number>
-             </property>
-             <item alignment="Qt::AlignHCenter|Qt::AlignBottom">
-              <widget class="QGraphicsView" name="scientistPicture">
-               <property name="minimumSize">
-                <size>
-                 <width>215</width>
-                 <height>215</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>215</width>
-                 <height>215</height>
-                </size>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::NoFrame</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Plain</enum>
-               </property>
-               <property name="lineWidth">
-                <number>0</number>
-               </property>
-               <property name="dragMode">
-                <enum>QGraphicsView::NoDrag</enum>
-               </property>
-              </widget>
-             </item>
-            </layout>
+            </widget>
            </item>
            <item>
             <layout class="QVBoxLayout" name="selectedScientistInfoLayout">
@@ -1245,13 +1223,13 @@
           <property name="minimumSize">
            <size>
             <width>0</width>
-            <height>242</height>
+            <height>250</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
             <width>16777215</width>
-            <height>242</height>
+            <height>250</height>
            </size>
           </property>
           <property name="title">
@@ -1271,51 +1249,29 @@
             <number>4</number>
            </property>
            <property name="bottomMargin">
-            <number>0</number>
+            <number>4</number>
            </property>
            <item>
-            <layout class="QVBoxLayout" name="computerSelectedPicturePane" stretch="0">
-             <property name="spacing">
-              <number>0</number>
+            <widget class="QGraphicsView" name="computerSelectedPicture">
+             <property name="minimumSize">
+              <size>
+               <width>215</width>
+               <height>215</height>
+              </size>
              </property>
-             <property name="sizeConstraint">
-              <enum>QLayout::SetDefaultConstraint</enum>
+             <property name="maximumSize">
+              <size>
+               <width>215</width>
+               <height>215</height>
+              </size>
              </property>
-             <property name="leftMargin">
-              <number>0</number>
+             <property name="frameShape">
+              <enum>QFrame::NoFrame</enum>
              </property>
-             <property name="topMargin">
-              <number>0</number>
+             <property name="frameShadow">
+              <enum>QFrame::Plain</enum>
              </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>6</number>
-             </property>
-             <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-              <widget class="QGraphicsView" name="computerSelectedPicture">
-               <property name="minimumSize">
-                <size>
-                 <width>215</width>
-                 <height>215</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>215</width>
-                 <height>215</height>
-                </size>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::NoFrame</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Plain</enum>
-               </property>
-              </widget>
-             </item>
-            </layout>
+            </widget>
            </item>
            <item>
             <layout class="QVBoxLayout" name="selectedComputerInfoLayout">
@@ -1581,9 +1537,9 @@
                 <number>4</number>
                </property>
                <property name="bottomMargin">
-                <number>4</number>
+                <number>0</number>
                </property>
-               <item>
+               <item alignment="Qt::AlignBottom">
                 <widget class="QPushButton" name="computerSelectedChangePicturePushButton">
                  <property name="minimumSize">
                   <size>
@@ -1923,7 +1879,6 @@
   <tabstop>selectedScientistYearOfBirthField</tabstop>
   <tabstop>selectedScientistYearOfDeathField</tabstop>
   <tabstop>selectedScientistDeleteScientistPushButton</tabstop>
-  <tabstop>scientistPicture</tabstop>
   <tabstop>selectedScientistComputerTable</tabstop>
   <tabstop>selectedScientistComputerSearchNameField</tabstop>
   <tabstop>selectedScientistComputerSearchBuiltYearField</tabstop>
@@ -1936,7 +1891,6 @@
   <tabstop>computerSelectedWasItBuiltComboBox</tabstop>
   <tabstop>computerSelectedAboutField</tabstop>
   <tabstop>computerSelectedDeleteComputerPushButton</tabstop>
-  <tabstop>computerSelectedPicture</tabstop>
   <tabstop>computerSelectedScientistTable</tabstop>
   <tabstop>computerSelectedScientistSearchNameField</tabstop>
   <tabstop>computerSelectedScientistSearchsexComboBox</tabstop>
