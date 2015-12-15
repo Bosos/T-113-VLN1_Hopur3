@@ -122,9 +122,13 @@ void DataManager::storeScientistPicture(QString fileName, int scientistId)
 
     QImage image(fileName);
 
+    int x = image.width();
+    int y = image.height();
+    setScaling(x,y);
+
     QGraphicsPixmapItem* item = new QGraphicsPixmapItem(QPixmap::fromImage(image));
-    QRect rect(0,0,215,215);
-    item->setPixmap(item->pixmap().scaled(215,215,Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
+    QRect rect(0,0,x,y);
+    item->setPixmap(item->pixmap().scaled(x,y,Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
     item->setPixmap(item->pixmap().copy(rect));
 
     QByteArray inByteArray;
@@ -138,6 +142,13 @@ void DataManager::storeScientistPicture(QString fileName, int scientistId)
     query.bindValue( ":imageData", inByteArray );
     qDebug() << query.lastQuery();
     if(!query.exec()){ qDebug() << "Error inserting image into table:\n" << query.lastError();}
+}
+
+void DataManager::setScaling(int& bigger, int& smaller)
+{
+    double scale = smaller/215;
+    bigger = bigger/scale;
+    smaller = 215;
 }
 
 QPixmap DataManager::getScientistPicture(int scientistId)
@@ -163,9 +174,13 @@ void DataManager::storeComputerPicture(QString fileName, int computerId)
 
     QImage image(fileName);
 
+    int x = image.width();
+    int y = image.height();
+    setScaling(x,y);
+
     QGraphicsPixmapItem* item = new QGraphicsPixmapItem(QPixmap::fromImage(image));
-    QRect rect(0,0,215,215);
-    item->setPixmap(item->pixmap().scaled(215,215,Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
+    QRect rect(0,0,x,y);
+    item->setPixmap(item->pixmap().scaled(x,y,Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
     item->setPixmap(item->pixmap().copy(rect));
 
     QByteArray inByteArray;

@@ -48,11 +48,12 @@ public:
     QSqlQueryModel* searchScientistToComputer(int id);
     QSqlQueryModel* searchComputerToScientist(int id);
 
+
 private:
     QSqlDatabase db;
     QSqlQuery query;
     void initializeTables();
-
+    void setScaling(int& bigger, int& smaller);
     string fileName;
 };
 

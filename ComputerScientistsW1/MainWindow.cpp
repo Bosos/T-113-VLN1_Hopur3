@@ -128,17 +128,14 @@ void MainWindow::updateScientistProfilePicture()
     QPixmap profilePicture = serviceMan->getScientistPicture(currentlySelectedUserID);
 
     QGraphicsScene* scene = new QGraphicsScene();
-    QGraphicsView* view = new QGraphicsView(scene);
     QGraphicsPixmapItem* item = new QGraphicsPixmapItem(profilePicture);
 
-    view->setDragMode(QGraphicsView::NoDrag);
-    view->setEnabled(false);
     scene->addItem(item);
 
     ui->scientistPicture->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->scientistPicture->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->scientistPicture->setScene(scene);
-    //ui->scientistPicture->fitInView(item,Qt::KeepAspectRatioByExpanding);
+    ui->scientistPicture->setFixedWidth(setWidth(profilePicture.width()));
 
     ui->scientistPicture->show();
 }
@@ -148,17 +145,14 @@ void MainWindow::updateComputerProfilePicture()
     QPixmap profilePicture = serviceMan->getComputerPicture(currentlySelectedComputerID);
 
     QGraphicsScene* scene = new QGraphicsScene();
-    QGraphicsView* view = new QGraphicsView(scene);
     QGraphicsPixmapItem* item = new QGraphicsPixmapItem(profilePicture);
 
-    view->setDragMode(QGraphicsView::NoDrag);
-    view->setEnabled(false);
     scene->addItem(item);
 
     ui->computerSelectedPicture->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->computerSelectedPicture->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->computerSelectedPicture->setScene(scene);
-    //ui->scientistPicture->fitInView(item,Qt::KeepAspectRatioByExpanding);
+    ui->computerSelectedPicture->setFixedWidth(setWidth(profilePicture.width()));
 
     ui->computerSelectedPicture->show();
 }
@@ -410,7 +404,7 @@ void MainWindow::updateScientistsWhoUsedComputer()
 {
     ui->computerSelectedScientistTable->setSortingEnabled(true);
     QSortFilterProxyModel *sqlproxy = new QSortFilterProxyModel(this);
-    sqlproxy->setSourceModel(serviceMan->searchScientistToComputer(currentlySelectedUserID));
+    sqlproxy->setSourceModel(serviceMan->searchScientistToComputer(currentlySelectedComputerID));
     ui->computerSelectedScientistTable->setModel(sqlproxy);
     ui->computerSelectedScientistTable->resizeColumnsToContents();
     ui->computerSelectedScientistTable->horizontalHeader()->setStretchLastSection(true);
@@ -571,4 +565,10 @@ void MainWindow::on_computerSelectedChangePicturePushButton_clicked()
 void MainWindow::on_selectedScientistComputerSearchTableView_doubleClicked(const QModelIndex &index)
 {
     on_selectedScientistComputerSearcAddpushButton_clicked();
+}
+
+int MainWindow::setWidth(int width)
+{
+    if (width < 350) {return width;}
+    return 350;
 }
