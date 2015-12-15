@@ -6,12 +6,7 @@ Service::Service(string fileLocation)
 }
 
 //Scientist
-<<<<<<< HEAD
-vector<QString> Service::scientistExists(ScientistSearch sci)
-=======
-
 vector<QString> Service::scientistExists(ScientistSearch scientistSearch)
->>>>>>> 96a9f62b6136328402af53be6e6378cc13a5d51f
 {
     return dataMan->scientistExists(scientistSearch);
 }

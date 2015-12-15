@@ -82,7 +82,7 @@ void MainWindow::on_foundScientistTableView_doubleClicked(const QModelIndex &ind
 
     ui->selectedScientistComputerSearch->setHidden(true);
     ui->selectedScientistRemoAddButonWidget->setHidden(false);
-    //ui->splitter_4->setSizes({250,5000});
+    ui->splitter_4->setSizes({250,5000});
 
     updateScientistProfilePicture();
     updateScinetistUsedComputers();
@@ -369,7 +369,7 @@ void MainWindow::on_foundComputersTableView_doubleClicked(const QModelIndex &ind
     ui->computerSelectedRemoAddButonWidget->setHidden(false);
 
     updateComputerProfilePicture();
-    //ui->splitter_3->setSizes({250,5000});
+    ui->splitter_3->setSizes({250,5000});
 
     ui->windowSwitcher->setCurrentIndex(2);
 }
