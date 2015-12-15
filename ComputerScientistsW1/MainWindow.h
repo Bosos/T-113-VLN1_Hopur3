@@ -93,6 +93,8 @@ private slots:
     void on_computerSelectedScientistSelectedRemoveSelectedButton_clicked();
 
 
+    void on_editSelectedComputerPushButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     Service* serviceMan;

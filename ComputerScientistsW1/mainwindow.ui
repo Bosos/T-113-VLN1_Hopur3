@@ -59,7 +59,7 @@
             <item>
              <widget class="QGroupBox" name="scientistSearchCombo">
               <property name="title">
-               <string>Search</string>
+               <string>Search / Add</string>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_8">
                <property name="spacing">
@@ -194,7 +194,7 @@
                     </size>
                    </property>
                    <property name="text">
-                    <string>Add</string>
+                    <string>&amp;Add</string>
                    </property>
                   </widget>
                  </item>
@@ -204,7 +204,7 @@
                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Clears the search, giving you all results&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                    <property name="text">
-                    <string>Clear</string>
+                    <string>&amp;Clear</string>
                    </property>
                   </widget>
                  </item>
@@ -259,7 +259,7 @@
                   </size>
                  </property>
                  <property name="text">
-                  <string>Edit Selected</string>
+                  <string>&amp;Edit Selected</string>
                  </property>
                 </widget>
                </item>
@@ -282,7 +282,7 @@
             <item>
              <widget class="QGroupBox" name="computerSearchGroup">
               <property name="title">
-               <string>Search</string>
+               <string>Search / Add</string>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_11">
                <property name="spacing">
@@ -417,14 +417,14 @@
                  <item>
                   <widget class="QPushButton" name="addComputerPushButton">
                    <property name="text">
-                    <string>Add</string>
+                    <string>&amp;Add</string>
                    </property>
                   </widget>
                  </item>
                  <item>
                   <widget class="QPushButton" name="clearComputerPushButton">
                    <property name="text">
-                    <string>Clear</string>
+                    <string>&amp;Clear</string>
                    </property>
                   </widget>
                  </item>
@@ -485,7 +485,7 @@
                   </size>
                  </property>
                  <property name="text">
-                  <string>Edit Selected</string>
+                  <string>&amp;Edit Selected</string>
                  </property>
                 </widget>
                </item>

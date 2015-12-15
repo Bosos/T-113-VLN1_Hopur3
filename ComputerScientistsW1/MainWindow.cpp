@@ -8,8 +8,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     ui->windowSwitcher->setCurrentIndex(0);
-    ui->editScientistpushButton->setHidden(true);
-    ui->editSelectedComputerPushButton->setHidden(true);
+    ui->editScientistpushButton->setDisabled(true);
+    ui->editSelectedComputerPushButton->setDisabled(true);
 
     string fileLocation = "database.sqlite";
     this->serviceMan = new Service(fileLocation);
@@ -54,7 +54,7 @@ void MainWindow::on_scientistAboutField_textChanged()
 
 void MainWindow::on_foundScientistTableView_clicked(const QModelIndex &index)
 {
-    ui->editScientistpushButton->setHidden(false);
+    ui->editScientistpushButton->setDisabled(false);
 }
 
 void MainWindow::on_foundScientistTableView_doubleClicked(const QModelIndex &index)
@@ -253,13 +253,14 @@ void MainWindow::on_selectedScientistOKPushButton_clicked()
 
     serviceMan->updateScientistDatabase(scientistSearch, currentlySelectedUserID);
     updateScientist();
+    ui->editScientistpushButton->setDisabled(true);
     ui->windowSwitcher->setCurrentIndex(0);
 }
 
 void MainWindow::on_computerSelectedOKPushButton_clicked()
 {
-    ui->windowSwitcher->setCurrentIndex(0);
     ComputerSearch computerSearch;
+
     computerSearch.name = ui->computerSelectedNameField->text();
     computerSearch.setType(ui->computerSelectedTypeComboBox->currentIndex());
     computerSearch.buildYear = ui->computerSelectedComputerBuiltYearlineEdit->text();
@@ -268,6 +269,8 @@ void MainWindow::on_computerSelectedOKPushButton_clicked()
 
     serviceMan->updateComputerDatabase(computerSearch, currentlySelectedComputerID);
     updateComputer();
+    ui->editSelectedComputerPushButton->setDisabled(true);
+    ui->windowSwitcher->setCurrentIndex(0);
 }
 
 void MainWindow::updateComputer()
@@ -462,7 +465,7 @@ void MainWindow::on_selectedScientistRemoveSelectedComputerPushButton_clicked()
 
 void MainWindow::on_foundComputersTableView_clicked(const QModelIndex &index)
 {
-    ui->editSelectedComputerPushButton->setHidden(false);
+    ui->editSelectedComputerPushButton->setDisabled(false);
 }
 
 void MainWindow::on_computerSelectedChangePicturePushButton_clicked()
@@ -554,4 +557,9 @@ int MainWindow::setWidth(int width)
 {
     if (width < 350) {return width;}
     return 350;
+}
+
+void MainWindow::on_editSelectedComputerPushButton_clicked()
+{
+    on_foundComputersTableView_doubleClicked(ui->foundComputersTableView->selectionModel()->currentIndex());
 }
