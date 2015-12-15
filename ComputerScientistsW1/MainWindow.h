@@ -78,6 +78,25 @@ private slots:
 
     void on_selectedScientistComputerTable_doubleClicked(const QModelIndex &index);
 
+    void on_computerSelectedScientistSearchNameField_textChanged(const QString &arg1);
+
+    void on_computerSelectedScientistSearchsexComboBox_currentIndexChanged(const QString &arg1);
+
+    void on_computerSelectedScientistSearchyearOfBirthField_textChanged(const QString &arg1);
+
+    void on_computerSelectedScientistSearchyearOfDeathField_textChanged(const QString &arg1);
+
+    void on_computerSelectedScientistSearchAddPushButton_clicked();
+
+    void on_computerSelectedScientistSearchTableView_clicked(const QModelIndex &index);
+
+    void on_computerSelectedScientistSearchDoneButton_clicked();
+
+    void on_computerSelectedScientistTable_clicked(const QModelIndex &index);
+
+    void on_computerSelectedScientistSelectedRemoveSelectedButton_clicked();
+
+
 private:
     Ui::MainWindow *ui;
     Service* serviceMan;
@@ -99,6 +118,9 @@ private:
     void updateScientistUsers(int id);
     void updateComputerUsers(int id);
     int currentlySelectedUserIDForUsers;
+
+    void updateSelectedComputerScientistSearchTableView();
+    ScientistSearch getScientistFromComputerAddScientistInput();
 
     int setWidth(int width);
 };

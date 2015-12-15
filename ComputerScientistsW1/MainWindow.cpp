@@ -82,7 +82,7 @@ void MainWindow::on_foundScientistTableView_doubleClicked(const QModelIndex &ind
 
     ui->selectedScientistComputerSearch->setHidden(true);
     ui->selectedScientistRemoAddButonWidget->setHidden(false);
-    ui->splitter_4->setSizes({250,5000});
+    //ui->splitter_4->setSizes({250,5000});
 
     updateScientistProfilePicture();
     updateScinetistUsedComputers();
@@ -211,7 +211,9 @@ void MainWindow::on_clearScientistPushButton_clicked()
 
 void MainWindow::on_computerSelectedAddScientist_clicked()
 {
-    ui->computerSelectedScientistSearch->setHidden(!ui->computerSelectedScientistSearch->isHidden());
+    ui->computerSelectedScientistSearch->setHidden(false);
+    ui->computerSelectedRemoAddButonWidget->setHidden(true);
+    updateSelectedComputerScientistSearchTableView();
 }
 
 void MainWindow::on_selectedScientistComputerSearchDoneButton_clicked()
@@ -367,7 +369,7 @@ void MainWindow::on_foundComputersTableView_doubleClicked(const QModelIndex &ind
     ui->computerSelectedRemoAddButonWidget->setHidden(false);
 
     updateComputerProfilePicture();
-    ui->splitter_3->setSizes({250,5000});
+    //ui->splitter_3->setSizes({250,5000});
 
     ui->windowSwitcher->setCurrentIndex(2);
 }
@@ -570,6 +572,76 @@ void MainWindow::on_selectedScientistComputerSearchTableView_doubleClicked(const
     on_selectedScientistComputerSearcAddpushButton_clicked();
 }
 
+void MainWindow::updateSelectedComputerScientistSearchTableView()
+{
+    ui->computerSelectedScientistSearchTableView->setSortingEnabled(true);
+    QSortFilterProxyModel *sqlproxy = new QSortFilterProxyModel(this);
+    sqlproxy->setSourceModel(serviceMan->search(getScientistFromComputerAddScientistInput()));
+    ui->computerSelectedScientistSearchTableView->setModel(sqlproxy);
+    ui->computerSelectedScientistSearchTableView->resizeColumnsToContents();
+    ui->computerSelectedScientistSearchTableView->horizontalHeader()->setStretchLastSection(true);
+    ui->computerSelectedScientistSearchTableView->setColumnHidden(0, true);
+}
+
+ScientistSearch MainWindow::getScientistFromComputerAddScientistInput()
+{
+    ScientistSearch sci;
+    sci.name = ui->computerSelectedScientistSearchNameField->text();
+    sci.birth = ui->computerSelectedScientistSearchyearOfBirthField->text();
+    sci.death = ui->computerSelectedScientistSearchyearOfDeathField->text();
+    sci.setSex(ui->computerSelectedScientistSearchsexComboBox->currentText());
+
+    return sci;
+}
+void MainWindow::on_computerSelectedScientistSearchNameField_textChanged(const QString &arg1)
+{
+    updateSelectedComputerScientistSearchTableView();
+}
+
+void MainWindow::on_computerSelectedScientistSearchsexComboBox_currentIndexChanged(const QString &arg1)
+{
+    updateSelectedComputerScientistSearchTableView();
+}
+
+void MainWindow::on_computerSelectedScientistSearchyearOfBirthField_textChanged(const QString &arg1)
+{
+    updateSelectedComputerScientistSearchTableView();
+}
+
+void MainWindow::on_computerSelectedScientistSearchyearOfDeathField_textChanged(const QString &arg1)
+{
+    updateSelectedComputerScientistSearchTableView();
+}
+
+void MainWindow::on_computerSelectedScientistSearchAddPushButton_clicked()
+{
+    serviceMan->addCSRelation(currentlySelectedUserID,currentlySelectedComputerID);
+    updateScientistsWhoUsedComputer();
+}
+
+void MainWindow::on_computerSelectedScientistSearchTableView_clicked(const QModelIndex &index)
+{
+    int row = index.row();
+    currentlySelectedUserID = index.sibling(row, 0).data().toInt();
+}
+
+void MainWindow::on_computerSelectedScientistSearchDoneButton_clicked()
+{
+    ui->computerSelectedScientistSearch->setHidden(true);
+    ui->computerSelectedRemoAddButonWidget->setHidden(false);
+}
+
+void MainWindow::on_computerSelectedScientistTable_clicked(const QModelIndex &index)
+{
+    int row = index.row();
+    currentlySelectedUserID = index.sibling(row, 0).data().toInt();
+}
+
+void MainWindow::on_computerSelectedScientistSelectedRemoveSelectedButton_clicked()
+{
+    serviceMan->removeCSRelation(currentlySelectedUserID,currentlySelectedComputerID);
+    updateScientistsWhoUsedComputer();
+}
 int MainWindow::setWidth(int width)
 {
     if (width < 350) {return width;}
