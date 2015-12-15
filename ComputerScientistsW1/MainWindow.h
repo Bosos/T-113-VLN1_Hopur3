@@ -115,8 +115,13 @@ private:
     void updateScientistUsers(int id);
     void updateComputerUsers(int id);
     int currentlySelectedUserIDForUsers;
+<<<<<<< HEAD
     void updateSelectedComputerScientistSearchTableView();
     ScientistSearch getScientistFromComputerAddScientistInput();
+=======
+
+    int setWidth(int width);
+>>>>>>> 96a9f62b6136328402af53be6e6378cc13a5d51f
 };
 
 #endif // MAINWINDOW_H

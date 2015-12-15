@@ -6,9 +6,14 @@ Service::Service(string fileLocation)
 }
 
 //Scientist
+<<<<<<< HEAD
 vector<QString> Service::scientistExists(ScientistSearch sci)
+=======
+
+vector<QString> Service::scientistExists(ScientistSearch scientistSearch)
+>>>>>>> 96a9f62b6136328402af53be6e6378cc13a5d51f
 {
-    return dataMan->scientistExists(sci);
+    return dataMan->scientistExists(scientistSearch);
 }
 
 void Service::addScientist(ScientistSearch scientistSearch)
@@ -34,12 +39,12 @@ void Service::deleteScientist(int id)
  * \param scientist
  * \return
  */
-bool Service::isScientistSearchAvalidScientist(ScientistSearch scientist)
+bool Service::isScientistSearchAvalidScientist(ScientistSearch scientistSearch)
 {
-    if (scientist.name.length() < 1) { return false; }
-    if (scientist.getSex() != "M" && scientist.getSex() != "F" ) { return false; }
-    if (scientist.birth.toInt() < 1200) { return false; }
-    if (scientist.death.toInt() > 2015) { return false; }
+    if (scientistSearch.name.length() < 1) { return false; }
+    if (scientistSearch.getSex() != "M" && scientistSearch.getSex() != "F" ) { return false; }
+    if (scientistSearch.birth.toInt() < 1200) { return false; }
+    if (scientistSearch.death.toInt() > 2015) { return false; }
     return true;
 }
 
@@ -48,9 +53,9 @@ void Service::storeScientistPicture(QString fileName, int currentlySelectedID)
     return dataMan->storeScientistPicture(fileName, currentlySelectedID);
 }
 
-QSqlQueryModel* Service::search(ScientistSearch scientist)
+QSqlQueryModel* Service::search(ScientistSearch scientistSearch)
 {
-    return dataMan->search(scientist);
+    return dataMan->search(scientistSearch);
 }
 
 QPixmap Service::getScientistPicture(int scientistId)
@@ -58,16 +63,16 @@ QPixmap Service::getScientistPicture(int scientistId)
     return dataMan->getScientistPicture(scientistId);
 }
 
-Scientist Service::makeScientistFromSearchCriteria(ScientistSearch scientist)
+Scientist Service::makeScientistFromSearchCriteria(ScientistSearch scientistSearch)
 {
-    return dataMan->makeScientistFromSearchCriteria(scientist);
+    return dataMan->makeScientistFromSearchCriteria(scientistSearch);
 }
 
 //Computer
 
-bool Service::computerExists(ComputerSearch comp)
+bool Service::computerExists(ComputerSearch computerSearch)
 {
-    if(dataMan->computerExists(comp)) { return true; }
+    if(dataMan->computerExists(computerSearch)) { return true; }
     else { return false; }
 }
 

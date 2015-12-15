@@ -28,16 +28,16 @@ DataManager::DataManager(string dataBaseLocation)
 
 /*!
  * \brief DataManager::makeScientistFromSearchCriteria
- * \param scientist
+ * \param scientistSearch
  * \return Scientist
  */
-Scientist DataManager::makeScientistFromSearchCriteria(ScientistSearch scientist)
+Scientist DataManager::makeScientistFromSearchCriteria(ScientistSearch scientistSearch)
 {
-    return Scientist(scientist.name,
-                     scientist.getSex().toStdString().at(0),
-                     scientist.birth.toInt(),
-                     scientist.death.toInt(),
-                     scientist.about,
+    return Scientist(scientistSearch.name,
+                     scientistSearch.getSex().toStdString().at(0),
+                     scientistSearch.birth.toInt(),
+                     scientistSearch.death.toInt(),
+                     scientistSearch.about,
                      0
                      );
 }
@@ -122,9 +122,13 @@ void DataManager::storeScientistPicture(QString fileName, int scientistId)
 
     QImage image(fileName);
 
+    int x = image.width();
+    int y = image.height();
+    setScaling(x,y);
+
     QGraphicsPixmapItem* item = new QGraphicsPixmapItem(QPixmap::fromImage(image));
-    QRect rect(0,0,215,215);
-    item->setPixmap(item->pixmap().scaled(215,215,Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
+    QRect rect(0,0,x,y);
+    item->setPixmap(item->pixmap().scaled(x,y,Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
     item->setPixmap(item->pixmap().copy(rect));
 
     QByteArray inByteArray;
@@ -138,6 +142,13 @@ void DataManager::storeScientistPicture(QString fileName, int scientistId)
     query.bindValue( ":imageData", inByteArray );
     qDebug() << query.lastQuery();
     if(!query.exec()){ qDebug() << "Error inserting image into table:\n" << query.lastError();}
+}
+
+void DataManager::setScaling(int& x, int& y)
+{
+    double scale = 215.0/y;
+    x = x*scale;
+    y = 215;
 }
 
 QPixmap DataManager::getScientistPicture(int scientistId)
@@ -163,9 +174,13 @@ void DataManager::storeComputerPicture(QString fileName, int computerId)
 
     QImage image(fileName);
 
+    int x = image.width();
+    int y = image.height();
+    setScaling(x,y);
+
     QGraphicsPixmapItem* item = new QGraphicsPixmapItem(QPixmap::fromImage(image));
-    QRect rect(0,0,215,215);
-    item->setPixmap(item->pixmap().scaled(215,215,Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
+    QRect rect(0,0,x,y);
+    item->setPixmap(item->pixmap().scaled(x,y,Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
     item->setPixmap(item->pixmap().copy(rect));
 
     QByteArray inByteArray;
@@ -269,7 +284,7 @@ QSqlQueryModel* DataManager::searchComputer(ComputerSearch computerSearch)
     QSqlQueryModel* model = new QSqlQueryModel();
     QSqlQuery* query = new QSqlQuery(db);
 
-    string computer = "SELECT c.ID, c.Name, t.type AS Type, c.Buildyear AS 'Build year',"
+    string computer = "SELECT c.ID, c.Name, t.type AS Type, c.Buildyear AS 'Year',"
                       " CASE c.wasbuilt WHEN 1 THEN 'Built'"
                       " ELSE 'Not built'"
                       " END AS 'Was it built?',"
@@ -383,7 +398,7 @@ QSqlQueryModel* DataManager::searchComputerToScientist(int id)
     ss << id;
     string strID = ss.str();
 
-    string search = "SELECT c.ID, c.Name, p.type AS Type, c.Buildyear AS 'Build year',"
+    string search = "SELECT c.ID, c.Name, p.type AS Type, c.Buildyear AS 'Year',"
                     " CASE c.wasbuilt WHEN 1 THEN 'Yes'"
                     " ELSE 'No'"
                     " END AS 'Was it built?', c.about"
@@ -430,38 +445,39 @@ void DataManager::removeCSRelation(int userId, int computerId)
     db.commit();
 }
 
-vector<QString> DataManager::scientistExists(ScientistSearch scientist)
+vector<QString> DataManager::scientistExists(ScientistSearch scientistSearch)
 {
     vector<QString> message;
     string search = "SELECT COUNT(*) AS count"
                     " FROM scientists"
-                    " WHERE name = '" + scientist.name.toStdString() + "'" +
-                    " AND sex = '" + scientist.getSex().toStdString() + "'" +
-                    " AND birth = " + scientist.birth.toStdString();
+                    " WHERE name = '" + scientistSearch.name.toStdString() + "'" +
+                    " AND sex = '" + scientistSearch.getSex().toStdString() + "'" +
+                    " AND birth = " + scientistSearch.birth.toStdString();
 
     query.exec(search.c_str());
     query.next();
 
-    if (scientist.getSex() == ""){message.push_back("Sex has to be chosen");}
-    if (scientist.getAge() > 120){message.push_back("Age should be realistic, nothing over 120 years old");}
-    if (scientist.birth == ""){message.push_back("Birth cant be empty");}
-    if (scientist.name == ""){message.push_back("Name cant be empty");}
+    if (scientistSearch.getSex() == ""){message.push_back("Sex has to be chosen");}
+    if (scientistSearch.getAge() > 120){message.push_back("Age should be realistic, nothing over 120 years old");}
+    if (scientistSearch.birth.toInt() < 1200){message.push_back("No computer scientist is born before 1200!");}
+    if (scientistSearch.birth == ""){message.push_back("Birth cant be empty");}
+    if (scientistSearch.name == ""){message.push_back("Name cant be empty");}
     if (query.value("count").toInt()) {message.push_back("Scientist seems to exist");}
 
     return message;
 }
 
-int DataManager::computerExists(ComputerSearch computer)
+int DataManager::computerExists(ComputerSearch computerSearch)
 {
     QSqlQueryModel model;
     int counter;
 
     string search = "SELECT COUNT(*)"
                     " FROM computers"
-                    " WHERE Name LIKE '%" + computer.name.toStdString() + "%'"
-                    " AND Type LIKE '%" + computer.getType().toStdString() + "%'"
-                    " AND Buildyear LIKE '%" + computer.buildYear.toStdString() + "%'"
-                    " AND Wasbuilt LIKE '%" + computer.getWasItBuilt().toStdString() + "%'";
+                    " WHERE Name LIKE '%" + computerSearch.name.toStdString() + "%'"
+                    " AND Type LIKE '%" + computerSearch.getType().toStdString() + "%'"
+                    " AND Buildyear LIKE '%" + computerSearch.buildYear.toStdString() + "%'"
+                    " AND Wasbuilt LIKE '%" + computerSearch.getWasItBuilt().toStdString() + "%'";
 
     model.setQuery(search.c_str());
 
