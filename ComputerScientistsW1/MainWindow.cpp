@@ -20,8 +20,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     updateScientist();
     updateComputer();
-    updateScientistUsers(0);
-    updateComputerUsers(0);
 }
 
 MainWindow::~MainWindow()
@@ -409,96 +407,6 @@ void MainWindow::updateScientistsWhoUsedComputer()
     ui->computerSelectedScientistTable->resizeColumnsToContents();
     ui->computerSelectedScientistTable->horizontalHeader()->setStretchLastSection(true);
     ui->computerSelectedScientistTable->setColumnHidden(0, true);
-}
-
-void MainWindow::on_registeredScientists_clicked(const QModelIndex &index)
-{
-    int row = index.row();
-    currentlySelectedUserIDForUsers = index.sibling(row, 0).data().toInt();
-
-    updateComputerUsers(currentlySelectedUserIDForUsers);
-}
-
-void MainWindow::updateComputerUsers(int id)
-{
-    ui->registeredComputers->setSortingEnabled(true);
-    QSortFilterProxyModel *sqlproxy = new QSortFilterProxyModel(this);
-
-    if(id != 0)
-    {
-        sqlproxy->setSourceModel(serviceMan->searchComputerToScientist(id));
-    }
-    else
-    {
-        ComputerSearch comp;
-        comp.name = "";
-        comp.setType(0);
-        comp.setWasItBuilt(0);
-        comp.buildYear = "";
-        comp.about = "";
-
-        sqlproxy->setSourceModel(serviceMan->searchComputer(comp));
-    }
-
-    ui->registeredComputers->setModel(sqlproxy);
-    ui->registeredComputers->resizeColumnsToContents();
-    ui->registeredComputers->horizontalHeader()->setStretchLastSection(true);
-    ui->registeredComputers->setColumnHidden(0, true);
-    ui->registeredComputers->setColumnHidden(2, true);
-    ui->registeredComputers->setColumnHidden(4, true);
-    ui->registeredComputers->setColumnHidden(5, true);
-}
-
-void MainWindow::on_pushButton_clicked()
-{
-    updateComputerUsers(0);
-    updateScientistUsers(0);
-    currentlySelectedUserIDForUsers = 0;
-}
-
-void MainWindow::on_registeredComputers_clicked(const QModelIndex &index)
-{
-    int row = index.row();
-    currentlySelectedUserIDForUsers = index.sibling(row, 0).data().toInt();
-
-    updateScientistUsers(currentlySelectedUserIDForUsers);
-}
-
-void MainWindow::updateScientistUsers(int id)
-{
-    ui->registeredScientists->setSortingEnabled(true);
-    QSortFilterProxyModel *sqlproxy = new QSortFilterProxyModel(this);
-
-    if(id != 0)
-    {
-        sqlproxy->setSourceModel(serviceMan->searchScientistToComputer(id));
-    }
-    else
-    {
-        ScientistSearch scientist;
-        scientist.name = "";
-        scientist.setSex("");
-        scientist.birth = "";
-        scientist.death = "";
-        scientist.about = "";
-
-        sqlproxy->setSourceModel(serviceMan->search(scientist));
-    }
-
-    ui->registeredScientists->setModel(sqlproxy);
-    ui->registeredScientists->resizeColumnsToContents();
-    ui->registeredScientists->horizontalHeader()->setStretchLastSection(true);
-    ui->registeredScientists->setColumnHidden(0, true);
-    ui->registeredScientists->setColumnHidden(2, true);
-    ui->registeredScientists->setColumnHidden(4, true);
-    ui->registeredScientists->setColumnHidden(5, true);
-}
-
-void MainWindow::on_headTab_tabBarClicked(int index)
-{
-    currentlySelectedUserIDForUsers = 0;
-    updateScientistUsers(0);
-    updateComputerUsers(0);
 }
 
 void MainWindow::on_selectedScientistComputerSearchNameField_textChanged()

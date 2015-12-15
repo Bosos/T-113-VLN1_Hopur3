@@ -47,10 +47,6 @@ private slots:
     void on_foundComputersTableView_doubleClicked(const QModelIndex &index);
     void on_addComputerPushButton_clicked();
     void on_computerSelectedDeleteComputerPushButton_clicked();
-    void on_registeredScientists_clicked(const QModelIndex &index);
-    void on_pushButton_clicked();
-    void on_registeredComputers_clicked(const QModelIndex &index);
-    void on_headTab_tabBarClicked(int index);
 
     void on_selectedScientistOKPushButton_clicked();
 
@@ -115,8 +111,8 @@ private:
     void updateScientistsWhoUsedComputer();
     void searchScientistsToComputer(int id);
     void updateComputerProfilePicture();
-    void updateScientistUsers(int id);
-    void updateComputerUsers(int id);
+    //void updateScientistUsers(int id);
+    //void updateComputerUsers(int id);
     int currentlySelectedUserIDForUsers;
 
     void updateSelectedComputerScientistSearchTableView();
