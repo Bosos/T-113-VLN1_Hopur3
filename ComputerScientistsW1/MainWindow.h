@@ -97,6 +97,8 @@ private:
     void updateScientistUsers(int id);
     void updateComputerUsers(int id);
     int currentlySelectedUserIDForUsers;
+
+    int setWidth(int width);
 };
 
 #endif // MAINWINDOW_H

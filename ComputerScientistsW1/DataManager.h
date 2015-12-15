@@ -51,11 +51,12 @@ public:
     int computerExists(ComputerSearch computer);
 
 
+
 private:
     QSqlDatabase db;
     QSqlQuery query;
     void initializeTables();
-
+    void setScaling(int& bigger, int& smaller);
     string fileName;
 
 };
