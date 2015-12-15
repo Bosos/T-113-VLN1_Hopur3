@@ -5,6 +5,7 @@
 struct ScientistSearch
 {
     void setSex(QString sex);
+    int getAge();
     QString getSex();
     QString name = "";
     QString birth = "";
