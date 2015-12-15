@@ -38,7 +38,7 @@ public:
     bool isComputerSearchAvalidComputer(ComputerSearch computerSearch);
     QPixmap getComputerPicture(int computerId);
     void storeComputerPicture(QString fileName, int currentlySelectedComputerID);
-    bool computerExists(ComputerSearch computerSearch);
+    vector<QString> computerExists(ComputerSearch computerSearch);
 
     QSqlQueryModel* searchComputer(ComputerSearch computerSearch);
 

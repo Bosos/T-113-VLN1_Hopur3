@@ -179,30 +179,6 @@ void MainWindow::updateSelectedScientistComputerSearchTableView()
     ui->selectedScientistComputerSearchTableView->setColumnHidden(0, true);
 }
 
-void MainWindow::on_addScientistPushButton_clicked()
-{
-    ScientistSearch sci = getScientistFromInput();
-    vector<QString> errMessages= serviceMan->scientistExists(sci);
-    if(errMessages.size() > 0)
-    {
-        QString completeMessage;
-        while(errMessages.size() > 0)
-        {
-            completeMessage += " " + errMessages.back() + "\n";
-            errMessages.pop_back();
-        }
-        qDebug() << completeMessage;
-        // Please find a better heading than 'Double Scientist'
-        int ret = QMessageBox::warning(this,"Double Scientist", completeMessage, "OK" );
-        if (ret) { return; }
-    }
-    else
-    {
-        serviceMan->addScientist(sci);
-        updateScientist();
-    }
-}
-
 void MainWindow::on_clearScientistPushButton_clicked()
 {
     ui->scientistNameField->setText("");
@@ -292,7 +268,6 @@ ComputerSearch MainWindow::getComputerFromInput()
     computerSearch.buildYear = ui->computerBuiltYearlineEdit->text();
     computerSearch.setWasItBuilt(ui->computerSearchWasItBuiltComboBox->currentIndex());
     computerSearch.about = ui->computerAboutlineEdit->text();
-
     return computerSearch;
 }
 
@@ -374,18 +349,49 @@ void MainWindow::on_foundComputersTableView_doubleClicked(const QModelIndex &ind
     ui->windowSwitcher->setCurrentIndex(2);
 }
 
-void MainWindow::on_addComputerPushButton_clicked()
+void MainWindow::on_addScientistPushButton_clicked()
 {
-    ComputerSearch comp = getComputerFromInput();
-
-    if(serviceMan->computerExists(comp))
+    ScientistSearch sci = getScientistFromInput();
+    vector<QString> errMessages= serviceMan->scientistExists(sci);
+    if(errMessages.size() > 0)
     {
-        int ret = QMessageBox::warning(this, "Double computer", "This computer already exists", "OK");
+        QString completeMessage;
+        while(errMessages.size() > 0)
+        {
+            completeMessage += " " + errMessages.back() + "\n";
+            errMessages.pop_back();
+        }
+        qDebug() << completeMessage;
+        // Please find a better heading than 'Double Scientist'
+        int ret = QMessageBox::warning(this,"Wrong input", completeMessage, "OK" );
         if (ret) { return; }
     }
     else
     {
-        serviceMan->addComputer(comp);
+        serviceMan->addScientist(sci);
+        updateScientist();
+    }
+}
+
+void MainWindow::on_addComputerPushButton_clicked()
+{
+    ComputerSearch computerSearch = getComputerFromInput();
+    vector<QString> errMessages = serviceMan->computerExists(computerSearch);
+    if(errMessages.size() > 0)
+    {
+        QString completeMessage;
+        while(errMessages.size() > 0)
+        {
+            completeMessage += " " + errMessages.back() + "\n";
+            errMessages.pop_back();
+        }
+        qDebug() << completeMessage;
+        int ret = QMessageBox::warning(this,"Wrong input", completeMessage, "OK" );
+        if (ret) { return; }
+    }
+    else
+    {
+        serviceMan->addComputer(computerSearch);
         updateComputer();
     }
 }

@@ -40,7 +40,7 @@ public:
     void storeComputerPicture(QString fileName, int currentlySelectedComputerID);
     QPixmap getComputerPicture(int computerId);
     QSqlQueryModel* searchComputer(ComputerSearch computerSearch);
-    int computerExists(ComputerSearch computerSearch);
+    vector<QString> computerExists(ComputerSearch computerSearch);
 
     //Relations
     void addCSRelation(int userId, int computerId);
