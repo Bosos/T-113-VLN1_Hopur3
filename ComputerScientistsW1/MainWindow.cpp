@@ -177,7 +177,8 @@ void MainWindow::updateSelectedScientistComputerSearchTableView()
 void MainWindow::on_addScientistPushButton_clicked()
 {
     ScientistSearch sci = getScientistFromInput();
-    vector<QString> errMessages= serviceMan->scientistExists(sci);
+    vector<QString> errMessages = serviceMan->scientistExists(sci);
+
     if(errMessages.size() > 0)
     {
         QString completeMessage;
@@ -375,11 +376,19 @@ void MainWindow::on_foundComputersTableView_doubleClicked(const QModelIndex &ind
 void MainWindow::on_addComputerPushButton_clicked()
 {
     ComputerSearch comp = getComputerFromInput();
+    vector<QString> errMessages = serviceMan->computerExists(comp);
 
-    if(serviceMan->computerExists(comp))
+    if(errMessages.size() > 0)
     {
-        int ret = QMessageBox::warning(this, "Double computer", "This computer already exists", "OK");
-        if (ret) { return; }
+        QString completeMessage;
+        while(errMessages.size() > 0)
+        {
+            completeMessage += " " + errMessages.back() + "\n";
+            errMessages.pop_back();
+        }
+
+        int ret = QMessageBox::warning(this, "Double Computer", completeMessage, "OK" );
+        if (ret ) { return; }
     }
     else
     {

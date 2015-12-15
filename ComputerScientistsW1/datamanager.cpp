@@ -460,28 +460,33 @@ vector<QString> DataManager::scientistExists(ScientistSearch scientistSearch)
     if (scientistSearch.getSex() == ""){message.push_back("Sex has to be chosen");}
     if (scientistSearch.getAge() > 120){message.push_back("Age should be realistic, nothing over 120 years old");}
     if (scientistSearch.birth.toInt() < 1200){message.push_back("No computer scientist is born before 1200!");}
-    if (scientistSearch.birth == ""){message.push_back("Birth cant be empty");}
-    if (scientistSearch.name == ""){message.push_back("Name cant be empty");}
+    if (scientistSearch.birth == ""){message.push_back("Birth can not be empty");}
+    if (scientistSearch.name == ""){message.push_back("Name can not be empty");}
     if (query.value("count").toInt()) {message.push_back("Scientist seems to exist");}
 
     return message;
 }
 
-int DataManager::computerExists(ComputerSearch computerSearch)
+vector<QString> DataManager::computerExists(ComputerSearch computerSearch)
 {
-    QSqlQueryModel model;
-    int counter;
+    vector<QString> message;
 
-    string search = "SELECT COUNT(*)"
+    string search = "SELECT COUNT(*) AS count"
                     " FROM computers"
-                    " WHERE Name LIKE '%" + computerSearch.name.toStdString() + "%'"
-                    " AND Type LIKE '%" + computerSearch.getType().toStdString() + "%'"
-                    " AND Buildyear LIKE '%" + computerSearch.buildYear.toStdString() + "%'"
-                    " AND Wasbuilt LIKE '%" + computerSearch.getWasItBuilt().toStdString() + "%'";
+                    " WHERE Name = '" + computerSearch.name.toStdString() + "'"
+                    " AND Type = '" + computerSearch.getType().toStdString() + "'"
+                    " AND Buildyear = '" + computerSearch.buildYear.toStdString() + "'"
+                    " AND Wasbuilt = '" + computerSearch.getWasItBuilt().toStdString() + "'";
 
-    model.setQuery(search.c_str());
+    query.exec(search.c_str());
+    query.next();
 
-    counter = model.data(model.index(0, 0)).toInt();
-
-    return counter;
+    if(computerSearch.getType() == "") { message.push_back("Type has to be chosen!"); }
+    if(computerSearch.getWasItBuilt() == "") { message.push_back("You have to say wheather the computer was built or not!"); }
+    if(computerSearch.buildYear.toInt() <= 1200) { message.push_back("No computer was built or even theorized before the year 1200!"); }
+    if(computerSearch.buildYear == "") { message.push_back("Built year can not be empty"); }
+    if(computerSearch.name == "") {message.push_back("Name can not be empty"); }
+    if(query.value("count").toInt()) { message.push_back("Computer already exists"); }
+cout << computerSearch.buildYear.toInt() << endl;
+    return message;
 }

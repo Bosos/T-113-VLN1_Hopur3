@@ -65,10 +65,9 @@ Scientist Service::makeScientistFromSearchCriteria(ScientistSearch scientistSear
 
 //Computer
 
-bool Service::computerExists(ComputerSearch computerSearch)
+vector<QString> Service::computerExists(ComputerSearch comp)
 {
-    if(dataMan->computerExists(computerSearch)) { return true; }
-    else { return false; }
+    return dataMan->computerExists(comp);
 }
 
 void Service::addComputer(ComputerSearch computerSearch)
