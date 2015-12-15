@@ -190,6 +190,7 @@ void MainWindow::on_computerSelectedAddScientist_clicked()
 {
     ui->computerSelectedScientistSearch->setHidden(false);
     ui->computerSelectedRemoAddButonWidget->setHidden(true);
+    ui->computerSelectedScientistSearchNameField->setFocus();
     updateSelectedComputerScientistSearchTableView();
 }
 
