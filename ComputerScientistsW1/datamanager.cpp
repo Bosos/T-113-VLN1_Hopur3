@@ -144,11 +144,11 @@ void DataManager::storeScientistPicture(QString fileName, int scientistId)
     if(!query.exec()){ qDebug() << "Error inserting image into table:\n" << query.lastError();}
 }
 
-void DataManager::setScaling(int& bigger, int& smaller)
+void DataManager::setScaling(int& x, int& y)
 {
-    double scale = smaller/215;
-    bigger = bigger/scale;
-    smaller = 215;
+    double scale = 215.0/y;
+    x = x*scale;
+    y = 215;
 }
 
 QPixmap DataManager::getScientistPicture(int scientistId)
@@ -284,7 +284,7 @@ QSqlQueryModel* DataManager::searchComputer(ComputerSearch computerSearch)
     QSqlQueryModel* model = new QSqlQueryModel();
     QSqlQuery* query = new QSqlQuery(db);
 
-    string computer = "SELECT c.ID, c.Name, t.type AS Type, c.Buildyear AS 'Build year',"
+    string computer = "SELECT c.ID, c.Name, t.type AS Type, c.Buildyear AS 'Year',"
                       " CASE c.wasbuilt WHEN 1 THEN 'Built'"
                       " ELSE 'Not built'"
                       " END AS 'Was it built?',"
@@ -398,7 +398,7 @@ QSqlQueryModel* DataManager::searchComputerToScientist(int id)
     ss << id;
     string strID = ss.str();
 
-    string search = "SELECT c.ID, c.Name, p.type AS Type, c.Buildyear AS 'Build year',"
+    string search = "SELECT c.ID, c.Name, p.type AS Type, c.Buildyear AS 'Year',"
                     " CASE c.wasbuilt WHEN 1 THEN 'Yes'"
                     " ELSE 'No'"
                     " END AS 'Was it built?', c.about"

@@ -47,10 +47,6 @@ private slots:
     void on_foundComputersTableView_doubleClicked(const QModelIndex &index);
     void on_addComputerPushButton_clicked();
     void on_computerSelectedDeleteComputerPushButton_clicked();
-    void on_registeredScientists_clicked(const QModelIndex &index);
-    void on_pushButton_clicked();
-    void on_registeredComputers_clicked(const QModelIndex &index);
-    void on_headTab_tabBarClicked(int index);
 
     void on_selectedScientistOKPushButton_clicked();
 
@@ -76,6 +72,29 @@ private slots:
 
     void on_selectedScientistComputerSearchTableView_doubleClicked(const QModelIndex &index);
 
+    void on_selectedScientistComputerTable_doubleClicked(const QModelIndex &index);
+
+    void on_computerSelectedScientistSearchNameField_textChanged(const QString &arg1);
+
+    void on_computerSelectedScientistSearchsexComboBox_currentIndexChanged(const QString &arg1);
+
+    void on_computerSelectedScientistSearchyearOfBirthField_textChanged(const QString &arg1);
+
+    void on_computerSelectedScientistSearchyearOfDeathField_textChanged(const QString &arg1);
+
+    void on_computerSelectedScientistSearchAddPushButton_clicked();
+
+    void on_computerSelectedScientistSearchTableView_clicked(const QModelIndex &index);
+
+    void on_computerSelectedScientistSearchDoneButton_clicked();
+
+    void on_computerSelectedScientistTable_clicked(const QModelIndex &index);
+
+    void on_computerSelectedScientistSelectedRemoveSelectedButton_clicked();
+
+
+    void on_editSelectedComputerPushButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     Service* serviceMan;
@@ -94,9 +113,12 @@ private:
     void updateScientistsWhoUsedComputer();
     void searchScientistsToComputer(int id);
     void updateComputerProfilePicture();
-    void updateScientistUsers(int id);
-    void updateComputerUsers(int id);
+    //void updateScientistUsers(int id);
+    //void updateComputerUsers(int id);
     int currentlySelectedUserIDForUsers;
+
+    void updateSelectedComputerScientistSearchTableView();
+    ScientistSearch getScientistFromComputerAddScientistInput();
 
     int setWidth(int width);
 };
