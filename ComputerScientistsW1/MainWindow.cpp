@@ -181,6 +181,8 @@ void MainWindow::on_clearScientistPushButton_clicked()
     ui->yearOfBirthField->setText("");
     ui->yearOfDeathField->setText("");
     ui->scientistAboutField->setText("");
+
+    updateScientist();
 }
 
 void MainWindow::on_computerSelectedAddScientist_clicked()
@@ -278,6 +280,7 @@ ComputerSearch MainWindow::getComputerFromScientistAddComputerInput()
     computerSearch.setType(ui->selectedScientistComputerSearchTypeComboBox->currentIndex());
     computerSearch.buildYear = ui->selectedScientistComputerSearchBuiltYearField->text();
     computerSearch.setWasItBuilt(ui->selectedScientistComputerSearchWasItBuiltComboBox->currentIndex());
+    computerSearch.about = ui->computerAboutlineEdit->text();
 
     return computerSearch;
 }
@@ -298,6 +301,11 @@ void MainWindow::on_computerSearchTypeComboBox_activated()
 }
 
 void MainWindow::on_computerSearchWasItBuiltComboBox_activated()
+{
+    updateComputer();
+}
+
+void MainWindow::on_computerAboutlineEdit_textChanged()
 {
     updateComputer();
 }
@@ -569,3 +577,5 @@ void MainWindow::on_editSelectedComputerPushButton_clicked()
 {
     on_foundComputersTableView_doubleClicked(ui->foundComputersTableView->selectionModel()->currentIndex());
 }
+
+

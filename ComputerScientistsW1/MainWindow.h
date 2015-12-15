@@ -95,6 +95,8 @@ private slots:
 
     void on_editSelectedComputerPushButton_clicked();
 
+    void on_computerAboutlineEdit_textChanged();
+
 private:
     Ui::MainWindow *ui;
     Service* serviceMan;

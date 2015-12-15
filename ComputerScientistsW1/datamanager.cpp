@@ -293,7 +293,8 @@ QSqlQueryModel* DataManager::searchComputer(ComputerSearch computerSearch)
                       " WHERE c.Name LIKE '%" + computerSearch.name.toStdString() + "%'"
                       " AND c.Type LIKE '%" + computerSearch.getType().toStdString() + "%'"
                       " AND c.Buildyear LIKE '%" + computerSearch.buildYear.toStdString() + "%'"
-                      " AND c.Wasbuilt LIKE '%" + computerSearch.getWasItBuilt().toStdString() + "%'";
+                      " AND c.Wasbuilt LIKE '%" + computerSearch.getWasItBuilt().toStdString() + "%'"
+                      " AND c.About LIKE '%" + computerSearch.about.toStdString() + "%'";
 
     qDebug() << ( computer.c_str() );
     query->exec(computer.c_str());
