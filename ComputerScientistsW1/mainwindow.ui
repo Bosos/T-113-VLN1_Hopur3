@@ -33,7 +33,7 @@
     <item>
      <widget class="QStackedWidget" name="windowSwitcher">
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="Home">
        <layout class="QVBoxLayout" name="verticalLayout_17">
@@ -877,7 +877,14 @@
                 <item>
                  <widget class="QPushButton" name="selectedScientistDeleteScientistPushButton">
                   <property name="text">
-                   <string>Delete &amp;Scientist</string>
+                   <string>D&amp;elete</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="scientistChangeCancelpushButton">
+                  <property name="text">
+                   <string>&amp;Cancel</string>
                   </property>
                  </widget>
                 </item>
@@ -885,7 +892,7 @@
                  <widget class="QPushButton" name="selectedScientistOKPushButton">
                   <property name="maximumSize">
                    <size>
-                    <width>80</width>
+                    <width>16777215</width>
                     <height>16777215</height>
                    </size>
                   </property>
@@ -893,7 +900,7 @@
                    <enum>Qt::ClickFocus</enum>
                   </property>
                   <property name="text">
-                   <string>&amp;OK</string>
+                   <string>&amp;Save</string>
                   </property>
                   <property name="autoDefault">
                    <bool>false</bool>
@@ -1572,7 +1579,14 @@
                 <item>
                  <widget class="QPushButton" name="computerSelectedDeleteComputerPushButton">
                   <property name="text">
-                   <string>Delete &amp;Computer</string>
+                   <string>D&amp;elete</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="computerSelectedCancelPushButton">
+                  <property name="text">
+                   <string>&amp;Cancel</string>
                   </property>
                  </widget>
                 </item>
@@ -1580,7 +1594,7 @@
                  <widget class="QPushButton" name="computerSelectedOKPushButton">
                   <property name="maximumSize">
                    <size>
-                    <width>80</width>
+                    <width>16777215</width>
                     <height>16777215</height>
                    </size>
                   </property>
@@ -1588,7 +1602,7 @@
                    <enum>Qt::ClickFocus</enum>
                   </property>
                   <property name="text">
-                   <string>&amp;OK</string>
+                   <string>&amp;Save</string>
                   </property>
                   <property name="autoDefault">
                    <bool>false</bool>
@@ -1676,7 +1690,7 @@
                  <widget class="QPushButton" name="computerSelectedAddScientist">
                   <property name="maximumSize">
                    <size>
-                    <width>140</width>
+                    <width>16777215</width>
                     <height>16777215</height>
                    </size>
                   </property>

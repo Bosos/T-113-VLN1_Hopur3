@@ -190,6 +190,7 @@ void MainWindow::on_computerSelectedAddScientist_clicked()
 {
     ui->computerSelectedScientistSearch->setHidden(false);
     ui->computerSelectedRemoAddButonWidget->setHidden(true);
+    ui->computerSelectedScientistSearchNameField->setFocus();
     updateSelectedComputerScientistSearchTableView();
 }
 
@@ -236,6 +237,11 @@ void MainWindow::on_selectedScientistOKPushButton_clicked()
     ui->windowSwitcher->setCurrentIndex(0);
 }
 
+void MainWindow::on_scientistChangeCancelpushButton_clicked()
+{
+    ui->windowSwitcher->setCurrentIndex(0);
+}
+
 void MainWindow::on_computerSelectedOKPushButton_clicked()
 {
     ComputerSearch computerSearch;
@@ -249,6 +255,11 @@ void MainWindow::on_computerSelectedOKPushButton_clicked()
     serviceMan->updateComputerDatabase(computerSearch, currentlySelectedComputerID);
     updateComputer();
     ui->editSelectedComputerPushButton->setDisabled(true);
+    ui->windowSwitcher->setCurrentIndex(0);
+}
+
+void MainWindow::on_computerSelectedCancelPushButton_clicked()
+{
     ui->windowSwitcher->setCurrentIndex(0);
 }
 
@@ -582,4 +593,9 @@ void MainWindow::on_editSelectedComputerPushButton_clicked()
 void MainWindow::on_computerSelectedScientistTable_doubleClicked(const QModelIndex &index)
 {
     on_foundScientistTableView_doubleClicked(index);
+}
+
+void MainWindow::on_computerSelectedScientistSearchTableView_doubleClicked()
+{
+    on_computerSelectedScientistSearchAddPushButton_clicked();
 }
