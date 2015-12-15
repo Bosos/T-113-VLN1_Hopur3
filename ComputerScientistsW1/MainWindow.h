@@ -97,6 +97,8 @@ private slots:
 
     void on_computerAboutlineEdit_textChanged();
 
+    void on_computerSelectedScientistTable_doubleClicked(const QModelIndex &index);
+
 private:
     Ui::MainWindow *ui;
     Service* serviceMan;

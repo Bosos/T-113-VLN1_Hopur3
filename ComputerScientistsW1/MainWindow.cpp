@@ -97,6 +97,7 @@ void MainWindow::on_selectedScientistAddComputer_clicked()
     ui->selectedScientistComputerSearch->setHidden(false);
     ui->selectedScientistRemoAddButonWidget->setHidden(true);
     updateSelectedScientistComputerSearchTableView();
+    ui->selectedScientistComputerSearchNameField->setFocus();
 }
 
 
@@ -578,4 +579,7 @@ void MainWindow::on_editSelectedComputerPushButton_clicked()
     on_foundComputersTableView_doubleClicked(ui->foundComputersTableView->selectionModel()->currentIndex());
 }
 
-
+void MainWindow::on_computerSelectedScientistTable_doubleClicked(const QModelIndex &index)
+{
+    on_foundScientistTableView_doubleClicked(index);
+}
