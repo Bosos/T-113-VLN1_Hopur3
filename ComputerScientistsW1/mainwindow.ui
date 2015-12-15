@@ -48,7 +48,7 @@
     <item>
      <widget class="QStackedWidget" name="windowSwitcher">
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="Home">
        <layout class="QVBoxLayout" name="verticalLayout_17">
@@ -58,7 +58,7 @@
         <item>
          <widget class="QTabWidget" name="headTab">
           <property name="currentIndex">
-           <number>1</number>
+           <number>2</number>
           </property>
           <widget class="QWidget" name="scientistTab">
            <attribute name="title">
@@ -409,17 +409,17 @@
                    </property>
                    <item>
                     <property name="text">
-                     <string>Was it built</string>
+                     <string>Was it built?</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>Yes</string>
+                     <string>Built</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>No</string>
+                     <string>Not Built</string>
                     </property>
                    </item>
                   </widget>
@@ -1506,17 +1506,17 @@
                     </property>
                     <item>
                      <property name="text">
-                      <string>Was it built</string>
+                      <string>Was it built?</string>
                      </property>
                     </item>
                     <item>
                      <property name="text">
-                      <string>Was built</string>
+                      <string>Built</string>
                      </property>
                     </item>
                     <item>
                      <property name="text">
-                      <string>Was only theorized</string>
+                      <string>Not Built</string>
                      </property>
                     </item>
                    </widget>

@@ -25,6 +25,7 @@ public:
     void deleteScientist(int id);
     bool isScientistSearchAvalidScientist(ScientistSearch scientist);
     void storeScientistPicture(QString fileName, int currentlySelectedID);
+    bool scientistExists(ScientistSearch sci);
 
     QSqlQueryModel* search(ScientistSearch scientist);
     QPixmap getScientistPicture(int scientistId);
@@ -37,6 +38,8 @@ public:
     bool isComputerSearchAvalidComputer(ComputerSearch computerSearch);
     QPixmap getComputerPicture(int computerId);
     void storeComputerPicture(QString fileName, int currentlySelectedComputerID);
+    bool computerExists(ComputerSearch comp);
+
     QSqlQueryModel* searchComputer(ComputerSearch computerSearch);
 
     //Relations

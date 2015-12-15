@@ -47,6 +47,10 @@ public:
     void removeCSRelation(int userId, int computerId);
 
 
+    int scientistExists(ScientistSearch scientist);
+    int computerExists(ComputerSearch computer);
+
+
 private:
     QSqlDatabase db;
     QSqlQuery query;
