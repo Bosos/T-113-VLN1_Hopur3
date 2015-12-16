@@ -297,6 +297,9 @@
 * **Computers and scientists can be deleted.(If a computer/scientist is deleted, it's relations and profile picture are deleted as well.**
 * **Relations between computers and scientists can be deleted**
 * **User gets error messages if he violates input constraints**
+* **"Live search"**
+
+  *The list of computers/scientists updates after every input/modification to input fields/dropdown menus so the user never has to press a search button*
 * **Shortcuts:**
 
   *Only available on windows*
