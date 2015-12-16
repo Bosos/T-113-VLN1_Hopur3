@@ -14,97 +14,144 @@
 
 #### 3. User instruction
  **Add new scientist to database**
-  1. After welcome message, choose *1. Edit database*.
-  2. Then choose *1. Add a scientist to the database*.
-  3. Enter information about Scientist. Name, sex, year of birth and year of death. Year of death is 0 if scientist is still alive.
-  4. The program outputs the information you have just entered. Press Y if you are satisfied and N if you want to change your input.
-  5. New scientist has been added.
 
- **Add new computer to the database**
-  1. After welcome message, choose *1. Edit database*.
-  2. Then choose *2. Add a computer to the database*.
-  3. Enter information about Scientist. Name, year of build, type, about and wheather the computer was built or not. The computer types are electronic(1), mecanic(2), transistor(3) and other(4). If the user chooses 4, he has to enter the new type's name and the database will store it so it can be used again.
-  4. The program outputs the information you have just entered. Press Y if you are satisfied and N if you want to change your input.
-  5. New scientist has been added. 
+ 1. Select the *Scientists*-tab.
+ 2. Fill out the name-, year of birth-, year of death- and about- fields, choose sex. About field can be left empty.
+  * Birth can not be earlier than 1200 nor after 2015.
+  * Death year can not be before birth.
+  * Death can not be more than 120 years after birth.
+  * Death year is left empty if scientist is still alive.
+ 3. Click Add-button.
+ 4. Scientist has been added and appears in list.
 
- **See/Search scientists stored in database**
-  1. After welcome message, choose *2. See database*.
-  2. Now choose *1. Scientists*.
-  3. Choose wheather you want to see all scientists(1) or if you want to search by name, full or partial(2), birth year(3) or sex(4).
-  4. Pick a way to sort your list. Sort by: name(1), year of birth(2), year of death(3), sex(4) or no sorting at all(5). If you choose *5. No sorting*, jump to step 5.
-  5. Choose wheather you want your output in an ascending(1) or descending(2) order.
-  6. Your list will appear on the screen.
+**Add new computer to the database**
 
- **See/Search computers stored in database**
-  1. After welcome message, choose *2. See database*.
-  2. Now choose *2. Computers*.
-  3. Choose wheather you want to see all computers(1) or if you want to search by name, full or partial(2), build year(3), type(4) or wheather it was built or not(5).
-  4. Pick a way to sort your list. Sort by: name(1), year of build(2), type(3), wheather it was built or not(4) or no sorting at all(5). If you choose *5. No sorting*, jump to step 5.
-  5. Choose wheather you want your output in an ascending(1) or descending(2) order.
-  6. Your list will appear on the screen.
+  1. Select the *Computers*-tab.
+  2. Fill out the name-, build year- and about- fields, choose type and wheather it was built or not. About field can be left empty.
+      * Build year can not be before 1200 nor after 2015.
+  3. Click Add-button.
+  4. Computer has been added and appears in list.
+  
+**See/Search scientists stored in database**
 
- **Edit a scientist in database**
-  1. After welcome message, choose *1. Edit database*.
-  2. Choose *4. Edit a scientist in the database*.
-  3. Type in the whole name or a part of the name of the scientist you want to edit. If there are more than one scientists in the database that match your input you will see a list of the matching scientists and then you choose the ID of the scientist you want to edit.
-  4. Choose what you want to change about that scientist. (1)Name, (2)sex, (3)year of birth, (4)year of death or (5)about.
-  5. Type in the new information
-  6. Check the updated information and press Y if you are done editing and N otherwise. If you press N, move back to 4. If you press Y, move to the next line.
-  7. Scientist has been edited. 
+  1. Select the *Scientists*-tab.
+  2. Fill in the name/sex/birth year/death year/about you want to search by. Multiple fields can be filled to narrow search.
+  3. Click the name of the column you want to arrange your search by. (Name, sex, birth, death, about)
+ * To get the original order, press clear(Does not apply when adding relations in edit-mode)
 
- **Edit a computer in database**
-  1. After welcome message, choose *1. Edit database*.
-  2. Choose *5. Edit a computer in the database*.
-  3. Type in the whole name or a part of the name of the computer you want to edit. If there are more than one computers in the database that match your input you will see a list of the matching computers and then you choose the ID of the computer you want to edit.
-  4. Choose what you want to change about that computer. (1)Name, (2)build year, (3)type, (4)wheather it was built or not or (5)about.
-  5. Type in the new information
-  6. Check the updated information and press Y if you are done editing and N otherwise. If you press N, move back to 4. If you press Y, move to the next line.
-  7. Computer has been edited. 
+**See/Search computers stored in database**
 
- **Remove a scientist from database**
-  1. After welcome message, choose *1. Edit database*.
-  2. Choose *6. Delete a scientist from the database*.
-  3. Type in the name full name or a part of the name of the scientist you want to delete. If there are more than one scientists in the database that match your input you will see a list of the matching scientists and then you choose the ID of the scientist you want to delete.
-  4. Choose if you are sure wheather you want to delete the scientist or not.
-  5. Scientist has been deleted.
+  1. Select the *Computers*-tab.
+  2. Fill in the name/type/build year/was it built? you want to search by. Multiple fields can be filled to narrow search.
+  3. Click the name of the column you want to arrange your search by. (Name, type, year, was it built?, about)
+   * To get the original order, press clear(Does not apply when adding relations in edit-mode)
 
- **Remove a computer from database**
-  1. After welcome message, choose *1. Edit database*.
-  2. Choose *7. Delete a computer from the database*.
-  3. Type in the name full name or a part of the name of the computer you want to delete. If there are more than one computers in the database that match your input you will see a list of the matching computerss and then you choose the ID of the computer you want to delete.
-  4. Choose if you are sure wheather you want to delete the computer or not.
-  5. Computer has been deleted.
+**Edit a scientist in database**
 
- **Add a scientist - computer relation**
-  1. After welcome message, choose *1. Edit database*.
-  2. Then choose *3. Add a scientist - computer relation*.
-  3. Now add the scientist you want to connect by either searching for his name or press enter to see all scientists in database and choose the scientist's ID.
-  4. Now add the computer you want to connect the scientist to by either searching for it's name or press enter to see all computers in database and choose the computer's ID.
-  5. Scientist - computer relation has been made.
+  1. Select the *Scientists*-tab.
+  2. Search for the scientist you want to edit. (See *See/Search scientists stored in database*)
+  3. Double-click the scientist you want to edit or choose the scientist and then press alt+E.
+  4. Change the things you wanted to edit.
+  5. Press the *Save* button or press alt+S.
 
- **See a scientist - computer relation**
-  1. After welcome message, choose *2. See database*.
-  2. Choose wheather you want to see all scientists connected to a computer(3) or a computer connected to a scientist(4).
-  3. Now look up the scientist/computer you want to see relations to by either typing the name or press enter to get a list of all computers/scientists and choose the computer's/scientist's ID.
+**Edit a computer in database**
 
- **Delete a scientist - computer relation**
-  1. After welcome message, choose *1. Edit database*.
-  2. Choose *8. Delete a scientist - computer relation*
-  3. Now find the scientist of which you want to delete relations by either typing in his/her name or pressing enter to get a list of all scientists in database and then choose his/her ID.
-  4. You will now see a list of all the computers this scientist is connected to and to delete relation, you simply choose the computer's ID of whom you wish to remove.
+  1. Select the *Computers*-tab.
+  2. Search for the computer you want to edit. (See *See/Search computers stored in database*)
+  3. Double-click the computer you want to edit or choose the computer and then press alt+E.
+  4. Change the things you wanted to edit
+  5. Press the *Save* button or press alt+S
+
+**Remove a scientist from database**
+
+  1. Select the *Scientists*-tab.
+  2. Search for the scientist you want to delete. (See *See/Search scientists stored in database*)
+  3. Double-click the scientist you want to edit or choose the scientists and the press alt+E.
+  4. Press the *Delete* button or press alt+E.
+  5. Confirm that you want to delete the scientist.
+  6. Scientist has been deleted.
+
+**Remove a computer from database**
+
+  1. Select the *Computers*-tab.
+  2. Search for the computer you want to delete. (See *See/Search computers stored in database*)
+  3. Double-click the computer you want to edit or choose the computers and the press alt+E.
+  4. Press the *Delete* button or press alt+E.
+  5. Confirm that you want to delete the computer.
+  6. Computer has been deleted.
+
+**Add a scientist - computer relation**
+
+  *There are two ways of doing this.*
+
+  1. Select the *Scientist*-tab.
+  2. Search for the scientist you want to delete. (See *See/Search scientists stored in database*)
+  3. Double-click the scientist you want to edit or choose the scientists and the press alt+E.
+  4. Press the *Add computers* button or press alt+A.
+  5. Search for the computer you want to add the relation to. (See from step 2. in *See/Search computers stored in database*)
+  6. Click the computer you want to add and then click the *Add selected* button or press alt+A.
+  7. Relation has been added and appears in list
+  
+*Or*
+
+  1. Select the *Computers*-tab.
+  2. Search for the computer you want to delete. (See *See/Search computers stored in database*)
+  3. Double-click the computer you want to edit or choose the computers and the press alt+E.
+  4. Press the *Add scientists* button or press alt+A.
+  5. Search for the scientist you want to add the relation to. (See from step 2. in *See/Search scientists stored in database*)
+  6. Click the scientist you want to add and then click the *Add selected* button or press alt+A.
+  7. Relation has been added and appears in list
+
+**See a scientist - computer relation**
+
+  *There are two ways of doing this.*
+
+  1. Select the *Scientists*-tab.
+  2. Search for the scientist you want to see relations to. (See *See/Search scientists stored in database*)
+  3. Double-click the scientist you want to see relations to or choose the scientist and then press alt+E.
+  4. Computers related to this scientist are shown in a list below edit section.
+
+  *Or*
+
+  1. Select the *Computers*-tab.
+  2. Search for the computer you want to see relations to. (See *See/Search computers stored in database*)
+  3. Double-click the computer you want to see relations to or choose the computer and then press alt+E.
+  4. Scientists related to this computers are shown in a list below edit section.
+
+**Delete a scientist - computer relation**
+ 
+ *There are two ways of doing this*
+
+ * *Delete computer from scientist*
+
+  1. Select the *Scientists*-tab.
+  2. Search for the scientist you want to delete relations to. (See *See/Search scientists stored in database*)
+  3. Double-click the scientist you want to delete relations to or choose the scientist and then press alt+E.
+  4. Computers related to this scientist are shown in a list below edit section. Choose the computer you want to remove from relations and click the *Remove selected computer* button or press alt+R.
   5. Relation has been deleted.
+  
+*Or*
+
+ * *Delete scientist from computer*
+
+  1. Select the *Computers*-tab.
+  2. Search for the computer you want to delete relations to. (See *See/Search computers stored in database*)
+  3. Double-click the computer you want to delete relations to or choose the computer and then press alt+E.
+  4. Scientists related to this computer are shown in a list below edit section. Choose the scientist you want to remove from relations and click the *Remove selected scientist* button or press alt+R.
+  5. Relation has been deleted.
+  
 
 #### 3. Programming rules
-1. **Classes**
+**1. Classes**
   * PascalCasing
 
-2. **Variables**
+**2. Variables**
   * camelCasing
 
-3. **Functions**
-  * camelCasing
+**3. Functions**
+  * camelCasing (except for functions made by QT, those are snake_cased
 
-4. **Comments**
+**4. Comments**
   * Comments should be written above the code that is being explained as well as having the same indentation. The comments should always start with a space.
 
 >    
@@ -153,7 +200,7 @@
 
   * Comments on functions should be in Doxygen(/*!) and be placed **above** the function being explained.
 
-5.**Curly brackets**
+**5. Curly brackets**
   
 * Curly brackets should not open in the same line as a function name/loop condition except if it has only one shor line inside.
 
@@ -177,7 +224,7 @@
       
 >      foo() { bar = i; }
 
-6.**Loops and boolean conditions**
+**6. Loops and boolean conditions**
   
 * Loops and boolean conditions should always have curly brackets
 
@@ -213,7 +260,7 @@
        foo = bar;
      }
 
-7.**Lines and spacing**
+**7. Lines and spacing**
   
 * Try as mutch as possible to group similar things together, but if something is clearer in some other way the clarity wins.
 
@@ -238,3 +285,18 @@
 
 >       if(contidion){bar = i; };
     }
+
+#### 4. Extra features
+ 
+* **User can add a photo to computers and scientists**
+* **Tables in edit window can be resizable.**
+* **Computers and scientists can be deleted.(If a computer/scientist is deleted, it's relations and profile picture are deleted as well.**
+* **Relations between computers and scientists can be deleted**
+* **User gets error messages if he violates input constraints**
+* **Shortcuts:**
+  * alt+A - Add(search-mode)
+  * alt+C - Cancel(edit-mode), Clear(search-mode)
+  * alt+E - Delete(edit-mode), Edit(search-mode)
+  * alt+P - Set profile picture(edit-mode)
+  * alt+R - Remove(edit-mode)
+  * alt+S - Save(edit-mode)
