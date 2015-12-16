@@ -298,6 +298,8 @@
 * **Relations between computers and scientists can be deleted**
 * **User gets error messages if he violates input constraints**
 * **Shortcuts:**
+
+  *Only available on windows*
   * alt+A - Add(search-mode)
   * alt+C - Cancel(edit-mode), Clear(search-mode)
   * alt+E - Delete(edit-mode), Edit(search-mode)
