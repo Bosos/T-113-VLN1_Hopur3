@@ -3,7 +3,8 @@ QT += sql
 QT += gui
 QT += widgets
 
-TARGET = The Computer Scientist Database
+TARGET = ComputerScientistsW3
+DEPLOYMENT.display_name = The Computer Scientist Database
 CONFIG += console
 CONFIG += app_bundle
 CONFIG += c++11
