@@ -16,6 +16,7 @@ struct ScientistSearch
     QString birth = "";
     QString death = "";
     QString about = "";
+
 private:
     QString sex = "";
 };
@@ -29,6 +30,7 @@ struct ComputerSearch
     QString name = "";
     QString buildYear = "";
     QString about = "";
+
 private:
     QString type = "";
     QString wasItBuilt = "";

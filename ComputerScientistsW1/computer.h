@@ -22,6 +22,7 @@ public:
     void setType(int newType);
     void setWasItBuilt(bool newWasItBuilt);
     void setAbout(string newAbout);
+
 private:
     string name;
     int buildYear;

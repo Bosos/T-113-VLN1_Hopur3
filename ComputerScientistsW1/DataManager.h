@@ -50,7 +50,6 @@ public:
     QSqlQueryModel* searchComputerToScientist(int id);
     vector<QString> relationExists(int sID, int cID);
 
-
 private:
     QSqlDatabase db;
     QSqlQuery query;
