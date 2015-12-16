@@ -54,6 +54,8 @@
   4. Change the things you wanted to edit.
   5. Press the *Save* button or press alt+S.
 
+* *(Scientists can be double-clicked in the list of scientists related to a computer, to edit.)*
+
 **Edit a computer in database**
 
   1. Select the *Computers*-tab.
@@ -61,6 +63,8 @@
   3. Double-click the computer you want to edit or choose the computer and then press alt+E.
   4. Change the things you wanted to edit
   5. Press the *Save* button or press alt+S
+
+* *(Computers can be double-clicked in the list of computers related to a scientist, to edit.)*
 
 **Remove a scientist from database**
 
