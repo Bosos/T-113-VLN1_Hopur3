@@ -9,6 +9,7 @@ CONFIG += console
 CONFIG += app_bundle
 CONFIG += c++11
 RC_FILE = myapp.rc
+macx:ICON = $${PWD}/TCSD.icns
 
 TEMPLATE = app
 
