@@ -6,14 +6,28 @@ Service::Service(string fileLocation)
 }
 
 //Scientist
-vector<QString> Service::scientistExists(ScientistSearch scientistSearch)
+QString Service::scientistExists(ScientistSearch scientistSearch)
 {
-    return dataMan->scientistExists(scientistSearch);
+    vector<QString> errMessages = dataMan->scientistExists(scientistSearch);
+    QString completeMessage = "";
+    while(errMessages.size() > 0)
+    {
+        completeMessage += " " + errMessages.back() + "\n";
+        errMessages.pop_back();
+    }
+    return completeMessage;
 }
 
-vector<QString> Service::scientistExistsEdit(ScientistSearch scientistSearch)
+QString Service::scientistExistsEdit(ScientistSearch scientistSearch)
 {
-    return dataMan->scientistExistsEdit(scientistSearch);
+    vector<QString> errMessages = dataMan->scientistExistsEdit(scientistSearch);
+    QString completeMessage = "";
+    while(errMessages.size() > 0)
+    {
+        completeMessage += " " + errMessages.back() + "\n";
+        errMessages.pop_back();
+    }
+    return completeMessage;
 }
 
 void Service::addScientist(ScientistSearch scientistSearch)
@@ -69,14 +83,28 @@ Scientist Service::makeScientistFromSearchCriteria(ScientistSearch scientistSear
 }
 
 //Computer
-vector<QString> Service::computerExists(ComputerSearch computerSearch)
+QString Service::computerExists(ComputerSearch computerSearch)
 {
-    return dataMan->computerExists(computerSearch);
+    vector<QString> errMessages = dataMan->computerExistsEdit(computerSearch);
+    QString completeMessage = "";
+    while(errMessages.size() > 0)
+    {
+        completeMessage += " " + errMessages.back() + "\n";
+        errMessages.pop_back();
+    }
+    return completeMessage;
 }
 
-vector<QString> Service::computerExistsEdit(ComputerSearch computerSearch)
+QString Service::computerExistsEdit(ComputerSearch computerSearch)
 {
-    return dataMan->computerExistsEdit(computerSearch);
+    vector<QString> errMessages = dataMan->computerExistsEdit(computerSearch);
+    QString completeMessage = "";
+    while(errMessages.size() > 0)
+    {
+        completeMessage += " " + errMessages.back() + "\n";
+        errMessages.pop_back();
+    }
+    return completeMessage;
 }
 
 void Service::addComputer(ComputerSearch computerSearch)

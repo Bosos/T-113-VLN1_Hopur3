@@ -7,20 +7,28 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    // Index 0 is the main tab page, 1 for Scientist page, 2 for the Computer page
     ui->windowSwitcher->setCurrentIndex(0);
+
+    // Edid buttons disabled, when the table is shown for the first time, no line is selected to be edited
     ui->editScientistpushButton->setDisabled(true);
     ui->editSelectedComputerPushButton->setDisabled(true);
 
     string fileLocation = "database.sqlite";
     this->serviceMan = new Service(fileLocation);
 
-    ui->yearOfBirthField->setValidator(new QIntValidator(1000, 2015, this));
-    ui->yearOfDeathField->setValidator(new QIntValidator(1000, 2015, this));
-    ui->computerBuiltYearlineEdit->setValidator(new QIntValidator(1000, 2015, this));
+    // Textboxes for years dont take more than 4 number length years
+    ui->yearOfBirthField->setValidator(new QIntValidator(1000, 9999, this));
+    ui->yearOfDeathField->setValidator(new QIntValidator(1000, 9999, this));
+    ui->computerBuiltYearlineEdit->setValidator(new QIntValidator(1000, 9999, this));
+    ui->selectedScientistYearOfBirthField->setValidator(new QIntValidator(1000, 9999, this));
+    ui->selectedScientistYearOfDeathField->setValidator(new QIntValidator(1000, 9999, this));
 
+    // Get the tables for the first time
     updateScientist();
     updateComputer();
 
+    // Sets the tables up to have one row selection
     ui->foundScientistTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->foundScientistTableView->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->foundComputersTableView ->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -40,36 +48,17 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_scientistNameField_textEdited()
-{
-    updateScientist();
-}
-
-void MainWindow::on_sexComboBox_activated()
-{
-    updateScientist();
-}
-
-void MainWindow::on_yearOfBirthField_textEdited()
-{
-    updateScientist();
-}
-
-void MainWindow::on_yearOfDeathField_textEdited()
-{
-    updateScientist();
-}
-
-void MainWindow::on_scientistAboutField_textChanged()
-{
-    updateScientist();
-}
-
 void MainWindow::on_foundScientistTableView_pressed()
 {
     ui->editScientistpushButton->setDisabled(false);
 }
 
+/*!
+ * \brief MainWindow::on_foundScientistTableView_doubleClicked
+ * Gathers information from the clicked row before displaying it in another window
+ * Goes from Scientist search to Scientist profile page
+ * \param index
+ */
 void MainWindow::on_foundScientistTableView_doubleClicked(const QModelIndex &index)
 {
     int row = index.row();
@@ -113,7 +102,6 @@ void MainWindow::on_selectedScientistAddComputer_clicked()
     ui->selectedScientistComputerSearchNameField->setFocus();
 }
 
-
 ScientistSearch MainWindow::getScientistFromInput()
 {
     ScientistSearch sciSearch;
@@ -127,6 +115,7 @@ ScientistSearch MainWindow::getScientistFromInput()
 
 void MainWindow::updateScientist()
 {
+    ui->editScientistpushButton->setDisabled(true);
     ui->foundScientistTableView->setSortingEnabled(true);
     QSortFilterProxyModel *sqlproxy = new QSortFilterProxyModel(this);
     sqlproxy->setSourceModel(serviceMan->search(getScientistFromInput()));
@@ -251,19 +240,12 @@ void MainWindow::on_selectedScientistOKPushButton_clicked()
     scientistSearch.death = ui->selectedScientistYearOfDeathField->text();
     scientistSearch.about = ui->selectedScientistAboutField->toPlainText();
 
-    vector<QString> errMessages = serviceMan->scientistExistsEdit(scientistSearch);
+    QString errMessages = serviceMan->scientistExistsEdit(scientistSearch);
 
-    if(errMessages.size() > 0)
+    if(errMessages != "")
     {
-        QString completeMessage;
-        while(errMessages.size() > 0)
-        {
-            completeMessage += " " + errMessages.back() + "\n";
-            errMessages.pop_back();
-        }
-
-        int ret = QMessageBox::warning(this,"Wrong input", completeMessage, "OK" );
-        if (ret) { return; }
+        QMessageBox::warning(this,"Wrong input", errMessages, "OK" );
+        return;
     }
     else
     {
@@ -279,6 +261,7 @@ void MainWindow::on_scientistChangeCancelpushButton_clicked()
     ui->windowSwitcher->setCurrentIndex(0);
 }
 
+
 void MainWindow::on_computerSelectedOKPushButton_clicked()
 {
     ComputerSearch computerSearch;
@@ -289,19 +272,12 @@ void MainWindow::on_computerSelectedOKPushButton_clicked()
     computerSearch.setWasItBuilt(ui->computerSelectedWasItBuiltComboBox->currentIndex());
     computerSearch.about = ui->computerSelectedAboutField->toPlainText();
 
-    vector<QString> errMessages = serviceMan->computerExistsEdit(computerSearch);
+    QString errMessages = serviceMan->computerExistsEdit(computerSearch);
 
-    if(errMessages.size() > 0)
+    if(errMessages != "")
     {
-        QString completeMessage;
-        while(errMessages.size() > 0)
-        {
-            completeMessage += " " + errMessages.back() + "\n";
-            errMessages.pop_back();
-        }
-
-        int ret = QMessageBox::warning(this,"Wrong input", completeMessage, "OK" );
-        if (ret) { return; }
+        int ret = QMessageBox::warning(this,"Wrong input", errMessages, "OK" );
+        return;
     }
     else
     {
@@ -319,6 +295,7 @@ void MainWindow::on_computerSelectedCancelPushButton_clicked()
 
 void MainWindow::updateComputer()
 {
+    ui->editSelectedComputerPushButton->setDisabled(true);
     ui->foundComputersTableView->setSortingEnabled(true);
     QSortFilterProxyModel *sqlproxy = new QSortFilterProxyModel(this);
     sqlproxy->setSourceModel(serviceMan->searchComputer(getComputerFromInput()));
@@ -350,31 +327,6 @@ ComputerSearch MainWindow::getComputerFromScientistAddComputerInput()
     computerSearch.about = ui->computerAboutlineEdit->text();
 
     return computerSearch;
-}
-
-void MainWindow::on_computerNameLineEdit_textEdited()
-{
-    updateComputer();
-}
-
-void MainWindow::on_computerBuiltYearlineEdit_textEdited()
-{
-    updateComputer();
-}
-
-void MainWindow::on_computerSearchTypeComboBox_activated()
-{
-    updateComputer();
-}
-
-void MainWindow::on_computerSearchWasItBuiltComboBox_activated()
-{
-    updateComputer();
-}
-
-void MainWindow::on_computerAboutlineEdit_textChanged()
-{
-    updateComputer();
 }
 
 void MainWindow::on_clearComputerPushButton_clicked()
@@ -428,19 +380,12 @@ void MainWindow::on_foundComputersTableView_doubleClicked(const QModelIndex &ind
 void MainWindow::on_addScientistPushButton_clicked()
 {
     ScientistSearch sci = getScientistFromInput();
-    vector<QString> errMessages= serviceMan->scientistExists(sci);
-    if(errMessages.size() > 0)
+    QString errMessages= serviceMan->scientistExists(sci);
+
+    if(errMessages != "")
     {
-        QString completeMessage;
-        while(errMessages.size() > 0)
-        {
-            completeMessage += " " + errMessages.back() + "\n";
-            errMessages.pop_back();
-        }
-        qDebug() << completeMessage;
-        // Please find a better heading than 'Double Scientist'
-        int ret = QMessageBox::warning(this,"Wrong input", completeMessage, "OK" );
-        if (ret) { return; }
+        QMessageBox::warning(this,"Wrong input", errMessages, "OK" );
+        return;
     }
     else
     {
@@ -452,21 +397,12 @@ void MainWindow::on_addScientistPushButton_clicked()
 void MainWindow::on_addComputerPushButton_clicked()
 {
     ComputerSearch computerSearch = getComputerFromInput();
-    vector<QString> errMessages = serviceMan->computerExists(computerSearch);
+    QString errMessages = serviceMan->computerExists(computerSearch);
 
-    if(errMessages.size() > 0)
+    if(errMessages != "")
     {
-        QString completeMessage;
-        while(errMessages.size() > 0)
-        {
-            completeMessage += " " + errMessages.back() + "\n";
-            errMessages.pop_back();
-        }
-
-        qDebug() << completeMessage;
-        int ret = QMessageBox::warning(this,"Wrong input", completeMessage, "OK" );
-        if (ret) { return; }
-
+        QMessageBox::warning(this,"Wrong input", errMessages, "OK" );
+        return;
     }
     else
     {
@@ -499,26 +435,6 @@ void MainWindow::updateScientistsWhoUsedComputer()
     ui->computerSelectedScientistTable->resizeColumnsToContents();
     ui->computerSelectedScientistTable->horizontalHeader()->setStretchLastSection(true);
     ui->computerSelectedScientistTable->setColumnHidden(0, true);
-}
-
-void MainWindow::on_selectedScientistComputerSearchNameField_textChanged()
-{
-    updateSelectedScientistComputerSearchTableView();
-}
-
-void MainWindow::on_selectedScientistComputerSearchBuiltYearField_textEdited()
-{
-    updateSelectedScientistComputerSearchTableView();
-}
-
-void MainWindow::on_selectedScientistComputerSearchWasItBuiltComboBox_currentIndexChanged()
-{
-    updateSelectedScientistComputerSearchTableView();
-}
-
-void MainWindow::on_selectedScientistComputerSearchTypeComboBox_currentIndexChanged()
-{
-    updateSelectedScientistComputerSearchTableView();
 }
 
 void MainWindow::on_selectedScientistComputerSearcAddpushButton_clicked()
@@ -566,11 +482,15 @@ void MainWindow::on_computerSelectedChangePicturePushButton_clicked()
     updateComputerProfilePicture();
 }
 
-void MainWindow::on_selectedScientistComputerSearchTableView_doubleClicked(const QModelIndex &index)
+void MainWindow::on_selectedScientistComputerSearchTableView_doubleClicked()
 {
     on_selectedScientistComputerSearcAddpushButton_clicked();
 }
 
+/*!
+ * \brief MainWindow::updateSelectedComputerScientistSearchTableView
+ * Updates the table searching for computers inside the scientist profile
+ */
 void MainWindow::updateSelectedComputerScientistSearchTableView()
 {
     ui->computerSelectedScientistSearchTableView->setSortingEnabled(true);
@@ -583,6 +503,7 @@ void MainWindow::updateSelectedComputerScientistSearchTableView()
     ui->computerSelectedScientistSearchTableView->setColumnHidden(0, true);
 }
 
+
 ScientistSearch MainWindow::getScientistFromComputerAddScientistInput()
 {
     ScientistSearch sci;
@@ -592,25 +513,6 @@ ScientistSearch MainWindow::getScientistFromComputerAddScientistInput()
     sci.setSex(ui->computerSelectedScientistSearchsexComboBox->currentText());
 
     return sci;
-}
-void MainWindow::on_computerSelectedScientistSearchNameField_textChanged(const QString &arg1)
-{
-    updateSelectedComputerScientistSearchTableView();
-}
-
-void MainWindow::on_computerSelectedScientistSearchsexComboBox_currentIndexChanged(const QString &arg1)
-{
-    updateSelectedComputerScientistSearchTableView();
-}
-
-void MainWindow::on_computerSelectedScientistSearchyearOfBirthField_textChanged(const QString &arg1)
-{
-    updateSelectedComputerScientistSearchTableView();
-}
-
-void MainWindow::on_computerSelectedScientistSearchyearOfDeathField_textChanged(const QString &arg1)
-{
-    updateSelectedComputerScientistSearchTableView();
 }
 
 void MainWindow::on_computerSelectedScientistSearchAddPushButton_clicked()
@@ -643,6 +545,13 @@ void MainWindow::on_computerSelectedScientistSelectedRemoveSelectedButton_clicke
     serviceMan->removeCSRelation(currentlySelectedUserID,currentlySelectedComputerID);
     updateScientistsWhoUsedComputer();
 }
+
+/*!
+ * \brief MainWindow::setWidth
+ * Gives back the appropriate width of the picture which should not exceed 350
+ * \param width
+ * \return
+ */
 int MainWindow::setWidth(int width)
 {
     if (width < 350) {return width;}
@@ -662,4 +571,97 @@ void MainWindow::on_computerSelectedScientistTable_doubleClicked(const QModelInd
 void MainWindow::on_computerSelectedScientistSearchTableView_doubleClicked()
 {
     on_computerSelectedScientistSearchAddPushButton_clicked();
+}
+
+/*!
+ * The program does a bit of Life updating and these fields call an updater when changes happen
+ */
+void MainWindow::on_scientistNameField_textEdited()
+{
+    updateScientist();
+}
+
+void MainWindow::on_sexComboBox_activated()
+{
+    updateScientist();
+}
+
+void MainWindow::on_yearOfBirthField_textEdited()
+{
+    updateScientist();
+}
+
+void MainWindow::on_yearOfDeathField_textEdited()
+{
+    updateScientist();
+}
+
+void MainWindow::on_scientistAboutField_textChanged()
+{
+    updateScientist();
+}
+
+void MainWindow::on_computerNameLineEdit_textEdited()
+{
+    updateComputer();
+}
+
+void MainWindow::on_computerBuiltYearlineEdit_textEdited()
+{
+    updateComputer();
+}
+
+void MainWindow::on_computerSearchTypeComboBox_activated()
+{
+    updateComputer();
+}
+
+void MainWindow::on_computerSearchWasItBuiltComboBox_activated()
+{
+    updateComputer();
+}
+
+void MainWindow::on_computerAboutlineEdit_textChanged()
+{
+    updateComputer();
+}
+
+void MainWindow::on_selectedScientistComputerSearchNameField_textChanged()
+{
+    updateSelectedScientistComputerSearchTableView();
+}
+
+void MainWindow::on_selectedScientistComputerSearchBuiltYearField_textEdited()
+{
+    updateSelectedScientistComputerSearchTableView();
+}
+
+void MainWindow::on_selectedScientistComputerSearchWasItBuiltComboBox_currentIndexChanged()
+{
+    updateSelectedScientistComputerSearchTableView();
+}
+
+void MainWindow::on_selectedScientistComputerSearchTypeComboBox_currentIndexChanged()
+{
+    updateSelectedScientistComputerSearchTableView();
+}
+
+void MainWindow::on_computerSelectedScientistSearchNameField_textChanged()
+{
+    updateSelectedComputerScientistSearchTableView();
+}
+
+void MainWindow::on_computerSelectedScientistSearchsexComboBox_currentIndexChanged()
+{
+    updateSelectedComputerScientistSearchTableView();
+}
+
+void MainWindow::on_computerSelectedScientistSearchyearOfBirthField_textChanged()
+{
+    updateSelectedComputerScientistSearchTableView();
+}
+
+void MainWindow::on_computerSelectedScientistSearchyearOfDeathField_textChanged()
+{
+    updateSelectedComputerScientistSearchTableView();
 }

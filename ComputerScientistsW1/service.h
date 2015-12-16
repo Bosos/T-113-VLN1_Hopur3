@@ -24,8 +24,8 @@ public:
     void storeScientistPicture(QString fileName, int currentlySelectedID);
     QPixmap getScientistPicture(int scientistId);
     bool isScientistSearchAvalidScientist(ScientistSearch scientistSearch);
-    vector<QString> scientistExists(ScientistSearch scientistSearch);
-    vector<QString> scientistExistsEdit(ScientistSearch scientistSearch);
+    QString scientistExists(ScientistSearch scientistSearch);
+    QString scientistExistsEdit(ScientistSearch scientistSearch);
     QSqlQueryModel* search(ScientistSearch scientistSearch);
     Scientist makeScientistFromSearchCriteria(ScientistSearch scientistSearch);
 
@@ -36,8 +36,8 @@ public:
     void storeComputerPicture(QString fileName, int currentlySelectedComputerID);
     QPixmap getComputerPicture(int computerId);
     bool isComputerSearchAvalidComputer(ComputerSearch computerSearch);
-    vector<QString> computerExists(ComputerSearch computerSearch);
-    vector<QString> computerExistsEdit(ComputerSearch computerSearch);
+    QString computerExists(ComputerSearch computerSearch);
+    QString computerExistsEdit(ComputerSearch computerSearch);
     QSqlQueryModel* searchComputer(ComputerSearch computerSearch);
 
     //Relations
