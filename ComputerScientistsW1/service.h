@@ -5,7 +5,6 @@
 #include "Computer.h"
 #include "stdlib.h"
 #include <vector>
-#include <TypeOfComputer.h>
 #include <SearchCriteria.h>
 #include <QGraphicsPixmapItem>
 
