@@ -8,6 +8,7 @@
 #include <cstring>
 #include <QSqlQuery>
 #include <QSqlRecord>
+using namespace std;
 
 /*!
  * \brief DataManager::DataManager
@@ -293,7 +294,8 @@ QSqlQueryModel* DataManager::searchComputer(ComputerSearch computerSearch)
                       " WHERE c.Name LIKE '%" + computerSearch.name.toStdString() + "%'"
                       " AND c.Type LIKE '%" + computerSearch.getType().toStdString() + "%'"
                       " AND c.Buildyear LIKE '%" + computerSearch.buildYear.toStdString() + "%'"
-                      " AND c.Wasbuilt LIKE '%" + computerSearch.getWasItBuilt().toStdString() + "%'";
+                      " AND c.Wasbuilt LIKE '%" + computerSearch.getWasItBuilt().toStdString() + "%'"
+                      " AND c.About LIKE '%" + computerSearch.about.toStdString() + "%'";
 
     qDebug() << ( computer.c_str() );
     query->exec(computer.c_str());
@@ -458,12 +460,45 @@ vector<QString> DataManager::scientistExists(ScientistSearch scientistSearch)
     query.next();
 
     if (scientistSearch.getSex() == ""){message.push_back("Sex has to be chosen");}
-    if (scientistSearch.getAge() > 120){message.push_back("Age should be realistic, nothing over 120 years old");}
-    if (scientistSearch.birth.toInt() < 1200){message.push_back("No computer scientist is born before 1200!");}
-    if (scientistSearch.birth == ""){message.push_back("Birth can not be empty");}
-    if (scientistSearch.name == ""){message.push_back("Name can not be empty");}
-    if (query.value("count").toInt()) {message.push_back("Scientist seems to exist");}
+    if (scientistSearch.birth != "")
+    {
+        if (scientistSearch.birth.toInt() < 1200){message.push_back("No computer scientist is born before 1200!");}
+        if (scientistSearch.getAge() > 120){message.push_back("Age should be realistic, nothing over 120 years old");}
+    }
+    else if (scientistSearch.birth == ""){ message.push_back("Birth cant be empty"); }
+    if (scientistSearch.name == ""){message.push_back("Name cant be empty");}
+    if (scientistSearch.death != "")
+    {
+        if (scientistSearch.birth.toInt() >= scientistSearch.death.toInt()) { message.push_back("One can not die before he is born"); }
+    }
+    if (query.value("count").toInt()){message.push_back("Scientist seems to exist");}
+    return message;
+}
 
+vector<QString> DataManager::scientistExistsEdit(ScientistSearch scientistSearch)
+{
+    vector<QString> message;
+    string search = "SELECT COUNT(*) AS count"
+                    " FROM scientists"
+                    " WHERE name = '" + scientistSearch.name.toStdString() + "'" +
+                    " AND sex = '" + scientistSearch.getSex().toStdString() + "'" +
+                    " AND birth = " + scientistSearch.birth.toStdString();
+
+    query.exec(search.c_str());
+    query.next();
+
+    if (scientistSearch.getSex() == ""){message.push_back("Sex has to be chosen");}
+    if (scientistSearch.birth.toInt() < 1200){message.push_back("No computer scientist is born before 1200!");}
+    if (scientistSearch.death != "")
+    {
+        if (scientistSearch.getAge() > 120){message.push_back("Age should be realistic, nothing over 120 years old");}
+    }
+    else if (scientistSearch.birth == ""){ message.push_back("Birth cant be empty"); }
+    if (scientistSearch.name == ""){message.push_back("Name cant be empty");}
+    if (scientistSearch.death != "")
+    {
+        if (scientistSearch.birth.toInt() >= scientistSearch.death.toInt()) { message.push_back("One can not die before he is born"); }
+    }
     return message;
 }
 
@@ -473,20 +508,51 @@ vector<QString> DataManager::computerExists(ComputerSearch computerSearch)
 
     string search = "SELECT COUNT(*) AS count"
                     " FROM computers"
-                    " WHERE Name = '" + computerSearch.name.toStdString() + "'"
-                    " AND Type = '" + computerSearch.getType().toStdString() + "'"
-                    " AND Buildyear = '" + computerSearch.buildYear.toStdString() + "'"
-                    " AND Wasbuilt = '" + computerSearch.getWasItBuilt().toStdString() + "'";
+                    " WHERE Name = '" + computerSearch.name.toStdString() + "'" +
+                    " AND Type = '" + computerSearch.getType().toStdString() + "'" +
+                    " AND Buildyear = '" + computerSearch.buildYear.toStdString() + "'" +
+                    " AND Wasbuilt = '" + computerSearch.getWasItBuilt().toStdString()+ "'";
 
     query.exec(search.c_str());
     query.next();
 
-    if(computerSearch.getType() == "") { message.push_back("Type has to be chosen!"); }
-    if(computerSearch.getWasItBuilt() == "") { message.push_back("You have to say wheather the computer was built or not!"); }
-    if(computerSearch.buildYear.toInt() <= 1200) { message.push_back("No computer was built or even theorized before the year 1200!"); }
-    if(computerSearch.buildYear == "") { message.push_back("Built year can not be empty"); }
-    if(computerSearch.name == "") {message.push_back("Name can not be empty"); }
-    if(query.value("count").toInt()) { message.push_back("Computer already exists"); }
-cout << computerSearch.buildYear.toInt() << endl;
+    if (computerSearch.name == ""){message.push_back("Name cant be empty");}
+    if (computerSearch.getType() == ""){message.push_back("Type has to be chosen");}
+    if (computerSearch.buildYear != "")
+    {
+        if (computerSearch.buildYear.toInt() < 1200){message.push_back("No computer was made before 1200");}
+        if (computerSearch.buildYear.toInt() > 2015){message.push_back("Can't enter a computer from the future");}
+    }
+    else if(computerSearch.buildYear == "") {message.push_back("Build year can not be empty"); }
+    if (computerSearch.getWasItBuilt() == ""){message.push_back("Has to be specified if the computer was built");}
+    if (query.value("count").toInt()){message.push_back("Computer seems to exist");}
+
+    return message;
+}
+
+vector<QString> DataManager::computerExistsEdit(ComputerSearch computerSearch)
+{
+    vector<QString> message;
+
+    string search = "SELECT COUNT(*) AS count"
+                    " FROM computers"
+                    " WHERE Name = '" + computerSearch.name.toStdString() + "'" +
+                    " AND Type = '" + computerSearch.getType().toStdString() + "'" +
+                    " AND Buildyear = '" + computerSearch.buildYear.toStdString() + "'" +
+                    " AND Wasbuilt = '" + computerSearch.getWasItBuilt().toStdString()+ "'";
+
+    query.exec(search.c_str());
+    query.next();
+
+    if (computerSearch.name == ""){message.push_back("Name cant be empty");}
+    if (computerSearch.getType() == ""){message.push_back("Type has to be chosen");}
+    if (computerSearch.buildYear != "")
+    {
+        if (computerSearch.buildYear.toInt() < 1200){message.push_back("No computer was made before 1200");}
+        if (computerSearch.buildYear.toInt() > 2015){message.push_back("Can't enter a computer from the future");}
+    }
+    else if(computerSearch.buildYear == "") {message.push_back("Build year can not be empty"); }
+    if (computerSearch.getWasItBuilt() == ""){message.push_back("Has to be specified if the computer was built");}
+
     return message;
 }

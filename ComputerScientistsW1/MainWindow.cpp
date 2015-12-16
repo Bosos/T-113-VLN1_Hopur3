@@ -8,8 +8,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     ui->windowSwitcher->setCurrentIndex(0);
-    ui->editScientistpushButton->setHidden(true);
-    ui->editSelectedComputerPushButton->setHidden(true);
+    ui->editScientistpushButton->setDisabled(true);
+    ui->editSelectedComputerPushButton->setDisabled(true);
 
     string fileLocation = "database.sqlite";
     this->serviceMan = new Service(fileLocation);
@@ -54,7 +54,7 @@ void MainWindow::on_scientistAboutField_textChanged()
 
 void MainWindow::on_foundScientistTableView_clicked(const QModelIndex &index)
 {
-    ui->editScientistpushButton->setHidden(false);
+    ui->editScientistpushButton->setDisabled(false);
 }
 
 void MainWindow::on_foundScientistTableView_doubleClicked(const QModelIndex &index)
@@ -97,6 +97,7 @@ void MainWindow::on_selectedScientistAddComputer_clicked()
     ui->selectedScientistComputerSearch->setHidden(false);
     ui->selectedScientistRemoAddButonWidget->setHidden(true);
     updateSelectedScientistComputerSearchTableView();
+    ui->selectedScientistComputerSearchNameField->setFocus();
 }
 
 
@@ -174,31 +175,6 @@ void MainWindow::updateSelectedScientistComputerSearchTableView()
     ui->selectedScientistComputerSearchTableView->setColumnHidden(0, true);
 }
 
-void MainWindow::on_addScientistPushButton_clicked()
-{
-    ScientistSearch sci = getScientistFromInput();
-    vector<QString> errMessages = serviceMan->scientistExists(sci);
-
-    if(errMessages.size() > 0)
-    {
-        QString completeMessage;
-        while(errMessages.size() > 0)
-        {
-            completeMessage += " " + errMessages.back() + "\n";
-            errMessages.pop_back();
-        }
-        qDebug() << completeMessage;
-        // Please find a better heading than 'Double Scientist'
-        int ret = QMessageBox::warning(this,"Double Scientist", completeMessage, "OK" );
-        if (ret) { return; }
-    }
-    else
-    {
-        serviceMan->addScientist(sci);
-        updateScientist();
-    }
-}
-
 void MainWindow::on_clearScientistPushButton_clicked()
 {
     ui->scientistNameField->setText("");
@@ -206,12 +182,15 @@ void MainWindow::on_clearScientistPushButton_clicked()
     ui->yearOfBirthField->setText("");
     ui->yearOfDeathField->setText("");
     ui->scientistAboutField->setText("");
+
+    updateScientist();
 }
 
 void MainWindow::on_computerSelectedAddScientist_clicked()
 {
     ui->computerSelectedScientistSearch->setHidden(false);
     ui->computerSelectedRemoAddButonWidget->setHidden(true);
+    ui->computerSelectedScientistSearchNameField->setFocus();
     updateSelectedComputerScientistSearchTableView();
 }
 
@@ -252,23 +231,70 @@ void MainWindow::on_selectedScientistOKPushButton_clicked()
     scientistSearch.death = ui->selectedScientistYearOfDeathField->text();
     scientistSearch.about = ui->selectedScientistAboutField->toPlainText();
 
-    serviceMan->updateScientistDatabase(scientistSearch, currentlySelectedUserID);
-    updateScientist();
+    vector<QString> errMessages = serviceMan->scientistExistsEdit(scientistSearch);
+
+    if(errMessages.size() > 0)
+    {
+        QString completeMessage;
+        while(errMessages.size() > 0)
+        {
+            completeMessage += " " + errMessages.back() + "\n";
+            errMessages.pop_back();
+        }
+
+        int ret = QMessageBox::warning(this,"Wrong input", completeMessage, "OK" );
+        if (ret) { return; }
+    }
+    else
+    {
+        serviceMan->updateScientistDatabase(scientistSearch, currentlySelectedUserID);
+        updateScientist();
+        ui->editScientistpushButton->setDisabled(true);
+        ui->windowSwitcher->setCurrentIndex(0);
+    }
+}
+
+void MainWindow::on_scientistChangeCancelpushButton_clicked()
+{
     ui->windowSwitcher->setCurrentIndex(0);
 }
 
 void MainWindow::on_computerSelectedOKPushButton_clicked()
 {
-    ui->windowSwitcher->setCurrentIndex(0);
     ComputerSearch computerSearch;
+
     computerSearch.name = ui->computerSelectedNameField->text();
     computerSearch.setType(ui->computerSelectedTypeComboBox->currentIndex());
     computerSearch.buildYear = ui->computerSelectedComputerBuiltYearlineEdit->text();
     computerSearch.setWasItBuilt(ui->computerSelectedWasItBuiltComboBox->currentIndex());
     computerSearch.about = ui->computerSelectedAboutField->toPlainText();
 
-    serviceMan->updateComputerDatabase(computerSearch, currentlySelectedComputerID);
-    updateComputer();
+    vector<QString> errMessages = serviceMan->computerExistsEdit(computerSearch);
+
+    if(errMessages.size() > 0)
+    {
+        QString completeMessage;
+        while(errMessages.size() > 0)
+        {
+            completeMessage += " " + errMessages.back() + "\n";
+            errMessages.pop_back();
+        }
+
+        int ret = QMessageBox::warning(this,"Wrong input", completeMessage, "OK" );
+        if (ret) { return; }
+    }
+    else
+    {
+        serviceMan->updateComputerDatabase(computerSearch, currentlySelectedComputerID);
+        updateComputer();
+        ui->editSelectedComputerPushButton->setDisabled(true);
+        ui->windowSwitcher->setCurrentIndex(0);
+    }
+}
+
+void MainWindow::on_computerSelectedCancelPushButton_clicked()
+{
+    ui->windowSwitcher->setCurrentIndex(0);
 }
 
 void MainWindow::updateComputer()
@@ -290,7 +316,6 @@ ComputerSearch MainWindow::getComputerFromInput()
     computerSearch.buildYear = ui->computerBuiltYearlineEdit->text();
     computerSearch.setWasItBuilt(ui->computerSearchWasItBuiltComboBox->currentIndex());
     computerSearch.about = ui->computerAboutlineEdit->text();
-
     return computerSearch;
 }
 
@@ -301,6 +326,7 @@ ComputerSearch MainWindow::getComputerFromScientistAddComputerInput()
     computerSearch.setType(ui->selectedScientistComputerSearchTypeComboBox->currentIndex());
     computerSearch.buildYear = ui->selectedScientistComputerSearchBuiltYearField->text();
     computerSearch.setWasItBuilt(ui->selectedScientistComputerSearchWasItBuiltComboBox->currentIndex());
+    computerSearch.about = ui->computerAboutlineEdit->text();
 
     return computerSearch;
 }
@@ -321,6 +347,11 @@ void MainWindow::on_computerSearchTypeComboBox_activated()
 }
 
 void MainWindow::on_computerSearchWasItBuiltComboBox_activated()
+{
+    updateComputer();
+}
+
+void MainWindow::on_computerAboutlineEdit_textChanged()
 {
     updateComputer();
 }
@@ -373,10 +404,34 @@ void MainWindow::on_foundComputersTableView_doubleClicked(const QModelIndex &ind
     ui->windowSwitcher->setCurrentIndex(2);
 }
 
+void MainWindow::on_addScientistPushButton_clicked()
+{
+    ScientistSearch sci = getScientistFromInput();
+    vector<QString> errMessages= serviceMan->scientistExists(sci);
+    if(errMessages.size() > 0)
+    {
+        QString completeMessage;
+        while(errMessages.size() > 0)
+        {
+            completeMessage += " " + errMessages.back() + "\n";
+            errMessages.pop_back();
+        }
+        qDebug() << completeMessage;
+        // Please find a better heading than 'Double Scientist'
+        int ret = QMessageBox::warning(this,"Wrong input", completeMessage, "OK" );
+        if (ret) { return; }
+    }
+    else
+    {
+        serviceMan->addScientist(sci);
+        updateScientist();
+    }
+}
+
 void MainWindow::on_addComputerPushButton_clicked()
 {
-    ComputerSearch comp = getComputerFromInput();
-    vector<QString> errMessages = serviceMan->computerExists(comp);
+    ComputerSearch computerSearch = getComputerFromInput();
+    vector<QString> errMessages = serviceMan->computerExists(computerSearch);
 
     if(errMessages.size() > 0)
     {
@@ -387,12 +442,14 @@ void MainWindow::on_addComputerPushButton_clicked()
             errMessages.pop_back();
         }
 
-        int ret = QMessageBox::warning(this, "Double Computer", completeMessage, "OK" );
-        if (ret ) { return; }
+        qDebug() << completeMessage;
+        int ret = QMessageBox::warning(this,"Wrong input", completeMessage, "OK" );
+        if (ret) { return; }
+
     }
     else
     {
-        serviceMan->addComputer(comp);
+        serviceMan->addComputer(computerSearch);
         updateComputer();
     }
 }
@@ -471,7 +528,7 @@ void MainWindow::on_selectedScientistRemoveSelectedComputerPushButton_clicked()
 
 void MainWindow::on_foundComputersTableView_clicked(const QModelIndex &index)
 {
-    ui->editSelectedComputerPushButton->setHidden(false);
+    ui->editSelectedComputerPushButton->setDisabled(false);
 }
 
 void MainWindow::on_computerSelectedChangePicturePushButton_clicked()
@@ -563,4 +620,19 @@ int MainWindow::setWidth(int width)
 {
     if (width < 350) {return width;}
     return 350;
+}
+
+void MainWindow::on_editSelectedComputerPushButton_clicked()
+{
+    on_foundComputersTableView_doubleClicked(ui->foundComputersTableView->selectionModel()->currentIndex());
+}
+
+void MainWindow::on_computerSelectedScientistTable_doubleClicked(const QModelIndex &index)
+{
+    on_foundScientistTableView_doubleClicked(index);
+}
+
+void MainWindow::on_computerSelectedScientistSearchTableView_doubleClicked()
+{
+    on_computerSelectedScientistSearchAddPushButton_clicked();
 }

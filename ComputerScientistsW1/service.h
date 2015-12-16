@@ -26,6 +26,7 @@ public:
     bool isScientistSearchAvalidScientist(ScientistSearch scientistSearch);
     void storeScientistPicture(QString fileName, int currentlySelectedID);
     vector<QString> scientistExists(ScientistSearch scientistSearch);
+    vector<QString> scientistExistsEdit(ScientistSearch scientistSearch);
 
     QSqlQueryModel* search(ScientistSearch scientistSearch);
     QPixmap getScientistPicture(int scientistId);
@@ -39,6 +40,8 @@ public:
     QPixmap getComputerPicture(int computerId);
     void storeComputerPicture(QString fileName, int currentlySelectedComputerID);
     vector<QString> computerExists(ComputerSearch computerSearch);
+    vector<QString> computerExistsEdit(ComputerSearch computerSearch);
+
 
     QSqlQueryModel* searchComputer(ComputerSearch computerSearch);
 

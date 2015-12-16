@@ -11,6 +11,11 @@ vector<QString> Service::scientistExists(ScientistSearch scientistSearch)
     return dataMan->scientistExists(scientistSearch);
 }
 
+vector<QString> Service::scientistExistsEdit(ScientistSearch scientistSearch)
+{
+    return dataMan->scientistExistsEdit(scientistSearch);
+}
+
 void Service::addScientist(ScientistSearch scientistSearch)
 {
     if (!isScientistSearchAvalidScientist(scientistSearch)) {return;}
@@ -64,10 +69,14 @@ Scientist Service::makeScientistFromSearchCriteria(ScientistSearch scientistSear
 }
 
 //Computer
-
-vector<QString> Service::computerExists(ComputerSearch comp)
+vector<QString> Service::computerExists(ComputerSearch computerSearch)
 {
-    return dataMan->computerExists(comp);
+    return dataMan->computerExists(computerSearch);
+}
+
+vector<QString> Service::computerExistsEdit(ComputerSearch computerSearch)
+{
+    return dataMan->computerExistsEdit(computerSearch);
 }
 
 void Service::addComputer(ComputerSearch computerSearch)

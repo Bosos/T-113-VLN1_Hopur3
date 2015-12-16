@@ -32,6 +32,7 @@ public:
     Scientist makeScientistFromSearchCriteria(ScientistSearch scientistSearch);
     QSqlQueryModel* search(ScientistSearch scientist);
     vector<QString> scientistExists(ScientistSearch scientistSearch);
+    vector<QString> scientistExistsEdit(ScientistSearch scientistSearch);
 
     //Computers
     void addComputer(ComputerSearch computerSearch);
@@ -40,7 +41,8 @@ public:
     void storeComputerPicture(QString fileName, int currentlySelectedComputerID);
     QPixmap getComputerPicture(int computerId);
     QSqlQueryModel* searchComputer(ComputerSearch computerSearch);
-    vector<QString> computerExists(ComputerSearch comp);
+    vector<QString> computerExists(ComputerSearch computerSearch);
+    vector<QString> computerExistsEdit(ComputerSearch computerSearch);
 
     //Relations
     void addCSRelation(int userId, int computerId);

@@ -93,6 +93,18 @@ private slots:
     void on_computerSelectedScientistSelectedRemoveSelectedButton_clicked();
 
 
+    void on_editSelectedComputerPushButton_clicked();
+
+    void on_computerAboutlineEdit_textChanged();
+
+    void on_computerSelectedScientistTable_doubleClicked(const QModelIndex &index);
+
+    void on_computerSelectedScientistSearchTableView_doubleClicked();
+
+    void on_scientistChangeCancelpushButton_clicked();
+
+    void on_computerSelectedCancelPushButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     Service* serviceMan;

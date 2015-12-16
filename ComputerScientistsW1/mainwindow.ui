@@ -33,7 +33,7 @@
     <item>
      <widget class="QStackedWidget" name="windowSwitcher">
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="Home">
        <layout class="QVBoxLayout" name="verticalLayout_17">
@@ -59,7 +59,7 @@
             <item>
              <widget class="QGroupBox" name="scientistSearchCombo">
               <property name="title">
-               <string>Search</string>
+               <string>Search / Add</string>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_8">
                <property name="spacing">
@@ -194,7 +194,7 @@
                     </size>
                    </property>
                    <property name="text">
-                    <string>Add</string>
+                    <string>&amp;Add</string>
                    </property>
                   </widget>
                  </item>
@@ -204,7 +204,7 @@
                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Clears the search, giving you all results&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                    <property name="text">
-                    <string>Clear</string>
+                    <string>&amp;Clear</string>
                    </property>
                   </widget>
                  </item>
@@ -259,7 +259,7 @@
                   </size>
                  </property>
                  <property name="text">
-                  <string>Edit Selected</string>
+                  <string>&amp;Edit Selected</string>
                  </property>
                 </widget>
                </item>
@@ -282,7 +282,7 @@
             <item>
              <widget class="QGroupBox" name="computerSearchGroup">
               <property name="title">
-               <string>Search</string>
+               <string>Search / Add</string>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_11">
                <property name="spacing">
@@ -417,14 +417,14 @@
                  <item>
                   <widget class="QPushButton" name="addComputerPushButton">
                    <property name="text">
-                    <string>Add</string>
+                    <string>&amp;Add</string>
                    </property>
                   </widget>
                  </item>
                  <item>
                   <widget class="QPushButton" name="clearComputerPushButton">
                    <property name="text">
-                    <string>Clear</string>
+                    <string>&amp;Clear</string>
                    </property>
                   </widget>
                  </item>
@@ -485,7 +485,7 @@
                   </size>
                  </property>
                  <property name="text">
-                  <string>Edit Selected</string>
+                  <string>&amp;Edit Selected</string>
                  </property>
                 </widget>
                </item>
@@ -857,7 +857,7 @@
                    </size>
                   </property>
                   <property name="text">
-                   <string>Change Picture</string>
+                   <string>Change &amp;Picture</string>
                   </property>
                  </widget>
                 </item>
@@ -877,7 +877,14 @@
                 <item>
                  <widget class="QPushButton" name="selectedScientistDeleteScientistPushButton">
                   <property name="text">
-                   <string>Delete Scientist</string>
+                   <string>D&amp;elete</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="scientistChangeCancelpushButton">
+                  <property name="text">
+                   <string>&amp;Cancel</string>
                   </property>
                  </widget>
                 </item>
@@ -885,7 +892,7 @@
                  <widget class="QPushButton" name="selectedScientistOKPushButton">
                   <property name="maximumSize">
                    <size>
-                    <width>80</width>
+                    <width>16777215</width>
                     <height>16777215</height>
                    </size>
                   </property>
@@ -893,7 +900,7 @@
                    <enum>Qt::ClickFocus</enum>
                   </property>
                   <property name="text">
-                   <string>OK</string>
+                   <string>&amp;Save</string>
                   </property>
                   <property name="autoDefault">
                    <bool>false</bool>
@@ -917,6 +924,12 @@
             <bool>false</bool>
            </property>
            <widget class="QGroupBox" name="selectedScientistFoundComputerCaption">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="title">
              <string>The Scientist has used these computers</string>
             </property>
@@ -973,7 +986,7 @@
                 <item>
                  <widget class="QPushButton" name="selectedScientistRemoveSelectedComputerPushButton">
                   <property name="text">
-                   <string>Remove Selected Computer</string>
+                   <string>&amp;Remove Selected Computer</string>
                   </property>
                  </widget>
                 </item>
@@ -986,7 +999,7 @@
                    </size>
                   </property>
                   <property name="text">
-                   <string>Add Computers</string>
+                   <string>&amp;Add Computers</string>
                   </property>
                  </widget>
                 </item>
@@ -996,6 +1009,12 @@
             </layout>
            </widget>
            <widget class="QGroupBox" name="selectedScientistComputerSearch">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="title">
              <string>Computer Search  -  Select the one you want to add to the scientist</string>
             </property>
@@ -1017,6 +1036,12 @@
              </property>
              <item>
               <widget class="QTableView" name="selectedScientistComputerSearchTableView">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <horstretch>0</horstretch>
+                 <verstretch>1</verstretch>
+                </sizepolicy>
+               </property>
                <property name="styleSheet">
                 <string notr="true"/>
                </property>
@@ -1146,14 +1171,14 @@
                <item>
                 <widget class="QPushButton" name="selectedScientistComputerSearcAddpushButton">
                  <property name="text">
-                  <string>Add Selected</string>
+                  <string>&amp;Add Selected</string>
                  </property>
                 </widget>
                </item>
                <item>
                 <widget class="QPushButton" name="selectedScientistComputerSearchDoneButton">
                  <property name="text">
-                  <string>Done</string>
+                  <string>&amp;Done</string>
                  </property>
                 </widget>
                </item>
@@ -1534,7 +1559,7 @@
                    </size>
                   </property>
                   <property name="text">
-                   <string>Change Picture</string>
+                   <string>Change &amp;Picture</string>
                   </property>
                  </widget>
                 </item>
@@ -1554,7 +1579,14 @@
                 <item>
                  <widget class="QPushButton" name="computerSelectedDeleteComputerPushButton">
                   <property name="text">
-                   <string>Delete Computer</string>
+                   <string>D&amp;elete</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="computerSelectedCancelPushButton">
+                  <property name="text">
+                   <string>&amp;Cancel</string>
                   </property>
                  </widget>
                 </item>
@@ -1562,7 +1594,7 @@
                  <widget class="QPushButton" name="computerSelectedOKPushButton">
                   <property name="maximumSize">
                    <size>
-                    <width>80</width>
+                    <width>16777215</width>
                     <height>16777215</height>
                    </size>
                   </property>
@@ -1570,7 +1602,7 @@
                    <enum>Qt::ClickFocus</enum>
                   </property>
                   <property name="text">
-                   <string>OK</string>
+                   <string>&amp;Save</string>
                   </property>
                   <property name="autoDefault">
                    <bool>false</bool>
@@ -1650,7 +1682,7 @@
                 <item>
                  <widget class="QPushButton" name="computerSelectedScientistSelectedRemoveSelectedButton">
                   <property name="text">
-                   <string>Remove Selected Scientist</string>
+                   <string>&amp;Remove Selected Scientist</string>
                   </property>
                  </widget>
                 </item>
@@ -1658,12 +1690,12 @@
                  <widget class="QPushButton" name="computerSelectedAddScientist">
                   <property name="maximumSize">
                    <size>
-                    <width>140</width>
+                    <width>16777215</width>
                     <height>16777215</height>
                    </size>
                   </property>
                   <property name="text">
-                   <string>Add a scientists</string>
+                   <string>&amp;Add a scientists</string>
                   </property>
                  </widget>
                 </item>
@@ -1815,14 +1847,14 @@
                <item>
                 <widget class="QPushButton" name="computerSelectedScientistSearchAddPushButton">
                  <property name="text">
-                  <string>Add selected</string>
+                  <string>&amp;Add selected</string>
                  </property>
                 </widget>
                </item>
                <item>
                 <widget class="QPushButton" name="computerSelectedScientistSearchDoneButton">
                  <property name="text">
-                  <string>Done</string>
+                  <string>&amp;Done</string>
                  </property>
                 </widget>
                </item>
