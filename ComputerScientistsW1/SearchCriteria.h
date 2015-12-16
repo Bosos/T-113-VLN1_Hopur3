@@ -2,6 +2,11 @@
 #define SEARCHCRITERIA_H
 #include <qstring.h>
 
+/*!
+ * \brief SearchCriteria
+ * A loose version of scientist and computer that does not maintain its credibility
+ * stores most information in QStrings for better compatibility with Qt in general
+ */
 struct ScientistSearch
 {
     void setSex(QString sex);
@@ -27,13 +32,6 @@ struct ComputerSearch
 private:
     QString type = "";
     QString wasItBuilt = "";
-};
-
-
-class SearchCriteria
-{
-public:
-    SearchCriteria();
 };
 
 #endif // SEARCHCRITERIA_H

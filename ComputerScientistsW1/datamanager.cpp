@@ -97,6 +97,12 @@ void DataManager::deleteScientist(int id)
 
 }
 
+/*!
+ * \brief DataManager::search
+ * A "search all fields" type of search to find scientists with bits and pieces of information
+ * \param ScientistSearch
+ * \returns a QSqlQueryModel which table views can display
+ */
 QSqlQueryModel* DataManager::search(ScientistSearch scientist)
 {
     QSqlQueryModel* model = new QSqlQueryModel();
@@ -117,6 +123,12 @@ QSqlQueryModel* DataManager::search(ScientistSearch scientist)
     return model;
 }
 
+/*!
+ * \brief DataManager::storeScientistPicture
+ * Stores an image in the database as a blob, each scientist can only have one picture
+ * \param fileName
+ * \param scientistId
+ */
 void DataManager::storeScientistPicture(QString fileName, int scientistId)
 {
     if(fileName.isEmpty()) { return; }
@@ -145,6 +157,12 @@ void DataManager::storeScientistPicture(QString fileName, int scientistId)
     if(!query.exec()){ qDebug() << "Error inserting image into table:\n" << query.lastError();}
 }
 
+/*!
+ * \brief DataManager::setScaling
+ * Calculates the correct porportions for the image width and height
+ * \param x
+ * \param y
+ */
 void DataManager::setScaling(int& x, int& y)
 {
     double scale = 215.0/y;
@@ -152,6 +170,12 @@ void DataManager::setScaling(int& x, int& y)
     y = 215;
 }
 
+/*!
+ * \brief DataManager::getScientistPicture
+ * A getter for the scientist picture, converts the blob into a QPixmap
+ * \param scientistId
+ * \return
+ */
 QPixmap DataManager::getScientistPicture(int scientistId)
 {
     query.prepare("SELECT imagedata from imgTableScientist WHERE scientistID = :sciID");
@@ -169,6 +193,12 @@ QPixmap DataManager::getScientistPicture(int scientistId)
     return outPixmap;
 }
 
+/*!
+ * \brief DataManager::storeComputerPicture
+ * Stores an image in the database as a blob, each computer can only have one picture
+ * \param fileName
+ * \param scientistId
+ */
 void DataManager::storeComputerPicture(QString fileName, int computerId)
 {
     if(fileName.isEmpty()) { return; }
@@ -197,6 +227,12 @@ void DataManager::storeComputerPicture(QString fileName, int computerId)
     if(!query.exec()){ qDebug() << "Error inserting image into table:\n" << query.lastError();}
 }
 
+/*!
+ * \brief DataManager::getScientistPicture
+ * A getter for the computer picture, converts the blob into a QPixmap
+ * \param scientistId
+ * \return
+ */
 QPixmap DataManager::getComputerPicture(int computerId)
 {
     query.prepare("SELECT imagedata from imgTableComputer WHERE computerID = :computerID");
@@ -280,14 +316,20 @@ void DataManager::initializeTables()
     query.exec("PRAGMA encoding = \"UTF-8\";");
 }
 
+/*!
+ * \brief DataManager::search
+ * A "search all fields" type of search to find computers with bits and pieces of information
+ * \param ComputerSearch
+ * \returns a QSqlQueryModel which table views can display
+ */
 QSqlQueryModel* DataManager::searchComputer(ComputerSearch computerSearch)
 {
     QSqlQueryModel* model = new QSqlQueryModel();
     QSqlQuery* query = new QSqlQuery(db);
 
     string computer = "SELECT c.ID, c.Name, t.type AS Type, c.Buildyear AS 'Year',"
-                      " CASE c.wasbuilt WHEN 1 THEN 'Built'"
-                      " ELSE 'Not built'"
+                      " CASE c.wasbuilt WHEN 1 THEN 'Yes'"
+                      " ELSE 'No'"
                       " END AS 'Was it built?',"
                       " c.About"
                       " FROM computers c JOIN pctype t ON c.Type = t.ID"
@@ -304,6 +346,11 @@ QSqlQueryModel* DataManager::searchComputer(ComputerSearch computerSearch)
     return model;
 }
 
+/*!
+ * \brief DataManager::addComputer
+ * Adds the given computer to the database
+ * \param computerSearch
+ */
 void DataManager::addComputer(ComputerSearch computerSearch)
 {
     bool wasItBuilt = computerSearch.getWasItBuilt().toInt();
@@ -326,6 +373,12 @@ void DataManager::addComputer(ComputerSearch computerSearch)
     query.exec();
 }
 
+/*!
+ * \brief DataManager::updateScientistDatabase
+ * Updates the scientist database
+ * \param scientistSearch
+ * \param id
+ */
 void DataManager::updateScientistDatabase(ScientistSearch scientistSearch, int id)
 {
     query.prepare("UPDATE scientists"
@@ -341,6 +394,12 @@ void DataManager::updateScientistDatabase(ScientistSearch scientistSearch, int i
     query.exec();
 }
 
+/*!
+ * \brief DataManager::updateComputerDatabase
+ * Updates the computer database
+ * \param computerSearch
+ * \param id
+ */
 void DataManager::updateComputerDatabase(ComputerSearch computerSearch, int id)
 {
     query.prepare("UPDATE computers"
@@ -356,6 +415,11 @@ void DataManager::updateComputerDatabase(ComputerSearch computerSearch, int id)
     query.exec();
 }
 
+/*!
+ * \brief DataManager::deleteComputer
+ * Deletes a computer from the database, relations are handled and deleted when appropriate by the database
+ * \param id
+ */
 void DataManager::deleteComputer(int id)
 {
     stringstream ss;
@@ -369,6 +433,12 @@ void DataManager::deleteComputer(int id)
     query.exec();
 }
 
+/*!
+ * \brief DataManager::searchScientistToComputer
+ * Finds the "Users" of a given computer
+ * \param id
+ * \return
+ */
 QSqlQueryModel* DataManager::searchScientistToComputer(int id)
 {
     QSqlQueryModel* model = new QSqlQueryModel();
@@ -391,6 +461,12 @@ QSqlQueryModel* DataManager::searchScientistToComputer(int id)
     return model;
 }
 
+/*!
+ * \brief DataManager::searchComputerToScientist
+ * Finds the computers the "User" has used
+ * \param id
+ * \return
+ */
 QSqlQueryModel* DataManager::searchComputerToScientist(int id)
 {
     QSqlQueryModel* model = new QSqlQueryModel();
@@ -419,10 +495,10 @@ QSqlQueryModel* DataManager::searchComputerToScientist(int id)
 
 /*!
  * \brief DataManager::addUser
- * \param userId
- * \param computerId
  * Adds a connection between a scientist and a computer,
  * computer owned by scientist\scientist owned a computer
+ * \param userId
+ * \param computerId
  */
 void DataManager::addCSRelation(int userId, int computerId)
 {
@@ -447,9 +523,16 @@ void DataManager::removeCSRelation(int userId, int computerId)
     db.commit();
 }
 
+/*!
+ * \brief DataManager::scientistExists
+ * Builds a list of messages to be returned to a warn the user if all the required information is there for this scientist
+ * Calls scientistExistsEdit for the complete package
+ * \param scientistSearch
+ * \return
+ */
 vector<QString> DataManager::scientistExists(ScientistSearch scientistSearch)
 {
-    vector<QString> message;
+    vector<QString> message = scientistExistsEdit(scientistSearch);
     string search = "SELECT COUNT(*) AS count"
                     " FROM scientists"
                     " WHERE name = '" + scientistSearch.name.toStdString() + "'" +
@@ -459,49 +542,38 @@ vector<QString> DataManager::scientistExists(ScientistSearch scientistSearch)
     query.exec(search.c_str());
     query.next();
 
-    if (scientistSearch.getSex() == ""){message.push_back("Sex has to be chosen");}
-    if (scientistSearch.birth != "")
-    {
-        if (scientistSearch.birth.toInt() < 1200){message.push_back("No computer scientist is born before 1200!");}
-        if (scientistSearch.getAge() > 120){message.push_back("Age should be realistic, nothing over 120 years old");}
-    }
-    else if (scientistSearch.birth == ""){ message.push_back("Birth cant be empty"); }
-    if (scientistSearch.name == ""){message.push_back("Name cant be empty");}
-    if (scientistSearch.death != "")
-    {
-        if (scientistSearch.birth.toInt() >= scientistSearch.death.toInt()) { message.push_back("One can not die before he is born"); }
-    }
-    if (query.value("count").toInt()){message.push_back("Scientist seems to exist");}
+    if (query.value("count").toInt()){message.push_back("This scientist seems to exist already");}
     return message;
 }
 
+/*!
+ * \brief DataManager::scientistExistsEdit
+ * Same as scientistExists but without the count to see if the scientist exist, which is not always needed
+ * \param scientistSearch
+ * \return
+ */
 vector<QString> DataManager::scientistExistsEdit(ScientistSearch scientistSearch)
 {
     vector<QString> message;
-    string search = "SELECT COUNT(*) AS count"
-                    " FROM scientists"
-                    " WHERE name = '" + scientistSearch.name.toStdString() + "'" +
-                    " AND sex = '" + scientistSearch.getSex().toStdString() + "'" +
-                    " AND birth = " + scientistSearch.birth.toStdString();
-
-    query.exec(search.c_str());
-    query.next();
-
-    if (scientistSearch.getSex() == ""){message.push_back("Sex has to be chosen");}
+    if (scientistSearch.getSex() == ""){message.push_back("Please select the correct gender");}
     if (scientistSearch.birth.toInt() < 1200){message.push_back("No computer scientist is born before 1200!");}
-    if (scientistSearch.death != "")
+    if (scientistSearch.getAge() > 120){ message.push_back("Age should be realistic, not over 120 years old");}
+    else if (scientistSearch.birth == ""){ message.push_back("Birth year can not be empty"); }
+    if (scientistSearch.name == ""){message.push_back("Name can not be empty");}
+    if (scientistSearch.death != "" && (scientistSearch.birth.toInt() >= scientistSearch.death.toInt()))
     {
-        if (scientistSearch.getAge() > 120){message.push_back("Age should be realistic, nothing over 120 years old");}
-    }
-    else if (scientistSearch.birth == ""){ message.push_back("Birth cant be empty"); }
-    if (scientistSearch.name == ""){message.push_back("Name cant be empty");}
-    if (scientistSearch.death != "")
-    {
-        if (scientistSearch.birth.toInt() >= scientistSearch.death.toInt()) { message.push_back("One can not die before he is born"); }
+        message.push_back("One can not die before he is born");
     }
     return message;
 }
 
+/*!
+ * \brief DataManager::computerExists
+ * Builds a list of messages to be returned to a warn the user if all the required information is there for this computer
+ * Calls computerExistsEdit for the complete package
+ * \param computerSearch
+ * \return
+ */
 vector<QString> DataManager::computerExists(ComputerSearch computerSearch)
 {
     vector<QString> message;
@@ -516,38 +588,25 @@ vector<QString> DataManager::computerExists(ComputerSearch computerSearch)
     query.exec(search.c_str());
     query.next();
 
-    if (computerSearch.name == ""){message.push_back("Name cant be empty");}
-    if (computerSearch.getType() == ""){message.push_back("Type has to be chosen");}
-    if (computerSearch.buildYear != "")
-    {
-        if (computerSearch.buildYear.toInt() < 1200){message.push_back("No computer was made before 1200");}
-        if (computerSearch.buildYear.toInt() > 2015){message.push_back("Can't enter a computer from the future");}
-    }
-    else if(computerSearch.buildYear == "") {message.push_back("Build year can not be empty"); }
-    if (computerSearch.getWasItBuilt() == ""){message.push_back("Has to be specified if the computer was built");}
-    if (query.value("count").toInt()){message.push_back("Computer seems to exist");}
+    if (query.value("count").toInt()){message.push_back("This computer seems to exist already");}
 
     return message;
 }
 
+/*!
+ * \brief DataManager::computerExistsEdit
+ * Same as computerExists but without the count to see if the computer exist, which is not always needed
+ * \param ComputerSearch
+ * \return
+ */
 vector<QString> DataManager::computerExistsEdit(ComputerSearch computerSearch)
 {
     vector<QString> message;
 
-    string search = "SELECT COUNT(*) AS count"
-                    " FROM computers"
-                    " WHERE Name = '" + computerSearch.name.toStdString() + "'" +
-                    " AND Type = '" + computerSearch.getType().toStdString() + "'" +
-                    " AND Buildyear = '" + computerSearch.buildYear.toStdString() + "'" +
-                    " AND Wasbuilt = '" + computerSearch.getWasItBuilt().toStdString()+ "'";
-
-    query.exec(search.c_str());
-    query.next();
-
-    if (computerSearch.name == ""){message.push_back("Name cant be empty");}
-    if (computerSearch.getType() == ""){message.push_back("Type has to be chosen");}
+    if (computerSearch.name == ""){message.push_back("Name can not be empty");}
+    if (computerSearch.getType() == ""){message.push_back("Please select the correct type");}
     if (computerSearch.buildYear != "")
-    {
+    {   // no computer was theorized this early as far as we know
         if (computerSearch.buildYear.toInt() < 1200){message.push_back("No computer was made before 1200");}
         if (computerSearch.buildYear.toInt() > 2015){message.push_back("Can't enter a computer from the future");}
     }

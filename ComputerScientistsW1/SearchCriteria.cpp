@@ -1,5 +1,6 @@
 #include "SearchCriteria.h"
 
+// Scientist Search
 void ScientistSearch::setSex(QString sex)
 {
     if (sex == "Male") { this->sex = "M"; }
@@ -23,8 +24,8 @@ int ScientistSearch::getAge()
         return 2015 - birth.toInt();
     }
 }
-//----------------
 
+// Computer Search
 void ComputerSearch::setType(int type)
 {
     if(!type) { this->type = ""; }

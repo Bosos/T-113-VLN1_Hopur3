@@ -15,8 +15,6 @@ SOURCES += main.cpp \
     DataManager.cpp \
     Scientist.cpp \
     Computer.cpp \
-    TypeOfComputer.cpp \
-    SortBy.cpp \
     mainwindow.cpp \
     SearchCriteria.cpp \
     Service.cpp
@@ -24,9 +22,7 @@ SOURCES += main.cpp \
 HEADERS += \
     DataManager.h \
     Scientist.h \
-    SortBy.h \
     Computer.h \
-    TypeOfComputer.h \
     SearchCriteria.h \
     Service.h \
     mainwindow.h

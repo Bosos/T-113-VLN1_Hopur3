@@ -25,6 +25,7 @@ public:
     void setBirthYear(int newBirthYear);
     void setDeathYear(int newDeathYear);
     void setAbout(QString newAbout);
+
 private:
     QString name;
     char sex;

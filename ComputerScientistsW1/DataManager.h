@@ -4,11 +4,10 @@
 #include <vector>
 #include "Scientist.h"
 #include "Computer.h"
-#include <SortBy.h>
 #include <QtSql>
 #include <QSqlDatabase>
 #include <QSqlRecord>
-#include <TypeOfComputer.h>
+//#include <TypeOfComputer.h>
 #include <SearchCriteria.h>
 #include <QGraphicsPixmapItem>
 

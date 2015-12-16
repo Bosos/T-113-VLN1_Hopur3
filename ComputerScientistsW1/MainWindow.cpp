@@ -172,6 +172,7 @@ void MainWindow::updateScinetistUsedComputers()
     ui->selectedScientistComputerTable->setSortingEnabled(true);
     QSortFilterProxyModel *sqlproxy = new QSortFilterProxyModel(this);
     sqlproxy->setSourceModel(serviceMan->searchComputerToScientist(currentlySelectedUserID));
+    sqlproxy->setSortCaseSensitivity(Qt::CaseInsensitive);
     ui->selectedScientistComputerTable->setModel(sqlproxy);
     ui->selectedScientistComputerTable->resizeColumnsToContents();
     ui->selectedScientistComputerTable->horizontalHeader()->setStretchLastSection(true);
@@ -183,6 +184,7 @@ void MainWindow::updateSelectedScientistComputerSearchTableView()
     ui->selectedScientistComputerSearchTableView->setSortingEnabled(true);
     QSortFilterProxyModel *sqlproxy = new QSortFilterProxyModel(this);
     sqlproxy->setSourceModel(serviceMan->searchComputer(getComputerFromScientistAddComputerInput()));
+    sqlproxy->setSortCaseSensitivity(Qt::CaseInsensitive);
     ui->selectedScientistComputerSearchTableView->setModel(sqlproxy);
     ui->selectedScientistComputerSearchTableView->resizeColumnsToContents();
     ui->selectedScientistComputerSearchTableView->horizontalHeader()->setStretchLastSection(true);
@@ -492,6 +494,7 @@ void MainWindow::updateScientistsWhoUsedComputer()
     ui->computerSelectedScientistTable->setSortingEnabled(true);
     QSortFilterProxyModel *sqlproxy = new QSortFilterProxyModel(this);
     sqlproxy->setSourceModel(serviceMan->searchScientistToComputer(currentlySelectedComputerID));
+    sqlproxy->setSortCaseSensitivity(Qt::CaseInsensitive);
     ui->computerSelectedScientistTable->setModel(sqlproxy);
     ui->computerSelectedScientistTable->resizeColumnsToContents();
     ui->computerSelectedScientistTable->horizontalHeader()->setStretchLastSection(true);
@@ -573,6 +576,7 @@ void MainWindow::updateSelectedComputerScientistSearchTableView()
     ui->computerSelectedScientistSearchTableView->setSortingEnabled(true);
     QSortFilterProxyModel *sqlproxy = new QSortFilterProxyModel(this);
     sqlproxy->setSourceModel(serviceMan->search(getScientistFromComputerAddScientistInput()));
+    sqlproxy->setSortCaseSensitivity(Qt::CaseInsensitive);
     ui->computerSelectedScientistSearchTableView->setModel(sqlproxy);
     ui->computerSelectedScientistSearchTableView->resizeColumnsToContents();
     ui->computerSelectedScientistSearchTableView->horizontalHeader()->setStretchLastSection(true);
