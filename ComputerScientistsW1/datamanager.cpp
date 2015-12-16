@@ -524,6 +524,32 @@ void DataManager::removeCSRelation(int userId, int computerId)
 }
 
 /*!
+ * \brief DataManager::relationExists
+ * Builds a list of messages to be returned to a warn the user if a relation already exists
+ */
+vector<QString> DataManager::relationExists(int sID, int cID)
+{
+    stringstream ss, cs;
+    ss << sID;
+    cs << cID;
+    string sciID = ss.str();
+    string compID = cs.str();
+
+    vector<QString> message;
+    string search = "SELECT COUNT(*) AS count"
+                    " FROM users"
+                    " WHERE computerID = '" + compID + "'"
+                    " AND scientistID = '" + sciID + "'";
+
+    query.exec(search.c_str());
+    query.next();
+
+    if(query.value("count").toInt()) { message.push_back("This relation already exists"); }
+
+    return message;
+}
+
+/*!
  * \brief DataManager::scientistExists
  * Builds a list of messages to be returned to a warn the user if all the required information is there for this scientist
  * Calls scientistExistsEdit for the complete package

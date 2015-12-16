@@ -144,3 +144,8 @@ void Service::removeCSRelation(int userId, int computerId)
 {
     return dataMan->removeCSRelation(userId, computerId);
 }
+
+vector<QString> Service::relationExists(int sID, int cID)
+{
+    return dataMan->relationExists(sID, cID);
+}

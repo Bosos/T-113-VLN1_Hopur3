@@ -48,6 +48,7 @@ public:
     void removeCSRelation(int userId, int computerId);
     QSqlQueryModel* searchScientistToComputer(int id);
     QSqlQueryModel* searchComputerToScientist(int id);
+    vector<QString> relationExists(int sID, int cID);
 
 
 private:
