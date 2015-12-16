@@ -150,6 +150,12 @@ QString Service::relationExists(int sID, int cID)
     return getErrorMessages(dataMan->relationExists(sID, cID));
 }
 
+/*!
+ * \brief Service::getErrorMessages
+ * Gets the whole error message together
+ * \param errMessages
+ * \return completeMessage
+ */
 QString Service::getErrorMessages(vector<QString> errMessages)
 {
     QString completeMessage = "";

@@ -1,4 +1,4 @@
- #include "DataManager.h"
+#include "DataManager.h"
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -29,6 +29,7 @@ DataManager::DataManager(string dataBaseLocation)
 
 /*!
  * \brief DataManager::makeScientistFromSearchCriteria
+ * Makes a Scientist from the ScientistSearch struct
  * \param scientistSearch
  * \return Scientist
  */
@@ -80,8 +81,8 @@ void DataManager::addScientist(ScientistSearch scientistSearch)
 
 /*!
  * \brief DataManager::deleteScientist
- * deletes a scientist in the database
- * \param Scientis
+ * Deletes a scientist in the database
+ * \param id
  */
 void DataManager::deleteScientist(int id)
 {
@@ -100,10 +101,10 @@ void DataManager::deleteScientist(int id)
 /*!
  * \brief DataManager::search
  * A "search all fields" type of search to find scientists with bits and pieces of information
- * \param ScientistSearch
+ * \param scientistSearch
  * \returns a QSqlQueryModel which table views can display
  */
-QSqlQueryModel* DataManager::search(ScientistSearch scientist)
+QSqlQueryModel* DataManager::search(ScientistSearch scientistSearch)
 {
     QSqlQueryModel* model = new QSqlQueryModel();
     QSqlQuery* query = new QSqlQuery(db);
@@ -111,11 +112,11 @@ QSqlQueryModel* DataManager::search(ScientistSearch scientist)
     string meme = "SELECT s.id, s.name as Name, sex.value as Sex, s.birth as Birth, s.death as Death, s.about"
                   " FROM scientists s"
                   " JOIN sex USING (sex)"
-                  " where name like '%" + scientist.name.toStdString() + "%'"
-                  " and sex like '%" + scientist.getSex().toStdString() + "%'"
-                  " and birth like '%" + scientist.birth.toStdString() + "%'"
-                  " and ifnull (death,'') like '%" + scientist.death.toStdString() + "%'"
-                  " and about like '%" + scientist.about.toStdString() + "%'";
+                  " where name like '%" + scientistSearch.name.toStdString() + "%'"
+                  " and sex like '%" + scientistSearch.getSex().toStdString() + "%'"
+                  " and birth like '%" + scientistSearch.birth.toStdString() + "%'"
+                  " and ifnull (death,'') like '%" + scientistSearch.death.toStdString() + "%'"
+                  " and about like '%" + scientistSearch.about.toStdString() + "%'";
 
     qDebug() << meme.c_str();
     query->exec(meme.c_str());
@@ -437,7 +438,7 @@ void DataManager::deleteComputer(int id)
  * \brief DataManager::searchScientistToComputer
  * Finds the "Users" of a given computer
  * \param id
- * \return
+ * \return model
  */
 QSqlQueryModel* DataManager::searchScientistToComputer(int id)
 {
@@ -465,7 +466,7 @@ QSqlQueryModel* DataManager::searchScientistToComputer(int id)
  * \brief DataManager::searchComputerToScientist
  * Finds the computers the "User" has used
  * \param id
- * \return
+ * \return model
  */
 QSqlQueryModel* DataManager::searchComputerToScientist(int id)
 {
@@ -554,7 +555,7 @@ vector<QString> DataManager::relationExists(int sID, int cID)
  * Builds a list of messages to be returned to a warn the user if all the required information is there for this scientist
  * Calls scientistExistsEdit for the complete package
  * \param scientistSearch
- * \return
+ * \return message
  */
 vector<QString> DataManager::scientistExists(ScientistSearch scientistSearch)
 {
@@ -576,7 +577,7 @@ vector<QString> DataManager::scientistExists(ScientistSearch scientistSearch)
  * \brief DataManager::scientistExistsEdit
  * Same as scientistExists but without the count to see if the scientist exist, which is not always needed
  * \param scientistSearch
- * \return
+ * \return message
  */
 vector<QString> DataManager::scientistExistsEdit(ScientistSearch scientistSearch)
 {
@@ -598,7 +599,7 @@ vector<QString> DataManager::scientistExistsEdit(ScientistSearch scientistSearch
  * Builds a list of messages to be returned to a warn the user if all the required information is there for this computer
  * Calls computerExistsEdit for the complete package
  * \param computerSearch
- * \return
+ * \return message
  */
 vector<QString> DataManager::computerExists(ComputerSearch computerSearch)
 {
@@ -622,8 +623,8 @@ vector<QString> DataManager::computerExists(ComputerSearch computerSearch)
 /*!
  * \brief DataManager::computerExistsEdit
  * Same as computerExists but without the count to see if the computer exist, which is not always needed
- * \param ComputerSearch
- * \return
+ * \param computerSearch
+ * \return message
  */
 vector<QString> DataManager::computerExistsEdit(ComputerSearch computerSearch)
 {

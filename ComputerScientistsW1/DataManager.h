@@ -29,7 +29,7 @@ public:
     void storeScientistPicture(QString fileName, int currentlySelectedID);
     QPixmap getScientistPicture(int scientistId);
     Scientist makeScientistFromSearchCriteria(ScientistSearch scientistSearch);
-    QSqlQueryModel* search(ScientistSearch scientist);
+    QSqlQueryModel* search(ScientistSearch scientistSearch);
     vector<QString> scientistExists(ScientistSearch scientistSearch);
     vector<QString> scientistExistsEdit(ScientistSearch scientistSearch);
 

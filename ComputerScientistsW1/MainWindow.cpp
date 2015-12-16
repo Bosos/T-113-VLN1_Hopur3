@@ -102,17 +102,28 @@ void MainWindow::on_selectedScientistAddComputer_clicked()
     ui->selectedScientistComputerSearchNameField->setFocus();
 }
 
+/*!
+ * \brief MainWindow::getScientistFromInput
+ * Makes a scientistSearch from what is in the textboxes and comboboxes
+ * \return scientistSearch
+ */
 ScientistSearch MainWindow::getScientistFromInput()
 {
-    ScientistSearch sciSearch;
-    sciSearch.name = ui->scientistNameField->text();
-    sciSearch.setSex(ui->sexComboBox->currentText());
-    sciSearch.birth = ui->yearOfBirthField->text();
-    sciSearch.death = ui->yearOfDeathField->text();
-    sciSearch.about = ui->scientistAboutField->text();
-    return sciSearch;
+    ScientistSearch scientistSearch;
+    scientistSearch.name = ui->scientistNameField->text();
+    scientistSearch.setSex(ui->sexComboBox->currentText());
+    scientistSearch.birth = ui->yearOfBirthField->text();
+    scientistSearch.death = ui->yearOfDeathField->text();
+    scientistSearch.about = ui->scientistAboutField->text();
+    return scientistSearch;
 }
 
+/*!
+ * \brief MainWindow::updateScientist
+ * Every time this function is called, the program updates
+ * whats new about the scientist table with the knew
+ * information is given to it.
+ */
 void MainWindow::updateScientist()
 {
     ui->editScientistpushButton->setDisabled(true);
@@ -126,6 +137,10 @@ void MainWindow::updateScientist()
     ui->foundScientistTableView->setColumnHidden(0,true);
 }
 
+/*!
+ * \brief MainWindow::updateScientistProfilePicture
+ * Shows the new picture of the scientist which was changed
+ */
 void MainWindow::updateScientistProfilePicture()
 {
     QPixmap profilePicture = serviceMan->getScientistPicture(currentlySelectedUserID);
@@ -141,6 +156,10 @@ void MainWindow::updateScientistProfilePicture()
     ui->scientistPicture->show();
 }
 
+/*!
+ * \brief MainWindow::updateComputerProfilePicture
+ * Shows the new picture of the computer which was changed
+ */
 void MainWindow::updateComputerProfilePicture()
 {
     QPixmap profilePicture = serviceMan->getComputerPicture(currentlySelectedComputerID);
@@ -180,6 +199,10 @@ void MainWindow::updateSelectedScientistComputerSearchTableView()
     ui->selectedScientistComputerSearchTableView->setColumnHidden(0, true);
 }
 
+/*!
+ * \brief MainWindow::on_clearScientistPushButton_clicked
+ * Clears all and puts the order in it's original state in the scientist tab
+ */
 void MainWindow::on_clearScientistPushButton_clicked()
 {
     ui->scientistNameField->setText("");
@@ -306,6 +329,11 @@ void MainWindow::updateComputer()
     ui->foundComputersTableView->setColumnHidden(0, true);
 }
 
+/*!
+ * \brief MainWindow::getComputerFromInput
+ * Makes a computerSearch from what is in the textboxes and comboboxes
+ * \return computerSearch
+ */
 ComputerSearch MainWindow::getComputerFromInput()
 {
     ComputerSearch computerSearch;
@@ -317,6 +345,11 @@ ComputerSearch MainWindow::getComputerFromInput()
     return computerSearch;
 }
 
+/*!
+ * \brief MainWindow::getComputerFromScientistAddComputerInput
+ * Makes a computerSearch from what is in the textboxes and comboboxes within the edit window
+ * \return computerSearch
+ */
 ComputerSearch MainWindow::getComputerFromScientistAddComputerInput()
 {
     ComputerSearch computerSearch;
@@ -329,6 +362,10 @@ ComputerSearch MainWindow::getComputerFromScientistAddComputerInput()
     return computerSearch;
 }
 
+/*!
+ * \brief MainWindow::on_clearComputerPushButton_clicked
+ * Clears all and puts the order in it's original state in the computer tab
+ */
 void MainWindow::on_clearComputerPushButton_clicked()
 {
     ui->computerNameLineEdit->setText("");
@@ -532,13 +569,13 @@ void MainWindow::updateSelectedComputerScientistSearchTableView()
 
 ScientistSearch MainWindow::getScientistFromComputerAddScientistInput()
 {
-    ScientistSearch sci;
-    sci.name = ui->computerSelectedScientistSearchNameField->text();
-    sci.birth = ui->computerSelectedScientistSearchyearOfBirthField->text();
-    sci.death = ui->computerSelectedScientistSearchyearOfDeathField->text();
-    sci.setSex(ui->computerSelectedScientistSearchsexComboBox->currentText());
+    ScientistSearch scientistSearch;
+    scientistSearch.name = ui->computerSelectedScientistSearchNameField->text();
+    scientistSearch.birth = ui->computerSelectedScientistSearchyearOfBirthField->text();
+    scientistSearch.death = ui->computerSelectedScientistSearchyearOfDeathField->text();
+    scientistSearch.setSex(ui->computerSelectedScientistSearchsexComboBox->currentText());
 
-    return sci;
+    return scientistSearch;
 }
 
 void MainWindow::on_computerSelectedScientistSearchTableView_clicked(const QModelIndex &index)
