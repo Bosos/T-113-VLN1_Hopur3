@@ -81,6 +81,9 @@ private:
     Service* serviceMan;
     int currentlySelectedUserID = 1;
     int currentlySelectedComputerID = 1;
+    void searchScientistsToComputer(int id);
+    int setWidth(int width);
+
     void updateScientist();
     void updateScientistProfilePicture();
     void updateScinetistUsedComputers();
@@ -88,17 +91,12 @@ private:
     ScientistSearch getScientistFromInput();
     ComputerSearch getComputerFromScientistAddComputerInput();
 
-
     void updateComputer();
-    ComputerSearch getComputerFromInput();
-    void updateScientistsWhoUsedComputer();
-    void searchScientistsToComputer(int id);
     void updateComputerProfilePicture();
-
+    void updateScientistsWhoUsedComputer();
     void updateSelectedComputerScientistSearchTableView();
+    ComputerSearch getComputerFromInput();
     ScientistSearch getScientistFromComputerAddScientistInput();
-
-    int setWidth(int width);
 };
 
 #endif // MAINWINDOW_H
