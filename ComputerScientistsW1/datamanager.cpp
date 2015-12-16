@@ -629,15 +629,15 @@ vector<QString> DataManager::computerExistsEdit(ComputerSearch computerSearch)
 {
     vector<QString> message;
 
-    if (computerSearch.name == ""){message.push_back("Name can not be empty");}
-    if (computerSearch.getType() == ""){message.push_back("Please select the correct type");}
+    if (computerSearch.getWasItBuilt() == ""){message.push_back("It has to be specified if the computer was built");}
     if (computerSearch.buildYear != "")
     {   // no computer was theorized this early as far as we know
         if (computerSearch.buildYear.toInt() < 1200){message.push_back("No computer was made before 1200");}
         if (computerSearch.buildYear.toInt() > 2015){message.push_back("Can't enter a computer from the future");}
     }
-    else if(computerSearch.buildYear == "") {message.push_back("Build year can not be empty"); }
-    if (computerSearch.getWasItBuilt() == ""){message.push_back("Has to be specified if the computer was built");}
+    else if(computerSearch.buildYear == "") {message.push_back("Year can not be empty"); }
+    if (computerSearch.getType() == ""){message.push_back("Please select the correct type");}
+    if (computerSearch.name == ""){message.push_back("Name can not be empty");}
 
     return message;
 }

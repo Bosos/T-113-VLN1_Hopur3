@@ -276,7 +276,7 @@ void MainWindow::on_computerSelectedOKPushButton_clicked()
 
     if(errMessages != "")
     {
-        int ret = QMessageBox::warning(this,"Wrong input", errMessages, "OK" );
+        QMessageBox::warning(this,"Wrong input", errMessages, "OK" );
         return;
     }
     else
@@ -411,6 +411,38 @@ void MainWindow::on_addComputerPushButton_clicked()
     }
 }
 
+void MainWindow::on_computerSelectedScientistSearchAddPushButton_clicked()
+{
+    QString errMessages = serviceMan->relationExists(currentlySelectedUserID,currentlySelectedComputerID);
+
+    if(errMessages != "")
+    {
+        QMessageBox::warning(this,"Wrong input", errMessages, "OK" );
+        return;
+    }
+    else
+    {
+        serviceMan->addCSRelation(currentlySelectedUserID,currentlySelectedComputerID);
+        updateScientistsWhoUsedComputer();
+    }
+}
+
+void MainWindow::on_selectedScientistComputerSearcAddpushButton_clicked()
+{
+    QString errMessages = serviceMan->relationExists(currentlySelectedUserID,currentlySelectedComputerID);
+
+    if(errMessages != "")
+    {
+        QMessageBox::warning(this,"Wrong input", errMessages, "OK" );
+        return;
+    }
+    else
+    {
+        serviceMan->addCSRelation(currentlySelectedUserID,currentlySelectedComputerID);
+        updateScinetistUsedComputers();
+    }
+}
+
 void MainWindow::on_computerSelectedDeleteComputerPushButton_clicked()
 {
     int ret = QMessageBox::warning(this,"Deleting the selected computer",
@@ -435,12 +467,6 @@ void MainWindow::updateScientistsWhoUsedComputer()
     ui->computerSelectedScientistTable->resizeColumnsToContents();
     ui->computerSelectedScientistTable->horizontalHeader()->setStretchLastSection(true);
     ui->computerSelectedScientistTable->setColumnHidden(0, true);
-}
-
-void MainWindow::on_selectedScientistComputerSearcAddpushButton_clicked()
-{
-    serviceMan->addCSRelation(currentlySelectedUserID,currentlySelectedComputerID);
-    updateScinetistUsedComputers();
 }
 
 void MainWindow::on_selectedScientistComputerSearchTableView_clicked(const QModelIndex &index)
@@ -513,12 +539,6 @@ ScientistSearch MainWindow::getScientistFromComputerAddScientistInput()
     sci.setSex(ui->computerSelectedScientistSearchsexComboBox->currentText());
 
     return sci;
-}
-
-void MainWindow::on_computerSelectedScientistSearchAddPushButton_clicked()
-{
-    serviceMan->addCSRelation(currentlySelectedUserID,currentlySelectedComputerID);
-    updateScientistsWhoUsedComputer();
 }
 
 void MainWindow::on_computerSelectedScientistSearchTableView_clicked(const QModelIndex &index)

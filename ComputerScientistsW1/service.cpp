@@ -8,26 +8,12 @@ Service::Service(string fileLocation)
 //Scientist
 QString Service::scientistExists(ScientistSearch scientistSearch)
 {
-    vector<QString> errMessages = dataMan->scientistExists(scientistSearch);
-    QString completeMessage = "";
-    while(errMessages.size() > 0)
-    {
-        completeMessage += " " + errMessages.back() + "\n";
-        errMessages.pop_back();
-    }
-    return completeMessage;
+    return getErrorMessages(dataMan->scientistExists(scientistSearch));
 }
 
 QString Service::scientistExistsEdit(ScientistSearch scientistSearch)
 {
-    vector<QString> errMessages = dataMan->scientistExistsEdit(scientistSearch);
-    QString completeMessage = "";
-    while(errMessages.size() > 0)
-    {
-        completeMessage += " " + errMessages.back() + "\n";
-        errMessages.pop_back();
-    }
-    return completeMessage;
+    return getErrorMessages(dataMan->scientistExistsEdit(scientistSearch));
 }
 
 void Service::addScientist(ScientistSearch scientistSearch)
@@ -85,26 +71,12 @@ Scientist Service::makeScientistFromSearchCriteria(ScientistSearch scientistSear
 //Computer
 QString Service::computerExists(ComputerSearch computerSearch)
 {
-    vector<QString> errMessages = dataMan->computerExistsEdit(computerSearch);
-    QString completeMessage = "";
-    while(errMessages.size() > 0)
-    {
-        completeMessage += " " + errMessages.back() + "\n";
-        errMessages.pop_back();
-    }
-    return completeMessage;
+    return getErrorMessages(dataMan->computerExistsEdit(computerSearch));
 }
 
 QString Service::computerExistsEdit(ComputerSearch computerSearch)
 {
-    vector<QString> errMessages = dataMan->computerExistsEdit(computerSearch);
-    QString completeMessage = "";
-    while(errMessages.size() > 0)
-    {
-        completeMessage += " " + errMessages.back() + "\n";
-        errMessages.pop_back();
-    }
-    return completeMessage;
+    return getErrorMessages(dataMan->computerExistsEdit(computerSearch));
 }
 
 void Service::addComputer(ComputerSearch computerSearch)
@@ -173,7 +145,18 @@ void Service::removeCSRelation(int userId, int computerId)
     return dataMan->removeCSRelation(userId, computerId);
 }
 
-vector<QString> Service::relationExists(int sID, int cID)
+QString Service::relationExists(int sID, int cID)
 {
-    return dataMan->relationExists(sID, cID);
+    return getErrorMessages(dataMan->relationExists(sID, cID));
+}
+
+QString Service::getErrorMessages(vector<QString> errMessages)
+{
+    QString completeMessage = "";
+    while(errMessages.size() > 0)
+    {
+        completeMessage += " " + errMessages.back() + "\n";
+        errMessages.pop_back();
+    }
+    return completeMessage;
 }

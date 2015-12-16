@@ -45,10 +45,12 @@ public:
     QSqlQueryModel* searchComputerToScientist(int id);
     void addCSRelation(int userId, int computerId);
     void removeCSRelation(int userId, int computerId);
-    vector<QString> relationExists(int sID, int cID);
+    QString relationExists(int sID, int cID);
 
 private:
     DataManager* dataMan;
+    QString getErrorMessages(vector<QString> errMessages);
+
 };
 
 #endif // SERVICE
