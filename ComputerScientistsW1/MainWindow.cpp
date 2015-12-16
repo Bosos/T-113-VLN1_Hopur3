@@ -216,7 +216,11 @@ void MainWindow::on_selectedScientistComputerSearchDoneButton_clicked()
 
 void MainWindow::on_selectedScientistDeleteScientistPushButton_clicked()
 {
-    int ret = QMessageBox::warning(this,"Deleting the selected scientist", "Are you sure you want to delete " "?", "DELETE","Cancel" );
+    int ret = QMessageBox::warning(this,"Deleting the selected scientist",
+                                   "Are you sure you want to delete " +
+                                   ui->selectedScientistNameField->text() +
+                                   " from the database?",
+                                   "DELETE","Cancel" );
     if (ret) { return; }
     qDebug() << "Scientist deleted";
     ui->windowSwitcher->setCurrentIndex(0);
@@ -434,7 +438,11 @@ void MainWindow::on_addComputerPushButton_clicked()
 
 void MainWindow::on_computerSelectedDeleteComputerPushButton_clicked()
 {
-    int ret = QMessageBox::warning(this,"Deleting the selected computer", "Are you sure you want to delete " "?", "DELETE","Cancel" );
+    int ret = QMessageBox::warning(this,"Deleting the selected computer",
+                                   "Are you sure you want to delete the " +
+                                   ui->computerSelectedNameField->text() +
+                                   " from the database?",
+                                   "DELETE","Cancel" );
     if (ret) { return; }
 
     ui->windowSwitcher->setCurrentIndex(0);
